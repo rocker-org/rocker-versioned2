@@ -1,0 +1,29 @@
+FROM %%BASE_IMAGE%%
+
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+ENV TERM=xterm
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+
+ENV R_HOME=/usr/lib/R
+ENV CRAN=https://cran.rstudio.com
+
+COPY scripts /tmp/scripts
+
+# Set versions to install via environment variables
+%%VERSIONS_BLOCK%%
+
+# Run installation scripts
+%%SCRIPTS_BLOCK%%
+
+# Expose ports for services
+%%EXPOSE_BLOCK%%
+
+# Set launch command or entrypoint
+%%CMD_BLOCK%%
+%%ENTRYPOINT_BLOCK%%

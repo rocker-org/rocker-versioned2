@@ -1,0 +1,36 @@
+FROM ubuntu:bionic
+
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+ENV TERM=xterm
+ENV LC_ALL=en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+
+ENV R_HOME=/usr/lib/R
+ENV CRAN=https://cran.rstudio.com
+
+COPY scripts /tmp/scripts
+
+# Set versions to install via environment variables
+ENV ROCKER_IMAGE=r-ver
+ENV ROCKER_TAG=3.6.2
+ENV DOCKER_CMD=R
+ENV UBUNTU_VERSION=bionic
+ENV BASE_IMAGE=ubuntu:bionic
+ENV R_VERSION=3.6.2
+ENV S6_VERSION=v1.21.7.0
+ENV SHINY_SERVER_VERSION=
+
+# Run installation scripts
+RUN /tmp/scripts/install_R.sh
+
+# Expose ports for services
+
+
+# Set launch command or entrypoint
+CMD "R"
+
