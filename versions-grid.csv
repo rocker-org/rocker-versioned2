@@ -1,5 +1,6 @@
-ROCKER_IMAGE,ROCKER_TAG,DOCKER_EXPOSE,DOCKER_CMD,DOCKER_ENTRYPOINT,UBUNTU_VERSION,BASE_IMAGE,R_VERSION,MRAN,S6_VERSION,RSTUDIO_VERSION,PANDOC_VERSION,SHINY_SERVER_VERSION
-r-ver,3.6.1,,R,,bionic,ubuntu:bionic,3.6.1,2019-12-12,v1.21.7.0,,,
-r-ver,3.6.2,,R,,bionic,ubuntu:bionic,3.6.2,,v1.21.7.0,,,
-rstudio,3.6.1,8787,/init,,bionic,rocker/r-ver:3.6.1,3.6.1,2019-12-12,v1.21.7.0,latest,,
-rstudio,3.6.2,8787,/init,,bionic,rocker/r-ver:3.6.2,3.6.2,,v1.21.7.0,latest,,
+ROCKER_IMAGE,ROCKER_TAG,DOCKER_EXPOSE,DOCKER_CMD,DOCKER_ENTRYPOINT,PARTIAL_DOCKERFILES,UBUNTU_VERSION,BASE_IMAGE,R_VERSION,MRAN,S6_VERSION,RSTUDIO_VERSION,PANDOC_VERSION,SHINY_SERVER_VERSION
+r-ver,3.6.1,,R,,base;r-ver,bionic,ubuntu:bionic,3.6.1,2019-12-12,v1.21.7.0,,,
+r-ver,3.6.2,,R,,base;r-ver,bionic,ubuntu:bionic,3.6.2,,v1.21.7.0,,,
+rstudio,3.6.1,8787,/init,,base;rstudio,bionic,rocker/r-ver:3.6.1,3.6.1,2019-12-12,v1.21.7.0,latest,,
+rstudio,3.6.2,8787,/init,,base;rstudio,bionic,rocker/r-ver:3.6.2,3.6.2,,v1.21.7.0,latest,,
+

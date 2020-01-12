@@ -12,11 +12,13 @@ x <- lapply(images_list, function(z) {
   
   z <- Filter(Negate(function(.) {is.na(.) | is.null(.) | . == ""}), z)
   
-  template <- paste(
-    c(readLines("partials/Dockerfile.base.partial"), "",
-      readLines(paste0("partials/Dockerfile.", z$ROCKER_IMAGE, ".partial"))),
-    collapse = "\n"
-  )
+  partials <- paste0(
+    "partials/Dockerfile.",
+    strsplit(z$PARTIAL_DOCKERFILES, "\\s*;\\s*")[[1]],
+    ".partial"
+    )
+  template <- paste(unlist(lapply(partials, readLines)), collapse = "\n")
+
   dockerfile_text <- whisker::whisker.render(template, data = z)
   dfile = paste0("dockerfiles/Dockerfile_", z$ROCKER_IMAGE, "_", z$ROCKER_TAG)
   cat(
