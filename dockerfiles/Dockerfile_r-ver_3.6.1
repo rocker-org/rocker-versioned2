@@ -1,29 +1,27 @@
-FROM %%BASE_IMAGE%%
+FROM ubuntu:bionic
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+# Add the Rocker install scripts
+COPY scripts /rocker_scripts
+
+# Set system environmetnal variables
 ENV TERM=xterm
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
+ENV UBUNTU_VERSION=bionic
 
+# Set up and install R
 ENV R_HOME=/usr/lib/R
-ENV CRAN=https://cran.rstudio.com
+ENV R_VERSION=3.6.1
 
-COPY scripts /tmp/scripts
+ENV MRAN=2019-12-12
+ENV CRAN=https://mran.microsoft.com/snapshot/2019-12-12
 
-# Set versions to install via environment variables
-%%VERSIONS_BLOCK%%
+RUN /rocker_scripts/install_R.sh
 
-# Run installation scripts
-%%SCRIPTS_BLOCK%%
-
-# Expose ports for services
-%%EXPOSE_BLOCK%%
-
-# Set launch command or entrypoint
-%%CMD_BLOCK%%
-%%ENTRYPOINT_BLOCK%%
+CMD "R"
