@@ -2,4 +2,4 @@ ROCKER_IMAGE,ROCKER_TAG,DOCKER_EXPOSE,DOCKER_CMD,DOCKER_ENTRYPOINT,UBUNTU_VERSIO
 r-ver,3.6.1,,R,,bionic,ubuntu:bionic,3.6.1,2019-12-12,v1.21.7.0,,,
 r-ver,3.6.2,,R,,bionic,ubuntu:bionic,3.6.2,,v1.21.7.0,,,
 rstudio,3.6.1,8787,/init,,bionic,rocker/r-ver:3.6.1,3.6.1,2019-12-12,v1.21.7.0,latest,,
-rstudio,3.6.2,8888,/init,,bionic,rocker/r-ver:3.6.2,3.6.2,,v1.21.7.0,latest,,
+rstudio,3.6.2,8787,/init,,bionic,rocker/r-ver:3.6.2,3.6.2,,v1.21.7.0,latest,,
