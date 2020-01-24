@@ -7,10 +7,6 @@ set -e
 ## or "daily" may be used.
 ##
 ## Also symlinks pandoc, pandoc-citeproc so they are available system-wide,
-## And sets up S6 supervisor
-
-S6_VERSION=${S6_VERSION:-v1.21.7.0}
-S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 export PATH=/usr/lib/rstudio-server/bin:$PATH
 
 # Get RStudio. Use version from environment variable, or take version from
@@ -76,43 +72,20 @@ mkdir /root/.pandoc && ln -s /opt/pandoc/templates /root/.pandoc/templates
 mkdir -p /etc/R
 echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
 
-## Need to configure non-root user for RStudio
-useradd rstudio
-echo "rstudio:rstudio" | chpasswd
-mkdir /home/rstudio
-chown rstudio:rstudio /home/rstudio
-addgroup rstudio staff
-  ## Prevent rstudio from deciding to use /usr/bin/R if a user apt-get installs a package
-
+## Make RStudio compatible with case when R is built from source 
+## (and thus is at /usr/local/bin/R), because RStudio doesn't obey
+## path if a user apt-get installs a package
 R_BIN=`which R`
 echo "rsession-which-r=${R_BIN}" >> /etc/rstudio/rserver.conf
 ## use more robust file locking to avoid errors when using shared volumes:
 echo "lock-type=advisory" >> /etc/rstudio/file-locks
 
-## Optional configuration file to disable authentication
+## Prepare optional configuration file to disable authentication
+## To de-activate authentication, `disable_auth_rserver.conf` script
+## will just need to be overwrite /etc/rstudio/rserver.conf. 
+## This is triggered by an env var in the user config
 cp /etc/rstudio/rserver.conf /etc/rstudio/disable_auth_rserver.conf
 echo "auth-none=1" >> /etc/rstudio/disable_auth_rserver.conf
 
-## configure git not to request password each time
-git config --system credential.helper 'cache --timeout=3600'
-git config --system push.default simple
 
-## Set up S6 init system
-wget -P /tmp/ https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-amd64.tar.gz
-tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
-mkdir -p /etc/services.d/rstudio
-echo "#!/usr/bin/with-contenv bash \
-          \n## load /etc/environment vars first: \
-          \n for line in $( cat /etc/environment ) ; do export $line > /dev/null; done \
-          \n exec /usr/lib/rstudio-server/bin/rserver --server-daemonize 0" \
-          > /etc/services.d/rstudio/run
-echo "#!/bin/bash \
-          \n rstudio-server stop" \
-          > /etc/services.d/rstudio/finish
-mkdir -p /home/rstudio/.rstudio/monitored/user-settings
-echo "alwaysSaveHistory='0' \
-          \nloadRData='0' \
-          \nsaveAction='0'" \
-          > /home/rstudio/.rstudio/monitored/user-settings/user-settings
-chown -R rstudio:rstudio /home/rstudio/.rstudio
 

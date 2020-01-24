@@ -1,11 +1,9 @@
-FROM ubuntu:bionic
+FROM 
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
-# Add the Rocker install scripts
-COPY scripts /rocker_scripts
 
 # Set system environmetnal variables
 ENV TERM=xterm
@@ -21,6 +19,7 @@ ENV R_VERSION=3.6.1
 ENV MRAN=2019-12-12
 ENV CRAN=https://mran.microsoft.com/snapshot/2019-12-12
 
+COPY scripts/install_R.sh /rocker_scripts/install_R.sh
 RUN /rocker_scripts/install_R.sh
 
 CMD "R"

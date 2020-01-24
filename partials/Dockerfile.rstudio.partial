@@ -1,7 +1,19 @@
 # Install RStudio
 ENV S6_VERSION={{S6_VERSION}}
 ENV RSTUDIO_VERSION={{RSTUDIO_VERSION}}
+
+COPY scripts/install_rstudio.sh /rocker_scripts/install_rstudio.sh
 RUN /rocker_scripts/install_rstudio.sh
+
+COPY scripts/install_s6init.sh /rocker_scripts/install_s6init.sh
+RUN /rocker_scripts/install_s6init.sh
+
+COPY scripts/default_user.sh /rocker_scripts/default_user.sh
+RUN /rocker_scripts/default_user.sh
+
+
+
+
 {{#DOCKER_CMD}}
 CMD "{{DOCKER_CMD}}"
 {{/DOCKER_CMD}}

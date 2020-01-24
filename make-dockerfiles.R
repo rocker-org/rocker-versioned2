@@ -6,10 +6,12 @@ versions_grid <- read.csv("versions-grid.csv", stringsAsFactors = FALSE)
 
 images_list <- split(
   versions_grid, 
-  paste(versions_grid$ROCKER_IMAGE, versions_grid$ROCKER_TAG, sep = "_"))
+  paste(versions_grid$ROCKER_IMAGE, versions_grid$ROCKER_TAG, sep = "_")
+)
 
 x <- lapply(images_list, function(z) {
   
+  ## drop empty env / version fields, aka compact
   z <- Filter(Negate(function(.) {is.na(.) | is.null(.) | . == ""}), z)
   
   partials <- paste0(
