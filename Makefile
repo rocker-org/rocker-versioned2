@@ -16,3 +16,12 @@ dockerfiles: make-dockerfiles.R versions-grid.csv $(PARTIALS)
 	
 images: $(DOCKERFILES) build-images.R
 	./build-images.R
+
+
+build: 
+	docker build -t rocker/r-ver:3.6.2 -f dockerfiles/Dockerfile_r-ver_3.6.2 .
+	docker build -t rocker/rstudio:3.6.2 -f dockerfiles/Dockerfile_rstudio_3.6.2 .
+	docker build -t rocker/tidyverse:3.6.2 -f dockerfiles/Dockerfile_tidyverse_3.6.2 .
+	docker build -t rocker/verse:3.6.2 -f dockerfiles/Dockerfile_verse_3.6.2 .
+
+

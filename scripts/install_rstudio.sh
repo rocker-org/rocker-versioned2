@@ -1,6 +1,26 @@
 #!/bin/sh
 set -e
 
+apt-get update
+apt-get install -y --no-install-recommends \
+    file \
+    git \
+    libapparmor1 \
+    libcurl4-openssl-dev \
+    libedit2 \
+    libssl-dev \
+    lsb-release \
+    psmisc \
+    procps \
+    python-setuptools \
+    sudo \
+    wget \
+    libclang-dev \
+    libobjc4 \
+    libgc1c2
+rm -rf /var/lib/apt/lists/*
+
+
 ## Download and install RStudio server & dependencies
 ## Uses, in order of preference, first argument of the script, the
 ## RSTUDIO_VERSION variable, or the latest RStudio version.  "latest", "preview",
@@ -35,25 +55,6 @@ if [ "$UBUNTU_VERSION" = "xenial" ]; then
 else
   wget $RSTUDIO_URL
 fi
-
-apt-get update
-apt-get install -y --no-install-recommends \
-    file \
-    git \
-    libapparmor1 \
-    libcurl4-openssl-dev \
-    libedit2 \
-    libssl-dev \
-    lsb-release \
-    psmisc \
-    procps \
-    python-setuptools \
-    sudo \
-    wget \
-    libclang-dev \
-    libobjc4 \
-    libgc1c2
-rm -rf /var/lib/apt/lists/*
 
 dpkg -i rstudio-server-*-amd64.deb
 rm rstudio-server-*-amd64.deb
