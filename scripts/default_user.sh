@@ -8,9 +8,9 @@ addgroup ${DEFAULT_USER} staff
 
 mkdir -p /home/${DEFAULT_USER}/.rstudio/monitored/user-settings
 echo "alwaysSaveHistory='0' \
-          \nloadRData='0' \
-          \nsaveAction='0'" \
-          > ${DEFAULT_USER}/.rstudio/monitored/user-settings/user-settings
+    \nloadRData='0' \
+    \nsaveAction='0'" \
+    > /home/${DEFAULT_USER}/.rstudio/monitored/user-settings/user-settings
 
 chown -R ${DEFAULT_USER}:${DEFAULT_USER} /home/${DEFAULT_USER}
 

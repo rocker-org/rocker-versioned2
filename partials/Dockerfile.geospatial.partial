@@ -1,0 +1,5 @@
+
+COPY scripts/install_geospatial.sh /rocker_scripts/install_geospatial.sh
+RUN /rocker_scripts/install_geospatial.sh
+
+

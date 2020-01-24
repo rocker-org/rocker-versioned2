@@ -1,0 +1,5 @@
+
+COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
+RUN /rocker_scripts/install_verse.sh
+
+

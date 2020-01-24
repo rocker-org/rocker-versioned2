@@ -1,6 +1,8 @@
 ROCKER_IMAGE,ROCKER_TAG,FROM_IMAGE,PARTIAL_DOCKERFILES,DOCKER_CMD,DOCKER_ENTRYPOINT,DOCKER_EXPOSE,UBUNTU_VERSION,R_VERSION,MRAN,S6_VERSION,RSTUDIO_VERSION,PANDOC_VERSION,SHINY_SERVER_VERSION
-r-ver,3.6.1,ubuntu:bionic,base;r-ver,R,,,bionic,3.6.1,2019-12-12,v1.21.7.0,,,
-r-ver,3.6.2,ubuntu:bionic,base;r-ver,R,,,bionic,3.6.2,,v1.21.7.0,,,
+r-ver,3.6.1,ubuntu:bionic,base;r-ver,R,,,bionic,3.6.1,2019-12-12,,,,
+r-ver,3.6.2,ubuntu:bionic,base;r-ver,R,,,bionic,3.6.2,,,,,
 rstudio,3.6.1,rocker/r-ver:3.6.1,base;rstudio,/init,,8787,bionic,3.6.1,2019-12-12,v1.21.7.0,latest,,
 rstudio,3.6.2,rocker/r-ver:3.6.2,base;rstudio,/init,,8787,bionic,3.6.2,,v1.21.7.0,latest,,
-
+tidyverse,3.6.2,rocker/rstudio:3.6.2,base;tidyverse,,,,bionic,3.6.2,,,,,
+verse,3.6.2,rocker/tidyverse:3.6.2,base;verse,,,,bionic,3.6.2,,,,,
+geospatial,3.6.2,rocker/verse:3.6.2,base;geospatial,,,,bionic,3.6.2,,,,,
