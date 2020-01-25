@@ -22,7 +22,7 @@
   },
   {
     "ROCKER_IMAGE": "tidyverse",
-    "ROCKER_TAG": "3.6.2",
+    "ROCKER_TAG": "3.6.2-gpu",
     "FROM_IMAGE": "rocker/rstudio:3.6.2-gpu",
     "PARTIAL_DOCKERFILES": "base;tidyverse",
     "UBUNTU_VERSION": "bionic",
@@ -30,7 +30,7 @@
   },
   {
     "ROCKER_IMAGE": "verse",
-    "ROCKER_TAG": "3.6.2",
+    "ROCKER_TAG": "3.6.2-gpu",
     "FROM_IMAGE": "rocker/tidyverse:3.6.2-gpu",
     "PARTIAL_DOCKERFILES": "base;verse",
     "UBUNTU_VERSION": "bionic",
@@ -38,7 +38,7 @@
   },
   {
     "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "3.6.2",
+    "ROCKER_TAG": "3.6.2-gpu",
     "FROM_IMAGE": "rocker/verse:3.6.2-gpu",
     "PARTIAL_DOCKERFILES": "base;geospatial",
     "UBUNTU_VERSION": "bionic",
@@ -46,7 +46,7 @@
   },
   {
     "ROCKER_IMAGE": "ml",
-    "ROCKER_TAG": "3.6.2",
+    "ROCKER_TAG": "3.6.2-gpu",
     "FROM_IMAGE": "rocker/geospatial:3.6.2-gpu",
     "PARTIAL_DOCKERFILES": "base;ml",
     "UBUNTU_VERSION": "bionic",
