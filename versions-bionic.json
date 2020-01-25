@@ -1,0 +1,78 @@
+[
+  {
+    "ROCKER_IMAGE": "r-ver",
+    "ROCKER_TAG": "3.6.1",
+    "FROM_IMAGE": "ubuntu:bionic",
+    "PARTIAL_DOCKERFILES": "base;r-ver",
+    "DOCKER_CMD": "R",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.1",
+    "MRAN": "2019-12-12"
+  },
+  {
+    "ROCKER_IMAGE": "r-ver",
+    "ROCKER_TAG": "3.6.2",
+    "FROM_IMAGE": "ubuntu:bionic",
+    "PARTIAL_DOCKERFILES": "base;r-ver",
+    "DOCKER_CMD": "R",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.2"
+  },
+  {
+    "ROCKER_IMAGE": "rstudio",
+    "ROCKER_TAG": "3.6.1",
+    "FROM_IMAGE": "rocker/r-ver:3.6.1",
+    "PARTIAL_DOCKERFILES": "base;rstudio",
+    "DOCKER_CMD": "/init",
+    "DOCKER_EXPOSE": 8787,
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.1",
+    "MRAN": "2019-12-12",
+    "S6_VERSION": "v1.21.7.0",
+    "RSTUDIO_VERSION": "latest"
+  },
+  {
+    "ROCKER_IMAGE": "rstudio",
+    "ROCKER_TAG": "3.6.2",
+    "FROM_IMAGE": "rocker/r-ver:3.6.2",
+    "PARTIAL_DOCKERFILES": "base;rstudio",
+    "DOCKER_CMD": "/init",
+    "DOCKER_EXPOSE": 8787,
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.2",
+    "S6_VERSION": "v1.21.7.0",
+    "RSTUDIO_VERSION": "latest"
+  },
+  {
+    "ROCKER_IMAGE": "tidyverse",
+    "ROCKER_TAG": "3.6.2",
+    "FROM_IMAGE": "rocker/rstudio:3.6.2",
+    "PARTIAL_DOCKERFILES": "base;tidyverse",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.2"
+  },
+  {
+    "ROCKER_IMAGE": "verse",
+    "ROCKER_TAG": "3.6.2",
+    "FROM_IMAGE": "rocker/tidyverse:3.6.2",
+    "PARTIAL_DOCKERFILES": "base;verse",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.2"
+  },
+  {
+    "ROCKER_IMAGE": "geospatial",
+    "ROCKER_TAG": "3.6.2",
+    "FROM_IMAGE": "rocker/verse:3.6.2",
+    "PARTIAL_DOCKERFILES": "base;geospatial",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.2"
+  },
+  {
+    "ROCKER_IMAGE": "ml",
+    "ROCKER_TAG": "3.6.2",
+    "FROM_IMAGE": "rocker/geospatial:3.6.2",
+    "PARTIAL_DOCKERFILES": "base;ml",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.2"
+  }
+]

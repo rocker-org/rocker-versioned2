@@ -11,10 +11,10 @@ local_versions:
 	cp /tmp/versions-grid.csv versions-grid.csv; \
 	fi
 
-dockerfiles: make-dockerfiles.R versions-grid.csv $(PARTIALS)
+dockerfiles: 
 	./make-dockerfiles.R
 	
-images: $(DOCKERFILES) build-images.R
+images: 
 	./build-images.R
 
 
