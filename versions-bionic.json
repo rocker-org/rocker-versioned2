@@ -71,7 +71,8 @@
     "ROCKER_IMAGE": "ml",
     "ROCKER_TAG": "3.6.2",
     "FROM_IMAGE": "rocker/geospatial:3.6.2",
-    "PARTIAL_DOCKERFILES": "ml",
+    "TENSORFLOW_VERSION": "default",
+    "PARTIAL_DOCKERFILES": "python; tensorflow",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.2"
   }

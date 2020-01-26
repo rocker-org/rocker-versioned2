@@ -3,7 +3,7 @@
     "ROCKER_IMAGE": "r-ver",
     "ROCKER_TAG": "3.6.2-gpu",
     "FROM_IMAGE": "nvidia/cuda:10.0-cudnn7-devel",
-    "PARTIAL_DOCKERFILES": "r-ver",
+    "PARTIAL_DOCKERFILES": "r-ver; cuda",
     "DOCKER_CMD": "R",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.2"
@@ -48,7 +48,8 @@
     "ROCKER_IMAGE": "ml",
     "ROCKER_TAG": "3.6.2-gpu",
     "FROM_IMAGE": "rocker/geospatial:3.6.2-gpu",
-    "PARTIAL_DOCKERFILES": "ml",
+    "TENSORFLOW_VERSION": "gpu",
+    "PARTIAL_DOCKERFILES": "python; tensorflow",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.2"
   }

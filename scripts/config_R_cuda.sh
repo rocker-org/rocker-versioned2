@@ -10,6 +10,7 @@ echo "CUDA_HOME=$CUDA_HOME" >> ${R_HOME}/etc/Renviron
 echo "PATH=$PATH" >> ${R_HOME}/etc/Renviron 
 
 if test -f /etc/rstudio/rserver.conf; then 
+  sed -i '/^rsession-ld-library-path/d' /etc/rstudio/rserver.conf
   echo "rsession-ld-library-path=$LD_LIBRARY_PATH" >> /etc/rstudio/rserver.conf
 fi
 

@@ -1,7 +1,9 @@
 #!/bin/sh
 set -e
 
-R -e "install.packages('keras')"
-R -e "tensorflow::install_tensorflow(); keras::install_keras()"
-R -e "install.packages('remotes'); remotes::install_github('greta-dev/greta')"
+TENSORFLOW_VERSION=${1:-${TENSORFLOW_VERSION:-default}}
+KERAS_VERSION=${2:-${KERAS_VERSION:-default}}
+
+install2.r --error --skipinstalled keras
+Rscript -e "keras::install_keras(version = \"$KERAS_VERSION\", tensorflow = \"$TENSORFLOW_VERSION\")"
 
