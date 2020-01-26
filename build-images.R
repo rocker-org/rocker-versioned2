@@ -29,6 +29,7 @@ dockerfiles <-
   )
 
 build_fn <- function(dockerfile, tag) {
+  message("Building ", tag, "...")
   dc$image$build(dockerfile = dockerfile, tag = tag, context = ".")
 }
 
