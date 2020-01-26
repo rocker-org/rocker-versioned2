@@ -98,5 +98,5 @@ if [ ! -z "$CUDA_HOME"]; then
   echo "rsession-ld-library-path=$LD_LIBRARY_PATH" >> /etc/rstudio/rserver.conf
 fi
 
-
+. /rocker_scripts/default_user.sh
 

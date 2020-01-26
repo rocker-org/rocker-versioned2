@@ -5,6 +5,7 @@ ENV RSTUDIO_VERSION={{RSTUDIO_VERSION}}
 {{#ROCKER_DEV_WORKFLOW}}
 COPY scripts/install_s6init.sh /rocker_scripts/install_s6init.sh
 COPY scripts/install_rstudio.sh /rocker_scripts/install_rstudio.sh
+COPY scripts/default_user.sh /rocker_scripts/default_user.sh
 {{/ROCKER_DEV_WORKFLOW}}
 RUN /rocker_scripts/install_rstudio.sh
 
@@ -12,11 +13,6 @@ RUN /rocker_scripts/install_rstudio.sh
 COPY scripts/install_pandoc.sh /rocker_scripts/install_pandoc.sh
 {{/ROCKER_DEV_WORKFLOW}}
 RUN /rocker_scripts/install_pandoc.sh
-
-{{#ROCKER_DEV_WORKFLOW}}
-COPY scripts/default_user.sh /rocker_scripts/default_user.sh
-{{/ROCKER_DEV_WORKFLOW}}
-RUN /rocker_scripts/default_user.sh
 
 ## Arguably this should be created by install_s6init.sh
 {{#ROCKER_DEV_WORKFLOW}}

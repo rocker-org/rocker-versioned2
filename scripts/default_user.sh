@@ -1,5 +1,5 @@
 ## Need to configure non-root user for RStudio
-DEFAULT_USER=rstudio
+DEFAULT_USER=${1:-${DEFAULT_USER:-rstudio}}
 useradd $DEFAULT_USER
 echo "${DEFAULT_USER}:${DEFAULT_USER}" | chpasswd
 mkdir /home/${DEFAULT_USER}
