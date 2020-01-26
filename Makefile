@@ -25,3 +25,5 @@ build:
 	docker build -t rocker/verse:3.6.2 -f dockerfiles/Dockerfile_verse_3.6.2 .
 
 
+clean:
+	rm dockerfiles/Dockerfile*.*
