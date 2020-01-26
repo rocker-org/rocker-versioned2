@@ -18,7 +18,7 @@ x <- lapply(images_list, function(z) {
   
   partials <- paste0(
     "partials/Dockerfile.",
-    strsplit(z$PARTIAL_DOCKERFILES, "\\s*;\\s*")[[1]],
+    c("start", strsplit(z$PARTIAL_DOCKERFILES, "\\s*;\\s*")[[1]], "end"),
     ".partial"
     )
   template <- paste(unlist(lapply(partials, readLines)), collapse = "\n")
