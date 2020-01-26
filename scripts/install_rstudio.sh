@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Run dependency scripts
+. /rocker_scripts/install_s6init.sh
+
 apt-get update
 apt-get install -y --no-install-recommends \
     file \
@@ -77,6 +80,18 @@ echo "lock-type=advisory" >> /etc/rstudio/file-locks
 ## This is triggered by an env var in the user config
 cp /etc/rstudio/rserver.conf /etc/rstudio/disable_auth_rserver.conf
 echo "auth-none=1" >> /etc/rstudio/disable_auth_rserver.conf
+
+## Set up RStudio init scripts
+mkdir -p /etc/services.d/rstudio
+echo "#!/usr/bin/with-contenv bash \
+          \n## load /etc/environment vars first: \
+          \n for line in $( cat /etc/environment ) ; do export $line > /dev/null; done \
+          \n exec /usr/lib/rstudio-server/bin/rserver --server-daemonize 0" \
+          > /etc/services.d/rstudio/run
+echo "#!/bin/bash \
+          \n rstudio-server stop" \
+          > /etc/services.d/rstudio/finish
+
 
 
 
