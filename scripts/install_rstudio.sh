@@ -59,16 +59,6 @@ fi
 dpkg -i rstudio-server-*-amd64.deb
 rm rstudio-server-*-amd64.deb
 
-## Symlink pandoc & standard pandoc templates for use system-wide
-ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/local/bin
-ln -s /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/local/bin
-PANDOC_TEMPLATES_VERSION=`pandoc -v | grep -oP "(?<=pandoc\s)[0-9\.]+$"`
-git clone --recursive --branch ${PANDOC_TEMPLATES_VERSION} https://github.com/jgm/pandoc-templates
-mkdir -p /opt/pandoc/templates
-cp -r pandoc-templates*/* /opt/pandoc/templates && rm -rf pandoc-templates*
-mkdir /root/.pandoc && ln -s /opt/pandoc/templates /root/.pandoc/templates
-
-
 ## RStudio wants an /etc/R, will populate from $R_HOME/etc
 mkdir -p /etc/R
 echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
