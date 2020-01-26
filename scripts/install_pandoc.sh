@@ -1,11 +1,7 @@
 #!/bin/sh
 set -e
 
-if [ -z "$1" ] && [ -z "$PANDOC_VERSION" ]; then
-  PANDOC_VERSION="default";
-elif [ $# = 1 ]; then
-  PANDOC_VERSION=$1;
-fi
+PANDOC_VERSION=${1:-${PANDOC_VERSION:-default}}
 
 if [ -f "/usr/lib/rstudio-server/bin/pandoc/pandoc" ] &&
     { [ "$PANDOC_VERSION" = "$(/usr/lib/rstudio-server/bin/pandoc/pandoc --version | head -n 1 | grep -oP '[\d\.]+$')" ] ||
