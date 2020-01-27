@@ -14,6 +14,11 @@ echo "alwaysSaveHistory='0' \
 
 chown -R ${DEFAULT_USER}:${DEFAULT_USER} /home/${DEFAULT_USER}
 
+# If shiny server installed, make the user part of the shiny group
+if [-x "$(command -v shiny-server)" ]; then
+  adduser ${DEFAULT_USER} shiny
+fi
+
 ## configure git not to request password each time
 git config --system credential.helper 'cache --timeout=3600'
 git config --system push.default simple
