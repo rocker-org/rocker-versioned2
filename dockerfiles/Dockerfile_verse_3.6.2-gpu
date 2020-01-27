@@ -8,3 +8,4 @@ LABEL org.label-schema.license="GPL-2.0" \
 COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
 RUN /rocker_scripts/install_verse.sh
 
+

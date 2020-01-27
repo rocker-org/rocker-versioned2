@@ -4,7 +4,10 @@ library(stevedore)
 library(igraph)
 
 dc <- docker_client()
-images_list <- jsonlite::read_json("versions.json")
+images_list <- c(
+  jsonlite::read_json("versions-bionic.json"),
+  jsonlite::read_json("versions-cuda.json")
+)
 tags <- 
   vapply(images_list, 
          function(.) paste0("rocker/", .$ROCKER_IMAGE, ":", .$ROCKER_TAG),

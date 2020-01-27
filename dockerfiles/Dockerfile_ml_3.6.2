@@ -1,4 +1,4 @@
-FROM rocker/geospatial:3.6.2-gpu
+FROM rocker/geospatial:3.6.2
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -10,7 +10,7 @@ ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}
 COPY scripts/install_python.sh /rocker_scripts/install_python.sh
 RUN . /rocker_scripts/install_python.sh
 COPY scripts/install_tensorflow.sh /rocker_scripts/install_tensorflow.sh
-ENV TENSORFLOW_VERSION=gpu
+ENV TENSORFLOW_VERSION=default
 RUN . /rocker_scripts/install_tensorflow.sh
 
 

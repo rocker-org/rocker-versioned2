@@ -4,7 +4,10 @@ library(whisker)
 
 #versions_grid <- read.csv("versions-grid.csv", stringsAsFactors = FALSE)
 
-images_list <- jsonlite::read_json("versions.json")
+images_list <- c(
+  jsonlite::read_json("versions-bionic.json"),
+  jsonlite::read_json("versions-cuda.json")
+)
 ROCKER_DEV_WORKFLOW = Sys.getenv("ROCKER_DEV_WORKFLOW", "0")
 #images_list <- split(
 #  versions_grid, 
