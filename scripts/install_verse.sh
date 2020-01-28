@@ -31,7 +31,7 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
     libopenmpi-dev \
   && rm -rf /var/lib/apt/lists/* 
 
-install2.r --error -r $CRAN tinytex
+install2.r --error -r $CRAN --skipinstalled tinytex
 
 ## Admin-based install of TinyTeX:
 wget -qO- \
@@ -49,7 +49,7 @@ wget -qO- \
   && echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
  
 
-install2.r --error --deps TRUE -r $CRAN \
+install2.r --error --deps TRUE -r $CRAN --skipinstalled \
     blogdown bookdown rticles rmdshower rJava
 
 

@@ -25,7 +25,7 @@ apt-get update \
     tk-dev \
     unixodbc-dev
 
-install2.r --error \
+install2.r --error --skipinstalled \
     RColorBrewer \
     RandomFields \
     RNetCDF \

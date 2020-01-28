@@ -1,21 +1,23 @@
-# Install RStudio
-ENV S6_VERSION={{S6_VERSION}}
-ENV RSTUDIO_VERSION={{RSTUDIO_VERSION}}
+FROM rocker/r-ver:3.6.2
 
-{{#ROCKER_DEV_WORKFLOW}}
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+# Install RStudio
+ENV S6_VERSION=v1.21.7.0
+ENV RSTUDIO_VERSION=latest
+
 COPY scripts/install_s6init.sh /rocker_scripts/install_s6init.sh
 COPY scripts/install_rstudio.sh /rocker_scripts/install_rstudio.sh
 COPY scripts/default_user.sh /rocker_scripts/default_user.sh
-{{/ROCKER_DEV_WORKFLOW}}
 RUN /rocker_scripts/install_rstudio.sh
 
-{{#ROCKER_DEV_WORKFLOW}}
 COPY scripts/install_pandoc.sh /rocker_scripts/install_pandoc.sh
-{{/ROCKER_DEV_WORKFLOW}}
 RUN /rocker_scripts/install_pandoc.sh
 
 ## Arguably this should be created by install_s6init.sh
-{{#ROCKER_DEV_WORKFLOW}}
 COPY scripts/userconf.sh /rocker_scripts/userconf.sh
-{{/ROCKER_DEV_WORKFLOW}}
 RUN cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
+CMD "/init"
+EXPOSE 8787

@@ -27,3 +27,5 @@ build:
 	docker build -t rocker/ml:3.6.2-gpu -f dockerfiles/Dockerfile_ml_3.6.2-gpu .
 
 
+clean:
+	rm dockerfiles/Dockerfile*.*

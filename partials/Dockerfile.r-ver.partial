@@ -1,4 +1,8 @@
 
+{{^ROCKER_DEV_WORKFLOW}}
+COPY scripts /rocker_scripts
+{{/ROCKER_DEV_WORKFLOW}}
+
 # Set system environmetnal variables
 ENV TERM=xterm
 ENV LC_ALL=en_US.UTF-8
@@ -18,9 +22,7 @@ ENV CRAN=https://mran.microsoft.com/snapshot/{{MRAN}}
 ENV CRAN=https://cran.rstudio.com
 {{/MRAN}}
 
+{{#ROCKER_DEV_WORKFLOW}}
 COPY scripts/install_R.sh /rocker_scripts/install_R.sh
+{{/ROCKER_DEV_WORKFLOW}}
 RUN /rocker_scripts/install_R.sh
-
-{{#DOCKER_CMD}}
-CMD "{{DOCKER_CMD}}"
-{{/DOCKER_CMD}}

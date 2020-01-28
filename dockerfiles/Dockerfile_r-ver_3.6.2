@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel
+FROM ubuntu:bionic
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -21,14 +21,4 @@ ENV CRAN=https://cran.rstudio.com
 
 COPY scripts/install_R.sh /rocker_scripts/install_R.sh
 RUN /rocker_scripts/install_R.sh
-## Use Configure CUDA for R, use NVidia libs for BLAS
-ENV CUDA_HOME=/usr/local/cuda
-ENV PATH=$PATH:$CUDA_HOME/bin
-ENV LD_LIBRARY_PATH=$CUDA_HOME/lib64/libnvblas.so:$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64
-ENV NVBLAS_CONFIG_FILE=/etc/nvblas.conf
-COPY scripts/config_R_cuda.sh /rocker_scripts/config_R_cuda.sh
-RUN . /rocker_scripts/config_R_cuda.sh
-
-
-
 CMD "R"

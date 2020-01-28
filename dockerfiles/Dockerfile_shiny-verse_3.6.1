@@ -1,10 +1,11 @@
-FROM rocker/verse:3.6.2-gpu
+FROM rocker/shiny:3.6.1
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
-COPY scripts/install_geospatial.sh /rocker_scripts/install_geospatial.sh
-RUN /rocker_scripts/install_geospatial.sh
+
+COPY scripts/install_tidyverse.sh /rocker_scripts/install_tidyverse.sh
+RUN /rocker_scripts/install_tidyverse.sh
 
 

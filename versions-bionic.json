@@ -3,7 +3,7 @@
     "ROCKER_IMAGE": "r-ver",
     "ROCKER_TAG": "3.6.1",
     "FROM_IMAGE": "ubuntu:bionic",
-    "PARTIAL_DOCKERFILES": "base;r-ver",
+    "PARTIAL_DOCKERFILES": "r-ver",
     "DOCKER_CMD": "R",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.1",
@@ -13,7 +13,7 @@
     "ROCKER_IMAGE": "r-ver",
     "ROCKER_TAG": "3.6.2",
     "FROM_IMAGE": "ubuntu:bionic",
-    "PARTIAL_DOCKERFILES": "base;r-ver",
+    "PARTIAL_DOCKERFILES": "r-ver",
     "DOCKER_CMD": "R",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.2"
@@ -22,7 +22,7 @@
     "ROCKER_IMAGE": "rstudio",
     "ROCKER_TAG": "3.6.1",
     "FROM_IMAGE": "rocker/r-ver:3.6.1",
-    "PARTIAL_DOCKERFILES": "base;rstudio",
+    "PARTIAL_DOCKERFILES": "rstudio",
     "DOCKER_CMD": "/init",
     "DOCKER_EXPOSE": 8787,
     "UBUNTU_VERSION": "bionic",
@@ -35,7 +35,7 @@
     "ROCKER_IMAGE": "rstudio",
     "ROCKER_TAG": "3.6.2",
     "FROM_IMAGE": "rocker/r-ver:3.6.2",
-    "PARTIAL_DOCKERFILES": "base;rstudio",
+    "PARTIAL_DOCKERFILES": "rstudio",
     "DOCKER_CMD": "/init",
     "DOCKER_EXPOSE": 8787,
     "UBUNTU_VERSION": "bionic",
@@ -47,7 +47,7 @@
     "ROCKER_IMAGE": "tidyverse",
     "ROCKER_TAG": "3.6.2",
     "FROM_IMAGE": "rocker/rstudio:3.6.2",
-    "PARTIAL_DOCKERFILES": "base;tidyverse",
+    "PARTIAL_DOCKERFILES": "tidyverse",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.2"
   },
@@ -55,7 +55,7 @@
     "ROCKER_IMAGE": "verse",
     "ROCKER_TAG": "3.6.2",
     "FROM_IMAGE": "rocker/tidyverse:3.6.2",
-    "PARTIAL_DOCKERFILES": "base;verse",
+    "PARTIAL_DOCKERFILES": "verse",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.2"
   },
@@ -63,7 +63,7 @@
     "ROCKER_IMAGE": "geospatial",
     "ROCKER_TAG": "3.6.2",
     "FROM_IMAGE": "rocker/verse:3.6.2",
-    "PARTIAL_DOCKERFILES": "base;geospatial",
+    "PARTIAL_DOCKERFILES": "geospatial",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.2"
   },
@@ -71,8 +71,42 @@
     "ROCKER_IMAGE": "ml",
     "ROCKER_TAG": "3.6.2",
     "FROM_IMAGE": "rocker/geospatial:3.6.2",
-    "PARTIAL_DOCKERFILES": "base;ml",
+    "TENSORFLOW_VERSION": "default",
+    "PARTIAL_DOCKERFILES": "python; tensorflow",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.2"
+  },
+  {
+    "ROCKER_IMAGE": "shiny",
+    "ROCKER_TAG": "3.6.1",
+    "FROM_IMAGE": "rocker/r-ver:3.6.1",
+    "SHINY_SERVER_VERSION": "latest",
+    "S6_VERSION": "v1.21.7.0",
+    "PARTIAL_DOCKERFILES": "shinyserver",
+    "DOCKER_CMD": "/init",
+    "DOCKER_EXPOSE": 3838
+  },
+  {
+    "ROCKER_IMAGE": "shiny",
+    "ROCKER_TAG": "3.6.2",
+    "FROM_IMAGE": "rocker/r-ver:3.6.2",
+    "S6_VERSION": "v1.21.7.0",
+    "SHINY_SERVER_VERSION": "latest",
+    "PARTIAL_DOCKERFILES": "shinyserver",
+    "DOCKER_CMD": "/init",
+    "DOCKER_EXPOSE": 3838
+  },
+  {
+    "ROCKER_IMAGE": "shiny-verse",
+    "ROCKER_TAG": "3.6.1",
+    "FROM_IMAGE": "rocker/shiny:3.6.1",
+    "PARTIAL_DOCKERFILES": "tidyverse"
+  },
+  {
+    "ROCKER_IMAGE": "shiny-verse",
+    "ROCKER_TAG": "3.6.2",
+    "FROM_IMAGE": "rocker/shiny:3.6.2",
+    "SHINY_SERVER_VERSION": "default",
+    "PARTIAL_DOCKERFILES": "tidyverse"
   }
 ]
