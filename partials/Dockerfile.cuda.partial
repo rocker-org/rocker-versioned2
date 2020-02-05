@@ -1,0 +1,12 @@
+## Use Configure CUDA for R, use NVidia libs for BLAS
+ENV CUDA_HOME=/usr/local/cuda
+ENV PATH=$PATH:$CUDA_HOME/bin
+ENV LD_LIBRARY_PATH=$CUDA_HOME/lib64/libnvblas.so:$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64
+ENV NVBLAS_CONFIG_FILE=/etc/nvblas.conf
+{{#ROCKER_DEV_WORKFLOW}}
+COPY scripts/config_R_cuda.sh /rocker_scripts/config_R_cuda.sh
+{{/ROCKER_DEV_WORKFLOW}}
+RUN . /rocker_scripts/config_R_cuda.sh
+
+
+

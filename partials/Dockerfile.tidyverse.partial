@@ -1,0 +1,7 @@
+
+{{#ROCKER_DEV_WORKFLOW}}
+COPY scripts/install_tidyverse.sh /rocker_scripts/install_tidyverse.sh
+{{/ROCKER_DEV_WORKFLOW}}
+RUN /rocker_scripts/install_tidyverse.sh
+
+

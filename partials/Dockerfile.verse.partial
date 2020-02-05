@@ -1,0 +1,7 @@
+
+{{#ROCKER_DEV_WORKFLOW}}
+COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
+{{/ROCKER_DEV_WORKFLOW}}
+RUN /rocker_scripts/install_verse.sh
+
+

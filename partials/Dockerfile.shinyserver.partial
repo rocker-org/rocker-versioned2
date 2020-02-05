@@ -1,0 +1,9 @@
+ENV S6_VERSION={{S6_VERSION}}
+ENV SHINY_SERVER_VERSION={{SHINY_SERVER_VERSION}}
+
+{{#ROCKER_DEV_WORKFLOW}}
+COPY scripts/install_pandoc.sh /rocker_scripts/install_pandoc.sh
+COPY scripts/install_s6init.sh /rocker_scripts/install_s6init.sh
+COPY scripts/install_shiny_server.sh /rocker_scripts/install_shiny_server.sh
+{{/ROCKER_DEV_WORKFLOW}}
+RUN /rocker_scripts/install_shiny_server.sh

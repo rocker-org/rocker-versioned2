@@ -1,0 +1,7 @@
+{{#ROCKER_DEV_WORKFLOW}}
+COPY scripts/install_tensorflow.sh /rocker_scripts/install_tensorflow.sh
+{{/ROCKER_DEV_WORKFLOW}}
+ENV TENSORFLOW_VERSION={{TENSORFLOW_VERSION}}
+RUN . /rocker_scripts/install_tensorflow.sh
+
+

@@ -1,0 +1,7 @@
+ENV PYTHON_VENV_PATH=/opt/venv 
+ENV RETICULATE_PYTHON_ENV=$PYTHON_VENV_PATH
+ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}
+{{#ROCKER_DEV_WORKFLOW}}
+COPY scripts/install_python.sh /rocker_scripts/install_python.sh
+{{/ROCKER_DEV_WORKFLOW}}
+RUN . /rocker_scripts/install_python.sh
