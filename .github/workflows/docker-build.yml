@@ -1,0 +1,19 @@
+name: Publish Docker
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Publish to Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: noamross/rocker-versioned2/r-ver
+        username: ${{ secrets.GITHUB_ACTOR }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+  	registry: docker.pkg.github.com
+        dockerfile: dockerfiles/Dockerfile_r-ver_3.6.2
+        context: "."
+        tags: "latest,3.6.2"
+
+
