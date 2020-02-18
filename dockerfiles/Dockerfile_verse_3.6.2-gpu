@@ -5,7 +5,6 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
-COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
 RUN /rocker_scripts/install_verse.sh
 
 
