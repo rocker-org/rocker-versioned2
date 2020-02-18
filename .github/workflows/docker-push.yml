@@ -17,7 +17,7 @@ jobs:
         id: vars
         run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
       - name: Build the tagged Docker image
-        run: docker build . --file dockerfiles/Dockerfile_r-ver_3.6.2 --tag docker.pkg.github.com/noamross/rocker-versioned/r-ver:3.6.2
+        run: docker build . --file dockerfiles/Dockerfile_r-ver_3.6.2 --tag docker.pkg.github.com/noamross/rocker-versioned2/r-ver:3.6.2
       - name: Push the tagged Docker image
-        run: docker push docker.pkg.github.com/noamross/rocker-versioned/r-ver:3.6.2
+        run: docker push docker.pkg.github.com/noamross/rocker-versioned2/r-ver:3.6.2
 
