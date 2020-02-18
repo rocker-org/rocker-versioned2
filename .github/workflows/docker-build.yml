@@ -11,9 +11,9 @@ jobs:
         name: noamross/rocker-versioned2/r-ver
         username: ${{ GITHUB_ACTOR }}
         password: ${{ GITHUB_TOKEN }}
-  	registry: "docker.pkg.github.com"
         dockerfile: dockerfiles/Dockerfile_r-ver_3.6.2
         context: "."
         tags: "latest,3.6.2"
+  	registry: "docker.pkg.github.com"
 
 
