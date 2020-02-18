@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Login to DockerHub Registry
-        run: echo ${{ GITHUB_TOKEN }} | docker login --u ${{ GITHUB_ACTOR }} --password-stdin docker.pkg.github.com
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login --u ${{ GITHUB_ACTOR }} --password-stdin docker.pkg.github.com
       - name: Get the version
         id: vars
         run: echo ::set-output name=tag::$(echo ${GITHUB_REF:10})
