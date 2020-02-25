@@ -5,6 +5,8 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+
+ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
 RUN /rocker_scripts/install_verse.sh
 
 

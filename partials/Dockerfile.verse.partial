@@ -2,6 +2,8 @@
 {{#ROCKER_DEV_WORKFLOW}}
 COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
 {{/ROCKER_DEV_WORKFLOW}}
+
+ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
 RUN /rocker_scripts/install_verse.sh
 
 
