@@ -1,5 +1,5 @@
 echo 'selected_scheme scheme-infraonly
-TEXDIR /opt/texlive
+TEXDIR /usr/local/texlive
 TEXMFCONFIG /opt/texlive/texmf-config
 TEXMFHOME  /opt/texlive/texmf
 TEXMFLOCAL /opt/texlive/texmf-local
@@ -25,4 +25,9 @@ tlmgr install latex-bin luatex xetex
 chown -R root:staff /opt/texlive
 chmod -R g+w /opt/texlive
 chmod -R g+wx /opt/texlive/bin
+
+
+chown -R root:staff /usr/local/texlive
+chmod -R g+w /usr/local/texlive
+
 
