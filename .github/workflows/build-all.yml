@@ -1,8 +1,8 @@
 name: Docker CI
 
-on: [push]
-#  release:
-#    types: [published]
+on:  
+  release:
+    types: [published]
 
 jobs:
   build:
