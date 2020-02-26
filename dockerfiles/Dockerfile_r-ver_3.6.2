@@ -5,7 +5,6 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
-COPY scripts /rocker_scripts
 
 # Set system environmetnal variables
 ENV TERM=xterm
@@ -20,5 +19,6 @@ ENV R_VERSION=3.6.2
 
 ENV CRAN=https://cran.rstudio.com
 
+COPY scripts/install_R.sh /rocker_scripts/install_R.sh
 RUN /rocker_scripts/install_R.sh
 CMD "R"

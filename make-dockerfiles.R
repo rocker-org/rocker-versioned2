@@ -8,7 +8,7 @@ images_list <- c(
   jsonlite::read_json("versions-bionic.json"),
   jsonlite::read_json("versions-cuda.json")
 )
-ROCKER_DEV_WORKFLOW = Sys.getenv("ROCKER_DEV_WORKFLOW", "0")
+ROCKER_DEV_WORKFLOW = Sys.getenv("ROCKER_DEV_WORKFLOW", "1")
 #images_list <- split(
 #  versions_grid, 
 #  paste(versions_grid$ROCKER_IMAGE, versions_grid$ROCKER_TAG, sep = "_")
