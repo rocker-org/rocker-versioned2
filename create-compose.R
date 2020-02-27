@@ -9,8 +9,9 @@ tag <-  map_chr(json, "ROCKER_TAG")
 dockerfiles <- paste0("dockerfiles/Dockerfile_", name, "_", tag)
 names(dockerfiles) <- name
 services <- lapply(dockerfiles, function(d) 
-  list(context = ".",
-       build = list(dockerfile = d)))
+  list(build = list(
+         context = ".",
+         dockerfile = d)))
 
 compose <- list(
   version = "3",

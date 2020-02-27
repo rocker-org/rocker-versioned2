@@ -1,26 +1,26 @@
 version: '3'
 services:
   r-ver:
-    context: '.'
     build:
+      context: '.'
       dockerfile: dockerfiles/Dockerfile_r-ver_3.6.2-gpu
   rstudio:
-    context: '.'
     build:
+      context: '.'
       dockerfile: dockerfiles/Dockerfile_rstudio_3.6.2-gpu
   tidyverse:
-    context: '.'
     build:
+      context: '.'
       dockerfile: dockerfiles/Dockerfile_tidyverse_3.6.2-gpu
   verse:
-    context: '.'
     build:
+      context: '.'
       dockerfile: dockerfiles/Dockerfile_verse_3.6.2-gpu
   geospatial:
-    context: '.'
     build:
+      context: '.'
       dockerfile: dockerfiles/Dockerfile_geospatial_3.6.2-gpu
   ml:
-    context: '.'
     build:
+      context: '.'
       dockerfile: dockerfiles/Dockerfile_ml_3.6.2-gpu
