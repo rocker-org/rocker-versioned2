@@ -1,6 +1,9 @@
 DOCKERFILES=$(wildcard dockerfiles/Dockerfile*)
 PARTIALS=$(wildcard partials/*.partial)
 
+TAG=3.6.2-gpu
+REGISTRY=docker.pkg.github.com
+
 .PHONY: local_versions images
 dockerfiles: $(DOCKERFILES)
 all: dockerfiles images
@@ -19,12 +22,12 @@ images:
 
 
 build: 
-	docker build -t rocker/r-ver:3.6.2-gpu -f dockerfiles/Dockerfile_r-ver_3.6.2-gpu .
-	docker build -t rocker/rstudio:3.6.2-gpu -f dockerfiles/Dockerfile_rstudio_3.6.2-gpu .
-	docker build -t rocker/tidyverse:3.6.2-gpu -f dockerfiles/Dockerfile_tidyverse_3.6.2-gpu .
-	docker build -t rocker/verse:3.6.2-gpu -f dockerfiles/Dockerfile_verse_3.6.2-gpu .
-	docker build -t rocker/geospatial:3.6.2-gpu -f dockerfiles/Dockerfile_geospatial_3.6.2-gpu .
-	docker build -t rocker/ml:3.6.2-gpu -f dockerfiles/Dockerfile_ml_3.6.2-gpu .
+	docker build -t rocker/r-ver:${TAG} -f dockerfiles/Dockerfile_r-ver_${TAG} .
+	docker build -t rocker/rstudio:${TAG} -f dockerfiles/Dockerfile_rstudio_${TAG} .
+	docker build -t rocker/tidyverse:${TAG} -f dockerfiles/Dockerfile_tidyverse_${TAG} .
+	docker build -t rocker/verse:${TAG} -f dockerfiles/Dockerfile_verse_${TAG} .
+	docker build -t rocker/geospatial:${TAG} -f dockerfiles/Dockerfile_geospatial_${TAG} .
+	docker build -t rocker/ml:${TAG} -f dockerfiles/Dockerfile_ml_${TAG} .
 
 
 clean:
