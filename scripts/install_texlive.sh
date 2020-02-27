@@ -18,9 +18,13 @@ install-tl-20*/install-tl --profile=/tmp/texlive-profile.txt && \
     rm -rf install-tl-*
 
 # ENV PATH=/opt/texlive/bin/x86_64-linux:$PATH
+# ARG CTAN_REPO=${CTAN_REPO:-https://www.texlive.info/tlnet-archive/2019/02/27/tlnet}
+# ENV CTAN_REPO=${CTAN_REPO}
 
 tlmgr update --self
 tlmgr install latex-bin luatex xetex
+tlmgr path add
+
 
 chown -R root:staff /opt/texlive
 chmod -R g+w /opt/texlive
