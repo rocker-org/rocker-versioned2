@@ -14,18 +14,8 @@ local_versions:
 dockerfiles: 
 	./make-dockerfiles.R
 	
-images: 
-	./build-images.R
-
-
-build: 
-	docker build -t rocker/r-ver:3.6.2-gpu -f dockerfiles/Dockerfile_r-ver_3.6.2-gpu .
-	docker build -t rocker/rstudio:3.6.2-gpu -f dockerfiles/Dockerfile_rstudio_3.6.2-gpu .
-	docker build -t rocker/tidyverse:3.6.2-gpu -f dockerfiles/Dockerfile_tidyverse_3.6.2-gpu .
-	docker build -t rocker/verse:3.6.2-gpu -f dockerfiles/Dockerfile_verse_3.6.2-gpu .
-	docker build -t rocker/geospatial:3.6.2-gpu -f dockerfiles/Dockerfile_geospatial_3.6.2-gpu .
-	docker build -t rocker/ml:3.6.2-gpu -f dockerfiles/Dockerfile_ml_3.6.2-gpu .
-
+images:
+	docker-compose build
 
 clean:
 	rm dockerfiles/Dockerfile*.*
