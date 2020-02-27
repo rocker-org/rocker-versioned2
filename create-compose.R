@@ -17,10 +17,13 @@ image_name <- function(d){
 }
 
 services <- lapply(dockerfiles, function(d) 
-  list(build = list(
+  list(image = image_name(d),
+       build = list(
          context = ".",
-         dockerfile = d,
-         image = image_name(d))))
+         dockerfile = d
+         )
+       )
+)
 
 compose <- list(
   version = "3",
