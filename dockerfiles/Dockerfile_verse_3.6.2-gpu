@@ -5,6 +5,12 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
+COPY scripts/install_texlive.sh /rocker_scripts/install_texlive.sh
+
+ENV CTAN_REPO=${CTAN_REPO:-https://www.texlive.info/tlnet-archive/2019/02/27/tlnet}
+ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
+ENV PATH=/opt/texlive/bin/x86_64-linux:$PATH
 RUN /rocker_scripts/install_verse.sh
 
 

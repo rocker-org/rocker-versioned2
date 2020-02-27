@@ -7,7 +7,9 @@ LABEL org.label-schema.license="GPL-2.0" \
 ENV PYTHON_VENV_PATH=/opt/venv 
 ENV RETICULATE_PYTHON_ENV=$PYTHON_VENV_PATH
 ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}
+COPY scripts/install_python.sh /rocker_scripts/install_python.sh
 RUN . /rocker_scripts/install_python.sh
+COPY scripts/install_tensorflow.sh /rocker_scripts/install_tensorflow.sh
 ENV TENSORFLOW_VERSION=gpu
 RUN . /rocker_scripts/install_tensorflow.sh
 

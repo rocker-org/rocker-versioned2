@@ -79,7 +79,7 @@
   {
     "ROCKER_IMAGE": "shiny",
     "ROCKER_TAG": "3.6.1",
-    "FROM_IMAGE": "rocker/r-ver:3.6.1",
+    "FROM_IMAGE": "rocker/r-ver:3.6.2",
     "SHINY_SERVER_VERSION": "latest",
     "S6_VERSION": "v1.21.7.0",
     "PARTIAL_DOCKERFILES": "shinyserver",
@@ -99,7 +99,7 @@
   {
     "ROCKER_IMAGE": "shiny-verse",
     "ROCKER_TAG": "3.6.1",
-    "FROM_IMAGE": "rocker/shiny:3.6.1",
+    "FROM_IMAGE": "rocker/shiny:3.6.2",
     "PARTIAL_DOCKERFILES": "tidyverse"
   },
   {
