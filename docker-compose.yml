@@ -4,23 +4,29 @@ services:
     build:
       context: '.'
       dockerfile: dockerfiles/Dockerfile_r-ver_3.6.2-gpu
+      image: rocker/r-ver:3.6.2-gpu
   rstudio:
     build:
       context: '.'
       dockerfile: dockerfiles/Dockerfile_rstudio_3.6.2-gpu
+      image: rocker/rstudio:3.6.2-gpu
   tidyverse:
     build:
       context: '.'
       dockerfile: dockerfiles/Dockerfile_tidyverse_3.6.2-gpu
+      image: rocker/tidyverse:3.6.2-gpu
   verse:
     build:
       context: '.'
       dockerfile: dockerfiles/Dockerfile_verse_3.6.2-gpu
+      image: rocker/verse:3.6.2-gpu
   geospatial:
     build:
       context: '.'
       dockerfile: dockerfiles/Dockerfile_geospatial_3.6.2-gpu
+      image: rocker/geospatial:3.6.2-gpu
   ml:
     build:
       context: '.'
       dockerfile: dockerfiles/Dockerfile_ml_3.6.2-gpu
+      image: rocker/ml:3.6.2-gpu
