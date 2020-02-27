@@ -1,0 +1,20 @@
+version: '3'
+services:
+  r-ver:
+    build:
+      dockerfile: dockerfiles/Dockerfile_r-ver_3.6.2-gpu
+  rstudio:
+    build:
+      dockerfile: dockerfiles/Dockerfile_rstudio_3.6.2-gpu
+  tidyverse:
+    build:
+      dockerfile: dockerfiles/Dockerfile_tidyverse_3.6.2-gpu
+  verse:
+    build:
+      dockerfile: dockerfiles/Dockerfile_verse_3.6.2-gpu
+  geospatial:
+    build:
+      dockerfile: dockerfiles/Dockerfile_geospatial_3.6.2-gpu
+  ml:
+    build:
+      dockerfile: dockerfiles/Dockerfile_ml_3.6.2-gpu
