@@ -14,8 +14,8 @@ jobs:
       - name: Build the tagged Docker image
         run: | 
              docker-compose build 
-             docker-compose build -f docker-compose-gh-registry.yml
+             docker-compose -f docker-compose-gh-registry.yml build
       - name: Push the tagged Docker image
-        run: docker-compose push -f docker-compose-gh-registry.yml
+        run: docker-compose -f docker-compose-gh-registry.yml push
 
 

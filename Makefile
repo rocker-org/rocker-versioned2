@@ -13,9 +13,15 @@ local_versions:
 
 dockerfiles: 
 	./make-dockerfiles.R
-	
+	./write_compose.R	
+
 images:
 	docker-compose build
+	docker-compose -f docker-compose-gh-registry.yml build
+
+## Assumes we are logged into the GitHub Docker Registry already
+publish:
+	docker-compose -f docker-compose-gh-registry.yml push
 
 clean:
 	rm dockerfiles/Dockerfile*.*
