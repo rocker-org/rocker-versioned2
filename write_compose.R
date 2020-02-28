@@ -1,15 +1,20 @@
+#!/usr/bin/env Rscript
+
 library(yaml)
-library(jsonlite)
-library(purrr)
 
 
 write_compose <- 
   function(json_file, out = "docker-compose.yml", org = "rocker"){
   
-  json <- jsonlite::read_json(json_file)
+  json <- yaml::read_yaml(json_file) #jsonlite::read_json(json_file)
   prefix <- "dockerfiles/Dockerfile_"
-  name <- purrr::map_chr(json, "ROCKER_IMAGE")
-  tag <-  purrr::map_chr(json, "ROCKER_TAG")
+  
+  map_chr <- function(x, name) vapply(x, `[[`, character(1L), name)
+
+  name <- map_chr(json, "ROCKER_IMAGE")
+  tag <-  map_chr(json, "ROCKER_TAG")
+  
+  
   dockerfiles <- paste0(prefix, name, "_", tag)
   names(dockerfiles) <- name
   
