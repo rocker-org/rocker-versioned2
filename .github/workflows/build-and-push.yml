@@ -1,0 +1,21 @@
+name: Build and Push Images 
+
+on: [push]
+#  release:
+#    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login -u ${GITHUB_ACTOR} --password-stdin docker.pkg.github.com
+      - name: Build the tagged Docker image
+        run: | 
+             docker-compose build 
+             docker-compose build -f docker-compose-gh-registry.yml
+      - name: Push the tagged Docker image
+        run: docker-compose push -f docker-compose-gh-registry.yml
+
+
