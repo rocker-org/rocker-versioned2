@@ -1,0 +1,27 @@
+version: '3'
+services:
+  r-ver:
+    image: docker.pkg.github.com/noamross/rocker-versioned2/r-ver:3.6.2-gpu
+    build:
+      context: '.'
+      dockerfile: dockerfiles/Dockerfile_r-ver_3.6.2-gpu
+  rstudio:
+    image: docker.pkg.github.com/noamross/rocker-versioned2/rstudio:3.6.2-gpu
+    build:
+      context: '.'
+      dockerfile: dockerfiles/Dockerfile_rstudio_3.6.2-gpu
+  tidyverse:
+    image: docker.pkg.github.com/noamross/rocker-versioned2/tidyverse:3.6.2-gpu
+    build:
+      context: '.'
+      dockerfile: dockerfiles/Dockerfile_tidyverse_3.6.2-gpu
+  verse:
+    image: docker.pkg.github.com/noamross/rocker-versioned2/verse:3.6.2-gpu
+    build:
+      context: '.'
+      dockerfile: dockerfiles/Dockerfile_verse_3.6.2-gpu
+  geospatial:
+    image: docker.pkg.github.com/noamross/rocker-versioned2/geospatial:3.6.2-gpu
+    build:
+      context: '.'
+      dockerfile: dockerfiles/Dockerfile_geospatial_3.6.2-gpu

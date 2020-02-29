@@ -1,9 +1,6 @@
 DOCKERFILES=$(wildcard dockerfiles/Dockerfile*)
 PARTIALS=$(wildcard partials/*.partial)
 
-TAG=3.6.2-gpu
-REGISTRY=docker.pkg.github.com
-
 .PHONY: local_versions images
 dockerfiles: $(DOCKERFILES)
 all: dockerfiles images
@@ -16,19 +13,15 @@ local_versions:
 
 dockerfiles: 
 	./make-dockerfiles.R
-	
-images: 
-	./build-images.R
+	./write_compose.R	
 
+images:
+	docker-compose build
+	docker-compose -f docker-compose-gh-registry.yml build
 
-build: 
-	docker build -t rocker/r-ver:${TAG} -f dockerfiles/Dockerfile_r-ver_${TAG} .
-	docker build -t rocker/rstudio:${TAG} -f dockerfiles/Dockerfile_rstudio_${TAG} .
-	docker build -t rocker/tidyverse:${TAG} -f dockerfiles/Dockerfile_tidyverse_${TAG} .
-	docker build -t rocker/verse:${TAG} -f dockerfiles/Dockerfile_verse_${TAG} .
-	docker build -t rocker/geospatial:${TAG} -f dockerfiles/Dockerfile_geospatial_${TAG} .
-	docker build -t rocker/ml:${TAG} -f dockerfiles/Dockerfile_ml_${TAG} .
-
+## Assumes we are logged into the GitHub Docker Registry already
+publish:
+	docker-compose -f docker-compose-gh-registry.yml push
 
 clean:
 	rm dockerfiles/Dockerfile*.*
