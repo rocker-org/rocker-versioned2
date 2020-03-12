@@ -53,7 +53,7 @@ write_compose <-
 
 
 write_compose("versions-cuda.json", "docker-compose.yml", org = "rocker")
-write_compose("versions-cuda.json", "docker-compose-gh.yml", 
+write_compose("versions-cuda.json", "docker-compose-gh-registry.yml", 
               org = "docker.pkg.github.com/noamross/rocker-versioned2")
 
 
