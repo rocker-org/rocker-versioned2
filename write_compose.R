@@ -22,7 +22,10 @@ write_compose <-
       paste(org, x, sep="/")
     }
     
+    # FIXME use FROM image, don't assume these are listed in build order!
     depends_on <- c("", name[1:(length(name)-1)])
+    
+    
     not_blank <- function(x) if(x == "") return(NULL) else x
     is_empty <- function(x) length(x) == 0 || is.null(x)
     compact <- function (l) Filter(Negate(is_empty), l)
@@ -53,8 +56,8 @@ write_compose <-
 
 
 write_compose("versions-cuda.json", "docker-compose.yml", org = "rocker")
-write_compose("versions-cuda.json", "docker-compose-gh-registry.yml", 
-              org = "docker.pkg.github.com/noamross/rocker-versioned2")
+write_compose("versions-cuda.json", "docker-compose-rockerdev.yml", 
+              org = "rockerdev")
 
 
 
