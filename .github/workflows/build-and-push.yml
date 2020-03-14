@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Login to DockerHub Registry
-        run: echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USER} --password-stdin docker.pkg.github.com
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin docker.pkg.github.com
       - name: Build the tagged Docker image
         run: | 
              docker-compose build 
