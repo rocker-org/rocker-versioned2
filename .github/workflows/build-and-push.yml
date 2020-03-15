@@ -9,12 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Login to DockerHub Registry
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin docker.pkg.github.com
       - name: Build the tagged Docker image
         run: | 
              docker-compose build 
              docker-compose -f docker-compose-rockerdev.yml build
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin docker.pkg.github.com
       - name: Push the tagged Docker image
         run: docker-compose -f docker-compose-rockerdev.yml push
 
