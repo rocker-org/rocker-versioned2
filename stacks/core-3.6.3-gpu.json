@@ -1,56 +1,47 @@
 [
   {
     "ROCKER_IMAGE": "r-ver",
-    "ROCKER_TAG": "3.6.2-gpu",
+    "ROCKER_TAG": "3.6.3-gpu",
     "FROM_IMAGE": "nvidia/cuda:10.0-cudnn7-devel",
     "PARTIAL_DOCKERFILES": "r-ver; cuda",
     "DOCKER_CMD": "R",
     "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.2"
+    "R_VERSION": "3.6.3"
   },
   {
     "ROCKER_IMAGE": "rstudio",
-    "ROCKER_TAG": "3.6.2-gpu",
-    "FROM_IMAGE": "rocker/r-ver:3.6.2-gpu",
+    "ROCKER_TAG": "3.6.3-gpu",
+    "FROM_IMAGE": "rocker/r-ver:3.6.3-gpu",
     "PARTIAL_DOCKERFILES": "rstudio",
     "DOCKER_CMD": "/init",
     "DOCKER_EXPOSE": 8787,
     "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.2",
+    "R_VERSION": "3.6.3",
     "S6_VERSION": "v1.21.7.0",
     "RSTUDIO_VERSION": "latest"
   },
   {
     "ROCKER_IMAGE": "tidyverse",
-    "ROCKER_TAG": "3.6.2-gpu",
-    "FROM_IMAGE": "rocker/rstudio:3.6.2-gpu",
+    "ROCKER_TAG": "3.6.3-gpu",
+    "FROM_IMAGE": "rocker/rstudio:3.6.3-gpu",
     "PARTIAL_DOCKERFILES": "tidyverse",
     "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.2"
+    "R_VERSION": "3.6.3"
   },
   {
     "ROCKER_IMAGE": "verse",
-    "ROCKER_TAG": "3.6.2-gpu",
-    "FROM_IMAGE": "rocker/tidyverse:3.6.2-gpu",
+    "ROCKER_TAG": "3.6.3-gpu",
+    "FROM_IMAGE": "rocker/tidyverse:3.6.3-gpu",
     "PARTIAL_DOCKERFILES": "verse",
     "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.2"
+    "R_VERSION": "3.6.3"
   },
   {
     "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "3.6.2-gpu",
-    "FROM_IMAGE": "rocker/verse:3.6.2-gpu",
+    "ROCKER_TAG": "3.6.3-gpu",
+    "FROM_IMAGE": "rocker/verse:3.6.3-gpu",
     "PARTIAL_DOCKERFILES": "geospatial",
     "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.2"
-  },
-  {
-    "ROCKER_IMAGE": "ml",
-    "ROCKER_TAG": "3.6.2-gpu",
-    "FROM_IMAGE": "rocker/geospatial:3.6.2-gpu",
-    "TENSORFLOW_VERSION": "gpu",
-    "PARTIAL_DOCKERFILES": "python; tensorflow",
-    "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.2"
+    "R_VERSION": "3.6.3"
   }
 ]

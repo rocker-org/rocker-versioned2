@@ -55,9 +55,20 @@ write_compose <-
 
 
 
-write_compose("versions-cuda.json", "docker-compose.yml", org = "rocker")
-write_compose("versions-cuda.json", "docker-compose-rockerdev.yml", 
-              org = "rockerdev")
+write_compose("stacks/core-3.6.3-gpu.json", "compose/core-3.6.3-gpu.yml", org = "rocker")
+write_compose("stacks/extensions-3.6.3-gpu.json", "compose/extensions-3.6.3-gpu.yml", org = "rocker")
+write_compose("stacks/core-3.6.3.json", "compose/core-3.6.3.yml",   org = "rocker")
+write_compose("stacks/extensions-3.6.3.json", "compose/extensions-3.6.3.yml", org = "rocker")
+
+
+
+## rockerdev org is just for testing!
+write_compose("stacks/core-3.6.3-gpu.json", "compose/rockerdev/core-3.6.3-gpu.yml",   org = "rockerdev")
+write_compose("stacks/extensions-3.6.3-gpu.json", "compose/rockerdev/extensions-3.6.3-gpu.yml", org = "rockerdev")
+
+write_compose("stacks/core-3.6.3.json", "compose/rockerdev/core-3.6.3.yml",   org = "rockerdev")
+write_compose("stacks/extensions-3.6.3.json", "compose/rockerdev/extensions-3.6.3.yml", org = "rockerdev")
+
 
 
 

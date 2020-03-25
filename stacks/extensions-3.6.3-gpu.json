@@ -1,0 +1,20 @@
+[
+  {
+    "ROCKER_IMAGE": "ml",
+    "ROCKER_TAG": "3.6.3-gpu",
+    "FROM_IMAGE": "rocker/geospatial:3.6.3-gpu",
+    "TENSORFLOW_VERSION": "gpu",
+    "PARTIAL_DOCKERFILES": "python; tensorflow",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.3"
+  },
+  {
+    "ROCKER_IMAGE": "binder",
+    "ROCKER_TAG": "3.6.3-gpu",
+    "FROM_IMAGE": "rocker/geospatial:3.6.3-gpu",
+    "PARTIAL_DOCKERFILES": "binder",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.3"
+  }
+
+]

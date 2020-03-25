@@ -1,0 +1,48 @@
+FROM rocker/geospatial:3.6.3-gpu
+
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+
+RUN /rocker_scripts/install_verse.sh
+
+ENV NB_USER rstudio
+ENV NB_UID 1000
+ENV VENV_DIR /srv/venv
+ENV PATH ${VENV_DIR}/bin:$PATH
+ENV HOME /home/${NB_USER}
+
+# The `rsession` binary that is called by nbrsessionproxy to start R doesn't seem to start
+# without this being explicitly set 
+ENV LD_LIBRARY_PATH ${R_HOME}/lib
+
+
+RUN /rocker_scripts/install_python.sh
+
+
+
+WORKDIR ${HOME}
+
+# Create a venv dir owned by unprivileged user & set up notebook in it
+# This allows non-root to install python libraries if required
+RUN mkdir -p ${VENV_DIR} && chown -R ${NB_USER} ${VENV_DIR}
+
+# And set ENV for R! It doesn't read from the environment...
+RUN echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
+RUN echo "export PATH=${PATH}" >> ${HOME}/.profile
+
+
+
+USER ${NB_USER}
+RUN /rocker_scripts/install_binder.sh
+
+
+CMD jupyter notebook --ip 0.0.0.0
+
+
+## If extending this image, remember to switch back to USER root to apt-get
+
+
+
