@@ -3,12 +3,12 @@ services:
   ml:
     image: rockerdev/ml:3.6.3-gpu
     build:
-      context: '.'
+      context: ..
       dockerfile: dockerfiles/Dockerfile_ml_3.6.3-gpu
   binder:
     image: rockerdev/binder:3.6.3-gpu
     depends_on:
     - ml
     build:
-      context: '.'
+      context: ..
       dockerfile: dockerfiles/Dockerfile_binder_3.6.3-gpu

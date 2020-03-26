@@ -14,8 +14,8 @@ jobs:
       - name: Build the tagged Docker image
         run: | 
              docker-compose -f compose/core-3.6.3-gpu.yml build 
-             docker-compose -f compose/rockerdev/core-3.6.3-gpu.yml build 
+             docker-compose -f compose-rockerdev/core-3.6.3-gpu.yml build 
       - name: Push the tagged Docker image
-        run: docker-compose  -f compose/rockerdev/core-3.6.3-gpu.yml push
+        run: docker-compose  -f compose-rockerdev/core-3.6.3-gpu.yml push
 
 
