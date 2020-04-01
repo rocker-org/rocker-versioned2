@@ -12,4 +12,5 @@ R --quiet -e "devtools::install_github('IRkernel/IRkernel')"
 R --quiet -e "IRkernel::installspec(prefix='${VENV_DIR}')"
 
 
+rm -rf /tmp/downloaded_packages
 

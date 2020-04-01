@@ -24,4 +24,6 @@ install2.r --error --skipinstalled \
     caTools \
     BiocManager
 
- rm -r /tmp/downloaded_packages
+ rm -rf /tmp/downloaded_packages
+
+

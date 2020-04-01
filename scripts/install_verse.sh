@@ -40,4 +40,6 @@ echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
 install2.r --error --deps TRUE -r $CRAN --skipinstalled \
     blogdown bookdown rticles rmdshower rJava
 
-rm -r /tmp/downloaded_packages
+rm -rf /tmp/downloaded_packages
+
+
