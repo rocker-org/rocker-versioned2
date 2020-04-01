@@ -1,4 +1,4 @@
-name: Build and Push to Docker Hub 
+name: Build & Push GPU Extensions
 
 on: [push]
 #  release:
@@ -13,9 +13,9 @@ jobs:
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
       - name: Build the tagged Docker image
         run: | 
-             docker-compose -f compose/core-3.6.3-gpu.yml build 
-             docker-compose -f compose-rockerdev/core-3.6.3-gpu.yml build 
+             docker-compose -f compose/extensions-3.6.3-gpu.yml build 
+             docker-compose -f compose-rockerdev/extensions-3.6.3-gpu.yml build 
       - name: Push the tagged Docker image
-        run: docker-compose  -f compose-rockerdev/core-3.6.3-gpu.yml push
+        run: docker-compose  -f compose-rockerdev/extensions-3.6.3-gpu.yml push
 
 

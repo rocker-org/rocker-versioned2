@@ -35,13 +35,5 @@
     "PARTIAL_DOCKERFILES": "verse",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.3"
-  },
-  {
-    "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "3.6.3-gpu",
-    "FROM_IMAGE": "rocker/verse:3.6.3-gpu",
-    "PARTIAL_DOCKERFILES": "geospatial",
-    "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.3"
   }
-]
+  ]

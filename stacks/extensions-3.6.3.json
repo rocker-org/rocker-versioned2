@@ -1,5 +1,13 @@
 [
   {
+    "ROCKER_IMAGE": "geospatial",
+    "ROCKER_TAG": "3.6.3",
+    "FROM_IMAGE": "rocker/verse:3.6.3",
+    "PARTIAL_DOCKERFILES": "geospatial",
+    "UBUNTU_VERSION": "bionic",
+    "R_VERSION": "3.6.3"
+  },
+  {
     "ROCKER_IMAGE": "ml",
     "ROCKER_TAG": "3.6.3",
     "FROM_IMAGE": "rocker/geospatial:3.6.3",
