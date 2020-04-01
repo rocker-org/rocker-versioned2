@@ -2,7 +2,7 @@
   {
     "ROCKER_IMAGE": "r-ver",
     "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "nvidia/cuda:10.0-cudnn7-devel",
+    "FROM_IMAGE": "ubuntu:bionic",
     "PARTIAL_DOCKERFILES": "r-ver; cuda",
     "DOCKER_CMD": "R",
     "UBUNTU_VERSION": "bionic",

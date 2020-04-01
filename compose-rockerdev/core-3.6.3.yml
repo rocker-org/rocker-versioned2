@@ -26,10 +26,3 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_verse_3.6.3
-  geospatial:
-    image: rockerdev/geospatial:3.6.3
-    depends_on:
-    - verse
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_3.6.3

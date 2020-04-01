@@ -1,7 +1,14 @@
 version: '3'
 services:
+  geospatial:
+    image: rocker/geospatial:3.6.3
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_3.6.3
   ml:
     image: rocker/ml:3.6.3
+    depends_on:
+    - geospatial
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_ml_3.6.3

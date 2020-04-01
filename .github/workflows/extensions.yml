@@ -1,4 +1,4 @@
-name: Build and Push to Docker Hub 
+name: Build & Push extensions 
 
 on: [push]
 #  release:
