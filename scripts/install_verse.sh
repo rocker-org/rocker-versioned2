@@ -29,15 +29,15 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
     vim \
     libzmq3-dev \
     libopenmpi-dev \
-  && rm -rf /var/lib/apt/lists/* 
+  && rm -rf /var/lib/apt/lists/*
 
 install2.r --error -r $CRAN --skipinstalled tinytex
 
 /rocker_scripts/install_texlive.sh
 
 echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
- 
+
 install2.r --error --deps TRUE -r $CRAN --skipinstalled \
     blogdown bookdown rticles rmdshower rJava
 
-
+rm -r /tmp/downloaded_packages

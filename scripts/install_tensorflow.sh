@@ -7,3 +7,5 @@ KERAS_VERSION=${2:-${KERAS_VERSION:-default}}
 install2.r --error --skipinstalled keras
 Rscript -e "keras::install_keras(version = \"$KERAS_VERSION\", tensorflow = \"$TENSORFLOW_VERSION\")"
 
+rm -r /tmp/downloaded_packages
+
