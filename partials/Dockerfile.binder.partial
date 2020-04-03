@@ -8,8 +8,8 @@ RUN /rocker_scripts/install_verse.sh
 
 ENV NB_USER rstudio
 ENV NB_UID 1000
-ENV VENV_DIR /srv/venv
-ENV PATH ${VENV_DIR}/bin:$PATH
+ENV PYTHON_VENV_PATH /srv/venv
+ENV PATH ${PYTHON_VENV_PATH}/bin:$PATH
 ENV HOME /home/${NB_USER}
 
 # The `rsession` binary that is called by nbrsessionproxy to start R doesn't seem to start
@@ -25,7 +25,7 @@ WORKDIR ${HOME}
 
 # Create a venv dir owned by unprivileged user & set up notebook in it
 # This allows non-root to install python libraries if required
-RUN mkdir -p ${VENV_DIR} && chown -R ${NB_USER} ${VENV_DIR}
+RUN mkdir -p ${PYTHON_VENV_PATH} && chown -R ${NB_USER} ${PYTHON_VENV_PATH}
 
 # And set ENV for R! It doesn't read from the environment...
 RUN echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
