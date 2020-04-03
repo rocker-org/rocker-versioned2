@@ -1,0 +1,21 @@
+version: '3'
+services:
+  geospatial:
+    image: rockerdev/geospatial:3.6.3-gpu
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_3.6.3-gpu
+  ml:
+    image: rockerdev/ml:3.6.3-gpu
+    depends_on:
+    - geospatial
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_3.6.3-gpu
+  binder:
+    image: rockerdev/binder:3.6.3-gpu
+    depends_on:
+    - ml
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_binder_3.6.3-gpu

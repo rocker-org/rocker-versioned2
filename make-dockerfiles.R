@@ -2,22 +2,18 @@
 
 library(whisker)
 
-#versions_grid <- read.csv("versions-grid.csv", stringsAsFactors = FALSE)
+images_list <- do.call(c, 
+                       lapply(list.files("stacks", full.names = TRUE), jsonlite::read_json)
+                       )
 
-images_list <- c(
-  jsonlite::read_json("versions-bionic.json"),
-  jsonlite::read_json("versions-cuda.json")
-)
-ROCKER_DEV_WORKFLOW = Sys.getenv("ROCKER_DEV_WORKFLOW", "0")
-#images_list <- split(
-#  versions_grid, 
-#  paste(versions_grid$ROCKER_IMAGE, versions_grid$ROCKER_TAG, sep = "_")
+#images_list <- c(
+#  jsonlite::read_json("stacks/core-3.6.3.json"),
+#  jsonlite::read_json("stacks/core-3.6.3-gpu.json")
 #)
 
+
+ROCKER_DEV_WORKFLOW = Sys.getenv("ROCKER_DEV_WORKFLOW", "0")
 x <- lapply(images_list, function(z) {
-  
-  ## drop empty env / version fields, aka compact
-#  z <- Filter(Negate(function(.) {is.na(.) | is.null(.) | . == ""}), z)
   
   if (ROCKER_DEV_WORKFLOW == "1") z$ROCKER_DEV_WORKFLOW <- 1
   

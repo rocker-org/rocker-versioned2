@@ -53,7 +53,7 @@ install2.r --error --skipinstalled \
     tmap \
     geoR \
     geosphere
- 
+
 R -e "BiocManager::install('rhdf5')"
 
-
+rm -r /tmp/downloaded_packages
