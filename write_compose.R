@@ -54,7 +54,7 @@ write_compose <-
   }
 
 
-
+## FIXME generate these programmatically from `stacks/`
 write_compose("stacks/core-3.6.3-gpu.json", "compose/core-3.6.3-gpu.yml", org = "rocker")
 write_compose("stacks/extensions-3.6.3-gpu.json", "compose/extensions-3.6.3-gpu.yml", org = "rocker")
 write_compose("stacks/core-3.6.3.json", "compose/core-3.6.3.yml",   org = "rocker")
@@ -67,6 +67,8 @@ write_compose("stacks/core-3.6.3-gpu.json", "compose-rockerdev/core-3.6.3-gpu.ym
 write_compose("stacks/extensions-3.6.3-gpu.json", "compose-rockerdev/extensions-3.6.3-gpu.yml", org = "rockerdev")
 write_compose("stacks/core-3.6.3.json", "compose-rockerdev/core-3.6.3.yml",   org = "rockerdev")
 write_compose("stacks/extensions-3.6.3.json", "compose-rockerdev/extensions-3.6.3.yml", org = "rockerdev")
+
+write_compose("stacks/shiny-3.6.3.json", "compose-rockerdev/shiny-3.6.3.yml", org = "rockerdev")
 
 
 
