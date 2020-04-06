@@ -1,23 +1,15 @@
 
 {{#ROCKER_DEV_WORKFLOW}}
-COPY scripts/install_python.sh /rocker_scripts/install_python.sh
 COPY scripts/install_binder.sh /rocker_scripts/install_binder.sh
 {{/ROCKER_DEV_WORKFLOW}}
 
 ENV NB_USER rstudio
 ENV NB_UID 1000
-ENV PYTHON_VENV_PATH /srv/venv
-ENV PATH ${PYTHON_VENV_PATH}/bin:$PATH
 ENV HOME /home/${NB_USER}
 
 # The `rsession` binary that is called by nbrsessionproxy to start R doesn't seem to start
 # without this being explicitly set 
 ENV LD_LIBRARY_PATH ${R_HOME}/lib
-
-
-RUN /rocker_scripts/install_python.sh
-
-
 
 WORKDIR ${HOME}
 
@@ -36,7 +28,7 @@ RUN chmod a+x /rocker_scripts/install_binder.sh
 USER ${NB_USER}
 RUN /rocker_scripts/install_binder.sh
 
-
+EXPOSE 8888
 CMD jupyter notebook --ip 0.0.0.0
 
 
