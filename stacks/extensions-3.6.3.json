@@ -20,7 +20,7 @@
     "ROCKER_IMAGE": "binder",
     "ROCKER_TAG": "3.6.3",
     "FROM_IMAGE": "rockerdev/geospatial:3.6.3",
-    "PARTIAL_DOCKERFILES": "binder",
+    "PARTIAL_DOCKERFILES": "python; binder",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.3"
   }
