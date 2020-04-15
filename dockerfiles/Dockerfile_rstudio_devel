@@ -1,0 +1,18 @@
+FROM rocker/r-ver:devel
+
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+# Install RStudio
+ENV S6_VERSION=v1.21.7.0
+ENV RSTUDIO_VERSION=latest
+
+RUN /rocker_scripts/install_rstudio.sh
+
+RUN /rocker_scripts/install_pandoc.sh
+
+## Arguably this should be created by install_s6init.sh
+RUN cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
+CMD "/init"
+EXPOSE 8787

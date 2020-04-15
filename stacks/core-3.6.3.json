@@ -3,7 +3,7 @@
     "ROCKER_IMAGE": "r-ver",
     "ROCKER_TAG": "3.6.3",
     "FROM_IMAGE": "ubuntu:bionic",
-    "PARTIAL_DOCKERFILES": "r-ver; cuda",
+    "PARTIAL_DOCKERFILES": "r-ver",
     "DOCKER_CMD": "R",
     "UBUNTU_VERSION": "bionic",
     "R_VERSION": "3.6.3"

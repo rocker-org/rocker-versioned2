@@ -1,4 +1,4 @@
-FROM rockerdev/geospatial:3.6.3
+FROM rockerdev/verse:3.6.3-gpu
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -12,6 +12,10 @@ ENV PYTHON_VENV_PATH=${WORKON_HOME}/reticulate
 #ENV RETICULATE_PYTHON_ENV=$PYTHON_VENV_PATH
 ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}
 RUN . /rocker_scripts/install_python.sh
+
+ENV TENSORFLOW_VERSION=gpu
+RUN . /rocker_scripts/install_tensorflow.sh
+
 
 
 
@@ -47,4 +51,9 @@ CMD jupyter notebook --ip 0.0.0.0
 ## If extending this image, remember to switch back to USER root to apt-get
 
 
+
+
+
+COPY scripts/install_rl.sh /rocker_scripts/install_rl.sh
+RUN . /rocker_scripts/install_rl.sh
 
