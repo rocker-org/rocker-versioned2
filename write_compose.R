@@ -54,24 +54,17 @@ write_compose <-
   }
 
 
-files <- data.frame(
-  stacks = list.files("stacks", full.names = TRUE),
-  compose = file.path("compose", gsub(".json$", ".yml", 
-                                       basename(stacks))),
-  org = "rocker"
-)                
-  
+
+stacks <- list.files("stacks", full.names = TRUE)
+compose <- file.path("compose", gsub(".json$", ".yml", basename(stacks)))
+files <- data.frame(stacks, compose, org = "rocker")                
 apply(files, 1, function(f) write_compose(f[1], f[2], org = f[3]))              
 
 
-
-## rockerdev org is just for testing!
-devfiles <- data.frame(
-  stacks = list.files("stacks", full.names = TRUE),
-  compose = file.path("compose-rockerdev", gsub(".json$", ".yml", 
-                                      basename(stacks))),
-  org = "rockerdev"
-)                
+############ rockerdev org is just for testing! ###########
+devcompose <- file.path("compose-rockerdev", 
+                        gsub(".json$", ".yml", basename(stacks)))
+devfiles <- data.frame(stacks, compose, org = "rockerdev")                
 apply(devfiles, 1, function(f) write_compose(f[1], f[2], org = f[3]))              
 
 
