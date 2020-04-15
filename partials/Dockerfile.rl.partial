@@ -1,0 +1,5 @@
+
+
+COPY scripts/install_rl.sh /rocker_scripts/install_rl.sh
+RUN . /rocker_scripts/install_rl.sh
+

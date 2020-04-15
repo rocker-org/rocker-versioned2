@@ -3,7 +3,7 @@
     "ROCKER_IMAGE": "r-ver",
     "ROCKER_TAG": "devel",
     "FROM_IMAGE": "ubuntu:20.04",
-    "PARTIAL_DOCKERFILES": "r-ver",
+    "PARTIAL_DOCKERFILES": "r-devel",
     "DOCKER_CMD": "R",
     "UBUNTU_VERSION": "20.04",
     "R_VERSION": "devel"

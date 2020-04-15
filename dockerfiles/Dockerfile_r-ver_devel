@@ -20,5 +20,5 @@ ENV R_VERSION=devel
 
 ENV CRAN=https://cran.rstudio.com
 
-RUN /rocker_scripts/install_R.sh
+RUN /rocker_scripts/install_R-devel.sh
 CMD "R"
