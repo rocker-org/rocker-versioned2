@@ -1,4 +1,7 @@
-[
+{
+
+"ordered": false,
+"stack": [
   {
     "ROCKER_IMAGE": "shiny",
     "ROCKER_TAG": "3.6.3",
@@ -9,3 +12,5 @@
   }
   
 ]
+
+}

@@ -1,4 +1,7 @@
-[
+{
+
+"ordered": false,
+"stack": [
 {
     "ROCKER_IMAGE": "binder",
     "ROCKER_TAG": "3.6.3",
@@ -6,3 +9,4 @@
     "PARTIAL_DOCKERFILES": "python; binder"
   }
 ]
+}

@@ -1,4 +1,6 @@
-[
+{
+"ordered": false,
+"stack": [
   {
     "ROCKER_IMAGE": "geospatial",
     "ROCKER_TAG": "3.6.3",
@@ -20,4 +22,4 @@
   }
 ]
 
-
+}

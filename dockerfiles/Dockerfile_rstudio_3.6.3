@@ -1,4 +1,4 @@
-FROM rocker/r-ver:3.6.3
+FROM rockerdev/r-ver:3.6.3
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -12,10 +12,7 @@ ENV RSTUDIO_VERSION=latest
 RUN /rocker_scripts/install_rstudio.sh
 
 
-
-
 RUN /rocker_scripts/install_pandoc.sh
-
 
 
 RUN /rocker_scripts/install_s6init.sh

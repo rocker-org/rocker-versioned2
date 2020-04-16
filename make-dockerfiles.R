@@ -2,9 +2,12 @@
 
 library(whisker)
 
-images_list <- do.call(c, 
-                       lapply(list.files("stacks", full.names = TRUE), jsonlite::read_json)
-                       )
+read_stack <- function(x){
+  json <- jsonlite::read_json(x)
+  json$stack
+}
+stacks <- list.files("stacks", full.names = TRUE)
+images_list <- do.call(c, lapply(stacks, read_stack))
 
 #images_list <- c(
 #  jsonlite::read_json("stacks/core-3.6.3.json"),

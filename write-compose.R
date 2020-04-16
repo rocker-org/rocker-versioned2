@@ -7,14 +7,16 @@ library(yaml)
 #' not define the build rule for the FROM image. (Obviously that's true
 #' for the first image, but can be true for later images too).
 write_compose <- 
-  function(json_file, out = "docker-compose.yml", org = "rocker", ordered = FALSE){
-    
+  function(json_file, out = "docker-compose.yml", org = "rocker"){
+
+        
     json <- yaml::read_yaml(json_file) #jsonlite::read_json(json_file)
+
+    ordered <- json$ordered
     prefix <- "dockerfiles/Dockerfile_"
     map_chr <- function(x, name) vapply(x, `[[`, character(1L), name)
-    
-    name <- map_chr(json, "ROCKER_IMAGE")
-    tag <-  map_chr(json, "ROCKER_TAG")
+    name <- map_chr(json$stack, "ROCKER_IMAGE")
+    tag <-  map_chr(json$stack, "ROCKER_TAG")
     
     dockerfiles <- paste0(prefix, name, "_", tag)
     names(dockerfiles) <- name

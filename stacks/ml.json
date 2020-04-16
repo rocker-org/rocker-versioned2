@@ -1,4 +1,6 @@
-[
+{
+"ordered": false,
+"stack": [
   {
     "ROCKER_IMAGE": "ml",
     "ROCKER_TAG": "3.6.3-cuda-10.0",
@@ -18,3 +20,5 @@
     "R_VERSION": "3.6.3"
   }  
 ]
+}
+
