@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV UBUNTU_VERSION={{UBUNTU_VERSION}}
 
 # Set up and install R
-ENV R_HOME=/usr/lib/R
+ENV R_HOME=/usr/local/lib/R
 ENV R_VERSION={{R_VERSION}}
 
 {{#MRAN}}
@@ -26,3 +26,4 @@ ENV CRAN=https://cran.rstudio.com
 COPY scripts/install_R.sh /rocker_scripts/install_R-devel.sh
 {{/ROCKER_DEV_WORKFLOW}}
 RUN /rocker_scripts/install_R-devel.sh
+

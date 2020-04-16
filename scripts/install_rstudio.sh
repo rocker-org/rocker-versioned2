@@ -2,7 +2,7 @@
 set -e
 
 # Run dependency scripts
-. /rocker_scripts/install_s6init.sh
+#. /rocker_scripts/install_s6init.sh
 
 apt-get update
 apt-get install -y --no-install-recommends \
@@ -49,7 +49,12 @@ else
     DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG}
 fi
 
-RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_VERSION}/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
+
+## UBUNTU_VERSION is not generally valid: only works for xenial and bionic, not other releases,
+## and does not understand numeric versions. (2020-04-15)
+#RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_VERSION}/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
+## hardwire bionic for now...
+RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
 
 if [ "$UBUNTU_VERSION" = "xenial" ]; then
   wget $RSTUDIO_URL || \

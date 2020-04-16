@@ -15,11 +15,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV UBUNTU_VERSION=20.04
 
 # Set up and install R
-ENV R_HOME=/usr/local/lib/R
-ENV R_VERSION=devel
+ENV R_HOME=/usr/lib/R
+ENV R_VERSION=4.0.0
 
 ENV CRAN=https://cran.rstudio.com
 
-RUN /rocker_scripts/install_R-devel.sh
-
+RUN /rocker_scripts/install_R.sh
 CMD "R"

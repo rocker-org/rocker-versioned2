@@ -1,4 +1,4 @@
-FROM rockerdev/rstudio:devel
+FROM rockerdev/rstudio:4.0.0
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \

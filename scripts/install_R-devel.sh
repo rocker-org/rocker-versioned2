@@ -65,6 +65,7 @@ BUILDDEPS="curl \
     texlive-fonts-recommended \
     texlive-fonts-extra \
     texlive-latex-recommended \
+    texlive-latex-extra \
     x11proto-core-dev \
     xauth \
     xfonts-base \

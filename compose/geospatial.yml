@@ -1,0 +1,17 @@
+version: '3'
+services:
+  geospatial-3.6.3:
+    image: rockerdev/geospatial:3.6.3
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_3.6.3
+  geospatial-devel:
+    image: rockerdev/geospatial:devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_devel
+  geospatial-3.6.3-unstable:
+    image: rockerdev/geospatial:3.6.3-unstable
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_3.6.3-unstable

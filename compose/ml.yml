@@ -1,0 +1,12 @@
+version: '3'
+services:
+  ml-3.6.3-cuda-10.0:
+    image: rockerdev/ml:3.6.3-cuda-10.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_3.6.3-cuda-10.0
+  ml-3.6.3-cuda-10.2:
+    image: rockerdev/ml:3.6.3-cuda-10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_3.6.3-cuda-10.2

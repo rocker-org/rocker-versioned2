@@ -13,7 +13,7 @@ local_versions:
 
 dockerfiles: 
 	./make-dockerfiles.R
-	./write_compose.R	
+	./write-compose.R	
 
 images:
 	docker-compose build

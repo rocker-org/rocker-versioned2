@@ -1,0 +1,8 @@
+{{#ROCKER_DEV_WORKFLOW}}
+COPY scripts/add_ubuntugis.sh /rocker_scripts/add_ubuntugis.sh
+{{/ROCKER_DEV_WORKFLOW}}
+
+ENV UBUNTUGIS_VERSION={{UBUNTUGIS_VERSION}} 
+RUN /rocker_scripts/add_ubuntugis.sh
+
+

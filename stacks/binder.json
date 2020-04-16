@@ -1,0 +1,8 @@
+[
+{
+    "ROCKER_IMAGE": "binder",
+    "ROCKER_TAG": "3.6.3",
+    "FROM_IMAGE": "rockerdev/geospatial:3.6.3",
+    "PARTIAL_DOCKERFILES": "python; binder"
+  }
+]

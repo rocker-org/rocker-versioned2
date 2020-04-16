@@ -1,7 +1,0 @@
-version: '3'
-services:
-  jupyter:
-    image: rockerdev/jupyter:3.6.3-gpu
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_jupyter_3.6.3-gpu

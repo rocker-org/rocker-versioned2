@@ -1,0 +1,7 @@
+version: '3'
+services:
+  binder-3.6.3:
+    image: rockerdev/binder:3.6.3
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_binder_3.6.3

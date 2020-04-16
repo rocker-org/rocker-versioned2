@@ -1,0 +1,23 @@
+[
+  {
+    "ROCKER_IMAGE": "geospatial",
+    "ROCKER_TAG": "3.6.3",
+    "FROM_IMAGE": "rockerdev/verse:3.6.3",
+    "PARTIAL_DOCKERFILES": "geospatial"
+  },
+  {
+    "ROCKER_IMAGE": "geospatial",
+    "ROCKER_TAG": "devel",
+    "FROM_IMAGE": "rockerdev/verse:devel",
+    "PARTIAL_DOCKERFILES": "geospatial"
+  },
+  {
+    "ROCKER_IMAGE": "geospatial",
+    "ROCKER_TAG": "3.6.3-unstable",
+    "FROM_IMAGE": "rockerdev/verse:3.6.3",
+    "UBUNTUGIS_VERSION": "unstable",
+    "PARTIAL_DOCKERFILES": "ubuntugis; geospatial"
+  }
+]
+
+
