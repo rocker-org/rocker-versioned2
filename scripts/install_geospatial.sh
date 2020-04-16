@@ -1,3 +1,13 @@
+#!/bin/bash
+
+
+## attempt install of liblwgeom-dev, which is
+## not in focal (ubuntu-20.04) 
+apt-get update && apt-get install -y --no-install-recommends liblwgeom-dev
+
+## now error on errors
+set -e
+
 apt-get update \
   && apt-get install -y --no-install-recommends \
     lbzip2 \
@@ -10,7 +20,6 @@ apt-get update \
     libhdf4-alt-dev \
     libhdf5-dev \
     libjq-dev \
-    liblwgeom-dev \
     libpq-dev \
     libproj-dev \
     libprotobuf-dev \
@@ -50,6 +59,8 @@ install2.r --error --skipinstalled \
     spatstat \
     spatialreg \
     spdep \
+    stars \
+    tidync \
     tmap \
     geoR \
     geosphere
