@@ -31,7 +31,7 @@ RUN . /rocker_scripts/config_R_cuda.sh
 
 
 # Install RStudio
-ENV S6_VERSION=
+ENV S6_VERSION=v1.21.7.0
 ENV RSTUDIO_VERSION=
 
 
@@ -60,3 +60,5 @@ ENV TENSORFLOW_VERSION=gpu
 RUN . /rocker_scripts/install_tensorflow.sh
 
 
+CMD "/init"
+EXPOSE 8787

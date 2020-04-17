@@ -13,8 +13,8 @@ jobs:
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
       - name: Build the tagged Docker image
         run: | 
-             docker-compose -f compose/ml-cuda-10.0.yml build 
+             docker-compose -f compose/ml.yml build rockerdev/ml:3.6.3-cuda-10.0
       - name: Push the tagged Docker image
-        run: docker-compose  -f compose/ml-cuda-10.0.yml push
+        run: docker-compose  -f compose/ml.yml push rockerdev/ml:3.6.3-cuda-10.0
 
 

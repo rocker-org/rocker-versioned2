@@ -1,0 +1,31 @@
+{
+"ordered": false,
+"stack": [
+  {
+    "ROCKER_IMAGE": "ml",
+    "ROCKER_TAG": "3.6.3-cuda-10.0",
+    "FROM_IMAGE": "nvidia/cuda:10.0-cudnn7-devel",
+    "TENSORFLOW_VERSION": "gpu",
+    "PARTIAL_DOCKERFILES": "r-ver; cuda; rstudio; python; tensorflow",
+    "UBUNTU_VERSION": "bionic",
+    "DOCKER_CMD": "/init",
+    "DOCKER_EXPOSE": 8787,
+    "S6_VERSION": "v1.21.7.0",
+    "R_VERSION": "3.6.3"
+  },
+  {
+    "ROCKER_IMAGE": "ml",
+    "ROCKER_TAG": "3.6.3-cuda-10.2",
+    "FROM_IMAGE": "nvidia/cuda:10.2-cudnn7-devel",
+    "TENSORFLOW_VERSION": "gpu",
+    "PARTIAL_DOCKERFILES": "r-ver; cuda; rstudio; python; tensorflow",
+    "UBUNTU_VERSION": "bionic",
+    "DOCKER_CMD": "/init",
+    "DOCKER_EXPOSE": 8787,
+    "S6_VERSION": "v1.21.7.0",
+    "R_VERSION": "3.6.3"
+  }
+
+]
+}
+
