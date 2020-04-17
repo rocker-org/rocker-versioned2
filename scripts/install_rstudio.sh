@@ -1,8 +1,6 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
-# Run dependency scripts
-#. /rocker_scripts/install_s6init.sh
 
 apt-get update
 apt-get install -y --no-install-recommends \
@@ -103,5 +101,4 @@ if [ ! -z "$CUDA_HOME"]; then
   echo "rsession-ld-library-path=$LD_LIBRARY_PATH" >> /etc/rstudio/rserver.conf
 fi
 
-. /rocker_scripts/default_user.sh
 

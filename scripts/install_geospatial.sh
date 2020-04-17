@@ -34,6 +34,9 @@ apt-get update \
     tk-dev \
     unixodbc-dev
 
+# lwgeom 0.2-2 and 0.2-3 have a regression which prevents install on ubuntu:bionic
+installGithub.r r-spatial/lwgeom
+
 install2.r --error --skipinstalled \
     RColorBrewer \
     RandomFields \
@@ -43,7 +46,6 @@ install2.r --error --skipinstalled \
     gstat \
     hdf5r \
     lidR \
-    lwgeom \
     mapdata \
     maptools \
     mapview \

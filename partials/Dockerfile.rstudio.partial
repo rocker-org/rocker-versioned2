@@ -21,6 +21,8 @@ COPY scripts/userconf.sh /rocker_scripts/userconf.sh
 {{/ROCKER_DEV_WORKFLOW}}
 
 RUN /rocker_scripts/install_s6init.sh
+RUN /rocker_scripts/default_user.sh
+
 RUN cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
 
 
