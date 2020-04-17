@@ -6,7 +6,7 @@
     "ROCKER_TAG": "3.6.3-cuda-10.0",
     "FROM_IMAGE": "nvidia/cuda:10.0-cudnn7-devel",
     "TENSORFLOW_VERSION": "gpu",
-    "PARTIAL_DOCKERFILES": "r-ver; cuda; rstudio; python; tensorflow",
+    "PARTIAL_DOCKERFILES": "r-ver; cuda; rstudio; tidyverse; verse; geospatial; python; tensorflow",
     "UBUNTU_VERSION": "bionic",
     "DOCKER_CMD": "/init",
     "DOCKER_EXPOSE": 8787,

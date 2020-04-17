@@ -86,14 +86,15 @@ echo "auth-none=1" >> /etc/rstudio/disable_auth_rserver.conf
 
 ## Set up RStudio init scripts
 mkdir -p /etc/services.d/rstudio
-echo "#!/usr/bin/with-contenv bash \
-          \n## load /etc/environment vars first: \
-          \n for line in $( cat /etc/environment ) ; do export $line > /dev/null; done \
-          \n exec /usr/lib/rstudio-server/bin/rserver --server-daemonize 0" \
-          > /etc/services.d/rstudio/run
-echo "#!/bin/bash \
-          \n rstudio-server stop" \
-          > /etc/services.d/rstudio/finish
+echo '#!/usr/bin/with-contenv bash
+## load /etc/environment vars first:
+for line in $( cat /etc/environment ) ; do export $line > /dev/null; done
+exec /usr/lib/rstudio-server/bin/rserver --server-daemonize 0' \
+> /etc/services.d/rstudio/run
+
+echo '#!/bin/bash
+rstudio-server stop' \
+> /etc/services.d/rstudio/finish
 
 # If CUDA enabled, make sure RStudio knows
 if [ ! -z "$CUDA_HOME"]; then
