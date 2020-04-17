@@ -35,7 +35,8 @@ apt-get update \
     unixodbc-dev
 
 # lwgeom 0.2-2 and 0.2-3 have a regression which prevents install on ubuntu:bionic
-installGithub.r r-spatial/lwgeom
+## permissionless PAT for builds
+GITHUB_PAT=0e7777db4b3bb48acb542b8912a989b8047f6351 && installGithub.r r-spatial/lwgeom
 
 install2.r --error --skipinstalled \
     RColorBrewer \
