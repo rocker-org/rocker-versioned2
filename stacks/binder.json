@@ -7,6 +7,12 @@
     "ROCKER_TAG": "3.6.3",
     "FROM_IMAGE": "rockerdev/geospatial:3.6.3",
     "PARTIAL_DOCKERFILES": "python; binder"
-  }
+},
+{
+    "ROCKER_IMAGE": "binder",
+    "ROCKER_TAG": "devel",
+    "FROM_IMAGE": "rockerdev/geospatial:devel",
+    "PARTIAL_DOCKERFILES": "python; binder"
+}
 ]
 }

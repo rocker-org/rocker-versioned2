@@ -5,3 +5,8 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_binder_3.6.3
+  binder-devel:
+    image: rockerdev/binder:devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_binder_devel
