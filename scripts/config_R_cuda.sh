@@ -48,4 +48,9 @@ echo "NVBLAS_CONFIG_FILE=$NVBLAS_CONFIG_FILE" >> ${R_HOME}/etc/Renviron
 #      \n export LD_PRELOAD=/usr/local/cuda/lib64/libnvblas.so \
 #      \n exec /usr/lib/rstudio-server/bin/rserver --server-daemonize 0' \
 #      > /etc/services.d/rstudio/run
-#
+
+## Additional libraries
+apt-get update && apt-get -y install libnvinfer-dev
+
+
+

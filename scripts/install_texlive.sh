@@ -9,29 +9,30 @@ TEXMFVAR /opt/texlive/texmf-var
 option_doc 0
 option_src 0' > /tmp/texlive-profile.txt
 
+CTAN_REPO=${CTAN_REPO:-http://mirror.ctan.org/systems/texlive/tlnet}
+
 mkdir -p /opt/texlive
 # set up packages
 apt-get update && apt-get -y install wget perl xzdec 
-wget http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz 
+wget ${CTAN_REPO}/install-tl-unx.tar.gz 
 tar -xzf install-tl-unx.tar.gz 
 install-tl-20*/install-tl --profile=/tmp/texlive-profile.txt && \
     rm -rf install-tl-*
 
-# ENV PATH=/opt/texlive/bin/x86_64-linux:$PATH
-# ARG CTAN_REPO=${CTAN_REPO:-https://www.texlive.info/tlnet-archive/2019/02/27/tlnet}
-# ENV CTAN_REPO=${CTAN_REPO}
 
 tlmgr update --self
 tlmgr install latex-bin luatex xetex
-tlmgr path add
+tlmgr install ae inconsolata listings metafont mfware parskip pdfcrop tex
 
+## do not add to /usr/local/bin
+# tlmgr path add
+# instead, we keep binaries separate and add to PATH
+echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
 
-chown -R root:staff /opt/texlive
-chmod -R g+w /opt/texlive
-chmod -R g+wx /opt/texlive/bin
-
-
-chown -R root:staff /usr/local/texlive
-chmod -R g+w /usr/local/texlive
+## open permissions to avoid needless warnings
+chown -R rstudio:staff /opt/texlive
+chown -R rstudio:staff /usr/local/texlive
+chmod -R 777 /opt/texlive
+chmod -R 777 /usr/local/texlive
 
 

@@ -11,6 +11,7 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
     cmake \
+    curl \
     default-jdk \
     fonts-roboto \
     ghostscript \
@@ -32,11 +33,6 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
   && rm -rf /var/lib/apt/lists/*
 
 install2.r --error -r $CRAN --skipinstalled tinytex
-
-/rocker_scripts/install_texlive.sh
-
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
-
 install2.r --error --deps TRUE -r $CRAN --skipinstalled \
     blogdown bookdown rticles rmdshower rJava
 
