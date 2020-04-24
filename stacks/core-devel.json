@@ -4,10 +4,10 @@
   {
     "ROCKER_IMAGE": "r-ver",
     "ROCKER_TAG": "devel",
-    "FROM_IMAGE": "ubuntu:20.04",
+    "FROM_IMAGE": "ubuntu:focal",
     "PARTIAL_DOCKERFILES": "r-devel",
     "DOCKER_CMD": "R",
-    "UBUNTU_VERSION": "20.04",
+    "UBUNTU_VERSION": "focal",
     "R_VERSION": "devel"
   },
   {
@@ -17,7 +17,7 @@
     "PARTIAL_DOCKERFILES": "rstudio",
     "DOCKER_CMD": "/init",
     "DOCKER_EXPOSE": 8787,
-    "UBUNTU_VERSION": "20.04",
+    "UBUNTU_VERSION": "focal",
     "R_VERSION": "devel",
     "S6_VERSION": "v1.21.7.0",
     "RSTUDIO_VERSION": "latest"
@@ -27,7 +27,7 @@
     "ROCKER_TAG": "devel",
     "FROM_IMAGE": "rockerdev/rstudio:devel",
     "PARTIAL_DOCKERFILES": "tidyverse",
-    "UBUNTU_VERSION": "20.04",
+    "UBUNTU_VERSION": "focal",
     "R_VERSION": "devel"
   },
   {
@@ -35,7 +35,7 @@
     "ROCKER_TAG": "devel",
     "FROM_IMAGE": "rockerdev/tidyverse:devel",
     "PARTIAL_DOCKERFILES": "verse",
-    "UBUNTU_VERSION": "20.04",
+    "UBUNTU_VERSION": "focal",
     "R_VERSION": "devel"
   }
   ]
