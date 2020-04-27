@@ -17,7 +17,7 @@ ENV CRAN_LINUX_VERSION=
 
 # Set up and install R
 ENV R_HOME=/usr/lib/R
-ENV R_VERSION=3.6.3
+ENV R_VERSION=4.0.0
 
 ENV CRAN=https://cran.rstudio.com
 

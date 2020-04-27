@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ## Need to configure non-root user for RStudio
 DEFAULT_USER=${1:-${DEFAULT_USER:-rstudio}}
 useradd $DEFAULT_USER

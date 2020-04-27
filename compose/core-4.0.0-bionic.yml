@@ -1,0 +1,28 @@
+version: '3'
+services:
+  r-ver-4.0.0-bionic:
+    image: rockerdev/r-ver:4.0.0-bionic
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver_4.0.0-bionic
+  rstudio-4.0.0-bionic:
+    image: rockerdev/rstudio:4.0.0-bionic
+    depends_on:
+    - r-ver-4.0.0-bionic
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_rstudio_4.0.0-bionic
+  tidyverse-4.0.0-bionic:
+    image: rockerdev/tidyverse:4.0.0-bionic
+    depends_on:
+    - rstudio-4.0.0-bionic
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tidyverse_4.0.0-bionic
+  verse-4.0.0-bionic:
+    image: rockerdev/verse:4.0.0-bionic
+    depends_on:
+    - tidyverse-4.0.0-bionic
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_verse_4.0.0-bionic
