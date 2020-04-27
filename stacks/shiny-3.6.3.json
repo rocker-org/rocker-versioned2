@@ -4,11 +4,11 @@
 "stack": [
   {
     "ROCKER_IMAGE": "shiny",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "rockerdev/r-ver:3.6.3",
+    "ROCKER_TAG": "4.0.0",
+    "FROM_IMAGE": "rockerdev/r-ver:4.0.0",
     "PARTIAL_DOCKERFILES": "shiny",
     "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.3"
+    "R_VERSION": "4.0.0"
   }
   
 ]

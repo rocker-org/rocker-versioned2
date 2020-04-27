@@ -3,8 +3,8 @@
 "stack": [
   {
     "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "rockerdev/verse:3.6.3",
+    "ROCKER_TAG": "4.0.0",
+    "FROM_IMAGE": "rockerdev/verse:4.0.0",
     "PARTIAL_DOCKERFILES": "geospatial"
   },
   {
@@ -15,8 +15,8 @@
   },
   {
     "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "3.6.3-unstable",
-    "FROM_IMAGE": "rockerdev/verse:3.6.3",
+    "ROCKER_TAG": "4.0.0-unstable",
+    "FROM_IMAGE": "rockerdev/verse:4.0.0",
     "UBUNTUGIS_VERSION": "unstable",
     "PARTIAL_DOCKERFILES": "ubuntugis; geospatial"
   }

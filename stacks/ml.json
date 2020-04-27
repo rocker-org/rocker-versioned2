@@ -3,27 +3,27 @@
 "stack": [
   {
     "ROCKER_IMAGE": "ml",
-    "ROCKER_TAG": "3.6.3-cuda-10.0",
-    "FROM_IMAGE": "nvidia/cuda:10.0-cudnn7-devel",
+    "ROCKER_TAG": "4.0.0-cuda-10.0-ubuntu18.04",
+    "FROM_IMAGE": "nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04",
     "TENSORFLOW_VERSION": "gpu",
     "PARTIAL_DOCKERFILES": "r-ver; cuda; rstudio; tidyverse; verse; geospatial; python; tensorflow",
     "UBUNTU_VERSION": "bionic",
     "DOCKER_CMD": "/init",
     "DOCKER_EXPOSE": 8787,
     "S6_VERSION": "v1.21.7.0",
-    "R_VERSION": "3.6.3"
+    "R_VERSION": "4.0.0"
   },
   {
     "ROCKER_IMAGE": "ml",
-    "ROCKER_TAG": "3.6.3-cuda-10.2",
-    "FROM_IMAGE": "nvidia/cuda:10.2-cudnn7-devel",
+    "ROCKER_TAG": "4.0.0-cuda-10.2-ubuntu18.04",
+    "FROM_IMAGE": "nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04",
     "TENSORFLOW_VERSION": "gpu",
     "PARTIAL_DOCKERFILES": "r-ver; cuda; rstudio; tidyverse; verse; geospatial; python; tensorflow",
     "UBUNTU_VERSION": "bionic",
     "DOCKER_CMD": "/init",
     "DOCKER_EXPOSE": 8787,
     "S6_VERSION": "v1.21.7.0",
-    "R_VERSION": "3.6.3"
+    "R_VERSION": "4.0.0"
   }
 
 ]

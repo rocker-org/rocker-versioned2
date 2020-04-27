@@ -4,8 +4,8 @@
 "stack": [
 {
     "ROCKER_IMAGE": "binder",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "rockerdev/geospatial:3.6.3",
+    "ROCKER_TAG": "4.0.0",
+    "FROM_IMAGE": "rockerdev/geospatial:4.0.0",
     "PARTIAL_DOCKERFILES": "python; binder"
 },
 {
