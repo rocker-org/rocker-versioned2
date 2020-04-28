@@ -10,8 +10,8 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_geospatial_devel
-  geospatial-4.0.0-unstable:
-    image: rockerdev/geospatial:4.0.0-unstable
+  geospatial-4.0.0-ubuntu18.04-unstable:
+    image: rockerdev/geospatial:4.0.0-ubuntu18.04-unstable
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_4.0.0-unstable
+      dockerfile: dockerfiles/Dockerfile_geospatial_4.0.0-ubuntu18.04-unstable

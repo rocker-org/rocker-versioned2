@@ -3,17 +3,17 @@
   "stack": [
   {
     "ROCKER_IMAGE": "r-ver",
-    "ROCKER_TAG": "4.0.0",
-    "FROM_IMAGE": "ubuntu:focal",
+    "ROCKER_TAG": "4.0.0-ubuntu18.04",
+    "FROM_IMAGE": "ubuntu:bionic",
     "PARTIAL_DOCKERFILES": "r-ver",
     "DOCKER_CMD": "R",
-    "UBUNTU_VERSION": "focal",
+    "UBUNTU_VERSION": "bionic",
     "R_VERSION": "4.0.0"
   },
   {
     "ROCKER_IMAGE": "rstudio",
-    "ROCKER_TAG": "4.0.0",
-    "FROM_IMAGE": "rockerdev/r-ver:4.0.0",
+    "ROCKER_TAG": "4.0.0-ubuntu18.04",
+    "FROM_IMAGE": "rockerdev/r-ver:4.0.0-ubuntu18.04",
     "PARTIAL_DOCKERFILES": "rstudio",
     "DOCKER_CMD": "/init",
     "DOCKER_EXPOSE": 8787,
@@ -23,14 +23,14 @@
   },
   {
     "ROCKER_IMAGE": "tidyverse",
-    "ROCKER_TAG": "4.0.0",
-    "FROM_IMAGE": "rockerdev/rstudio:4.0.0",
+    "ROCKER_TAG": "4.0.0-ubuntu18.04",
+    "FROM_IMAGE": "rockerdev/rstudio:4.0.0-ubuntu18.04",
     "PARTIAL_DOCKERFILES": "tidyverse"
   },
   {
     "ROCKER_IMAGE": "verse",
-    "ROCKER_TAG": "4.0.0",
-    "FROM_IMAGE": "rockerdev/tidyverse:4.0.0",
+    "ROCKER_TAG": "4.0.0-ubuntu18.04",
+    "FROM_IMAGE": "rockerdev/tidyverse:4.0.0-ubuntu18.04",
     "PARTIAL_DOCKERFILES": "verse"
   }
   ]
