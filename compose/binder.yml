@@ -1,10 +1,10 @@
 version: '3'
 services:
-  binder-3.6.3:
-    image: rockerdev/binder:3.6.3
+  binder-4.0.0:
+    image: rockerdev/binder:4.0.0
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_binder_3.6.3
+      dockerfile: dockerfiles/Dockerfile_binder_4.0.0
   binder-devel:
     image: rockerdev/binder:devel
     build:

@@ -1,5 +1,5 @@
 {
-"ordered": false,
+"ordered": true,
 "stack": [
   {
     "ROCKER_IMAGE": "ml",
@@ -24,7 +24,21 @@
     "DOCKER_EXPOSE": 8787,
     "S6_VERSION": "v1.21.7.0",
     "R_VERSION": "4.0.0"
+  },
+  {
+    "ROCKER_IMAGE": "ml",
+    "ROCKER_TAG": "4.0.0-cuda-10.2",
+    "FROM_IMAGE": "rockerdev/ml:4.0.0-cuda-10.2-ubuntu18.04",
+    "PARTIAL_DOCKERFILES": ""
+  },
+  {
+    "ROCKER_IMAGE": "ml",
+    "ROCKER_TAG": "latest",
+    "FROM_IMAGE": "rockerdev/ml:4.0.0-cuda-10.2-ubuntu18.04",
+    "PARTIAL_DOCKERFILES": ""
+
   }
+
 
 ]
 }

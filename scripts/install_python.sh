@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 apt-get update && apt-get install -y --no-install-recommends \
@@ -12,8 +12,10 @@ python3 -m venv ${PYTHON_VENV_PATH}
 pip3 install --no-cache-dir --upgrade pip
 pip3 install --no-cache-dir virtualenv
 
+
+install2.r --skipinstalled --error reticulate 
+
 ## Ensure RStudio inherits this env var
-#echo "\nRETICULATE_PYTHON_ENV=${RETICULATE_PYTHON_ENV}" >> ${R_HOME}/etc/Renviron
 echo "\nWORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron
 
 
