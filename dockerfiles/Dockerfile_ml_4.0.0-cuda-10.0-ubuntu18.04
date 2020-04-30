@@ -13,7 +13,7 @@ ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 ENV UBUNTU_VERSION=bionic
-ENV CRAN=
+ENV CRAN=https://cran.r-project.org
 
 # Set up and install R
 ENV R_HOME=/usr/local/lib/R

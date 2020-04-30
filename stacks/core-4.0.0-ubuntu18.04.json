@@ -8,7 +8,9 @@
     "PARTIAL_DOCKERFILES": "r-ver",
     "DOCKER_CMD": "R",
     "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "4.0.0"
+    "R_VERSION": "4.0.0",
+    "CRAN": "https://cran.r-project.org"
+
   },
   {
     "ROCKER_IMAGE": "rstudio",

@@ -15,18 +15,10 @@
   },
   {
     "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "4.0.0-ubuntu18.04-unstable",
-    "FROM_IMAGE": "rockerdev/verse:4.0.0-ubuntu18.04",
-    "UBUNTUGIS_VERSION": "unstable",
-    "PARTIAL_DOCKERFILES": "ubuntugis; geospatial"
-  },
-  {
-    "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "4.0.0-ubuntu18.04",
-    "FROM_IMAGE": "rockerdev/verse:4.0.0-ubuntu18.04",
-    "PARTIAL_DOCKERFILES": "geospatial"
+    "ROCKER_TAG": "latest",
+    "FROM_IMAGE": "rockerdev/geospatial:4.0.0",
+    "PARTIAL_DOCKERFILES": ""
   }
-
 ]
 
 }

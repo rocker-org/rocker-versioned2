@@ -5,7 +5,7 @@ set -e
 UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
 LANG=${LANG:-en_US.UTF-8}
 LC_ALL=${LC_ALL:-en_US.UTF-8}
-
+CRAN=${CRAN:-https://cran.r-project.org}
 
 DEBIAN_FRONTEND=noninteractive
 
