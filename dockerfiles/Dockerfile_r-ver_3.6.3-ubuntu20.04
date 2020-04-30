@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -12,12 +12,12 @@ ENV TERM=xterm
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
-ENV UBUNTU_VERSION=bionic
-ENV CRAN=
+ENV UBUNTU_VERSION=focal
+ENV CRAN=https://mran.microsoft.com/snapshot/2020-04-24
 
 # Set up and install R
 ENV R_HOME=/usr/local/lib/R
-ENV R_VERSION=4.0.0
+ENV R_VERSION=3.6.3
 
 
 RUN /rocker_scripts/install_R_source.sh

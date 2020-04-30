@@ -17,10 +17,11 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
     ghostscript \
     hugo \
     libbz2-dev \
+    libhunspell-dev \
     libicu-dev \
     liblzma-dev \
-    libhunspell-dev \
     libmagick++-dev \
+    libpcre2-dev \
     librdf0-dev \
     libv8-dev \
     qpdf \

@@ -13,16 +13,16 @@ ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
 ENV UBUNTU_VERSION=bionic
-ENV CRAN_LINUX_VERSION=
+ENV CRAN=
 
 # Set up and install R
-ENV R_HOME=/usr/lib/R
+ENV R_HOME=/usr/local/lib/R
 ENV R_VERSION=4.0.0
 
-ENV CRAN=https://cran.rstudio.com
+
+RUN /rocker_scripts/install_R_source.sh
 
 
-RUN /rocker_scripts/install_R.sh
 ## Use Configure CUDA for R, use NVidia libs for BLAS
 ENV CUDA_HOME=/usr/local/cuda
 ENV PATH=$PATH:$CUDA_HOME/bin
