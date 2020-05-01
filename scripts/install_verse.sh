@@ -28,8 +28,7 @@ apt-get update \
     texinfo \
     ssh \
     vim \
-    wget \
-  && rm -rf /var/lib/apt/lists/*
+    wget
 
 
 # 
@@ -50,5 +49,6 @@ install2.r --error --deps TRUE -r $CRAN --skipinstalled \
     blogdown bookdown rticles rmdshower rJava
 
 rm -rf /tmp/downloaded_packages
+rm -rf /var/lib/apt/lists/*
 
 
