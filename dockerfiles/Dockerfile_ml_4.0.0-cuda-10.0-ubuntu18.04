@@ -55,18 +55,6 @@ RUN /rocker_scripts/install_tidyverse.sh
 
 
 
-ENV CTAN_REPO=${CTAN_REPO:-http://mirror.ctan.org/systems/texlive/tlnet}
-ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
-ENV PATH=/opt/texlive/bin/x86_64-linux:$PATH
-RUN /rocker_scripts/install_verse.sh
-RUN /rocker_scripts/install_texlive.sh
-
-
-RUN /rocker_scripts/install_geospatial.sh
-
-
-
-
 ENV WORKON_HOME=/opt/venv
 
 ## A default python venv, e.g. for binder etc.

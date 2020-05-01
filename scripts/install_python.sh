@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+WORKON_HOME=${WORKON_HOME:-/opt/venv}
+PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-${WORKON_HOME}/reticulate}
+
 apt-get update && apt-get install -y --no-install-recommends \
         libpython3-dev \
         python3-dev \

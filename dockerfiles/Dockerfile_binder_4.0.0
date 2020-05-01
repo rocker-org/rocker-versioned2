@@ -29,27 +29,14 @@ ENV HOME /home/${NB_USER}
 # without this being explicitly set 
 ENV LD_LIBRARY_PATH ${R_HOME}/lib
 
-WORKDIR ${HOME}
 
-# Create a venv dir owned by unprivileged user & set up notebook in it
-# This allows non-root to install python libraries if required
-RUN mkdir -p ${PYTHON_VENV_PATH} && chown -R ${NB_USER} ${PYTHON_VENV_PATH}
-
-# And set ENV for R! It doesn't read from the environment...
-RUN echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
-RUN echo "export PATH=${PATH}" >> ${HOME}/.profile
-
-
-# shouldn't be necessary? 
-RUN chmod a+x /rocker_scripts/install_binder.sh
-
-USER ${NB_USER}
 RUN /rocker_scripts/install_binder.sh
+
+WORKDIR /home/{NB_USER}
+USER ${NB_USER}
 
 EXPOSE 8888
 CMD jupyter notebook --ip 0.0.0.0
-
-
 ## If extending this image, remember to switch back to USER root to apt-get
 
 
