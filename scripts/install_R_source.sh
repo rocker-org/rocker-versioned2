@@ -20,12 +20,11 @@ if [ ${UBUNTU_VERSION} == "bionic" ]; then
   READLINE_VERSION=7
 fi
 
-## Runtime library versions are specific to ubuntu:20.04
+# openblas is > 100Mb
 apt-get update \
   && apt-get install -y --no-install-recommends \
     bash-completion \
     ca-certificates \
-    ccache \
     devscripts \
     file \
     fonts-texgyre \
@@ -144,6 +143,8 @@ ln -s ${R_HOME}/site-library/littler/bin/r /usr/local/bin/r
 ## Clean up from R source install
 cd /
 rm -rf /tmp/*
+rm -rf R-${R_VERSION}
+rm -rf R-${R_VERSION}.tar.gz
 apt-get remove --purge -y $BUILDDEPS
 apt-get autoremove -y
 apt-get autoclean -y
