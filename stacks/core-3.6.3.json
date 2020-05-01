@@ -16,6 +16,7 @@
       "R_HOME": "/usr/lib/R",
       "CRAN": "https://mran.microsoft.com/snapshot/"
     },
+    "COPY": "scripts /rocker_scripts",
     "RUN": "/rocker_scripts/install_R.sh",
     "CMD": "R"
   },
