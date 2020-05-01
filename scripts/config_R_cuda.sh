@@ -4,6 +4,12 @@ set -e
 
 ## CUDA environmental variables configuration for RStudio
 
+## These should be exported as ENV vars too
+CUDA_HOME=${CUDA_HOME:-/usr/local/cuda}
+PATH={$PATH:-$PATH:$CUDA_HOME/bin}
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-$CUDA_HOME/lib64/libnvblas.so:$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64}
+NVBLAS_CONFIG_FILE=${NVBLAS_CONFIG_FILE:-/etc/nvblas.conf}
+
 ## cli R inherits these, but RStudio needs to have these set in as follows:
 ## (From https://tensorflow.rstudio.com/tools/local_gpu.html#environment-variables)
 echo "CUDA_HOME=$CUDA_HOME" >> ${R_HOME}/etc/Renviron 

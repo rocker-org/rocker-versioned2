@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+apt-get update && apt-get -y install lsb_release
 
 UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
 LANG=${LANG:-en_US.UTF-8}
