@@ -1,4 +1,4 @@
-name: Build & Push shiny 
+name: Binder 
 
 on: [push]
 #  release:

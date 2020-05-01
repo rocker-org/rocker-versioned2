@@ -12,5 +12,3 @@ R --quiet -e "devtools::install_github('IRkernel/IRkernel')"
 R --quiet -e "IRkernel::installspec(prefix='${PYTHON_VENV_PATH}')"
 
 
-rm -rf /tmp/downloaded_packages
-
