@@ -1,26 +1,19 @@
-FROM ubuntu:bionic
 
-LABEL org.label-schema.license="GPL-2.0" \
-      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
-      org.label-schema.vendor="Rocker Project" \
-      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+FROM ubuntu:18.04
 
-COPY scripts /rocker_scripts
-
-# Set system environmetnal variables
+ENV R_VERSION=4.0.0
 ENV TERM=xterm
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
-ENV DEBIAN_FRONTEND=noninteractive
-ENV UBUNTU_VERSION=bionic
+ENV R_HOME=/usr/local/lib/R
 ENV CRAN=https://cran.r-project.org
 
-# Set up and install R
-ENV R_HOME=/usr/local/lib/R
-ENV R_VERSION=4.0.0
+COPY scripts /rocker_scripts
+
+RUN /rocker_scripts/install_R.sh
 
 
-RUN /rocker_scripts/install_R_source.sh
+CMD R
 
 
-CMD "R"
+

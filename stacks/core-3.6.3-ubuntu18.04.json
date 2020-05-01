@@ -1,7 +1,6 @@
 {
   "ordered": true,
   "TAG": "3.6.3-ubuntu18.04",
-  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\norg.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\norg.label-schema.vendor=\"Rocker Project\" \\\nmaintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "stack": [
   {
     "IMAGE": "r-ver",

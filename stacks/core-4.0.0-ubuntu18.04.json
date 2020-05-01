@@ -1,39 +1,46 @@
 {
   "ordered": true,
+  "TAG": "4.0.0-ubuntu18.04",
   "stack": [
   {
-    "ROCKER_IMAGE": "r-ver",
-    "ROCKER_TAG": "4.0.0-ubuntu18.04",
-    "FROM_IMAGE": "ubuntu:bionic",
-    "PARTIAL_DOCKERFILES": "r-ver",
-    "DOCKER_CMD": "R",
-    "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "4.0.0",
-    "CRAN": "https://cran.r-project.org"
-
+    "IMAGE": "r-ver",
+    "FROM": "ubuntu:18.04",
+    "ENV": {
+      "R_VERSION": "4.0.0",
+      "TERM": "xterm",
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8",
+      "R_HOME": "/usr/local/lib/R",
+      "CRAN": "https://cran.r-project.org"
+    },
+    "COPY": "scripts /rocker_scripts",
+    "RUN": "/rocker_scripts/install_R.sh",
+    "CMD": "R"
   },
   {
-    "ROCKER_IMAGE": "rstudio",
-    "ROCKER_TAG": "4.0.0-ubuntu18.04",
-    "FROM_IMAGE": "rockerdev/r-ver:4.0.0-ubuntu18.04",
-    "PARTIAL_DOCKERFILES": "rstudio",
-    "DOCKER_CMD": "/init",
-    "DOCKER_EXPOSE": 8787,
-    "R_VERSION": "4.0.0",
-    "S6_VERSION": "v1.21.7.0",
-    "RSTUDIO_VERSION": "latest"
+    "IMAGE": "rstudio",
+    "FROM": "rockerdev/r-ver:4.0.0-ubuntu18.04",
+    "ENV": {
+      "S6_VERSION": "v1.21.7.0",
+      "RSTUDIO_VERSION": "latest"
+    },
+    "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
+    "CMD": "/init",
+    "EXPOSE": 8787
   },
   {
-    "ROCKER_IMAGE": "tidyverse",
-    "ROCKER_TAG": "4.0.0-ubuntu18.04",
-    "FROM_IMAGE": "rockerdev/rstudio:4.0.0-ubuntu18.04",
-    "PARTIAL_DOCKERFILES": "tidyverse"
+    "IMAGE": "tidyverse",
+    "FROM": "rockerdev/rstudio:4.0.0-ubuntu18.04",
+    "RUN": "/rocker_scripts/install_tidyverse.sh"
   },
   {
-    "ROCKER_IMAGE": "verse",
-    "ROCKER_TAG": "4.0.0-ubuntu18.04",
-    "FROM_IMAGE": "rockerdev/tidyverse:4.0.0-ubuntu18.04",
-    "PARTIAL_DOCKERFILES": "verse"
+    "IMAGE": "verse",
+    "FROM": "rockerdev/tidyverse:4.0.0-ubuntu18.04",
+    "ENV": {
+      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
+      "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"
+    },
+    "RUN": "/rocker_scripts/install_verse.sh"
   }
   ]
 }
