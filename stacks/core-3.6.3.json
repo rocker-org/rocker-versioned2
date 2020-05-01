@@ -1,42 +1,48 @@
 {
   "ordered": true,
+  "TAG": "3.6.3",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\norg.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\norg.label-schema.vendor=\"Rocker Project\" \\\nmaintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "stack": [
   {
-    "ROCKER_IMAGE": "r-ver",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "ubuntu:bionic",
-    "PARTIAL_DOCKERFILES": "r-ver",
-    "DOCKER_CMD": "R",
-    "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.3"
+    "IMAGE": "r-ver",
+    "FROM": "ubuntu:bionic",
+    "ENV": {
+      "UBUNTU_VERSION": "bionic",
+      "R_VERSION": "3.6.3",
+      "TERM": "xterm",
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8",
+      "DEBIAN_FRONTEND": "noninteractive",
+      "R_HOME": "/usr/lib/R",
+      "CRAN": "https://mran.microsoft.com/snapshot/"
+    },
+    "RUN": "/rocker_scripts/install_R.sh",
+    "CMD": "R"
   },
   {
-    "ROCKER_IMAGE": "rstudio",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "rockerdev/r-ver:3.6.3",
-    "PARTIAL_DOCKERFILES": "rstudio",
-    "DOCKER_CMD": "/init",
-    "DOCKER_EXPOSE": 8787,
-    "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.3",
-    "S6_VERSION": "v1.21.7.0",
-    "RSTUDIO_VERSION": "latest"
+    "IMAGE": "rstudio",
+    "FROM": "rockerdev/r-ver:3.6.3",
+    "ENV": {
+      "S6_VERSION": "v1.21.7.0",
+      "RSTUDIO_VERSION": "latest"
+    },
+    "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
+    "CMD": "/init",
+    "EXPOSE": 8787
   },
   {
-    "ROCKER_IMAGE": "tidyverse",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "rockerdev/rstudio:3.6.3",
-    "PARTIAL_DOCKERFILES": "tidyverse",
-    "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.3"
+    "IMAGE": "tidyverse",
+    "FROM": "rockerdev/rstudio:3.6.3",
+    "RUN": "/rocker_scripts/install_tidyverse.sh"
   },
   {
-    "ROCKER_IMAGE": "verse",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "rockerdev/tidyverse:3.6.3",
-    "PARTIAL_DOCKERFILES": "verse",
-    "UBUNTU_VERSION": "bionic",
-    "R_VERSION": "3.6.3"
+    "IMAGE": "verse",
+    "FROM": "rockerdev/tidyverse:3.6.3",
+    "ENV": {
+      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
+      "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"
+    },
+    "RUN": "/rocker_scripts/install_verse.sh"
   }
   ]
 }

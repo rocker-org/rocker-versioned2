@@ -21,6 +21,8 @@ apt-get install -y --no-install-recommends \
     libgc1c2
 rm -rf /var/lib/apt/lists/*
 
+# install s6 supervisor
+/rocker_scripts/install_s6init.sh
 
 ## Download and install RStudio server & dependencies
 ## Uses, in order of preference, first argument of the script, the
@@ -102,4 +104,8 @@ if [ ! -z "$CUDA_HOME"]; then
   echo "rsession-ld-library-path=$LD_LIBRARY_PATH" >> /etc/rstudio/rserver.conf
 fi
 
+# set up default user 
+/rocker_scripts/default_user.sh
 
+# install user config initiation script 
+cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
