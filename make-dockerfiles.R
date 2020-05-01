@@ -1,37 +1,65 @@
 #!/usr/bin/env Rscript
 
-library(whisker)
 
-read_stack <- function(x){
-  json <- jsonlite::read_json(x)
-  json$stack
+
+inherit_global <- function(image, global){
+  c(image, global[! names(global) %in% names(image) ])
 }
-stacks <- list.files("stacks", full.names = TRUE)
-images_list <- do.call(c, lapply(stacks, read_stack))
 
-#images_list <- c(
-#  jsonlite::read_json("stacks/core-3.6.3.json"),
-#  jsonlite::read_json("stacks/core-3.6.3-gpu.json")
-#)
-
-
-ROCKER_DEV_WORKFLOW = Sys.getenv("ROCKER_DEV_WORKFLOW", "0")
-x <- lapply(images_list, function(z) {
+paste_if <- function(element, image){
   
-  if (ROCKER_DEV_WORKFLOW == "1") z$ROCKER_DEV_WORKFLOW <- 1
+  key <- element
+  value <- unlist(image[[element]])
   
-  partials <- paste0(
-    "partials/Dockerfile.",
-    c("start", strsplit(z$PARTIAL_DOCKERFILES, "\\s*;\\s*")[[1]], "end"),
-    ".partial"
+  if(is.null(value)) 
+    return("")
+  
+  if(!is.null(names(value)))
+     out <- paste0(key, " ", names(value), "=", value, collapse = "\n")
+  else
+    out <- paste0(key, " ", value, collapse = "\n")
+  
+  paste0(out, "\n")
+}
+
+# image <- stack$stack[[1]]
+
+write_dockerfiles <- function(stack, global){
+  lapply(stack, function(image){
+    
+    image <- inherit_global(image, global)
+  
+    body <- paste(c(
+      paste_if("LABEL", image),
+      paste_if("FROM", image),
+      paste_if("ENV", image),
+      paste_if("RUN", image),
+      paste_if("EXPOSE", image),
+      paste_if("CMD", image),
+      paste_if("USER", image),
+      paste_if("WORKDIR", image)),
+      collapse ="\n"
     )
-  template <- paste(unlist(lapply(partials, readLines)), collapse = "\n")
+    
+    path <- file.path("dockerfiles", paste("Dockerfile", image$IMAGE, image$TAG, sep="_"))
+    writeLines(body, path)
+    
+  })
+}
 
-  dockerfile_text <- whisker::whisker.render(template, data = z)
-  dfile = paste0("dockerfiles/Dockerfile_", z$ROCKER_IMAGE, "_", z$ROCKER_TAG)
-  cat(
-    dockerfile_text, 
-    file = dfile)
-  cat(dfile, "\n")
-  return(dockerfile_text)
+
+
+#stacks <- list.files("stacks", full.names = TRUE)
+stack_files <- "stacks/core-3.6.3.json"
+stacks <- lapply(stack_files, jsonlite::read_json)
+
+lapply(stacks, function(stack){
+  global <- stack[ !(names(stack) %in% c("ordered", "stack"))]
+  write_dockerfiles(stack$stack, global)
 })
+
+
+
+
+
+
