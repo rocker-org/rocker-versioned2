@@ -2,6 +2,12 @@
 
 library(yaml)
 
+
+inherit_global <- function(image, global){
+  c(image, global[! names(global) %in% names(image) ])
+}
+
+
 #' @param ordered should the images be built in the order listed?  
 #' We cannot necesarily build the FROM image first since our stack need
 #' not define the build rule for the FROM image. (Obviously that's true
@@ -11,12 +17,18 @@ write_compose <-
 
         
     json <- yaml::read_yaml(json_file) #jsonlite::read_json(json_file)
-
+    global <- json[ !(names(json) %in% c("ordered", "stack"))]
+    json_stack <- lapply(json$stack, inherit_global, global)
+    
+    
+    
+    
     ordered <- json$ordered
     prefix <- "dockerfiles/Dockerfile_"
     map_chr <- function(x, name) vapply(x, `[[`, character(1L), name)
-    name <- map_chr(json$stack, "ROCKER_IMAGE")
-    tag <-  map_chr(json$stack, "ROCKER_TAG")
+    
+    name <- map_chr(json_stack, "IMAGE")
+    tag <-  map_chr(json_stack, "TAG")
     
     dockerfiles <- paste0(prefix, name, "_", tag)
     names(dockerfiles) <- name
