@@ -20,7 +20,8 @@ install2.r --error --skipinstalled -d TRUE -r $CRAN \
     remotes \
     selectr \
     caTools \
-    BiocManager
+    BiocManager \
+    vroom
 
  rm -rf /tmp/downloaded_packages
 
