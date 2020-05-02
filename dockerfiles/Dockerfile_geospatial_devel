@@ -1,0 +1,11 @@
+
+FROM rockerdev/verse:devel
+
+
+
+RUN /rocker_scripts/install_geospatial.sh
+
+
+
+
+

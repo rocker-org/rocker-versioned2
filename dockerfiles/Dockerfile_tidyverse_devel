@@ -1,0 +1,11 @@
+
+FROM rockerdev/rstudio:devel
+
+
+
+RUN /rocker_scripts/install_tidyverse.sh
+
+
+
+
+

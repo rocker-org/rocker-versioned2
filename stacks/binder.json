@@ -1,0 +1,18 @@
+{
+
+"ordered": false,
+"stack": [
+{
+    "IMAGE": "binder",
+    "TAG": "4.0.0",
+    "FROM": "rockerdev/geospatial:4.0.0",
+    "RUN": ["/rocker_scripts/install_python.sh", "/rocker_scripts/install_binder.sh"]
+},
+{
+    "IMAGE": "binder",
+    "TAG": "devel",
+    "FROM": "rockerdev/geospatial:devel",
+    "RUN": ["/rocker_scripts/install_python.sh", "/rocker_scripts/install_binder.sh"]
+}
+]
+}

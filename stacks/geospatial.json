@@ -1,0 +1,21 @@
+{
+"ordered": false,
+"IMAGE": "geospatial",
+"stack": [
+  {
+    "TAG": "4.0.0",
+    "FROM": "rockerdev/verse:4.0.0",
+    "RUN": "/rocker_scripts/install_geospatial.sh"
+  },
+  {
+    "TAG": "devel",
+    "FROM": "rockerdev/verse:devel",
+    "RUN": "/rocker_scripts/install_geospatial.sh"
+  },
+  {
+    "TAG": "latest",
+    "FROM": "rockerdev/geospatial:4.0.0"
+  }
+]
+
+}

@@ -1,0 +1,12 @@
+
+FROM rockerdev/geospatial:devel
+
+
+
+RUN /rocker_scripts/install_python.sh
+RUN /rocker_scripts/install_binder.sh
+
+
+
+
+

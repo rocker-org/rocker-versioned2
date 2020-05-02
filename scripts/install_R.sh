@@ -16,12 +16,13 @@ R_HOME=${R_HOME:-/usr/local/lib/R}
 
 
 ## ubuntu focal uses readline8, bionic uses readline7, wildcards don't work here
+## consider libopenblas-openmp-dev instead on focal?
+## Also note openmp is quite large
 READLINE_VERSION=8
 if [ ${UBUNTU_VERSION} == "bionic" ]; then
   READLINE_VERSION=7
 fi
 
-# openblas is > 100Mb
 apt-get update \
   && apt-get install -y --no-install-recommends \
     bash-completion \
@@ -38,7 +39,7 @@ apt-get update \
     libicu* \
     libpcre2* \
     libjpeg-turbo* \
-    libopenblas-openmp-dev \
+    libopenblas-dev \
     libpangocairo-* \
     libpng16* \
     libreadline${READLINE_VERSION} \
@@ -122,6 +123,7 @@ CXXFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdat
 		   --with-recommended-packages
 make
 make install
+make clean
 
 ## Add a default CRAN mirror
 echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site

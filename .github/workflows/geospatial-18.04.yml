@@ -1,0 +1,20 @@
+name: geospatial 
+
+on: [push]
+#  release:
+#    types: [published]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Login to DockerHub Registry
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+      - name: Build the tagged Docker image
+        run: | 
+             docker-compose -f compose/geospatial-18.04.yml build 
+      - name: Push the tagged Docker image
+        run: docker-compose  -f compose/geospatial-18.04.yml push
+
+
