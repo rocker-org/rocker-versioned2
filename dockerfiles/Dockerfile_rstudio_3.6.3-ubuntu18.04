@@ -1,8 +1,12 @@
-
 FROM rockerdev/r-ver:3.6.3-ubuntu18.04
 
-ENV S6_VERSION=v1.21.7.0
-ENV RSTUDIO_VERSION=latest
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+ENV S6_VERSION=v1.21.7.0 \ 
+    RSTUDIO_VERSION=latest
 
 
 RUN /rocker_scripts/install_rstudio.sh

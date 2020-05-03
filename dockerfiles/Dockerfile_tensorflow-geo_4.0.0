@@ -1,4 +1,4 @@
-FROM rockerdev/verse:4.0.0-ubuntu18.04
+FROM rockerdev/tensorflow:4.0.0
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -7,6 +7,7 @@ LABEL org.label-schema.license="GPL-2.0" \
 
 
 
+RUN /rocker_scripts/install_verse.sh
 RUN /rocker_scripts/install_geospatial.sh
 
 

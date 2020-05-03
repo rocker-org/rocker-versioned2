@@ -1,4 +1,4 @@
-FROM rockerdev/verse:4.0.0-ubuntu18.04
+FROM rockerdev/shiny:3.6.3
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -7,7 +7,7 @@ LABEL org.label-schema.license="GPL-2.0" \
 
 
 
-RUN /rocker_scripts/install_geospatial.sh
+RUN /rocker_scripts/install_tidyverse.sh
 
 
 

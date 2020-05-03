@@ -14,4 +14,4 @@ services:
     image: rockerdev/geospatial:latest
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_latest
+      dockerfile: dockerfiles/Dockerfile_geospatial_4.0.0

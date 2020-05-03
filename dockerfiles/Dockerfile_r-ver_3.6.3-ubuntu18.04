@@ -1,12 +1,16 @@
-
 FROM ubuntu:18.04
 
-ENV R_VERSION=3.6.3
-ENV TERM=xterm
-ENV LC_ALL=en_US.UTF-8
-ENV LANG=en_US.UTF-8
-ENV R_HOME=/usr/local/lib/R
-ENV CRAN=https://mran.microsoft.com/snapshot/2020-04-24
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+ENV R_VERSION=3.6.3 \ 
+    TERM=xterm \ 
+    LC_ALL=en_US.UTF-8 \ 
+    LANG=en_US.UTF-8 \ 
+    R_HOME=/usr/local/lib/R \ 
+    CRAN=https://mran.microsoft.com/snapshot/2020-04-24
 
 COPY scripts /rocker_scripts
 

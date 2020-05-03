@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM nvidia/cuda:10.2-cudnn7-devel
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -10,11 +10,16 @@ ENV R_VERSION=4.0.0 \
     LC_ALL=en_US.UTF-8 \ 
     LANG=en_US.UTF-8 \ 
     R_HOME=/usr/local/lib/R \ 
-    CRAN=https://cran.r-project.org
+    CRAN=https://cran.r-project.org \ 
+    CUDA_HOME=/usr/local/cuda \ 
+    PATH=$PATH:$CUDA_HOME/bin \ 
+    LD_LIBRARY_PATH=$CUDA_HOME/lib64/libnvblas.so:$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64 \ 
+    NVBLAS_CONFIG_FILE=/etc/nvblas.conf
 
 COPY scripts /rocker_scripts
 
 RUN /rocker_scripts/install_R.sh
+RUN /rocker_scripts/config_R_cuda.sh
 
 
 CMD R

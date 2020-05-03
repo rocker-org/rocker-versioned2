@@ -1,0 +1,26 @@
+version: '3'
+services:
+  tensorflow-4.0.0:
+    image: rockerdev/tensorflow:4.0.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow_4.0.0
+  tensorflow-geo-4.0.0:
+    image: rockerdev/tensorflow-geo:4.0.0
+    depends_on:
+    - tensorflow-4.0.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow-geo_4.0.0
+  tensorflow-latest:
+    image: rockerdev/tensorflow:latest
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow_4.0.0
+  tensorflow-geo-latest:
+    image: rockerdev/tensorflow-geo:latest
+    depends_on:
+    - tensorflow-4.0.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow-geo_4.0.0

@@ -1,0 +1,40 @@
+version: '3'
+services:
+  r-ver-gpu-4.0.0-cuda10.2:
+    image: rockerdev/r-ver-gpu:4.0.0-cuda10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver-gpu_4.0.0-cuda10.2
+  tensorflow-gpu-4.0.0-cuda10.2:
+    image: rockerdev/tensorflow-gpu:4.0.0-cuda10.2
+    depends_on:
+    - r-ver-gpu-4.0.0-cuda10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow-gpu_4.0.0-cuda10.2
+  tensorflow-geo-gpu-4.0.0-cuda10.2:
+    image: rockerdev/tensorflow-geo-gpu:4.0.0-cuda10.2
+    depends_on:
+    - tensorflow-gpu-4.0.0-cuda10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow-geo-gpu_4.0.0-cuda10.2
+  r-ver-gpu-latest:
+    image: rockerdev/r-ver-gpu:latest
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver-gpu_4.0.0-cuda10.2
+  tensorflow-gpu-latest:
+    image: rockerdev/tensorflow-gpu:latest
+    depends_on:
+    - r-ver-gpu-4.0.0-cuda10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow-gpu_4.0.0-cuda10.2
+  tensorflow-geo-gpu-latest:
+    image: rockerdev/tensorflow-geo-gpu:latest
+    depends_on:
+    - tensorflow-gpu-4.0.0-cuda10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow-geo-gpu_4.0.0-cuda10.2

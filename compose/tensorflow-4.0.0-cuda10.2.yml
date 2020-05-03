@@ -1,0 +1,21 @@
+version: '3'
+services:
+  r-ver-4.0.0-cuda10.2:
+    image: rockerdev/r-ver:4.0.0-cuda10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver_4.0.0-cuda10.2
+  tensorflow-4.0.0-cuda10.2:
+    image: rockerdev/tensorflow:4.0.0-cuda10.2
+    depends_on:
+    - r-ver-4.0.0-cuda10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow_4.0.0-cuda10.2
+  tensorflow-geo-4.0.0-cuda10.2:
+    image: rockerdev/tensorflow-geo:4.0.0-cuda10.2
+    depends_on:
+    - tensorflow-4.0.0-cuda10.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tensorflow-geo_4.0.0-cuda10.2

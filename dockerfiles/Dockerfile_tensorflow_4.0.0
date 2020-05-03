@@ -5,11 +5,15 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV CTAN_REPO=http://mirror.ctan.org/systems/texlive/tlnet \ 
-    PATH=/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH
+ENV WORKON_HOME=/opt/venv \ 
+    PYTHON_VENV_PATH=${WORKON_HOME}/reticulate \ 
+    RETICULATE_AUTOCONFIGURE=0 \ 
+    PATH=${PYTHON_VENV_PATH}/bin:${PATH} \ 
+    TENSORFLOW_VERSION=cpu \ 
+    KERAS_VERSION=default
 
 
-RUN /rocker_scripts/install_verse.sh
+RUN /rocker_scripts/install_tensorflow.sh
 
 
 

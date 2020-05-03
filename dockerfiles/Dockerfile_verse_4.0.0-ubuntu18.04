@@ -1,8 +1,12 @@
-
 FROM rockerdev/tidyverse:4.0.0-ubuntu18.04
 
-ENV CTAN_REPO=http://mirror.ctan.org/systems/texlive/tlnet
-ENV PATH=/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+ENV CTAN_REPO=http://mirror.ctan.org/systems/texlive/tlnet \ 
+    PATH=/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH
 
 
 RUN /rocker_scripts/install_verse.sh
