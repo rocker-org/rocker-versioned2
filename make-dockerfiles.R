@@ -30,8 +30,8 @@ write_dockerfiles <- function(stack, global){
     image <- inherit_global(image, global)
   
     body <- paste(c(
-      paste_if("LABEL", image),
       paste_if("FROM", image),
+      paste_if("LABEL", image),
       paste_if("ENV", image),
       paste_if("COPY", image),
       paste_if("RUN", image),
