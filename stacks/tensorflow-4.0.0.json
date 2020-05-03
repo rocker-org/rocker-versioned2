@@ -15,7 +15,7 @@
       "TENSORFLOW_VERSION": "cpu",
       "KERAS_VERSION": "default"
     },
-    "RUN": "/rocker_script/install_tensorflow"
+    "RUN": "/rocker_scripts/install_tensorflow.sh"
   },
   {
     "IMAGE": "tensorflow-geo",
