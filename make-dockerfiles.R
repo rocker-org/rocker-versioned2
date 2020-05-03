@@ -15,7 +15,9 @@ paste_if <- function(element, image){
     return("")
   
   if(!is.null(names(value)))
-     out <- paste0(key, " ", names(value), "=", value, collapse = "\n")
+     out <- paste0(key, " ", (
+       paste0(names(value), "=", value, collapse = " \\ \n    "))
+     )
   else
     out <- paste0(key, " ", value, collapse = "\n")
   
