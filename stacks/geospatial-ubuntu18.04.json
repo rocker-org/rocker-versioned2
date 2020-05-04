@@ -1,0 +1,24 @@
+{
+"ordered": false,
+"IMAGE": "geospatial",
+"stack": [
+  {
+    "TAG": "4.0.0-ubuntu18.04-unstable",
+    "FROM": "rockerdev/verse:4.0.0-ubuntu18.04",
+    "ENV": { 
+	"UBUNTUGIS_VERSION": "unstable"
+    	   },
+    "RUN": [
+             "/rocker_scripts/add_ubuntugis.sh",
+             "/rocker_scripts/install_geospatial.sh"
+	   ]
+  },
+  {
+    "TAG": "4.0.0-ubuntu18.04",
+    "FROM": "rockerdev/verse:4.0.0-ubuntu18.04",
+    "RUN": "/rocker_scripts/install_geospatial.sh"
+  }
+
+]
+
+}

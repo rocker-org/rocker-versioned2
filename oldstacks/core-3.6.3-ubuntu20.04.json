@@ -1,0 +1,47 @@
+{
+  "ordered": true,
+  "stack": [
+  {
+    "ROCKER_IMAGE": "r-ver",
+    "ROCKER_TAG": "3.6.3-ubuntu20.04",
+    "FROM_IMAGE": "ubuntu:focal",
+    "PARTIAL_DOCKERFILES": "r-ver",
+    "DOCKER_CMD": "R",
+    "UBUNTU_VERSION": "focal",
+    "R_VERSION": "3.6.3",
+    "CRAN": "https://mran.microsoft.com/snapshot/2020-04-24"
+  },
+  {
+    "ROCKER_IMAGE": "rstudio",
+    "ROCKER_TAG": "3.6.3-ubuntu20.04",
+    "FROM_IMAGE": "rockerdev/r-ver:3.6.3-ubuntu20.04",
+    "PARTIAL_DOCKERFILES": "rstudio",
+    "DOCKER_CMD": "/init",
+    "DOCKER_EXPOSE": 8787,
+    "UBUNTU_VERSION": "focal",
+    "R_VERSION": "3.6.3",
+    "S6_VERSION": "v1.21.7.0",
+    "RSTUDIO_VERSION": "latest"
+  },
+  {
+    "ROCKER_IMAGE": "tidyverse",
+    "ROCKER_TAG": "3.6.3-ubuntu20.04",
+    "FROM_IMAGE": "rockerdev/rstudio:3.6.3-ubuntu20.04",
+    "PARTIAL_DOCKERFILES": "tidyverse",
+    "UBUNTU_VERSION": "focal",
+    "R_VERSION": "3.6.3"
+  },
+  {
+    "ROCKER_IMAGE": "verse",
+    "ROCKER_TAG": "3.6.3-ubuntu20.04",
+    "FROM_IMAGE": "rockerdev/tidyverse:3.6.3-ubuntu20.04",
+    "PARTIAL_DOCKERFILES": "verse",
+    "UBUNTU_VERSION": "focal",
+    "R_VERSION": "3.6.3"
+  }
+  ]
+}
+
+
+
+

@@ -1,24 +1,20 @@
 {
 "ordered": false,
+"IMAGE": "geospatial",
 "stack": [
   {
-    "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "rockerdev/verse:3.6.3",
-    "PARTIAL_DOCKERFILES": "geospatial"
+    "TAG": "4.0.0",
+    "FROM": "rockerdev/verse:4.0.0",
+    "RUN": "/rocker_scripts/install_geospatial.sh"
   },
   {
-    "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "devel",
-    "FROM_IMAGE": "rockerdev/verse:devel",
-    "PARTIAL_DOCKERFILES": "geospatial"
+    "TAG": "devel",
+    "FROM": "rockerdev/verse:devel",
+    "RUN": "/rocker_scripts/install_geospatial.sh"
   },
   {
-    "ROCKER_IMAGE": "geospatial",
-    "ROCKER_TAG": "3.6.3-unstable",
-    "FROM_IMAGE": "rockerdev/verse:3.6.3",
-    "UBUNTUGIS_VERSION": "unstable",
-    "PARTIAL_DOCKERFILES": "ubuntugis; geospatial"
+    "TAG": "latest",
+    "FROM": "rockerdev/geospatial:4.0.0"
   }
 ]
 

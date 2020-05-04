@@ -1,0 +1,50 @@
+{
+  "ordered": true,
+  "TAG": "4.0.0",
+  "stack": [
+  {
+    "IMAGE": "r-ver",
+    "FROM": "ubuntu:20.04",
+    "ENV": {
+      "R_VERSION": "4.0.0",
+      "TERM": "xterm",
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8",
+      "R_HOME": "/usr/local/lib/R",
+      "CRAN": "https://cran.r-project.org"
+    },
+    "COPY": "scripts /rocker_scripts",
+    "RUN": "/rocker_scripts/install_R.sh",
+    "CMD": "R"
+  },
+  {
+    "IMAGE": "rstudio",
+    "FROM": "rockerdev/r-ver:4.0.0",
+    "ENV": {
+      "S6_VERSION": "v1.21.7.0",
+      "RSTUDIO_VERSION": "latest"
+    },
+    "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
+    "CMD": "/init",
+    "EXPOSE": 8787
+  },
+  {
+    "IMAGE": "tidyverse",
+    "FROM": "rockerdev/rstudio:4.0.0",
+    "RUN": "/rocker_scripts/install_tidyverse.sh"
+  },
+  {
+    "IMAGE": "verse",
+    "FROM": "rockerdev/tidyverse:4.0.0",
+    "ENV": {
+      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
+      "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"
+    },
+    "RUN": "/rocker_scripts/install_verse.sh"
+  }
+  ]
+}
+
+
+
+

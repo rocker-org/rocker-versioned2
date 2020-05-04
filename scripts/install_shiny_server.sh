@@ -3,12 +3,13 @@ set -e
 
 SHINY_SERVER_VERSION=${1:-${SHINY_SERVER_VERSION:-latest}}
 
-if [ "$SHINY_SERVER_VERSION" = "latest" ]; then
-  SHINY_SERVER_VERSION=$(wget -qO- https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION)
-fi
 # Run dependency scripts
 . /rocker_scripts/install_s6init.sh
 . /rocker_scripts/install_pandoc.sh
+
+if [ "$SHINY_SERVER_VERSION" = "latest" ]; then
+  SHINY_SERVER_VERSION=$(wget -qO- https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION)
+fi
 
 # Get apt packages
 apt-get update

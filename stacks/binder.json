@@ -3,16 +3,16 @@
 "ordered": false,
 "stack": [
 {
-    "ROCKER_IMAGE": "binder",
-    "ROCKER_TAG": "3.6.3",
-    "FROM_IMAGE": "rockerdev/geospatial:3.6.3",
-    "PARTIAL_DOCKERFILES": "python; binder"
+    "IMAGE": "binder",
+    "TAG": "4.0.0",
+    "FROM": "rockerdev/geospatial:4.0.0",
+    "RUN": ["/rocker_scripts/install_python.sh", "/rocker_scripts/install_binder.sh"]
 },
 {
-    "ROCKER_IMAGE": "binder",
-    "ROCKER_TAG": "devel",
-    "FROM_IMAGE": "rockerdev/geospatial:devel",
-    "PARTIAL_DOCKERFILES": "python; binder"
+    "IMAGE": "binder",
+    "TAG": "devel",
+    "FROM": "rockerdev/geospatial:devel",
+    "RUN": ["/rocker_scripts/install_python.sh", "/rocker_scripts/install_binder.sh"]
 }
 ]
 }

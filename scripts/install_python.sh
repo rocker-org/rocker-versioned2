@@ -1,5 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 set -e
+
+WORKON_HOME=${WORKON_HOME:-/opt/venv}
+PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-${WORKON_HOME}/reticulate}
 
 apt-get update && apt-get install -y --no-install-recommends \
         libpython3-dev \
@@ -12,15 +15,23 @@ python3 -m venv ${PYTHON_VENV_PATH}
 pip3 install --no-cache-dir --upgrade pip
 pip3 install --no-cache-dir virtualenv
 
+
+install2.r --skipinstalled --error reticulate 
+
 ## Ensure RStudio inherits this env var
-#echo "\nRETICULATE_PYTHON_ENV=${RETICULATE_PYTHON_ENV}" >> ${R_HOME}/etc/Renviron
-echo "\nWORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron
+echo "" >> ${R_HOME}/etc/Renviron
+echo "WORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron
 
 
 
 ## symlink these so that these are available when switching to a new venv
-ln -s ${PYTHON_VENV_PATH}/bin/pip /usr/local/bin/pip
+if [ ! -f /usr/local/bin/pip ]; then
+  ln -s ${PYTHON_VENV_PATH}/bin/pip /usr/local/bin/pip
+fi
+
+if [ ! -f /usr/local/bin/virtualenv ]; then
 ln -s ${PYTHON_VENV_PATH}/bin/virtualenv /usr/local/bin/virtualenv
+fi
 
 ## Allow staff-level users to modify the shared environment
 chown -R :staff ${WORKON_HOME}

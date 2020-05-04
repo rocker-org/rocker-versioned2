@@ -44,20 +44,23 @@ write_dockerfiles <- function(stack, global){
     
     path <- file.path("dockerfiles", paste("Dockerfile", image$IMAGE, image$TAG, sep="_"))
     writeLines(body, path)
-    
+
+    message(paste(path))    
   })
 }
 
 
 
-#stacks <- list.files("stacks", full.names = TRUE)
-stack_files <- "stacks/core-3.6.3.json"
+stack_files <- list.files("stacks", full.names = TRUE)
 stacks <- lapply(stack_files, jsonlite::read_json)
 
-lapply(stacks, function(stack){
+devnull <- lapply(stacks, function(stack){
   global <- stack[ !(names(stack) %in% c("ordered", "stack"))]
   write_dockerfiles(stack$stack, global)
 })
+
+
+message(paste("make-dockerfiles.R done!\n"))
 
 
 

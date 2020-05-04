@@ -12,9 +12,7 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
     unixodbc-dev && \
   rm -rf /var/lib/apt/lists/*
 
-install2.r --error --skipinstalled \
-   -r $CRAN \
-    --deps TRUE \
+install2.r --error --skipinstalled -d TRUE -r $CRAN \
     tidyverse \
     dplyr \
     devtools \
@@ -22,7 +20,8 @@ install2.r --error --skipinstalled \
     remotes \
     selectr \
     caTools \
-    BiocManager
+    BiocManager \
+    vroom
 
  rm -rf /tmp/downloaded_packages
 

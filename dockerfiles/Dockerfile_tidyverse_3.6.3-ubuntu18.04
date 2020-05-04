@@ -1,0 +1,11 @@
+
+FROM rockerdev/rstudio:3.6.3-ubuntu18.04
+
+
+
+RUN /rocker_scripts/install_tidyverse.sh
+
+
+
+
+

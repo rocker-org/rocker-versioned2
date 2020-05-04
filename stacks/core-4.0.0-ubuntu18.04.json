@@ -1,20 +1,17 @@
 {
   "ordered": true,
-  "TAG": "3.6.3",
-  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\norg.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\norg.label-schema.vendor=\"Rocker Project\" \\\nmaintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "TAG": "4.0.0-ubuntu18.04",
   "stack": [
   {
     "IMAGE": "r-ver",
-    "FROM": "ubuntu:bionic",
+    "FROM": "ubuntu:18.04",
     "ENV": {
-      "UBUNTU_VERSION": "bionic",
-      "R_VERSION": "3.6.3",
+      "R_VERSION": "4.0.0",
       "TERM": "xterm",
       "LC_ALL": "en_US.UTF-8",
       "LANG": "en_US.UTF-8",
-      "DEBIAN_FRONTEND": "noninteractive",
-      "R_HOME": "/usr/lib/R",
-      "CRAN": "https://mran.microsoft.com/snapshot/"
+      "R_HOME": "/usr/local/lib/R",
+      "CRAN": "https://cran.r-project.org"
     },
     "COPY": "scripts /rocker_scripts",
     "RUN": "/rocker_scripts/install_R.sh",
@@ -22,7 +19,7 @@
   },
   {
     "IMAGE": "rstudio",
-    "FROM": "rockerdev/r-ver:3.6.3",
+    "FROM": "rockerdev/r-ver:4.0.0-ubuntu18.04",
     "ENV": {
       "S6_VERSION": "v1.21.7.0",
       "RSTUDIO_VERSION": "latest"
@@ -33,12 +30,12 @@
   },
   {
     "IMAGE": "tidyverse",
-    "FROM": "rockerdev/rstudio:3.6.3",
+    "FROM": "rockerdev/rstudio:4.0.0-ubuntu18.04",
     "RUN": "/rocker_scripts/install_tidyverse.sh"
   },
   {
     "IMAGE": "verse",
-    "FROM": "rockerdev/tidyverse:3.6.3",
+    "FROM": "rockerdev/tidyverse:4.0.0-ubuntu18.04",
     "ENV": {
       "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
       "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"

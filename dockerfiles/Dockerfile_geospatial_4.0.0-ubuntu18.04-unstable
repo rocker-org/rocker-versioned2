@@ -1,0 +1,13 @@
+
+FROM rockerdev/verse:4.0.0-ubuntu18.04
+
+ENV UBUNTUGIS_VERSION=unstable
+
+
+RUN /rocker_scripts/add_ubuntugis.sh
+RUN /rocker_scripts/install_geospatial.sh
+
+
+
+
+
