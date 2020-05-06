@@ -17,7 +17,7 @@ build:
 	docker-compose -f compose/core-devel.yml build
 	docker-compose -f compose/core-4.0.0-ubuntu18.04.yml build
 	docker-compose -f compose/geospatial.yml build
-	docker-compose -f compose/geospatial-18.04.yml build
+	docker-compose -f compose/geospatial-ubuntu18.04.yml build
 	docker-compose -f compose/ml.yml build
 	docker-compose -f compose/binder.yml build
 	docker-compose -f compose/shiny-4.0.0.yml build
