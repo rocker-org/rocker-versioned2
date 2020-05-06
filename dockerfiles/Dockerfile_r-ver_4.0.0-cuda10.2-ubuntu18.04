@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM nvidia/cuda:10.2-cudnn7-devel
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -11,10 +11,19 @@ ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV R_HOME=/usr/local/lib/R
 ENV CRAN=https://cran.r-project.org
+ENV CUDA_HOME=/usr/local/cuda
+ENV LD_LIBRARY_PATH=$CUDA_HOME/lib64/libnvblas.so:$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64
+ENV NVBLAS_CONFIG_FILE=/etc/nvblas.conf
+ENV WORKON_HOME=/opt/venv
+ENV PYTHON_VENV_PATH=/opt/venv/reticulate
+ENV RETICULATE_AUTOCONFIGURE=0
+ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin
 
 COPY scripts /rocker_scripts
 
 RUN /rocker_scripts/install_R.sh
+RUN /rocker_scripts/config_R_cuda.sh
+RUN /rocker_scripts/install_python.sh
 
 
 CMD R

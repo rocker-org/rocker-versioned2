@@ -5,8 +5,8 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV S6_VERSION=v1.21.7.0 \ 
-    RSTUDIO_VERSION=latest
+ENV S6_VERSION=v1.21.7.0
+ENV RSTUDIO_VERSION=latest
 
 
 RUN /rocker_scripts/install_rstudio.sh
