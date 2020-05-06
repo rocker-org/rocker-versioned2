@@ -15,6 +15,7 @@ apt-get update \
     less \
     libbz2-dev \
     libcurl4-openssl-dev \
+    libgit2-dev \
     libhunspell-dev \
     libicu-dev \
     liblzma-dev \
@@ -36,7 +37,7 @@ apt-get update \
 # We can build the redland package bindings and then swap back to libcurl-openssl-dev... (ick)
 apt-get install -y librdf0-dev
 install2.r --error --skipinstalled -r $CRAN redland
-apt-get install -y libcurl4-openssl-dev
+apt-get install -y libcurl4-openssl-dev && apt-get -y autoremove
 
 
 ## Add LaTeX, rticles and bookdown support
