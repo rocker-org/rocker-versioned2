@@ -15,7 +15,7 @@ paste_if <- function(element, image){
     return("")
   
   if(!is.null(names(value)))
-     out <- paste0(key, " ", names(value), "=", value, collapse = "\n")
+    out <- paste0(key, " ", names(value), "=", value, collapse = "\n")
   else
     out <- paste0(key, " ", value, collapse = "\n")
   
@@ -30,8 +30,8 @@ write_dockerfiles <- function(stack, global){
     image <- inherit_global(image, global)
   
     body <- paste(c(
-      paste_if("LABEL", image),
       paste_if("FROM", image),
+      paste_if("LABEL", image),
       paste_if("ENV", image),
       paste_if("COPY", image),
       paste_if("RUN", image),

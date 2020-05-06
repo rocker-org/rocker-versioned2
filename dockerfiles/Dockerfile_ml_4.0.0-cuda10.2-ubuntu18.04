@@ -1,4 +1,4 @@
-FROM rockerdev/r-ver:4.0.0
+FROM rockerdev/r-ver:4.0.0-cuda10.2-ubuntu18.04
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -7,10 +7,15 @@ LABEL org.label-schema.license="GPL-2.0" \
 
 ENV S6_VERSION=v1.21.7.0
 ENV RSTUDIO_VERSION=latest
+ENV PANDOC_VERSION=default
+ENV TENSORFLOW_VERSION=gpu
+ENV KERAS_VERSION=default
 
 
 RUN /rocker_scripts/install_rstudio.sh
 RUN /rocker_scripts/install_pandoc.sh
+RUN /rocker_scripts/install_tidyverse.sh
+RUN /rocker_scripts/install_tensorflow.sh
 
 EXPOSE 8787
 

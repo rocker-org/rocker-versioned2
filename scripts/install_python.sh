@@ -11,6 +11,8 @@ apt-get update && apt-get install -y --no-install-recommends \
         python3-virtualenv \
         python3-venv && \
     rm -rf /var/lib/apt/lists/*
+
+mkdir -p ${WORKON_HOME}
 python3 -m venv ${PYTHON_VENV_PATH}
 pip3 install --no-cache-dir --upgrade pip
 pip3 install --no-cache-dir virtualenv
@@ -25,12 +27,13 @@ echo "WORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron
 
 
 ## symlink these so that these are available when switching to a new venv
-if [ ! -f /usr/local/bin/pip ]; then
+## -f check for file, -L for link, -e for either
+if [ ! -e /usr/local/bin/pip ]; then
   ln -s ${PYTHON_VENV_PATH}/bin/pip /usr/local/bin/pip
 fi
 
-if [ ! -f /usr/local/bin/virtualenv ]; then
-ln -s ${PYTHON_VENV_PATH}/bin/virtualenv /usr/local/bin/virtualenv
+if [ ! -e /usr/local/bin/virtualenv ]; then
+  ln -s ${PYTHON_VENV_PATH}/bin/virtualenv /usr/local/bin/virtualenv
 fi
 
 ## Allow staff-level users to modify the shared environment

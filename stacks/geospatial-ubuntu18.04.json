@@ -1,6 +1,7 @@
 {
 "ordered": false,
 "IMAGE": "geospatial",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
 "stack": [
   {
     "TAG": "4.0.0-ubuntu18.04-unstable",

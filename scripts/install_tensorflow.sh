@@ -4,6 +4,9 @@ set -e
 TENSORFLOW_VERSION=${1:-${TENSORFLOW_VERSION:-default}}
 KERAS_VERSION=${2:-${KERAS_VERSION:-default}}
 
+## Install python dependency
+/rocker_scripts/install_python.sh
+
 ## To support different version of TF, install to different virtualenvs
 TENSORFLOW_VENV=$PYTHON_VENV_PATH
 

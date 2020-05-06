@@ -1,6 +1,7 @@
 {
   "ordered": true,
   "TAG": "devel",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "stack": [
   {
     "IMAGE": "r-ver",

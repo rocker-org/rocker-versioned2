@@ -1,0 +1,70 @@
+{
+  "ordered": true,
+  "latest": true,
+  "TAG": "4.0.0-cuda10.2-ubuntu18.04",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "stack": [
+  {
+    "IMAGE": "r-ver",
+    "FROM": "nvidia/cuda:10.2-cudnn7-devel",
+    "ENV": {
+      "R_VERSION": "4.0.0",
+      "TERM": "xterm",
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8",
+      "R_HOME": "/usr/local/lib/R",
+      "CRAN": "https://cran.r-project.org",
+      "CUDA_HOME": "/usr/local/cuda",
+      "LD_LIBRARY_PATH": "$CUDA_HOME/lib64/libnvblas.so:$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64",
+      "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
+      "WORKON_HOME": "/opt/venv",
+      "PYTHON_VENV_PATH": "/opt/venv/reticulate",
+      "RETICULATE_AUTOCONFIGURE": "0",
+      "PATH": "${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin"
+     },
+    "COPY": "scripts /rocker_scripts",
+    "RUN": [
+      "/rocker_scripts/install_R.sh",
+      "/rocker_scripts/config_R_cuda.sh",
+      "/rocker_scripts/install_python.sh"
+    ],
+    "CMD": "R"
+  },
+  {
+    "IMAGE": "ml",
+    "FROM": "rockerdev/r-ver:4.0.0-cuda10.2-ubuntu18.04",
+    "ENV": {
+      "S6_VERSION": "v1.21.7.0",
+      "RSTUDIO_VERSION": "latest",
+      "PANDOC_VERSION": "default",
+     "TENSORFLOW_VERSION": "gpu",
+      "KERAS_VERSION": "default"
+    },
+    "RUN": [
+      "/rocker_scripts/install_rstudio.sh",
+      "/rocker_scripts/install_pandoc.sh",
+      "/rocker_scripts/install_tidyverse.sh",
+      "/rocker_scripts/install_tensorflow.sh"
+      ],
+    "CMD": "/init",
+    "EXPOSE": 8787
+  },
+  {
+    "IMAGE": "ml-verse",
+    "FROM": "rockerdev/ml:4.0.0-cuda10.2-ubuntu18.04",
+    "RUN": [
+      "/rocker_scripts/install_verse.sh",
+      "/rocker_scripts/install_geospatial.sh"
+      ]
+  },
+  {
+    "FROM": "rockerdev/ml:4.0.0-cuda10.2-ubuntu18.04",
+    "IMAGE": "ml",
+    "TAG": "latest"
+  }
+]
+}
+
+
+
+

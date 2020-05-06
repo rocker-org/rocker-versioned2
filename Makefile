@@ -1,27 +1,39 @@
 DOCKERFILES=$(wildcard dockerfiles/Dockerfile*)
-PARTIALS=$(wildcard partials/*.partial)
+COMPOSE=$(wildcard compose/*)
 
-.PHONY: local_versions images
-dockerfiles: $(DOCKERFILES)
-all: dockerfiles images
+.PHONY: clean
+build: $(DOCKERFILES) $(COMPOSE)
+push: $(DOCKERFILES) $(COMPOSE)
 
-local_versions:
-	curl -sL https://bit.ly/2QKF14P > /tmp/versions-grid.csv; echo "\n" >> /tmp/versions-grid.csv; \
-	if ! cmp versions-grid.csv /tmp/versions-grid.csv >/dev/null 2>&1; then \
-	cp /tmp/versions-grid.csv versions-grid.csv; \
-	fi
+all: clean setup build push
 
-dockerfiles: 
+setup: make-dockerfiles.R write-compose.R 
 	./make-dockerfiles.R
 	./write-compose.R	
 
-images:
-	docker-compose build
-	docker-compose -f docker-compose-gh-registry.yml build
+build:
+	docker-compose -f compose/core-3.6.3-ubuntu18.04.yml build
+	docker-compose -f compose/core-4.0.0.yml build
+	docker-compose -f compose/core-devel.yml build
+	docker-compose -f compose/core-4.0.0-ubuntu18.04.yml build
+	docker-compose -f compose/geospatial.yml build
+	docker-compose -f compose/geospatial-ubuntu18.04.yml build
+	docker-compose -f compose/ml.yml build
+	docker-compose -f compose/binder.yml build
+	docker-compose -f compose/shiny-4.0.0.yml build
 
-## Assumes we are logged into the GitHub Docker Registry already
-publish:
-	docker-compose -f docker-compose-gh-registry.yml push
+
+## Assumes we are logged into the Docker Registry already
+push:
+	docker-compose -f compose/core-3.6.3-ubuntu18.04.yml build
+	docker-compose -f compose/core-4.0.0.yml build
+	docker-compose -f compose/core-devel.yml build
+	docker-compose -f compose/core-4.0.0-ubuntu18.04.yml build
+	docker-compose -f compose/geospatial.yml build
+	docker-compose -f compose/geospatial-18.04.yml build
+	docker-compose -f compose/ml.yml build
+	docker-compose -f compose/binder.yml build
+	docker-compose -f compose/shiny-4.0.0.yml build
 
 clean:
-	rm dockerfiles/Dockerfile*.*
+	rm dockerfiles/* compose/*

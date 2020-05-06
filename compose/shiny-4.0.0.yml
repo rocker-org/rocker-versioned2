@@ -1,0 +1,26 @@
+version: '3'
+services:
+  shiny-4.0.0:
+    image: rockerdev/shiny:4.0.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_shiny_4.0.0
+  shiny-verse-4.0.0:
+    image: rockerdev/shiny-verse:4.0.0
+    depends_on:
+    - shiny-4.0.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_shiny-verse_4.0.0
+  shiny-latest:
+    image: rockerdev/shiny:latest
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_shiny_4.0.0
+  shiny-verse-latest:
+    image: rockerdev/shiny-verse:latest
+    depends_on:
+    - shiny-4.0.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_shiny-verse_4.0.0

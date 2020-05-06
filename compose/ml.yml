@@ -1,0 +1,54 @@
+version: '3'
+services:
+  r-ver-4.0.0-cuda10.2-ubuntu18.04:
+    image: rockerdev/r-ver:4.0.0-cuda10.2-ubuntu18.04
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver_4.0.0-cuda10.2-ubuntu18.04
+  ml-4.0.0-cuda10.2-ubuntu18.04:
+    image: rockerdev/ml:4.0.0-cuda10.2-ubuntu18.04
+    depends_on:
+    - r-ver-4.0.0-cuda10.2-ubuntu18.04
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_4.0.0-cuda10.2-ubuntu18.04
+  ml-verse-4.0.0-cuda10.2-ubuntu18.04:
+    image: rockerdev/ml-verse:4.0.0-cuda10.2-ubuntu18.04
+    depends_on:
+    - ml-4.0.0-cuda10.2-ubuntu18.04
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml-verse_4.0.0-cuda10.2-ubuntu18.04
+  ml-latest:
+    image: rockerdev/ml:latest
+    depends_on:
+    - ml-verse-4.0.0-cuda10.2-ubuntu18.04
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_latest
+  r-ver-latest:
+    image: rockerdev/r-ver:latest
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver_4.0.0-cuda10.2-ubuntu18.04
+  ml-latest:
+    image: rockerdev/ml:latest
+    depends_on:
+    - r-ver-4.0.0-cuda10.2-ubuntu18.04
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_4.0.0-cuda10.2-ubuntu18.04
+  ml-verse-latest:
+    image: rockerdev/ml-verse:latest
+    depends_on:
+    - ml-4.0.0-cuda10.2-ubuntu18.04
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml-verse_4.0.0-cuda10.2-ubuntu18.04
+  ml-latest:
+    image: rockerdev/ml:latest
+    depends_on:
+    - ml-verse-4.0.0-cuda10.2-ubuntu18.04
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_latest

@@ -39,8 +39,8 @@ if [ ${UBUNTU_VERSION} == "bionic" ]; then
 fi
 
 
-## Somehow foreign is messed up on CRAN between 2020-04-25 -- ??
-install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 foreign
+## Somehow foreign is messed up on CRAN between 2020-04-25 -- 2020-05-0?  
+##install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 foreign
 
 install2.r --error --skipinstalled \
     RColorBrewer \

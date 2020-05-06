@@ -1,6 +1,9 @@
 #!/bin/sh
 set -e
 
+# Note that 'default' pandoc version means the version bundled with RStudio
+# if RStudio is installed , but latest otherwise
+
 PANDOC_VERSION=${1:-${PANDOC_VERSION:-default}}
 
 apt-get update && apt-get -y install wget
