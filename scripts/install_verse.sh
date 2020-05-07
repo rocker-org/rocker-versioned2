@@ -30,6 +30,7 @@ apt-get update -qq \
     lsb-release \
     qpdf \
     texinfo \
+    software-properties-common \
     ssh \
     vim \
     wget
