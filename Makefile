@@ -29,7 +29,7 @@ shiny-3.6.3: core-3.6.3
 
 geospatial: core-4.0.0 core-devel
 
-geospatial-ubuntu18.04.json: core-4.0.0-ubuntu18.04.json
+geospatial-ubuntu18.04: core-4.0.0-ubuntu18.04
 	docker-compose -f compose/$@.yml build
 
 ## Assumes we are logged into the Docker Registry already
