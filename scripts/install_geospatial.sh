@@ -2,7 +2,10 @@
 
 set -e
 
-apt-get update \
+# always set this for scripts but don't declare as ENV..
+export DEBIAN_FRONTEND=noninteractive
+
+apt-get update -qq \
   && apt-get install -y --no-install-recommends \
     lbzip2 \
     libfftw3-dev \
@@ -34,8 +37,7 @@ apt-get update \
 UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
 
 if [ ${UBUNTU_VERSION} == "bionic" ]; then 
-  GITHUB_PAT=0e7777db4b3bb48acb542b8912a989b8047f6351 && \
-    R -e "remotes::install_github('r-spatial/lwgeom')"
+  R -e "Sys.setenv(GITHUB_PAT='0e7777db4b3bb48acb542b8912a989b8047f6351'); remotes::install_github('r-spatial/lwgeom')"
 fi
 
 

@@ -26,6 +26,13 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_ml_latest
+  ml-verse-latest:
+    image: rockerdev/ml-verse:latest
+    depends_on:
+    - ml-latest
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml-verse_latest
   r-ver-latest:
     image: rockerdev/r-ver:latest
     build:
@@ -52,3 +59,10 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_ml_latest
+  ml-verse-latest:
+    image: rockerdev/ml-verse:latest
+    depends_on:
+    - ml-latest
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml-verse_latest

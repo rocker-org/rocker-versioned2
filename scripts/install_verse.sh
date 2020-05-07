@@ -2,9 +2,13 @@
 
 set -e
 
+# always set this for scripts but don't declare as ENV..
+export DEBIAN_FRONTEND=noninteractive
+
+
 export PATH=$PATH:/opt/TinyTeX/bin/x86_64-linux/
 
-apt-get update \
+apt-get update -qq \
   && apt-get install -y --no-install-recommends \
     cmake \
     curl \
@@ -14,8 +18,6 @@ apt-get update \
     hugo \
     less \
     libbz2-dev \
-    libcurl4-openssl-dev \
-    libgit2-dev \
     libhunspell-dev \
     libicu-dev \
     liblzma-dev \
@@ -25,6 +27,7 @@ apt-get update \
     libssl-dev \
     libv8-dev \
     libzmq3-dev \
+    lsb-release \
     qpdf \
     texinfo \
     ssh \
@@ -34,10 +37,19 @@ apt-get update \
 
 # 
 # librdf0-dev depends on libcurl4-gnutils-dev instead of libcurl4-openssl-dev... 
-# We can build the redland package bindings and then swap back to libcurl-openssl-dev... (ick)
+# So: we can build the redland package bindings and then swap back to libcurl-openssl-dev... (ick)
 apt-get install -y librdf0-dev
 install2.r --error --skipinstalled -r $CRAN redland
 apt-get install -y libcurl4-openssl-dev && apt-get -y autoremove
+
+# libgit2-dev also depends on the libcurl4-gnutils in bionic but not on focal
+# cran PPA is a super-stable solution to this
+UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
+if [ ${UBUNTU_VERSION} == "bionic" ]; then 
+  add-apt-repository -y ppa:cran/travis
+fi
+apt-get install libgit2-dev libcurl-openssl-dev
+
 
 
 ## Add LaTeX, rticles and bookdown support
