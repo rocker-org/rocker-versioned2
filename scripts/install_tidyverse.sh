@@ -1,4 +1,9 @@
-#!/bin/sh
+
+#!/bin/bash
+
+## build ARGs
+NCPUS=${NCPUS:-1}
+
 set -e
 apt-get update -qq && apt-get -y --no-install-recommends install \
     libxml2-dev \
@@ -12,7 +17,8 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
     unixodbc-dev && \
   rm -rf /var/lib/apt/lists/*
 
-install2.r --error --skipinstalled -d TRUE -r $CRAN \
+
+install2.r --error --skipinstalled -d TRUE -r $CRAN -n $NCPUS \
     tidyverse \
     dplyr \
     devtools \
