@@ -1,0 +1,6 @@
+Binary::apt::APT::Keep-Downloaded-Packages "true";
+Dir::Cache::srcpkgcache "srcpkgcache.bin";
+Dir::Cache::pkgcache "pkgcache.bin";
+DPkg::Post-Invoke "";
+APT::Update::Post-Invoke "";
+

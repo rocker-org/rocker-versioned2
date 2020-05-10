@@ -1,10 +1,11 @@
 #!/usr/bin/env Rscript
 
 buildkit_cache = isTRUE(Sys.getenv("BUILDKIT_CACHE") == "1")
-cache_line = "--mount=type=cache,target=/.rocker_ccache"
+cache_line = "--mount=type=cache,target=/.rocker_ccache --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt"
 syntax_line = "# syntax = docker/dockerfile:1.0-experimental"
 cache_arg = c("R_MAKEVARS_SITE"="/rocker_scripts/Makevars.ccache",
-              "CCACHE_DIR"="/.rocker_ccache")
+              "CCACHE_DIR"="/.rocker_ccache",
+              "APT_CONFIG"="/rocker_scripts/apt-config")
 
 inherit_global <- function(image, global){
   c(image, global[! names(global) %in% names(image) ])
