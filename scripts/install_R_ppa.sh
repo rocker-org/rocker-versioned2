@@ -41,14 +41,20 @@ apt-get update && apt-get -y install --no-install-recommends r-base-dev=${R_VERS
 
 rm -rf /var/lib/apt/lists/*
 
-## Add PPAs: NOTE this will mean that installing binary R packages won't be version stable.  
-## 
-## These are required at least for bionic-based images since 3.4 r binaries are 
+## Add PPAs: NOTE this will mean that installing binary R packages won't be version stable.
+##
+## These are required at least for bionic-based images since 3.4 r binaries are
 
 
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen en_US.utf8
 /usr/sbin/update-locale LANG=${LANG}
+
+# If using buildkit, install ccache
+if [ "$BUILDKIT_CACHE" == "1" ] ; then
+  apt-get install -y --no-install-recommends \
+    ccache
+fi
 
 Rscript -e "install.packages(c('littler', 'docopt'))"
 

@@ -2,6 +2,7 @@ STACKFILES=$(wildcard stacks/*.json)
 STACKS=$(notdir $(basename $(STACKFILES)))
 COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
 PUSHES=$(addsuffix .push,$(STACKS))
+BUILDKIT_CACHE=0
 
 .PHONY: clean build setup push
 .PHONY: $(STACKS) $(PUSHES)
@@ -16,7 +17,7 @@ $(COMPOSEFILES): make-dockerfiles.R write-compose.R $(STACKFILES)
 build: $(STACKS)
 
 $(STACKS): %: compose/%.yml
-	docker-compose -f compose/$@.yml build
+	COMPOSE_DOCKER_CLI_BUILD=$(BUILDKIT_CACHE) DOCKER_BUILDKIT=$(BUILDKIT_CACHE) docker-compose -f compose/$@.yml build
 
 binder: geospatial
 

@@ -99,7 +99,7 @@ else                                                                 \
     wget https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz || \
     wget https://cran.r-project.org/src/base/R-4/R-${R_VERSION}.tar.gz; \
 fi &&                                                                \
-    tar xzf R-${R_VERSION}.tar.gz &&   
+    tar xzf R-${R_VERSION}.tar.gz &&
 
 cd R-${R_VERSION}
 R_PAPERSIZE=letter \
@@ -137,12 +137,17 @@ chmod g+ws ${R_HOME}/site-library
 ## Fix library path
 echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >> ${R_HOME}/etc/Renviron
 
+# If using buildkit, install ccache
+if [ "$BUILDKIT_CACHE" == "1" ] ; then
+  apt-get install -y --no-install-recommends \
+    ccache
+fi
+
 ## Use littler installation scripts
 Rscript -e "install.packages(c('littler', 'docopt'))"
 ln -s ${R_HOME}/site-library/littler/examples/install2.r /usr/local/bin/install2.r
 ln -s ${R_HOME}/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r
 ln -s ${R_HOME}/site-library/littler/bin/r /usr/local/bin/r
-
 
 ## Clean up from R source install
 cd /

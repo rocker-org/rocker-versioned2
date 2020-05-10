@@ -111,12 +111,17 @@ chmod g+ws /usr/local/lib/R/site-library
 echo "R_LIBS_USER='/usr/local/lib/R/site-library'" >> /usr/local/lib/R/etc/Renviron
 echo "R_LIBS=\${R_LIBS-'/usr/local/lib/R/site-library:/usr/local/lib/R/library:/usr/lib/R/library'}" >> /usr/local/lib/R/etc/Renviron
 
-  ## Use littler installation scripts
+# If using buildkit, install ccache
+if [ "$BUILDKIT_CACHE" == "1" ] ; then
+  apt-get install -y --no-install-recommends \
+    ccache
+fi
+
+## Use littler installation scripts
 Rscript -e "install.packages(c('littler', 'docopt'))"
 ln -s /usr/local/lib/R/site-library/littler/examples/install2.r /usr/local/bin/install2.r
 ln -s /usr/local/lib/R/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r
 ln -s /usr/local/lib/R/site-library/littler/bin/r /usr/local/bin/r
-
 
 ## Clean up from R source install
 cd /
