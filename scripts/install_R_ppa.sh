@@ -32,6 +32,9 @@ apt-get -y install --no-install-recommends \
 if [ "$BUILDKIT_CACHE" == "1" ] ; then
   apt-get install -y --no-install-recommends \
     ccache
+  /usr/sbin/update-ccache-symlinks
+  PATH="/usr/lib/ccache/:$PATH"  #gcc overwrite should only apply within this script
+  unset R_MAKEVARS_SITE        # don't want this ARG value if ccache gcc is in the path
 fi
 
 echo "deb http://cloud.r-project.org/bin/linux/ubuntu ${UBUNTU_VERSION}-${CRAN_LINUX_VERSION}/" >> /etc/apt/sources.list

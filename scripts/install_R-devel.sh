@@ -40,6 +40,9 @@ apt-get update \
 if [ "$BUILDKIT_CACHE" == "1" ] ; then
   apt-get install -y --no-install-recommends \
     ccache
+  /usr/sbin/update-ccache-symlinks
+  PATH="/usr/lib/ccache/:$PATH"  #gcc overwrite should only apply within this script
+  unset R_MAKEVARS_SITE        # don't want this ARG value if ccache gcc is in the path
 fi
 
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen

@@ -14,7 +14,6 @@ export DEBIAN_FRONTEND=noninteractive
 R_HOME=${R_HOME:-/usr/local/lib/R}
 
 
-
 ## ubuntu focal uses readline8, bionic uses readline7, wildcards don't work here
 ## consider libopenblas-openmp-dev instead on focal?
 ## Also note openmp is quite large
@@ -55,7 +54,11 @@ apt-get update \
 if [ "$BUILDKIT_CACHE" == "1" ] ; then
   apt-get install -y --no-install-recommends \
     ccache
+  /usr/sbin/update-ccache-symlinks
+  PATH="/usr/lib/ccache/:$PATH"  #gcc overwrite should only apply within this script
+  unset R_MAKEVARS_SITE        # don't want this ARG value if ccache gcc is in the path
 fi
+
 
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen en_US.utf8
