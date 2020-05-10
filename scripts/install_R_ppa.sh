@@ -27,6 +27,12 @@ apt-get -y install --no-install-recommends \
       dirmngr \
       gpg \
       gpg-agent
+      
+# If using buildkit, install ccache
+if [ "$BUILDKIT_CACHE" == "1" ] ; then
+  apt-get install -y --no-install-recommends \
+    ccache
+fi
 
 echo "deb http://cloud.r-project.org/bin/linux/ubuntu ${UBUNTU_VERSION}-${CRAN_LINUX_VERSION}/" >> /etc/apt/sources.list
 
@@ -49,12 +55,6 @@ rm -rf /var/lib/apt/lists/*
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen en_US.utf8
 /usr/sbin/update-locale LANG=${LANG}
-
-# If using buildkit, install ccache
-if [ "$BUILDKIT_CACHE" == "1" ] ; then
-  apt-get install -y --no-install-recommends \
-    ccache
-fi
 
 Rscript -e "install.packages(c('littler', 'docopt'))"
 

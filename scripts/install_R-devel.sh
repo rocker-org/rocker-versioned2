@@ -35,6 +35,12 @@ apt-get update \
     unzip \
     zip \
     zlib1g
+    
+# If using buildkit, install ccache
+if [ "$BUILDKIT_CACHE" == "1" ] ; then
+  apt-get install -y --no-install-recommends \
+    ccache
+fi
 
 echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
 locale-gen en_US.utf8
@@ -110,12 +116,6 @@ chmod g+ws /usr/local/lib/R/site-library
 ## Fix library path
 echo "R_LIBS_USER='/usr/local/lib/R/site-library'" >> /usr/local/lib/R/etc/Renviron
 echo "R_LIBS=\${R_LIBS-'/usr/local/lib/R/site-library:/usr/local/lib/R/library:/usr/lib/R/library'}" >> /usr/local/lib/R/etc/Renviron
-
-# If using buildkit, install ccache
-if [ "$BUILDKIT_CACHE" == "1" ] ; then
-  apt-get install -y --no-install-recommends \
-    ccache
-fi
 
 ## Use littler installation scripts
 Rscript -e "install.packages(c('littler', 'docopt'))"
