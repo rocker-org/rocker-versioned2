@@ -10,6 +10,7 @@ ENV RSTUDIO_VERSION=latest
 ENV PANDOC_VERSION=default
 ENV TENSORFLOW_VERSION=gpu
 ENV KERAS_VERSION=default
+ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
 
 RUN /rocker_scripts/install_rstudio.sh
