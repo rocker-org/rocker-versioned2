@@ -1,18 +1,26 @@
+<<<<<<< HEAD
 FROM rocker/r-ver:4.0.0-ubuntu18.04
+=======
+# syntax = docker/dockerfile:1.0-experimental
+FROM rockerdev/r-ver:4.0.0-ubuntu18.04
+>>>>>>> rebuild docker and compose files
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+ARG BUILDKIT_CACHE=1
+ARG R_MAKEVARS_SITE=/rocker_scripts/Makevars.ccache
+ARG APT_CONFIG=/rocker_scripts/apt-config
 
 ENV S6_VERSION=v1.21.7.0
 ENV RSTUDIO_VERSION=latest
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
 
-RUN /rocker_scripts/install_rstudio.sh
-RUN /rocker_scripts/install_pandoc.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/install_rstudio.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/install_pandoc.sh
 
 EXPOSE 8787
 

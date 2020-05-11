@@ -1,10 +1,18 @@
+<<<<<<< HEAD
 FROM rocker/ml-verse:4.0.0-cuda10.2-ubuntu18.04
+=======
+# syntax = docker/dockerfile:1.0-experimental
+FROM rockerdev/ml-verse:4.0.0-cuda10.2-ubuntu18.04
+>>>>>>> rebuild docker and compose files
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+ARG BUILDKIT_CACHE=1
+ARG R_MAKEVARS_SITE=/rocker_scripts/Makevars.ccache
+ARG APT_CONFIG=/rocker_scripts/apt-config
 
 
 

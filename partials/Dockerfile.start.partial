@@ -1,4 +1,9 @@
+<<<<<<< HEAD:partials/Dockerfile.start.partial
 FROM {{FROM_IMAGE}}
+=======
+# syntax = docker/dockerfile:1.0-experimental
+FROM rockerdev/shiny:3.6.3
+>>>>>>> rebuild docker and compose files:dockerfiles/Dockerfile_shiny-verse_3.6.3
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -7,10 +12,13 @@ LABEL org.label-schema.license="GPL-2.0" \
 <<<<<<< HEAD:partials/Dockerfile.start.partial
 =======
 
+ARG BUILDKIT_CACHE=1
+ARG R_MAKEVARS_SITE=/rocker_scripts/Makevars.ccache
+ARG APT_CONFIG=/rocker_scripts/apt-config
 
 
 
-RUN /rocker_scripts/install_tidyverse.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/install_tidyverse.sh
 
 
 

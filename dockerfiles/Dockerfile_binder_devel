@@ -1,15 +1,23 @@
+<<<<<<< HEAD
 FROM rocker/geospatial:devel
+=======
+# syntax = docker/dockerfile:1.0-experimental
+FROM rockerdev/geospatial:devel
+>>>>>>> rebuild docker and compose files
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+ARG BUILDKIT_CACHE=1
+ARG R_MAKEVARS_SITE=/rocker_scripts/Makevars.ccache
+ARG APT_CONFIG=/rocker_scripts/apt-config
 
 
 
-RUN /rocker_scripts/install_python.sh
-RUN /rocker_scripts/install_binder.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/install_python.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/install_binder.sh
 
 
 

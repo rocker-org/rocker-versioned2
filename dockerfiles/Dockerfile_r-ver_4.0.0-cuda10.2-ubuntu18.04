@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:1.0-experimental
 FROM nvidia/cuda:10.2-cudnn7-devel
 
 LABEL org.label-schema.license="GPL-2.0" \
@@ -5,6 +6,9 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+ARG BUILDKIT_CACHE=1
+ARG R_MAKEVARS_SITE=/rocker_scripts/Makevars.ccache
+ARG APT_CONFIG=/rocker_scripts/apt-config
 
 ENV R_VERSION=4.0.0
 ENV TERM=xterm
@@ -22,9 +26,9 @@ ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin
 
 COPY scripts /rocker_scripts
 
-RUN /rocker_scripts/install_R.sh
-RUN /rocker_scripts/config_R_cuda.sh
-RUN /rocker_scripts/install_python.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/install_R.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/config_R_cuda.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/install_python.sh
 
 
 CMD R

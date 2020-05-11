@@ -1,3 +1,4 @@
+# syntax = docker/dockerfile:1.0-experimental
 FROM rockerdev/r-ver:3.6.3
 
 LABEL org.label-schema.license="GPL-2.0" \
@@ -5,13 +6,16 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+ARG BUILDKIT_CACHE=1
+ARG R_MAKEVARS_SITE=/rocker_scripts/Makevars.ccache
+ARG APT_CONFIG=/rocker_scripts/apt-config
 
 ENV S6_VERSION=v1.21.7.0
 ENV SHINY_SERVER_VERSION=latest
 ENV PANDOC_VERSION=default
 
 
-RUN /rocker_scripts/install_shiny_server.sh
+RUN --mount=type=cache,id=rocker_ccache,target=/root/.ccache --mount=type=cache,id=rocker_cache_apt,target=/var/cache/apt --mount=type=cache,id=rocker_lib_apt,target=/var/lib/apt /rocker_scripts/install_shiny_server.sh
 
 EXPOSE 3838
 
