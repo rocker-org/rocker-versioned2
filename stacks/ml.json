@@ -32,13 +32,16 @@
   },
   {
     "IMAGE": "ml",
-    "FROM": "rockerdev/r-ver:4.0.0-cuda10.2-ubuntu18.04",
+    "FROM": "rocker/r-ver:4.0.0-cuda10.2-ubuntu18.04",
     "ENV": {
       "S6_VERSION": "v1.21.7.0",
       "RSTUDIO_VERSION": "latest",
       "PANDOC_VERSION": "default",
-     "TENSORFLOW_VERSION": "gpu",
-      "KERAS_VERSION": "default"
+      "TENSORFLOW_VERSION": "gpu",
+      "KERAS_VERSION": "default",
+      "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+
+
     },
     "RUN": [
       "/rocker_scripts/install_rstudio.sh",
@@ -51,20 +54,20 @@
   },
   {
     "IMAGE": "ml-verse",
-    "FROM": "rockerdev/ml:4.0.0-cuda10.2-ubuntu18.04",
+    "FROM": "rocker/ml:4.0.0-cuda10.2-ubuntu18.04",
     "RUN": [
       "/rocker_scripts/install_verse.sh",
       "/rocker_scripts/install_geospatial.sh"
       ]
   },
   {
-    "FROM": "rockerdev/ml:4.0.0-cuda10.2-ubuntu18.04",
+    "FROM": "rocker/ml:4.0.0-cuda10.2-ubuntu18.04",
     "IMAGE": "ml",
     "TAG": "latest"
   }
 ,
   {
-    "FROM": "rockerdev/ml-verse:4.0.0-cuda10.2-ubuntu18.04",
+    "FROM": "rocker/ml-verse:4.0.0-cuda10.2-ubuntu18.04",
     "IMAGE": "ml-verse",
     "TAG": "latest"
   }

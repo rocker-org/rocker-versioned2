@@ -1,17 +1,17 @@
 version: '3'
 services:
   binder-4.0.0:
-    image: rockerdev/binder:4.0.0
+    image: rocker/binder:4.0.0
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_binder_4.0.0
   binder-devel:
-    image: rockerdev/binder:devel
+    image: rocker/binder:devel
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_binder_devel
   binder-latest:
-    image: rockerdev/binder:latest
+    image: rocker/binder:latest
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_binder_4.0.0

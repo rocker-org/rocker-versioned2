@@ -5,7 +5,7 @@
 "stack": [
   {
     "TAG": "4.0.0-ubuntu18.04-unstable",
-    "FROM": "rockerdev/verse:4.0.0-ubuntu18.04",
+    "FROM": "rocker/verse:4.0.0-ubuntu18.04",
     "ENV": { 
 	"UBUNTUGIS_VERSION": "unstable"
     	   },
@@ -16,7 +16,7 @@
   },
   {
     "TAG": "4.0.0-ubuntu18.04",
-    "FROM": "rockerdev/verse:4.0.0-ubuntu18.04",
+    "FROM": "rocker/verse:4.0.0-ubuntu18.04",
     "RUN": "/rocker_scripts/install_geospatial.sh"
   }
 

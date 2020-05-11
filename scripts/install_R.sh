@@ -118,6 +118,7 @@ CXXFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdat
 		   --enable-memory-profiling \
 		   --with-readline \
 		   --with-blas \
+		   --with-lapack \
 		   --with-tcltk \
 		   --disable-nls \
 		   --with-recommended-packages

@@ -1,4 +1,4 @@
-FROM rockerdev/verse:4.0.0-ubuntu18.04
+FROM rocker/verse:4.0.0-ubuntu18.04
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \

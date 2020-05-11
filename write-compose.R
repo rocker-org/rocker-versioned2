@@ -97,7 +97,7 @@ write_compose <-
 ############ rockerdev org is just for testing! ###########
 stacks <- list.files("stacks", full.names=TRUE)
 compose <- file.path("compose", gsub(".json$", ".yml", basename(stacks)))
-devfiles <- data.frame(stacks, compose, org = "rockerdev")                
+devfiles <- data.frame(stacks, compose, org = "rocker")                
 devnull <- apply(devfiles, 1, function(f) write_compose(f[1], f[2], org = f[3]))              
 
 message(paste("write-compose.R done!\n"))

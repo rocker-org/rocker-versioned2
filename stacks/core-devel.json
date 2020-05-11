@@ -20,10 +20,11 @@
   },
   {
     "IMAGE": "rstudio",
-    "FROM": "rockerdev/r-ver:devel",
+    "FROM": "rocker/r-ver:devel",
     "ENV": {
       "S6_VERSION": "v1.21.7.0",
-      "RSTUDIO_VERSION": "latest"
+      "RSTUDIO_VERSION": "latest",
+      "PATH": "/usr/lib/rstudio-server/bin:$PATH"
     },
     "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
     "CMD": "/init",
@@ -31,12 +32,12 @@
   },
   {
     "IMAGE": "tidyverse",
-    "FROM": "rockerdev/rstudio:devel",
+    "FROM": "rocker/rstudio:devel",
     "RUN": "/rocker_scripts/install_tidyverse.sh"
   },
   {
     "IMAGE": "verse",
-    "FROM": "rockerdev/tidyverse:devel",
+    "FROM": "rocker/tidyverse:devel",
     "ENV": {
       "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
       "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"

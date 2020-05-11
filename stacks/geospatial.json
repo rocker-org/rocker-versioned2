@@ -6,12 +6,12 @@
   {
     "TAG": "4.0.0",
     "latest": true,
-    "FROM": "rockerdev/verse:4.0.0",
+    "FROM": "rocker/verse:4.0.0",
     "RUN": "/rocker_scripts/install_geospatial.sh"
   },
   {
     "TAG": "devel",
-    "FROM": "rockerdev/verse:devel",
+    "FROM": "rocker/verse:devel",
     "RUN": "/rocker_scripts/install_geospatial.sh"
   }
 ]
