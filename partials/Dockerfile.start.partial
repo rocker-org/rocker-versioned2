@@ -4,3 +4,16 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
+<<<<<<< HEAD:partials/Dockerfile.start.partial
+=======
+
+
+
+
+RUN /rocker_scripts/install_tidyverse.sh
+
+
+
+
+
+>>>>>>> rebuild docker and compose files:dockerfiles/Dockerfile_shiny-verse_3.6.3

@@ -1,4 +1,4 @@
-FROM rocker/ml:4.0.0-cuda10.2-ubuntu18.04
+FROM rockerdev/r-ver:3.6.3
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -6,12 +6,16 @@ LABEL org.label-schema.license="GPL-2.0" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
 
+ENV S6_VERSION=v1.21.7.0
+ENV SHINY_SERVER_VERSION=latest
+ENV PANDOC_VERSION=default
 
 
-RUN /rocker_scripts/install_verse.sh
-RUN /rocker_scripts/install_geospatial.sh
+RUN /rocker_scripts/install_shiny_server.sh
 
+EXPOSE 3838
 
+CMD /init
 
 
 
