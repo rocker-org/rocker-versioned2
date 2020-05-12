@@ -32,7 +32,7 @@ install2.r --error --skipinstalled shiny rmarkdown
 
 # Set up directories and presmissions
 if [ -x "$(command -v rstudio-server)" ]; then
-  DEFAULT_USER=${DEFAULT_USER:-rstudio}}
+  DEFAULT_USER=${DEFAULT_USER:-rstudio}
   adduser ${DEFAULT_USER} shiny
 fi
 
