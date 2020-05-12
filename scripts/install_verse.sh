@@ -58,6 +58,10 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
   && dpkg -i texlive-local.deb \
   && rm texlive-local.deb
 
+
+## Install texlive
+rocker_scripts/install_texlive.sh
+
 install2.r --error -r $CRAN --skipinstalled tinytex
 install2.r --error --deps TRUE -r $CRAN --skipinstalled \
     blogdown bookdown rticles rmdshower rJava
