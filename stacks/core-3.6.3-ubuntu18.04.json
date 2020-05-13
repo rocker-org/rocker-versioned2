@@ -13,7 +13,7 @@
       "LC_ALL": "en_US.UTF-8",
       "LANG": "en_US.UTF-8",
       "R_HOME": "/usr/local/lib/R",
-      "CRAN": "https://mran.microsoft.com/snapshot/2020-04-24"
+      "CRAN": "https://packagemanager.rstudio.com/all/__linux__/bionic/274"
     },
     "COPY": "scripts /rocker_scripts",
     "RUN": "/rocker_scripts/install_R.sh",
