@@ -109,7 +109,7 @@ fi
 
 # install user config initiation script 
 cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
-cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper.sh
+cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 
 ## Rocker's default RStudio settings, for better reproducibility
 mkdir -p /home/rstudio/.rstudio/monitored/user-settings \
