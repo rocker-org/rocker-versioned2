@@ -30,33 +30,29 @@ rm ss-latest.deb
 # Get R packages
 install2.r --error --skipinstalled shiny rmarkdown
 
-# Set up directories and presmissions
+# Set up directories and permissions
 if [ -x "$(command -v rstudio-server)" ]; then
-  DEFAULT_USER=${DEFAULT_USER:-rstudio}}
+  DEFAULT_USER=${DEFAULT_USER:-rstudio}
   adduser ${DEFAULT_USER} shiny
 fi
 
-cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/ 
+cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
 chown shiny:shiny /var/lib/shiny-server
 mkdir -p /var/log/shiny-server
-chown shiny.shiny /var/log/shiny-server
+chown shiny:shiny /var/log/shiny-server
 
 # create init scripts
 mkdir -p /etc/services.d/shiny-server
-echo echo "#!/usr/bin/with-contenv bash \
-          \n## load /etc/environment vars first: \
-          \n for line in $( cat /etc/environment ) ; do export $line > /dev/null; done \
-          \nif [ \"\$APPLICATION_LOGS_TO_STDOUT\" != \"false\" ]; then \
-          \n    exec xtail /var/log/shiny-server/ & \
-          \nfi \
-          \nexec shiny-server > 2>&1 \
-          \n" > /etc/services.d/shiny-server/run
+cat > /etc/services.d/shiny-server/run << 'EOF'
+#!/usr/bin/with-contenv bash
+## load /etc/environment vars first:
+for line in $( cat /etc/environment ) ; do export $line > /dev/null; done
+if [ "$APPLICATION_LOGS_TO_STDOUT" != "false" ]; then
+    exec xtail /var/log/shiny-server/ &
+fi
+exec shiny-server 2>&1
+EOF
 chmod +x /etc/services.d/shiny-server/run
-      
+
 # Clean up
 rm -rf /var/lib/apt/lists/*
-
-
-
-
-
