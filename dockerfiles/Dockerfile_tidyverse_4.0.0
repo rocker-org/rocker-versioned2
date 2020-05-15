@@ -6,7 +6,8 @@ LABEL org.label-schema.license="GPL-2.0" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
 
-
+ARG NCPUS
+COPY scripts/install_tidyverse.sh /rocker_scripts/install_tidyverse.sh
 RUN /rocker_scripts/install_tidyverse.sh
 
 

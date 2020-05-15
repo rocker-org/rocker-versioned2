@@ -18,16 +18,29 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
   rm -rf /var/lib/apt/lists/*
 
 
-install2.r --error --skipinstalled -d TRUE -r $CRAN -n $NCPUS \
+install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     tidyverse \
-    dplyr \
     devtools \
-    formatR \
-    remotes \
-    selectr \
-    caTools \
+    rmarkdown \
     BiocManager \
-    vroom
+    vroom \
+    gert
+
+## dplyr database backends 
+install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
+    arrow \
+    dbplyr \
+    DBI \
+    dtplyr \
+    nycflights13 \
+    Lahman \
+    RMariaDB \
+    RPostgres \
+    RSQLite \
+    fst
+
+## a bridge to far? -- brings in another 60 packages
+# install2.r --error --skipinstalled -r $CRAN -n $NCPUS tidymodels 
 
  rm -rf /tmp/downloaded_packages
 
