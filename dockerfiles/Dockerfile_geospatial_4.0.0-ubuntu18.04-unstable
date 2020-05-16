@@ -8,6 +8,7 @@ LABEL org.label-schema.license="GPL-2.0" \
 ENV UBUNTUGIS_VERSION=unstable
 
 
+
 RUN /rocker_scripts/add_ubuntugis.sh
 RUN /rocker_scripts/install_geospatial.sh
 
