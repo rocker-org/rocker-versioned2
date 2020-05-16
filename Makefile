@@ -7,7 +7,7 @@ LATEST_TAG=4.0.0
 .PHONY: clean build setup push latest
 .PHONY: $(STACKS) $(PUSHES)
 
-all: clean build push latest
+all: clean build push
 
 setup: $(COMPOSEFILES)
 $(COMPOSEFILES): make-dockerfiles.R write-compose.R $(STACKFILES)
@@ -33,10 +33,8 @@ geospatial-ubuntu18.04: core-4.0.0-ubuntu18.04
 push: $(PUSHES)
 
 $(PUSHES): %.push: %
-	docker-compose -f compose/$<.yml push
-
-latest: push
-	for img in $(docker images --format "{{.Repository}}:{{.Tag}}" | grep -e "rocker.*:$(LATEST_TAG)$"); do \
+	docker-compose -f compose/$<.yml push; \
+	for img in $(docker-compose -f compose/$<.yml config | grep -oP -e "(?<=\\s)[^\\s]+:$(LATEST_TAG)"); \
 		docker tag $img ${img/$(LATEST_TAG)/latest} ; \
 		docker push ${img/$(LATEST_TAG)/latest}; \
 	done
