@@ -129,12 +129,6 @@ make clean
 ## Add a default CRAN mirror
 echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
-## Set HTTPUserAgent for RSPM (https://github.com/rocker-org/rocker/issues/400)
-echo  "options(HTTPUserAgent = sprintf('R/%s R (%s)', getRversion(), 
-                 paste(getRversion(), R.version$platform, 
-                       R.version$arch, R.version$os)))" >> ${R_HOME}/etc/Rprofile.site
-
-
 ## Add a library directory (for user-installed packages)
 mkdir -p ${R_HOME}/site-library
 chown root:staff ${R_HOME}/site-library

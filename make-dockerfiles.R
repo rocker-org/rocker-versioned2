@@ -33,6 +33,7 @@ write_dockerfiles <- function(stack, global){
       paste_if("FROM", image),
       paste_if("LABEL", image),
       paste_if("ENV", image),
+      paste_if("ARG", image),
       paste_if("COPY", image),
       paste_if("RUN", image),
       paste_if("EXPOSE", image),

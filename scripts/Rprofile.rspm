@@ -1,0 +1,9 @@
+## Set HTTPUserAgent for RSPM (https://github.com/rocker-org/rocker/issues/400)
+options(
+  repos = c(CRAN = Sys.getenv("RSPM_URL")),
+  download.file.method = "libcurl",
+  HTTPUserAgent = sprintf(
+    "R/%s R (%s)", getRversion(), 
+    paste(getRversion(), R.version$platform, R.version$arch, R.version$os)
+    )
+)

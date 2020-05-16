@@ -2,6 +2,10 @@ STACKFILES=$(wildcard stacks/*.json)
 STACKS=$(notdir $(basename $(STACKFILES)))
 COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
 PUSHES=$(addsuffix .push,$(STACKS))
+USE_RSPM=1
+ifeq ($(USE_RSPM), 1)
+	BUILD_ARGS=--build-arg R_PROFILE_SITE=/rocker_scripts/Rprofile.rspm
+endif
 
 .PHONY: clean build setup push
 .PHONY: $(STACKS) $(PUSHES)
@@ -16,7 +20,7 @@ $(COMPOSEFILES): make-dockerfiles.R write-compose.R $(STACKFILES)
 build: $(STACKS)
 
 $(STACKS): %: compose/%.yml
-	docker-compose -f compose/$@.yml build
+	docker-compose -f compose/$@.yml build $(BUILD_ARGS)
 
 binder: geospatial
 
