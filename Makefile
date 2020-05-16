@@ -2,11 +2,12 @@ STACKFILES=$(wildcard stacks/*.json)
 STACKS=$(notdir $(basename $(STACKFILES)))
 COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
 PUSHES=$(addsuffix .push,$(STACKS))
+LATEST_TAG=4.0.0
 
-.PHONY: clean build setup push
+.PHONY: clean build setup push latest
 .PHONY: $(STACKS) $(PUSHES)
 
-all: clean build push
+all: clean build push latest
 
 setup: $(COMPOSEFILES)
 $(COMPOSEFILES): make-dockerfiles.R write-compose.R $(STACKFILES)
@@ -29,10 +30,16 @@ geospatial: core-4.0.0 core-devel
 geospatial-ubuntu18.04: core-4.0.0-ubuntu18.04
 
 ## Assumes we are logged into the Docker Registry already
-push: $(PUSHES)
+push: $(PUSHES) latest
 
 $(PUSHES): %.push: %
 	docker-compose -f compose/$<.yml push
+
+latest: push
+	for img in $(docker images --format "{{.Repository}}:{{.Tag}}" | grep -e "rocker.*:$(LATEST_TAG)$"); do \
+		docker tag $img ${img/$(LATEST_TAG)/latest} ; \
+		docker push ${img/$(LATEST_TAG)/latest}; \
+	done
 
 clean:
 	rm dockerfiles/* compose/*
