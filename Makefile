@@ -30,7 +30,7 @@ geospatial: core-4.0.0 core-devel
 geospatial-ubuntu18.04: core-4.0.0-ubuntu18.04
 
 ## Assumes we are logged into the Docker Registry already
-push: $(PUSHES) latest
+push: $(PUSHES)
 
 $(PUSHES): %.push: %
 	docker-compose -f compose/$<.yml push
