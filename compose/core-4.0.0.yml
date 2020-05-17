@@ -26,29 +26,3 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_verse_4.0.0
-  r-ver-latest:
-    image: rocker/r-ver:latest
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_r-ver_4.0.0
-  rstudio-latest:
-    image: rocker/rstudio:latest
-    depends_on:
-    - r-ver-4.0.0
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_rstudio_4.0.0
-  tidyverse-latest:
-    image: rocker/tidyverse:latest
-    depends_on:
-    - rstudio-4.0.0
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_tidyverse_4.0.0
-  verse-latest:
-    image: rocker/verse:latest
-    depends_on:
-    - tidyverse-4.0.0
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_verse_4.0.0

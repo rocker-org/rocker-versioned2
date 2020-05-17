@@ -10,8 +10,3 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_geospatial_devel
-  geospatial-latest:
-    image: rocker/geospatial:latest
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_4.0.0
