@@ -59,17 +59,6 @@
       "/rocker_scripts/install_verse.sh",
       "/rocker_scripts/install_geospatial.sh"
       ]
-  },
-  {
-    "FROM": "rocker/ml:4.0.0-cuda10.2-ubuntu18.04",
-    "IMAGE": "ml",
-    "TAG": "latest"
-  }
-,
-  {
-    "FROM": "rocker/ml-verse:4.0.0-cuda10.2-ubuntu18.04",
-    "IMAGE": "ml-verse",
-    "TAG": "latest"
   }
 ]
 }

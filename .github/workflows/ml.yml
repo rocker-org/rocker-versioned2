@@ -13,8 +13,8 @@ jobs:
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
       - name: Build the tagged Docker image
         run: | 
-             docker-compose -f compose/ml.yml build ml-latest
+             docker-compose -f compose/ml-10.0.yml build ml-10.0
       - name: Push the tagged Docker image
-        run: docker-compose  -f compose/ml.yml push ml-latest
+        run: docker-compose  -f compose/ml-10.0.yml push ml-10.0
 
 
