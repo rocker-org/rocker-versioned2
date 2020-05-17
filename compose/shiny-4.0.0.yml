@@ -12,15 +12,3 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_shiny-verse_4.0.0
-  shiny-latest:
-    image: rocker/shiny:latest
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_shiny_4.0.0
-  shiny-verse-latest:
-    image: rocker/shiny-verse:latest
-    depends_on:
-    - shiny-4.0.0
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_shiny-verse_4.0.0

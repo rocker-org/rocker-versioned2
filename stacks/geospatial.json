@@ -5,7 +5,6 @@
 "stack": [
   {
     "TAG": "4.0.0",
-    "latest": true,
     "FROM": "rocker/verse:4.0.0",
     "RUN": "/rocker_scripts/install_geospatial.sh"
   },

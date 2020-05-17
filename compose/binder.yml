@@ -10,8 +10,3 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_binder_devel
-  binder-latest:
-    image: rocker/binder:latest
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_binder_4.0.0
