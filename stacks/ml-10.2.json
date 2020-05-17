@@ -69,6 +69,7 @@
     "IMAGE": "ml-verse",
     "FROM": "rocker/ml-verse:4.0.0-cuda10.2-ubuntu18.04",
     "TAG": "4.0.0"
+
   }
 ]
 }

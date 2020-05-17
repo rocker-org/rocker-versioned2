@@ -28,7 +28,7 @@
       "/rocker_scripts/config_R_cuda.sh",
       "/rocker_scripts/install_python.sh"
     ],
-    "CMD": "R"
+    "CMD": "[\"R\"]"
   },
   {
     "IMAGE": "ml",
@@ -49,7 +49,7 @@
       "/rocker_scripts/install_tidyverse.sh",
       "/rocker_scripts/install_tensorflow.sh"
       ],
-    "CMD": "/init",
+    "CMD": "[\"/init\"]",
     "EXPOSE": 8787
   },
   {
@@ -70,7 +70,6 @@
     "FROM": "rocker/ml-verse:4.0.0-cuda10.2-ubuntu18.04",
     "TAG": "4.0.0-cuda10.0"
   }
-
 ]
 }
 
