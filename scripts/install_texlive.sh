@@ -10,6 +10,7 @@ option_doc 0
 option_src 0' > /tmp/texlive-profile.txt
 
 CTAN_REPO=${CTAN_REPO:-http://mirror.ctan.org/systems/texlive/tlnet}
+export PATH=$PATH:/usr/local/texlive/bin/x86_64-linux/
 
 mkdir -p /opt/texlive
 # set up packages

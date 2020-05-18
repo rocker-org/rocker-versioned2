@@ -6,7 +6,7 @@ set -e
 export DEBIAN_FRONTEND=noninteractive
 
 
-export PATH=$PATH:/opt/TinyTeX/bin/x86_64-linux/
+export PATH=$PATH:/usr/local/texlive/bin/x86_64-linux/
 
 apt-get update -qq \
   && apt-get install -y --no-install-recommends \
