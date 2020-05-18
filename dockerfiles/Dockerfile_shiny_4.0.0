@@ -14,7 +14,7 @@ RUN /rocker_scripts/install_shiny_server.sh
 
 EXPOSE 3838
 
-CMD /init
+CMD ["/init"]
 
 
 

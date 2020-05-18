@@ -49,7 +49,7 @@
       "/rocker_scripts/install_tidyverse.sh",
       "/rocker_scripts/install_tensorflow.sh"
       ],
-    "CMD": "/init",
+    "CMD": "[\"/init\"]",
     "EXPOSE": 8787
   },
   {

@@ -27,7 +27,7 @@
       "PATH": "/usr/lib/rstudio-server/bin:$PATH"
     },
     "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
-    "CMD": "/init",
+    "CMD": "[\"/init\"]",
     "EXPOSE": 8787
   },
   {

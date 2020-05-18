@@ -15,7 +15,7 @@ RUN /rocker_scripts/install_pandoc.sh
 
 EXPOSE 8787
 
-CMD /init
+CMD ["/init"]
 
 
 
