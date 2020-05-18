@@ -20,7 +20,7 @@ RUN /rocker_scripts/install_tensorflow.sh
 
 EXPOSE 8787
 
-CMD /init
+CMD ["/init"]
 
 
 
