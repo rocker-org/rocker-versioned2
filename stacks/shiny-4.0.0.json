@@ -12,7 +12,7 @@
       "PANDOC_VERSION": "default"
     },
     "RUN": "/rocker_scripts/install_shiny_server.sh",
-    "CMD": "/init",
+    "CMD": "[\"/init\"]",
     "EXPOSE": 3838
   },
   {

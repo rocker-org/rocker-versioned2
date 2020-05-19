@@ -17,7 +17,7 @@
     },
     "COPY": "scripts /rocker_scripts",
     "RUN": "/rocker_scripts/install_R.sh",
-    "CMD": "R"
+    "CMD": "[\"R\"]"
   },
   {
     "IMAGE": "rstudio",
@@ -28,7 +28,7 @@
       "PATH": "/usr/lib/rstudio-server/bin:$PATH"
     },
     "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
-    "CMD": "/init",
+    "CMD": "[\"/init\"]",
     "EXPOSE": 8787
   },
   {
