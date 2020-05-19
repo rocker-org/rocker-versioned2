@@ -1,4 +1,4 @@
-name: ml-cuda-10.0 
+name: ml-cuda-10.2
 
 on: [push]
 #  release:
