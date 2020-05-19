@@ -127,7 +127,11 @@ make install
 make clean
 
 ## Add a default CRAN mirror
-echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
+if [[ -n "$RSPM" ]]; then
+  echo "options(repos = c(RSPM = '${RSPM}', CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
+else
+  echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
+fi
 
 ## Set HTTPUserAgent for RSPM (https://github.com/rocker-org/rocker/issues/400)
 echo  "options(HTTPUserAgent = sprintf('R/%s R (%s)', getRversion(), 

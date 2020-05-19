@@ -101,7 +101,12 @@ make
 make install
 
 ## Add a default CRAN mirror
-echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl')" >> /usr/local/lib/R/etc/Rprofile.site
+if [[ -n "$RSPM" ]]; then
+  echo "options(repos = c(RSPM = '${RSPM}', CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
+else
+  echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
+fi
+
 ## Add a library directory (for user-installed packages)
 mkdir -p /usr/local/lib/R/site-library
 chown root:staff /usr/local/lib/R/site-library
