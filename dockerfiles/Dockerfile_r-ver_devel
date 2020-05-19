@@ -10,7 +10,8 @@ ENV TERM=xterm
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV R_HOME=/usr/local/lib/R
-ENV CRAN=https://packagemanager.rstudio.com/all/__linux__/bionic/latest
+ENV CRAN=https://cran.r-project.org
+ENV RSPM=https://packagemanager.rstudio.com/all/__linux__/bionic/latest
 
 COPY scripts /rocker_scripts
 
