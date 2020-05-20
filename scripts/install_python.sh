@@ -12,18 +12,24 @@ apt-get update && apt-get install -y --no-install-recommends \
         python3-venv && \
     rm -rf /var/lib/apt/lists/*
 
+python3 -m pip --no-cache-dir install --upgrade \
+  pip \
+  setuptools \
+  virtualenv
+
+# Some TF tools expect a "python" binary
+if [ ! -e /usr/local/bin/python ]; then
+  ln -s $(which python3) /usr/local/bin/python
+fi
+
 mkdir -p ${WORKON_HOME}
 python3 -m venv ${PYTHON_VENV_PATH}
-pip3 install --no-cache-dir --upgrade pip
-pip3 install --no-cache-dir virtualenv
-
 
 install2.r --skipinstalled --error reticulate 
 
 ## Ensure RStudio inherits this env var
 echo "" >> ${R_HOME}/etc/Renviron
 echo "WORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron
-
 
 
 ## symlink these so that these are available when switching to a new venv

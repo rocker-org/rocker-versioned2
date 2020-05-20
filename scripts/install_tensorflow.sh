@@ -9,7 +9,6 @@ KERAS_VERSION=${2:-${KERAS_VERSION:-default}}
 
 ## To support different version of TF, install to different virtualenvs
 TENSORFLOW_VENV=$PYTHON_VENV_PATH
-
 install2.r --error --skipinstalled keras
 Rscript -e "keras::install_keras(version = \"$KERAS_VERSION\", \
                                  tensorflow = \"$TENSORFLOW_VERSION\", \

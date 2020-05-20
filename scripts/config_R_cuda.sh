@@ -1,13 +1,12 @@
 #!/bin/bash
 
 set -e
-
 ## CUDA environmental variables configuration for RStudio
 
 ## These should be exported as ENV vars too
 CUDA_HOME=${CUDA_HOME:-/usr/local/cuda}
 PATH={$PATH:-$PATH:$CUDA_HOME/bin}
-LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-$CUDA_HOME/lib64/libnvblas.so:$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64}
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64}
 NVBLAS_CONFIG_FILE=${NVBLAS_CONFIG_FILE:-/etc/nvblas.conf}
 
 ## cli R inherits these, but RStudio needs to have these set in as follows:
@@ -20,6 +19,8 @@ if test -f /etc/rstudio/rserver.conf; then
   echo "rsession-ld-library-path=$LD_LIBRARY_PATH" >> /etc/rstudio/rserver.conf
 fi
 
+
+## nvblas configuration
 touch /var/log/nvblas.log && chown :staff /var/log/nvblas.log
 chmod a+rw /var/log/nvblas.log
 
@@ -54,9 +55,5 @@ echo "NVBLAS_CONFIG_FILE=$NVBLAS_CONFIG_FILE" >> ${R_HOME}/etc/Renviron
 #      \n export LD_PRELOAD=/usr/local/cuda/lib64/libnvblas.so \
 #      \n exec /usr/lib/rstudio-server/bin/rserver --server-daemonize 0' \
 #      > /etc/services.d/rstudio/run
-
-## Additional libraries
-apt-get update && apt-get -y install libnvinfer-dev
-
 
 
