@@ -23,7 +23,7 @@ install-tl-20*/install-tl --profile=/tmp/texlive-profile.txt && \
 
 tlmgr update --self
 tlmgr install latex-bin luatex xetex
-tlmgr install ae inconsolata listings metafont mfware parskip pdfcrop tex
+tlmgr install ae bibtex inconsolata listings metafont mfware parskip pdfcrop tex
 
 ## do not add to /usr/local/bin
 # tlmgr path add
