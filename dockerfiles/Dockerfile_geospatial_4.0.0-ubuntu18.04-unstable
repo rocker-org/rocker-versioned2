@@ -6,7 +6,6 @@ LABEL org.label-schema.license="GPL-2.0" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
 ENV UBUNTUGIS_VERSION=unstable
-ENV CRAN=${CRAN/'__linux__/bionic'/''}
 
 
 RUN /rocker_scripts/add_ubuntugis.sh

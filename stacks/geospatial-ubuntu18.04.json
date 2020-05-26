@@ -7,8 +7,7 @@
     "TAG": "4.0.0-ubuntu18.04-unstable",
     "FROM": "rocker/verse:4.0.0-ubuntu18.04",
     "ENV": { 
-	"UBUNTUGIS_VERSION": "unstable",
-	"CRAN": "${CRAN/'__linux__/bionic'/''}"
+	"UBUNTUGIS_VERSION": "unstable"
     	   },
     "RUN": [
              "/rocker_scripts/add_ubuntugis.sh",
