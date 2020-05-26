@@ -8,6 +8,8 @@ LANG=${LANG:-en_US.UTF-8}
 LC_ALL=${LC_ALL:-en_US.UTF-8}
 CRAN=${CRAN:-https://cran.r-project.org}
 
+CRAN_SOURCE=${CRAN/"__linux__/bionic"/""}
+
 export DEBIAN_FRONTEND=noninteractive
 
 # Set up and install R
@@ -144,7 +146,7 @@ chmod g+ws ${R_HOME}/site-library
 echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >> ${R_HOME}/etc/Renviron
 
 ## Use littler installation scripts
-Rscript -e "install.packages(c('littler', 'docopt'))"
+Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
 ln -s ${R_HOME}/site-library/littler/examples/install2.r /usr/local/bin/install2.r
 ln -s ${R_HOME}/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r
 ln -s ${R_HOME}/site-library/littler/bin/r /usr/local/bin/r
