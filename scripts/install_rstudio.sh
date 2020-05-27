@@ -99,7 +99,7 @@ rstudio-server stop' \
 > /etc/services.d/rstudio/finish
 
 # If CUDA enabled, make sure RStudio knows
-if [ ! -z "$CUDA_HOME"]; then
+if [ ! -z "$CUDA_HOME" ]; then
   sed -i '/^rsession-ld-library-path/d' /etc/rstudio/rserver.conf
   echo "rsession-ld-library-path=$LD_LIBRARY_PATH" >> /etc/rstudio/rserver.conf
 fi
