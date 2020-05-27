@@ -28,6 +28,10 @@ echo "WORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron
 
 ## symlink these so that these are available when switching to a new venv
 ## -f check for file, -L for link, -e for either
+if [ ! -e /usr/local/bin/python ]; then
+  ln -s $(which python3) /usr/local/bin/python
+fi
+
 if [ ! -e /usr/local/bin/pip ]; then
   ln -s ${PYTHON_VENV_PATH}/bin/pip /usr/local/bin/pip
 fi
