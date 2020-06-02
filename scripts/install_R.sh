@@ -8,7 +8,8 @@ LANG=${LANG:-en_US.UTF-8}
 LC_ALL=${LC_ALL:-en_US.UTF-8}
 CRAN=${CRAN:-https://cran.r-project.org}
 
-CRAN_SOURCE=${CRAN/"__linux__/bionic"/""}
+##  mechanism to force source installs if we're using RSPM
+CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION"/""}
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -17,12 +18,11 @@ R_HOME=${R_HOME:-/usr/local/lib/R}
 
 
 
-## ubuntu focal uses readline8, bionic uses readline7, wildcards don't work here
-## consider libopenblas-openmp-dev instead on focal?
-## Also note openmp is quite large
 READLINE_VERSION=8
+OPENBLAS=libopenblas-openmp-dev
 if [ ${UBUNTU_VERSION} == "bionic" ]; then
   READLINE_VERSION=7
+  OPENBLAS=libopenblas-dev
 fi
 
 apt-get update \
@@ -41,7 +41,7 @@ apt-get update \
     libicu* \
     libpcre2* \
     libjpeg-turbo* \
-    libopenblas-dev \
+    ${OPENBLAS} \
     libpangocairo-* \
     libpng16* \
     libreadline${READLINE_VERSION} \
