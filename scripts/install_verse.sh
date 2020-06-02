@@ -31,7 +31,6 @@ apt-get update -qq \
     qpdf \
     texinfo \
     software-properties-common \
-    ssh \
     vim \
     wget
 
@@ -60,7 +59,7 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
 
 
 ## Install texlive
-rocker_scripts/install_texlive.sh
+/rocker_scripts/install_texlive.sh
 
 install2.r --error -r $CRAN --skipinstalled tinytex
 install2.r --error --deps TRUE -r $CRAN --skipinstalled \
