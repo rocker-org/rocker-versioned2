@@ -1,3 +1,4 @@
+SHELL=/bin/bash
 STACKFILES=$(wildcard stacks/*.json)
 STACKS=$(notdir $(basename $(STACKFILES)))
 COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
