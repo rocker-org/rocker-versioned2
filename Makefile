@@ -5,6 +5,8 @@ COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
 PUSHES=$(addsuffix .push,$(STACKS))
 LATEST_TAG=4.0.0
 
+
+
 .PHONY: clean build setup push latest
 .PHONY: $(STACKS) $(PUSHES)
 
@@ -35,10 +37,6 @@ push: $(PUSHES)
 
 $(PUSHES): %.push: %
 	docker-compose -f compose/$<.yml push; \
-	for img in $(docker-compose -f compose/$<.yml config | grep -oP -e "(?<=\\s)[^\\s]+:$(LATEST_TAG)"); do \
-		docker tag $img ${img/$(LATEST_TAG)/latest} ; \
-		docker push ${img/$(LATEST_TAG)/latest}; \
-	done
-
+	./tag.sh $< $(LATEST_TAG)
 clean:
 	rm dockerfiles/* compose/*
