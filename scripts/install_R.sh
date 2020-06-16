@@ -8,6 +8,9 @@ LANG=${LANG:-en_US.UTF-8}
 LC_ALL=${LC_ALL:-en_US.UTF-8}
 CRAN=${CRAN:-https://cran.r-project.org}
 
+##  mechanism to force source installs if we're using RSPM
+CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION"/""}
+
 export DEBIAN_FRONTEND=noninteractive
 
 # Set up and install R
@@ -15,12 +18,11 @@ R_HOME=${R_HOME:-/usr/local/lib/R}
 
 
 
-## ubuntu focal uses readline8, bionic uses readline7, wildcards don't work here
-## consider libopenblas-openmp-dev instead on focal?
-## Also note openmp is quite large
 READLINE_VERSION=8
+OPENBLAS=libopenblas-openmp-dev
 if [ ${UBUNTU_VERSION} == "bionic" ]; then
   READLINE_VERSION=7
+  OPENBLAS=libopenblas-dev
 fi
 
 apt-get update \
@@ -39,7 +41,7 @@ apt-get update \
     libicu* \
     libpcre2* \
     libjpeg-turbo* \
-    libopenblas-dev \
+    ${OPENBLAS} \
     libpangocairo-* \
     libpng16* \
     libreadline${READLINE_VERSION} \
@@ -130,9 +132,9 @@ make clean
 echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
 ## Set HTTPUserAgent for RSPM (https://github.com/rocker-org/rocker/issues/400)
-echo  "options(HTTPUserAgent = sprintf('R/%s R (%s)', getRversion(), 
+echo  'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), 
                  paste(getRversion(), R.version$platform, 
-                       R.version$arch, R.version$os)))" >> ${R_HOME}/etc/Rprofile.site
+                       R.version$arch, R.version$os)))' >> ${R_HOME}/etc/Rprofile.site
 
 
 ## Add a library directory (for user-installed packages)
@@ -144,7 +146,7 @@ chmod g+ws ${R_HOME}/site-library
 echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >> ${R_HOME}/etc/Renviron
 
 ## Use littler installation scripts
-Rscript -e "install.packages(c('littler', 'docopt'))"
+Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
 ln -s ${R_HOME}/site-library/littler/examples/install2.r /usr/local/bin/install2.r
 ln -s ${R_HOME}/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r
 ln -s ${R_HOME}/site-library/littler/bin/r /usr/local/bin/r
