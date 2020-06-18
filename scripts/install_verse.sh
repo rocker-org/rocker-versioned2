@@ -38,9 +38,17 @@ apt-get update -qq \
 # 
 # librdf0-dev depends on libcurl4-gnutils-dev instead of libcurl4-openssl-dev... 
 # So: we can build the redland package bindings and then swap back to libcurl-openssl-dev... (ick)
+# explicitly install runtime library sub-deps of librdf0-dev so they are not auto-removed.
 apt-get install -y librdf0-dev
 install2.r --error --skipinstalled -r $CRAN redland
-apt-get install -y libcurl4-openssl-dev && apt-get -y autoremove
+apt-get install -y \
+	libcurl4-openssl-dev \
+	libxslt-dev \
+	librdf0 \
+	redland-utils \
+	rasqal-utils \
+	raptor2-utils \
+	&& apt-get -y autoremove
 
 # libgit2-dev also depends on the libcurl4-gnutils in bionic but not on focal
 # cran PPA is a super-stable solution to this
