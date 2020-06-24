@@ -7,9 +7,12 @@ Visit [rocker-project.org](https://rocker-project.org) for more about available 
 
 ## Version-stable Rocker images for R >= 4.0.0
 
+For R versions >= 4.0.0, we have implemented a new build system and image architecture under this repository.
 
-**For documentation for images with R <= 3.6.3, please see the [`rocker-versioned`](https://github.com/rocker-org/rocker-versioned) repository,
+For images with R <= 3.6.3, please see the [`rocker-versioned`](https://github.com/rocker-org/rocker-versioned) repository,
 or the [`shiny`](https://github.com/rocker-org/shiny), [`geospatial`](https://github.com/rocker-org/geospatial), and [`binder`](https://github.com/rocker-org/binder) repositories for those images, now all consolidated here for R >= 4.0.0.**
+
+Instructions for image usage largely follows documentation in the above repositories, except where noted below.
 
 ![](https://avatars0.githubusercontent.com/u/9100160?v=3&s=200)
 
@@ -28,8 +31,6 @@ image            | description                               | size   | pull
 [ml-verse](https://hub.docker.com/r/rocker/ml)            |  Adds python and Tensorflow to 'verse'   | [![](https://images.microbadger.com/badges/image/rocker/ml.svg)](https://microbadger.com/images/rocker/ml) | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml) 
 
 ## Notes on new architecture for R >= 4.0.0
-
-For R versions >= 4.0.0, we have implemented a new build system and image architecture.  Notable changes include:
 
 -  Images are now based on Ubuntu, rather than Debian images and system libraries are tied to the Ubuntu version.
 -  We use the [RStudio Package Manager (RSPM)](https://packagemanager.rstudio.com) as our default CRAN mirror.  RSPM serves compiled Linux
