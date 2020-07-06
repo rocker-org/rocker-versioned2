@@ -1,0 +1,27 @@
+{
+  "ordered": true,
+  "TAG": "devel",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "stack": [
+  {
+    "IMAGE": "shiny",
+    "FROM": "rocker/r-ver:devel",
+    "ENV": {
+      "S6_VERSION": "v1.21.7.0",
+      "SHINY_SERVER_VERSION": "latest",
+      "PANDOC_VERSION": "default"
+    },
+    "RUN": "/rocker_scripts/install_shiny_server.sh",
+    "CMD": "[\"/init\"]",
+    "EXPOSE": 3838
+  },
+  {
+    "IMAGE": "shiny-verse",
+    "FROM": "rocker/shiny:devel",
+    "RUN": "/rocker_scripts/install_tidyverse.sh"
+  }]
+}
+
+
+
+
