@@ -56,6 +56,7 @@ UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
 if [ ${UBUNTU_VERSION} == "bionic" ]; then 
   add-apt-repository -y ppa:cran/travis
 fi
+
 apt-get install -y libgit2-dev libcurl4-openssl-dev
 
 
