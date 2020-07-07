@@ -33,6 +33,8 @@ image            | description                               | size   | pull
 ## Notes on new architecture for R >= 4.0.0
 
 -  Images are now based on Ubuntu LTS releases rather than Debian and system libraries are tied to the Ubuntu version. Images will use the most recent LTS available at the time when the corresponding R version was released. Thus all 4.0.0 images are based on Ubuntu 20.04.
+-  We use the [RStudio Package Manager (RSPM)](https://packagemanager.rstudio.com) as our default CRAN mirror.  RSPM serves compiled Linux
+   binaries of R packages and greatly speeds up package installs.
 -  Several images, `r-ver`, and new experimental `ml` and `ml-verse` are now available with CUDA drivers and libraries installed and preconfigured for use on machines with NVIDIA GPUs.  These are available under tags `4.X.X-cudaX.X`, with currently only CUDA 10.1 available pre-built.  
 -  We no longer support `ADD=` runtime triggers for installing Shiny or similar modules.  See below for how to extend images to include custom extensions.
 -  Shiny images, like RStudio images, now manage processes via the [S6](https://github.com/just-containers/s6-overlay) supervisor system allowing containers to manage multiple background processes gracefully.
