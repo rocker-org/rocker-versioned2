@@ -10,7 +10,7 @@ Visit [rocker-project.org](https://rocker-project.org) for more about available 
 For R versions >= 4.0.0, we have implemented a new build system and image architecture under this repository.
 
 For images with R <= 3.6.3, please see the [`rocker-versioned`](https://github.com/rocker-org/rocker-versioned) repository,
-or the [`shiny`](https://github.com/rocker-org/shiny), [`geospatial`](https://github.com/rocker-org/geospatial), and [`binder`](https://github.com/rocker-org/binder) repositories for those images, now all consolidated here for R >= 4.0.0.**
+or the [`shiny`](https://github.com/rocker-org/shiny), [`geospatial`](https://github.com/rocker-org/geospatial), and [`binder`](https://github.com/rocker-org/binder) repositories for those images, now all consolidated here for R >= 4.0.0.
 
 Instructions for image usage largely follows documentation in the above repositories, except where noted below.
 
