@@ -7,6 +7,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 apt-get update -qq \
   && apt-get install -y --no-install-recommends \
+    gdal-bin \
     lbzip2 \
     libfftw3-dev \
     libgdal-dev \

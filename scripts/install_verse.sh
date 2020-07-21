@@ -18,6 +18,8 @@ apt-get update -qq \
     hugo \
     less \
     libbz2-dev \
+    libglpk-dev \
+    libgmp3-dev \
     libhunspell-dev \
     libicu-dev \
     liblzma-dev \
@@ -26,6 +28,8 @@ apt-get update -qq \
     libpcre2-dev \
     libssl-dev \
     libv8-dev \
+    libxml2-dev\
+    libxslt1-dev \
     libzmq3-dev \
     lsb-release \
     qpdf \
@@ -48,6 +52,7 @@ apt-get install -y \
 	redland-utils \
 	rasqal-utils \
 	raptor2-utils \
+        && ap-get remove -y systemd \
 	&& apt-get -y autoremove
 
 # libgit2-dev also depends on the libcurl4-gnutils in bionic but not on focal
@@ -72,7 +77,7 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
 
 install2.r --error -r $CRAN --skipinstalled tinytex
 install2.r --error --deps TRUE -r $CRAN --skipinstalled \
-    blogdown bookdown rticles rmdshower rJava
+    blogdown bookdown rticles rmdshower rJava xaringan
 
 rm -rf /tmp/downloaded_packages
 rm -rf /var/lib/apt/lists/*

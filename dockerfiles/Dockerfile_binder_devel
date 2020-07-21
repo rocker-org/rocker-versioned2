@@ -5,12 +5,15 @@ LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
+ENV NB_USER=jovyan
 
 
 RUN /rocker_scripts/install_python.sh
 RUN /rocker_scripts/install_binder.sh
 
 
+CMD jupyter notebook --ip 0.0.0.0
 
+USER ${NB_USER}
 
 

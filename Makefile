@@ -22,10 +22,11 @@ build: $(STACKS)
 $(STACKS): %: compose/%.yml
 	docker-compose -f compose/$@.yml build
 
-binder: geospatial
-shiny: core-$(LATEST_TAG)
-geospatial: core-$(LATEST_TAG) core-devel
-#geospatial-ubuntu18.04: core-4.0.0-ubuntu18.04
+## Dependency order
+binder-$(LATEST_TAG): geospatial-$(LATEST_TAG)
+shiny-$(LATEST_TAG): core-$(LATEST_TAG)
+geospatial-$(LATEST_TAG): core-$(LATEST_TAG) core-devel
+geospatial-ubuntu18.04: core-4.0.0-ubuntu18.04
 
 ## Assumes we are logged into the Docker Registry already
 push: $(PUSHES)
