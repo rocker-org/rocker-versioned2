@@ -52,7 +52,7 @@ apt-get install -y \
 	redland-utils \
 	rasqal-utils \
 	raptor2-utils \
-        && ap-get remove -y systemd \
+        && apt-get remove -y systemd \
 	&& apt-get -y autoremove
 
 # libgit2-dev also depends on the libcurl4-gnutils in bionic but not on focal
