@@ -59,7 +59,7 @@ if [ "$USERID" -ne 1000 ]
     userdel rstudio
     echo "creating new $USER with UID $USERID"
     useradd -m $USER -u $USERID
-    mkdir /home/$USER
+    mkdir -p /home/$USER
     chown -R $USER /home/$USER
     usermod -a -G staff $USER
 elif [ "$USER" != "rstudio" ]
