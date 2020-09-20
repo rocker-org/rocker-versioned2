@@ -27,6 +27,7 @@ binder-$(LATEST_TAG): geospatial-$(LATEST_TAG)
 shiny-$(LATEST_TAG): core-$(LATEST_TAG)
 geospatial-$(LATEST_TAG): core-$(LATEST_TAG) core-devel
 geospatial-ubuntu18.04: core-4.0.0-ubuntu18.04
+geospatial-unstable: geospatial-$(LATEST_TAG)
 
 ## Assumes we are logged into the Docker Registry already
 push: $(PUSHES)
