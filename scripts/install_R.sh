@@ -19,7 +19,7 @@ R_HOME=${R_HOME:-/usr/local/lib/R}
 
 
 READLINE_VERSION=8
-OPENBLAS=libopenblas-openmp-dev
+OPENBLAS=libopenblas-dev
 if [ ${UBUNTU_VERSION} == "bionic" ]; then
   READLINE_VERSION=7
   OPENBLAS=libopenblas-dev
