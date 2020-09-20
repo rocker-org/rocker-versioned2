@@ -13,8 +13,8 @@ jobs:
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
       - name: Build the tagged Docker image
         run: | 
-             docker-compose -f compose/binder.yml build 
+             docker-compose -f compose/binder-4.0.2.yml build 
       - name: Push the tagged Docker image
-        run: docker-compose  -f compose/binder.yml push
+        run: docker-compose  -f compose/binder-4.0.2.yml push
 
 
