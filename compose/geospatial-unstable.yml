@@ -1,0 +1,7 @@
+version: '3'
+services:
+  geospatial-unstable:
+    image: rocker/geospatial:unstable
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_unstable

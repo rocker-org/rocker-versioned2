@@ -10,7 +10,7 @@
             "GDAL_VERSION": "3.1.2",
             "GEOS_VERSION": "3.8.0"
 	   },
-    "RUN": ["/rocker_scripts/install_geospatial_unstalbe.sh"]
+    "RUN": ["/rocker_scripts/install_geospatial_unstable.sh"]
   }
 ]
 }
