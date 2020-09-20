@@ -5,7 +5,7 @@ set -e
 UBUNTUGIS_VERSION=${1:-${UBUNTUGIS_VERSION:-stable}}
 
 ## Force installs from SOURCE if using RStudio Package Manager Repository
-CRAN=${CRAN/"__linux__/bionic"/""}
+CRAN=${CRAN/"__linux__/focal"/""}
 echo "options(repos = c(CRAN = '${CRAN}'))" >> ${R_HOME}/etc/Rprofile.site
 
 
