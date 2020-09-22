@@ -128,7 +128,8 @@ if test "${OPENJPEG_VERSION}" != ""; then ( \
 apt-get update -y \
     && apt-get install -y --fix-missing --no-install-recommends rsync ccache \
     && rm -rf /var/lib/apt/lists/*
-RSYNC_REMOTE
+
+#RSYNC_REMOTE
 
 WITH_DEBUG_SYMBOLS=no
 
@@ -138,8 +139,8 @@ PROJ_INSTALL_PREFIX=/usr/local
 /rocker_scripts/bh-proj.sh
 
 GDAL_VERSION=master
-GDAL_RELEASE_DATE
-GDAL_BUILD_IS_RELEASE
+#GDAL_RELEASE_DATE
+#GDAL_BUILD_IS_RELEASE
 
 # Build GDAL
 /rocker_scripts/bh-gdal.sh
@@ -148,11 +149,9 @@ GDAL_BUILD_IS_RELEASE
 date
 
 apt-get update \
-# PROJ dependencies
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libsqlite3-0 libtiff5 libcurl4 \
         wget curl unzip ca-certificates \
-# GDAL dependencies
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libcharls2 libopenjp2-7 libcairo2 python3-numpy \
         libpng16-16 libjpeg-turbo8 libgif7 liblzma5 libgeos-3.8.0 libgeos-c1v5 \
@@ -165,7 +164,6 @@ apt-get update \
         libzstd1 bash bash-completion libpq5 libssl1.1 \
         libarmadillo9 libpython3.8 libopenexr24 libheif1 \
         python-is-python3 \
-    # Workaround bug in ogdi packaging
     && ln -s /usr/lib/ogdi/libvrf.so /usr/lib \
     && rm -rf /var/lib/apt/lists/*
 
