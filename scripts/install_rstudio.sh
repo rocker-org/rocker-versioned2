@@ -77,9 +77,9 @@ echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
 ## (and thus is at /usr/local/bin/R), because RStudio doesn't obey
 ## path if a user apt-get installs a package
 R_BIN=`which R`
-echo "rsession-which-r=${R_BIN}" >> /etc/rstudio/rserver.conf
+echo "rsession-which-r=${R_BIN}" > /etc/rstudio/rserver.conf
 ## use more robust file locking to avoid errors when using shared volumes:
-echo "lock-type=advisory" >> /etc/rstudio/file-locks
+echo "lock-type=advisory" > /etc/rstudio/file-locks
 
 ## Prepare optional configuration file to disable authentication
 ## To de-activate authentication, `disable_auth_rserver.conf` script
