@@ -23,7 +23,7 @@ echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
 
-## PATH & LD_LIBRARY_ATH are wrong?
+## PATH & LD_LIBRARY_PATH are wrong?
 PATH=${PATH:-/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}}
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-/usr/local/nvidia/lib:/usr/local/nvidia/lib64}
 

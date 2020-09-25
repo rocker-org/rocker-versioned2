@@ -1,0 +1,17 @@
+#!/bin/bash
+
+## https://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/
+
+apt-get update && apt-get -y install wget
+cd /opt
+wget https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz
+tar -xvf wgrib.tgz
+cd grib2
+
+## really someone needs to learn proper packaging conventions, but whatever
+CC=gcc FC=gfortran make
+ln -s /opt/grib2/wgrib2/wgrib2 /usr/local/bin/wgrib2
+
+
+
+
