@@ -23,6 +23,15 @@ then
 fi
 
 
+if [[ ${NB_PREFIX,,} != "" ]]
+
+then
+	echo "www-root-path=${NB_PREFIX}" >> /etc/rstudio/kubeflow_rserver.conf
+  mv /etc/rstudio/kubeflow_rserver.conf /etc/rstudio/rserver.conf
+	echo "USER=$USER" >> /etc/environment
+fi
+
+
 
 if grep --quiet "auth-none=1" /etc/rstudio/rserver.conf
 then

@@ -88,6 +88,15 @@ echo "lock-type=advisory" > /etc/rstudio/file-locks
 cp /etc/rstudio/rserver.conf /etc/rstudio/disable_auth_rserver.conf
 echo "auth-none=1" >> /etc/rstudio/disable_auth_rserver.conf
 
+## Prepare optional configuration file to disable authentication
+## and set variables for Kubeflow
+## To set variables, `kubeflow_rserver.conf` script
+## will just need to be overwrite /etc/rstudio/rserver.conf. 
+## This is triggered when NB_PREFIX is set by Kubeflow
+cp /etc/rstudio/rserver.conf /etc/rstudio/kubeflow_rserver.conf
+echo "auth-none=1" >> /etc/rstudio/kubeflow_rserver.conf
+echo "www-port=8888" >> /etc/rstudio/kubeflow_rserver.conf
+
 ## Set up RStudio init scripts
 mkdir -p /etc/services.d/rstudio
 echo '#!/usr/bin/with-contenv bash
