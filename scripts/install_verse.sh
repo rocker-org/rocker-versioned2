@@ -20,6 +20,8 @@ apt-get update -qq \
     libbz2-dev \
     libglpk-dev \
     libgmp3-dev \
+    libfribidi-dev \
+    libharfbuzz-dev \
     libhunspell-dev \
     libicu-dev \
     liblzma-dev \
