@@ -3,7 +3,7 @@ STACKFILES=$(wildcard stacks/*.json)
 STACKS=$(notdir $(basename $(STACKFILES)))
 COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
 PUSHES=$(addsuffix .push,$(STACKS))
-LATEST_TAG=4.0.2
+LATEST_TAG=4.0.3
 
 
 
@@ -26,7 +26,6 @@ $(STACKS): %: compose/%.yml
 binder-$(LATEST_TAG): geospatial-$(LATEST_TAG)
 shiny-$(LATEST_TAG): core-$(LATEST_TAG)
 geospatial-$(LATEST_TAG): core-$(LATEST_TAG) core-devel
-geospatial-ubuntu18.04: core-4.0.0-ubuntu18.04
 geospatial-unstable: geospatial-$(LATEST_TAG)
 
 ## Assumes we are logged into the Docker Registry already

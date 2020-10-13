@@ -40,6 +40,13 @@ apt-get update -qq \
     vim \
     wget
 
+# libgit2-dev also depends on the libcurl4-gnutils in bionic but not on focal
+# cran PPA is a super-stable solution to this
+UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
+if [ ${UBUNTU_VERSION} == "bionic" ]; then 
+  add-apt-repository -y ppa:cran/travis
+fi
+
 
 # 
 # librdf0-dev depends on libcurl4-gnutils-dev instead of libcurl4-openssl-dev... 
@@ -56,13 +63,6 @@ apt-get install -y \
 	raptor2-utils \
         && apt-get remove -y systemd \
 	&& apt-get -y autoremove
-
-# libgit2-dev also depends on the libcurl4-gnutils in bionic but not on focal
-# cran PPA is a super-stable solution to this
-UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
-if [ ${UBUNTU_VERSION} == "bionic" ]; then 
-  add-apt-repository -y ppa:cran/travis
-fi
 
 apt-get install -y libgit2-dev libcurl4-openssl-dev
 
