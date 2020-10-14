@@ -85,5 +85,5 @@ echo "/usr/local/cuda/lib64/stubs" > /etc/ld.so.conf.d/z-cuda-stubs.conf
 ldconfig
 
 ## Add nvtop
-/rocker_scripts/install_nvtop.sh
+#/rocker_scripts/install_nvtop.sh
 

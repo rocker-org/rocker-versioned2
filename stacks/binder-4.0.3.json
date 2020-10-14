@@ -1,0 +1,18 @@
+{
+"ordered": false,
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
+"stack": [
+{
+    "IMAGE": "binder",
+    "TAG": "4.0.3",
+    "FROM": "rocker/geospatial:4.0.3",
+    "ENV": {
+      "NB_USER": "jovyan"
+           },
+    "RUN": ["/rocker_scripts/install_python.sh", "/rocker_scripts/install_binder.sh"],
+    "USER": "${NB_USER}",
+    "WORKDIR": "/home/${NB_USER}",
+    "CMD": "jupyter notebook --ip 0.0.0.0"
+
+}]
+}

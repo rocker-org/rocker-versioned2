@@ -14,6 +14,10 @@ rm -rf /var/lib/apt/lists/*
 
 
 
+## in UNSTABLE, we will install everything from source by default:
+CRAN=${CRAN:-https://cran.r-project.org}
+## Add a default CRAN mirror
+echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
 
 
