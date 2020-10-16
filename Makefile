@@ -11,6 +11,7 @@ LATEST_TAG=4.0.3
 .PHONY: $(STACKS) $(PUSHES)
 
 all: clean build push
+latest: clean setup core-$(LATEST_TAG) geospatial-$(LATEST_TAG)
 
 setup: $(COMPOSEFILES)
 $(COMPOSEFILES): make-dockerfiles.R write-compose.R $(STACKFILES)

@@ -24,7 +24,7 @@
     "FROM": "rocker/r-ver:4.0.1",
     "ENV": {
       "S6_VERSION": "v1.21.7.0",
-      "RSTUDIO_VERSION": "latest",
+      "RSTUDIO_VERSION": "1.3.959",
       "PATH": "/usr/lib/rstudio-server/bin:$PATH"
     },
     "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
