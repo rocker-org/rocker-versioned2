@@ -1,4 +1,5 @@
-##
+#!/bin/bash
+
 # ADAPTED FROM: osgeo/gdal:ubuntu-full
 # https://github.com/OSGeo/gdal/blob/master/gdal/docker/ubuntu-full/Dockerfile
 # This file is available at the option of the licensee under:
@@ -8,6 +9,8 @@
 
 # Derived from osgeo/proj by Howard Butler <howard@hobu.co>
 # Derived from osgeo/gdal by Even Rouault <even.rouault@spatialys.com>
+
+set -e
 
 # Setup build env for PROJ
 apt-get update -y \
@@ -131,22 +134,19 @@ apt-get update -y \
 
 #RSYNC_REMOTE
 
-WITH_DEBUG_SYMBOLS=no
+
 
 # Build PROJ
-PROJ_VERSION=master
-PROJ_INSTALL_PREFIX=/usr/local
+export WITH_DEBUG_SYMBOLS=no 
+export PROJ_VERSION=${PROJ_VERSION:-master} 
+export PROJ_INSTALL_PREFIX=/usr/local 
 /rocker_scripts/bh-proj.sh
 
-GDAL_VERSION=master
-#GDAL_RELEASE_DATE
-#GDAL_BUILD_IS_RELEASE
-
 # Build GDAL
+export GDAL_VERSION=${GDAL_VERSION:-master} 
+export LD_LIBRARY_PATH=/build/usr/local/include 
 /rocker_scripts/bh-gdal.sh
 
-
-date
 
 apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -169,29 +169,35 @@ apt-get update \
 
 ## Attempt to order layers starting with less frequently varying ones
 #
-#COPY --from=builder  /build_thirdparty/usr/ /usr/
+cp -a /build_thirdparty/usr/. /usr/
 #
 #PROJ_DATUMGRID_LATEST_LAST_MODIFIED
-#PROJ_INSTALL_PREFIX=/usr/local
-#COPY --from=builder  /build${PROJ_INSTALL_PREFIX}/share/proj/ ${PROJ_INSTALL_PREFIX}/share/proj/
-#COPY --from=builder  /build${PROJ_INSTALL_PREFIX}/include/ ${PROJ_INSTALL_PREFIX}/include/
-#COPY --from=builder  /build${PROJ_INSTALL_PREFIX}/bin/ ${PROJ_INSTALL_PREFIX}/bin/
-#COPY --from=builder  /build${PROJ_INSTALL_PREFIX}/lib/ ${PROJ_INSTALL_PREFIX}/lib/
-#ldconfig \
-#    && projsync --system-directory --all
-#
-#COPY --from=builder  /build/usr/share/gdal/ /usr/share/gdal/
-#COPY --from=builder  /build/usr/include/ /usr/include/
-#COPY --from=builder  /build_gdal_python/usr/ /usr/
-#COPY --from=builder  /build_gdal_version_changing/usr/ /usr/
-#
-#ldconfig
+PROJ_INSTALL_PREFIX=/usr/local
+cp -a /build${PROJ_INSTALL_PREFIX}/share/proj/. ${PROJ_INSTALL_PREFIX}/share/proj/
+cp -a /build${PROJ_INSTALL_PREFIX}/include/. ${PROJ_INSTALL_PREFIX}/include/
+cp -a /build${PROJ_INSTALL_PREFIX}/bin/. ${PROJ_INSTALL_PREFIX}/bin/
+cp -a /build${PROJ_INSTALL_PREFIX}/lib/. ${PROJ_INSTALL_PREFIX}/lib/
+ldconfig
+
+projsync --system-directory --all
+
+cp -a /build/usr/share/gdal/. /usr/share/gdal/
+cp -a /build/usr/include/. /usr/include/
+cp -a /build_gdal_python/usr/. /usr/
+cp -a /build_gdal_version_changing/usr/. /usr/
+
+ldconfig
+
+## CLEAN
+rm -rf /build*
+
+CRAN=${CRAN_SOURCE:-https://cran.r-project.org}
+echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
 
-## Add a default CRAN mirror
-echo "options(repos = c(CRAN = '${CRAN_SOURCE}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
-
-
-
+apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        libudunits2-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 
