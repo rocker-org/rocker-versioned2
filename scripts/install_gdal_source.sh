@@ -164,8 +164,14 @@ apt-get update \
         libzstd1 bash bash-completion libpq5 libssl1.1 \
         libarmadillo9 libpython3.8 libopenexr24 libheif1 \
         python-is-python3 \
+        # sqlite3=3.* \
     && ln -s /usr/lib/ogdi/libvrf.so /usr/lib \
     && rm -rf /var/lib/apt/lists/*
+    
+# Install sqlite3
+# Details: https://github.com/r-spatial/sf/issues/1518
+apt-get update && \
+	DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install sqlite3=3.* 
 
 ## Attempt to order layers starting with less frequently varying ones
 #
