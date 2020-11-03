@@ -1,7 +1,7 @@
 version: '3'
 services:
-  geospatial-ubuntugis:
-    image: rocker/geospatial:ubuntugis
+  geospatial-dev-osgeo:
+    image: rocker/geospatial:dev-osgeo
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_ubuntugis
+      dockerfile: dockerfiles/Dockerfile_geospatial_dev-osgeo

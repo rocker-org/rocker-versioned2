@@ -16,7 +16,7 @@ ENV NVBLAS_CONFIG_FILE=/etc/nvblas.conf
 ENV WORKON_HOME=/opt/venv
 ENV PYTHON_VENV_PATH=/opt/venv/reticulate
 ENV RETICULATE_AUTOCONFIGURE=0
-ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin
+ENV PATH=${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/x86_64-linux
 
 COPY scripts/ /rocker_scripts/
 

@@ -27,7 +27,8 @@ $(STACKS): %: compose/%.yml
 binder-$(LATEST_TAG): geospatial-$(LATEST_TAG)
 shiny-$(LATEST_TAG): core-$(LATEST_TAG)
 geospatial-$(LATEST_TAG): core-$(LATEST_TAG) core-devel
-geospatial-unstable: geospatial-$(LATEST_TAG)
+geospatial-ubuntugis: core-$(LATEST_TAG)
+geospatial-dev-osgeos: core-$(LATEST_TAG)
 
 ## Assumes we are logged into the Docker Registry already
 push: $(PUSHES)

@@ -20,7 +20,7 @@
       "WORKON_HOME": "/opt/venv",
       "PYTHON_VENV_PATH": "/opt/venv/reticulate",
       "RETICULATE_AUTOCONFIGURE": "0",
-      "PATH": "${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin"
+      "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/x86_64-linux"
      },
     "COPY": "scripts/ /rocker_scripts/",
     "RUN": [
