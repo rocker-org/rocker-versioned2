@@ -139,12 +139,14 @@ apt-get update -y \
 # Build PROJ
 export WITH_DEBUG_SYMBOLS=no 
 export PROJ_VERSION=${PROJ_VERSION:-master} 
-export PROJ_INSTALL_PREFIX=/usr/local 
-/rocker_scripts/bh-proj.sh
+export PROJ_INSTALL_PREFIX=/usr/local
+#/rocker_scripts/bh-proj.sh
+/rocker_scripts/install_proj.sh
+
 
 # Build GDAL
 export GDAL_VERSION=${GDAL_VERSION:-master} 
-export LD_LIBRARY_PATH=/build/usr/local/include 
+export LD_LIBRARY_PATH=/build/usr/local/include:/usr/local/include 
 /rocker_scripts/bh-gdal.sh
 
 
@@ -164,28 +166,16 @@ apt-get update \
         libzstd1 bash bash-completion libpq5 libssl1.1 \
         libarmadillo9 libpython3.8 libopenexr24 libheif1 \
         python-is-python3 \
-        # sqlite3=3.* \
     && ln -s /usr/lib/ogdi/libvrf.so /usr/lib \
     && rm -rf /var/lib/apt/lists/*
     
-# Install sqlite3
-# Details: https://github.com/r-spatial/sf/issues/1518
-apt-get update && \
-	DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install sqlite3=3.* 
-
 ## Attempt to order layers starting with less frequently varying ones
 #
 cp -a /build_thirdparty/usr/. /usr/
-#
-#PROJ_DATUMGRID_LATEST_LAST_MODIFIED
-PROJ_INSTALL_PREFIX=/usr/local
-cp -a /build${PROJ_INSTALL_PREFIX}/share/proj/. ${PROJ_INSTALL_PREFIX}/share/proj/
-cp -a /build${PROJ_INSTALL_PREFIX}/include/. ${PROJ_INSTALL_PREFIX}/include/
-cp -a /build${PROJ_INSTALL_PREFIX}/bin/. ${PROJ_INSTALL_PREFIX}/bin/
-cp -a /build${PROJ_INSTALL_PREFIX}/lib/. ${PROJ_INSTALL_PREFIX}/lib/
-ldconfig
 
-projsync --system-directory --all
+
+# 
+#/rocker_scripts/install_proj.sh
 
 cp -a /build/usr/share/gdal/. /usr/share/gdal/
 cp -a /build/usr/include/. /usr/include/
@@ -193,6 +183,7 @@ cp -a /build_gdal_python/usr/. /usr/
 cp -a /build_gdal_version_changing/usr/. /usr/
 
 ldconfig
+projsync --system-directory --all
 
 ## CLEAN
 rm -rf /build*

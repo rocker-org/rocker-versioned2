@@ -16,62 +16,35 @@ mkdir gdal
 wget -q "https://github.com/OSGeo/gdal/archive/${GDAL_VERSION}.tar.gz" \
     -O - | tar xz -C gdal --strip-components=1
 
-(
-    cd gdal/gdal
-    if test "${RSYNC_REMOTE:-}" != ""; then
-        echo "Downloading cache..."
-        rsync -ra "${RSYNC_REMOTE}/gdal/" "$HOME/"
-        echo "Finished"
 
-        # Little trick to avoid issues with Python bindings
-        printf "#!/bin/sh\nccache gcc \$*" > ccache_gcc.sh
-        chmod +x ccache_gcc.sh
-        printf "#!/bin/sh\nccache g++ \$*" > ccache_g++.sh
-        chmod +x ccache_g++.sh
-        export CC=$PWD/ccache_gcc.sh
-        export CXX=$PWD/ccache_g++.sh
+cd gdal/gdal
+./configure --prefix=/usr \
+	--without-libtool \
+	--with-hide-internal-symbols \
+	--with-jpeg12 \
+	--with-python \
+	--with-poppler \
+	--with-spatialite \
+	--with-mysql \
+	--with-liblzma \
+	--with-webp \
+	--with-epsilon \
+	--with-proj="${PROJ_INSTALL_PREFIX-/usr/local}" \
+	--with-poppler \
+	--with-hdf5 \
+	--with-dods-root=/usr \
+	--with-sosi \
+	--with-libtiff=internal --with-rename-internal-libtiff-symbols \
+	--with-geotiff=internal --with-rename-internal-libgeotiff-symbols \
+	--with-kea=/usr/bin/kea-config \
+	--with-mongocxxv3 \
+	--with-tiledb \
+	--with-crypto
 
-        ccache -M 1G
-    fi
+make "-j$(nproc)"
+make install DESTDIR="/build"
 
-    ./configure --prefix=/usr \
-        --without-libtool \
-        --with-hide-internal-symbols \
-        --with-jpeg12 \
-        --with-python \
-        --with-poppler \
-        --with-spatialite \
-        --with-mysql \
-        --with-liblzma \
-        --with-webp \
-        --with-epsilon \
-        --with-proj="/build${PROJ_INSTALL_PREFIX-/usr/local}" \
-        --with-poppler \
-        --with-hdf5 \
-        --with-dods-root=/usr \
-        --with-sosi \
-        --with-libtiff=internal --with-rename-internal-libtiff-symbols \
-        --with-geotiff=internal --with-rename-internal-libgeotiff-symbols \
-        --with-kea=/usr/bin/kea-config \
-        --with-mongocxxv3 \
-        --with-tiledb \
-        --with-crypto
 
-    make "-j$(nproc)"
-    make install DESTDIR="/build"
-
-    if [ -n "${RSYNC_REMOTE:-}" ]; then
-        ccache -s
-
-        echo "Uploading cache..."
-        rsync -ra --delete "$HOME/.ccache" "${RSYNC_REMOTE}/gdal/"
-        echo "Finished"
-
-        rm -rf "$HOME/.ccache"
-        unset CC
-        unset CXX
-    fi
-)
 
 rm -rf gdal
 mkdir -p /build_gdal_python/usr/lib
