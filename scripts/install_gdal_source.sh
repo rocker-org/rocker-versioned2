@@ -1,5 +1,8 @@
 #!/bin/bash
 
+PROJ_VERSION=7.2.0
+GDAL_VERSION=3.2.0
+
 # ADAPTED FROM: osgeo/gdal:ubuntu-full
 # https://github.com/OSGeo/gdal/blob/master/gdal/docker/ubuntu-full/Dockerfile
 # This file is available at the option of the licensee under:
@@ -143,10 +146,12 @@ export PROJ_INSTALL_PREFIX=/usr/local
 #/rocker_scripts/bh-proj.sh
 /rocker_scripts/install_proj.sh
 
+ldconfig
+projsync --system-directory --all
+
 
 # Build GDAL
 export GDAL_VERSION=${GDAL_VERSION:-master} 
-export LD_LIBRARY_PATH=/build/usr/local/include:/usr/local/include 
 /rocker_scripts/bh-gdal.sh
 
 
@@ -170,27 +175,10 @@ apt-get update \
     && rm -rf /var/lib/apt/lists/*
     
 ## Attempt to order layers starting with less frequently varying ones
-#
 cp -a /build_thirdparty/usr/. /usr/
-
-
-# 
-#/rocker_scripts/install_proj.sh
-
-cp -a /build/usr/share/gdal/. /usr/share/gdal/
-cp -a /build/usr/include/. /usr/include/
-cp -a /build_gdal_python/usr/. /usr/
-cp -a /build_gdal_version_changing/usr/. /usr/
-
-ldconfig
-projsync --system-directory --all
-
-## CLEAN
-rm -rf /build*
 
 CRAN=${CRAN_SOURCE:-https://cran.r-project.org}
 echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
-
 
 apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \

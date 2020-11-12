@@ -1,4 +1,7 @@
 #!/bin/bash
+set -e
+
+RSTUDIO_VERSION=1.3.959 /rocker_scripts/install_rstudio.sh
 
 ## NOTE: this runs as user NB_USER!
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-/opt/venv/reticulate}
