@@ -23,7 +23,7 @@
     "IMAGE": "rstudio",
     "FROM": "rocker/r-ver:4.0.0",
     "ENV": {
-      "S6_VERSION": "v1.21.7.0",
+      "S6_VERSION": "v2.0.0.1",
       "RSTUDIO_VERSION": "1.3.959",
       "PATH": "/usr/lib/rstudio-server/bin:$PATH"
     },

@@ -1,20 +1,15 @@
-FROM rocker/geospatial:4.0.2
+FROM rocker/verse:4.0.3-daily
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV NB_USER=rstudio
 
 
-RUN /rocker_scripts/install_python.sh
-RUN /rocker_scripts/install_binder.sh
+RUN /rocker_scripts/install_geospatial.sh
 
 
-CMD jupyter notebook --ip 0.0.0.0
 
-USER ${NB_USER}
 
-WORKDIR /home/${NB_USER}
 
