@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e 
+
 CRAN=${CRAN_SOURCE:-https://cran.r-project.org}
 echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
@@ -26,7 +28,7 @@ export DEBIAN_FRONTEND=noninteractive; apt-get -y update \
 	wget
 
 apt-get install -y \
-	libv8-3.14-dev \
+	libv8-dev \
 	libjq-dev \
 	libprotobuf-dev \
 	libxml2-dev \
@@ -51,9 +53,9 @@ export DEBIAN_FRONTEND=noninteractive; apt-get -y update \
 	libtiff5-dev
 
 #git clone --depth 1 https://github.com/OSGeo/PROJ.git
-wget http://download.osgeo.org/proj/proj-7.1.0.tar.gz
-tar zxvf proj-7.1.0.tar.gz
-cd proj-7.1.0 \
+wget http://download.osgeo.org/proj/proj-$PROJ_VERSION.tar.gz
+tar zxvf proj-${PROJ_VERSION}.tar.gz
+cd proj-${PROJ_VERSION} \
   && ls -l \
   && mkdir build \
   && cd build \
@@ -78,6 +80,7 @@ GDAL_VERSION_NAME=3.1.1
 
 wget http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION_NAME}.tar.gz \
   && tar -xf gdal-${GDAL_VERSION_NAME}.tar.gz \
+  && rm *.tar.gz \
   && cd gdal* \
   && ./configure \
   && make \
@@ -100,6 +103,7 @@ GEOS_VERSION=3.8.1
 wget http://download.osgeo.org/geos/geos-${GEOS_VERSION}.tar.bz2 \
   && bzip2 -d geos-*bz2 \
   && tar xf geos*tar \
+  && rm *.tar \
   && cd geos* \
   && ./configure \
   && make \

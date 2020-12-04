@@ -6,7 +6,7 @@
   {
     "TAG": "dev-osgeo",
     "FROM": "rocker/verse:4.0.3",
-    "RUN": ["/rocker_scripts/install_gdal_source.sh"]
+    "RUN": ["/rocker_scripts/dev_osgeos.sh"]
   }
 ]
 }
