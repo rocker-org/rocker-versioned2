@@ -44,7 +44,7 @@ apt-get install -y \
 
 locale-gen en_US.UTF-8
 
-PROJ_VERSION=7.1.0
+PROJ_VERSION=7.2.0
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 export DEBIAN_FRONTEND=noninteractive; apt-get -y update \
@@ -75,8 +75,8 @@ cd proj-${PROJ_VERSION} \
 # GDAL:
 
 # https://download.osgeo.org/gdal/3.1.0/gdal-3.1.0rc2.tar.gz
-GDAL_VERSION=3.1.1
-GDAL_VERSION_NAME=3.1.1
+GDAL_VERSION=3.2.0
+GDAL_VERSION_NAME=3.2.0
 
 wget http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION_NAME}.tar.gz \
   && tar -xf gdal-${GDAL_VERSION_NAME}.tar.gz \
