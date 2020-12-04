@@ -59,19 +59,7 @@
       "/rocker_scripts/install_verse.sh",
       "/rocker_scripts/install_geospatial.sh"
       ]
-  },
-  {
-    "IMAGE": "ml",
-    "FROM": "rocker/ml:4.0.3-cuda11.1",
-    "TAG": "4.0.3"
-  },
-  {
-    "IMAGE": "ml-verse",
-    "FROM": "rocker/ml-verse:4.0.3-cuda11.1",
-    "TAG": "4.0.3"
-  }
-
-  
+  }  
   ]
 }
 
