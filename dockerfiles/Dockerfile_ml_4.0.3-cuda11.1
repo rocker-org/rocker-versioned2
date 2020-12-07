@@ -16,7 +16,6 @@ ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 RUN /rocker_scripts/install_rstudio.sh
 RUN /rocker_scripts/install_pandoc.sh
 RUN /rocker_scripts/install_tidyverse.sh
-RUN /rocker_scripts/install_tensorflow.sh
 
 EXPOSE 8787
 
