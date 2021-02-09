@@ -5,8 +5,6 @@ COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
 PUSHES=$(addsuffix .push,$(STACKS))
 LATEST_TAG=4.0.3
 
-
-
 .PHONY: clean build setup push latest
 .PHONY: $(STACKS) $(PUSHES)
 

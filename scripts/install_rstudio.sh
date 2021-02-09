@@ -41,11 +41,11 @@ if [ -z "$1" ];
 fi
 
 if [ -z "$RSTUDIO_VERSION_ARG" ] || [ "$RSTUDIO_VERSION_ARG" = "latest" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=`wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1`
 elif [ "$RSTUDIO_VERSION_ARG" = "preview" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=`wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1`
 elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=`wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1`
 else
     DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG}
 fi
@@ -74,7 +74,7 @@ echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
 ## Make RStudio compatible with case when R is built from source
 ## (and thus is at /usr/local/bin/R), because RStudio doesn't obey
 ## path if a user apt-get installs a package
-R_BIN=$(which R)
+R_BIN=`which R`
 echo "rsession-which-r=${R_BIN}" > /etc/rstudio/rserver.conf
 ## use more robust file locking to avoid errors when using shared volumes:
 echo "lock-type=advisory" > /etc/rstudio/file-locks

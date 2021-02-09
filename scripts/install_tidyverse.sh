@@ -16,8 +16,7 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
     unixodbc-dev && \
   rm -rf /var/lib/apt/lists/*
 
-
-install2.r --error --skipinstalled -r "$CRAN" -n "$NCPUS" \
+install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     tidyverse \
     devtools \
     rmarkdown \
@@ -26,7 +25,7 @@ install2.r --error --skipinstalled -r "$CRAN" -n "$NCPUS" \
     gert
 
 ## dplyr database backends
-install2.r --error --skipinstalled -r "$CRAN" -n "$NCPUS" \
+install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     arrow \
     dbplyr \
     DBI \

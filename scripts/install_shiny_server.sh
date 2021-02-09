@@ -33,7 +33,7 @@ install2.r --error --skipinstalled shiny rmarkdown
 # Set up directories and permissions
 if [ -x "$(command -v rstudio-server)" ]; then
   DEFAULT_USER=${DEFAULT_USER:-rstudio}
-  adduser "${DEFAULT_USER}" shiny
+  adduser ${DEFAULT_USER} shiny
 fi
 
 cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/

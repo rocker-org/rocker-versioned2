@@ -22,7 +22,7 @@ fi
 
 # If shiny server installed, make the user part of the shiny group
 if [ -x "$(command -v shiny-server)" ]; then
-  adduser "${DEFAULT_USER}" shiny
+  adduser ${DEFAULT_USER} shiny
 fi
 
 ## configure git not to request password each time
