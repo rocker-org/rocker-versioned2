@@ -17,5 +17,3 @@ jobs:
           git add dockerfiles/*  compose/*
           git commit -m "Update Dockerfiles and docker-compose files" || echo "No changes to commit"
           git push origin ${GITHUB_REF##*/} || echo "No changes to commit"
-
-

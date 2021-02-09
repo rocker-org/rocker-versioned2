@@ -15,6 +15,3 @@ jobs:
         run: docker-compose -f compose/ml-cuda10.1-4.0.3.yml build
       - name: Push the tagged Docker image
         run: docker-compose  -f compose/ml-cuda10.1-4.0.3.yml push
-
-
-

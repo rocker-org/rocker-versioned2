@@ -1,4 +1,4 @@
-name: Build & Push shiny 
+name: Build & Push shiny
 
 on: [push]
 #  release:
@@ -12,9 +12,6 @@ jobs:
       - name: Login to DockerHub Registry
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
       - name: Build the tagged Docker image
-        run: | 
-             docker-compose -f compose/shiny-4.0.3.yml build 
+        run: docker-compose -f compose/shiny-4.0.3.yml build
       - name: Push the tagged Docker image
         run: docker-compose  -f compose/shiny-4.0.3.yml push
-
-
