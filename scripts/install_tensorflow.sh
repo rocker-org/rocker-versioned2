@@ -18,4 +18,3 @@ rm -r /tmp/downloaded_packages
 
 chown -R 1000:1000 /opt/venv
 chmod -R 777 /opt/venv
-

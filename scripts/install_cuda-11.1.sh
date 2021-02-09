@@ -21,7 +21,6 @@ apt-get update && apt-get install -y --no-install-recommends \
 echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
-
 ## Set all of these as global ENV
 # PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
 # LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64
@@ -29,7 +28,6 @@ echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
 # NVIDIA_VISIBLE_DEVICES=all
 #NVIDIA_DRIVER_CAPABILITIES="compute,utility"
 # NVIDIA_REQUIRE_CUDA="cuda>=11.1 brand=tesla,driver>=418,driver<419 brand=tesla,driver>=440,driver<441 brand=tesla,driver>=450,driver<451"
-
 
 ## runtime ####################################################
 ##FROM ${IMAGE_NAME}:11.1-base-ubuntu20.04
@@ -44,7 +42,6 @@ apt-get update && apt-get install -y --no-install-recommends \
     libnccl2=$NCCL_VERSION-1+cuda11.1 \
     && apt-mark hold libnccl2 \
     && rm -rf /var/lib/apt/lists/*
-
 
 ## devel #######################################################
 
@@ -63,4 +60,3 @@ apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 LIBRARY_PATH=/usr/local/cuda/lib64/stubs
-

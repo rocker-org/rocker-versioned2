@@ -9,11 +9,10 @@ ROOT=${ROOT:=FALSE}
 UMASK=${UMASK:=022}
 
 ## Make sure RStudio inherits the full path
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
+echo "PATH=${PATH}" >> "${R_HOME}/etc/Renviron"
 
 bold=$(tput bold)
 normal=$(tput sgr0)
-
 
 if [[ ${DISABLE_AUTH,,} == "true" ]]
 
@@ -21,8 +20,6 @@ then
 	mv /etc/rstudio/disable_auth_rserver.conf /etc/rstudio/rserver.conf
 	echo "USER=$USER" >> /etc/environment
 fi
-
-
 
 if grep --quiet "auth-none=1" /etc/rstudio/rserver.conf
 then
@@ -78,7 +75,7 @@ if [ "$GROUPID" -ne 1000 ]
 ## Configure the primary GID (whether rstudio or $USER) with a different GROUPID if requested.
   then
     echo "Modifying primary group $(id $USER -g -n)"
-    groupmod -g $GROUPID $(id $USER -g -n)
+    groupmod -g $GROUPID "$(id $USER -g -n)"
     echo "Primary group ID is now custom_group $GROUPID"
 fi
 

@@ -9,7 +9,6 @@ GDAL_VERSION=3.2.0
 # Public domain
 # or licensed under X/MIT (LICENSE.TXT) Copyright 2019 Even Rouault <even.rouault@spatialys.com>
 
-
 # Derived from osgeo/proj by Howard Butler <howard@hobu.co>
 # Derived from osgeo/gdal by Even Rouault <even.rouault@spatialys.com>
 
@@ -137,11 +136,9 @@ apt-get update -y \
 
 #RSYNC_REMOTE
 
-
-
 # Build PROJ
-export WITH_DEBUG_SYMBOLS=no 
-export PROJ_VERSION=${PROJ_VERSION:-master} 
+export WITH_DEBUG_SYMBOLS=no
+export PROJ_VERSION=${PROJ_VERSION:-master}
 export PROJ_INSTALL_PREFIX=/usr/local
 #/rocker_scripts/bh-proj.sh
 /rocker_scripts/install_proj.sh
@@ -149,11 +146,9 @@ export PROJ_INSTALL_PREFIX=/usr/local
 ldconfig
 projsync --system-directory --all
 
-
 # Build GDAL
-export GDAL_VERSION=${GDAL_VERSION:-master} 
+export GDAL_VERSION=${GDAL_VERSION:-master}
 /rocker_scripts/bh-gdal.sh
-
 
 apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -173,7 +168,7 @@ apt-get update \
         python-is-python3 \
     && ln -s /usr/lib/ogdi/libvrf.so /usr/lib \
     && rm -rf /var/lib/apt/lists/*
-    
+
 ## Attempt to order layers starting with less frequently varying ones
 cp -a /build_thirdparty/usr/. /usr/
 
@@ -184,5 +179,3 @@ apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libudunits2-dev \
     && rm -rf /var/lib/apt/lists/*
-
-

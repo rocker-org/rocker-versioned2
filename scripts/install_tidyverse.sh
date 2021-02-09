@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 ## build ARGs
@@ -18,7 +17,7 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
   rm -rf /var/lib/apt/lists/*
 
 
-install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
+install2.r --error --skipinstalled -r "$CRAN" -n "$NCPUS" \
     tidyverse \
     devtools \
     rmarkdown \
@@ -26,8 +25,8 @@ install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     vroom \
     gert
 
-## dplyr database backends 
-install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
+## dplyr database backends
+install2.r --error --skipinstalled -r "$CRAN" -n "$NCPUS" \
     arrow \
     dbplyr \
     DBI \
@@ -40,8 +39,6 @@ install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     fst
 
 ## a bridge to far? -- brings in another 60 packages
-# install2.r --error --skipinstalled -r $CRAN -n $NCPUS tidymodels 
+# install2.r --error --skipinstalled -r $CRAN -n $NCPUS tidymodels
 
  rm -rf /tmp/downloaded_packages
-
-

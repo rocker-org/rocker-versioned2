@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-
 apt-get update
 apt-get install -y --no-install-recommends \
     file \
@@ -35,22 +34,21 @@ rm -rf /var/lib/apt/lists/*
 export PATH=/usr/lib/rstudio-server/bin:$PATH
 
 # Get RStudio. Use version from environment variable, or take version from
-# first argument.  
+# first argument.
 if [ -z "$1" ];
   then RSTUDIO_VERSION_ARG=$RSTUDIO_VERSION;
   else RSTUDIO_VERSION_ARG=$1;
 fi
 
 if [ -z "$RSTUDIO_VERSION_ARG" ] || [ "$RSTUDIO_VERSION_ARG" = "latest" ]; then
-    DOWNLOAD_VERSION=`wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1`
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
 elif [ "$RSTUDIO_VERSION_ARG" = "preview" ]; then
-    DOWNLOAD_VERSION=`wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1`
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
 elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
-    DOWNLOAD_VERSION=`wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1`
+    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
 else
     DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG}
 fi
-
 
 ## UBUNTU_VERSION is not generally valid: only works for xenial and bionic, not other releases,
 ## and does not understand numeric versions. (2020-04-15)
@@ -73,17 +71,17 @@ rm rstudio-server-*-amd64.deb
 mkdir -p /etc/R
 echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
 
-## Make RStudio compatible with case when R is built from source 
+## Make RStudio compatible with case when R is built from source
 ## (and thus is at /usr/local/bin/R), because RStudio doesn't obey
 ## path if a user apt-get installs a package
-R_BIN=`which R`
+R_BIN=$(which R)
 echo "rsession-which-r=${R_BIN}" > /etc/rstudio/rserver.conf
 ## use more robust file locking to avoid errors when using shared volumes:
 echo "lock-type=advisory" > /etc/rstudio/file-locks
 
 ## Prepare optional configuration file to disable authentication
 ## To de-activate authentication, `disable_auth_rserver.conf` script
-## will just need to be overwrite /etc/rstudio/rserver.conf. 
+## will just need to be overwrite /etc/rstudio/rserver.conf.
 ## This is triggered by an env var in the user config
 cp /etc/rstudio/rserver.conf /etc/rstudio/disable_auth_rserver.conf
 echo "auth-none=1" >> /etc/rstudio/disable_auth_rserver.conf
@@ -106,10 +104,10 @@ if [ ! -z "$CUDA_HOME" ]; then
   echo "rsession-ld-library-path=$LD_LIBRARY_PATH" >> /etc/rstudio/rserver.conf
 fi
 
-# set up default user 
+# set up default user
 /rocker_scripts/default_user.sh
 
-# install user config initiation script 
+# install user config initiation script
 cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
 cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 
@@ -121,8 +119,5 @@ mkdir -p /home/rstudio/.rstudio/monitored/user-settings \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
   && chown -R rstudio:rstudio /home/rstudio/.rstudio
 
-## 
+##
 git config --system credential.helper 'cache --timeout=3600'
-
-
-

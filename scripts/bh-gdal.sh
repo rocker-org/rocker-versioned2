@@ -47,6 +47,3 @@ make install
 cd /
 
 rm -rf gdal
-
-
-

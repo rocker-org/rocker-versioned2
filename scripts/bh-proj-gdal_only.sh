@@ -21,12 +21,11 @@ wget -q "https://github.com/OSGeo/PROJ/archive/${PROJ_VERSION}.tar.gz" \
 
         ccache -M 100M
     fi
-   
+
     export CFLAGS="-DPROJ_RENAME_SYMBOLS -O2 -g"
     export CXXFLAGS="-DPROJ_RENAME_SYMBOLS -DPROJ_INTERNAL_CPP_NAMESPACE -O2 -g"
     export CFLAGS="-O2 -g"
     export CXXFLAGS="-O2 -g"
-
 
     ./configure "--prefix=${PROJ_INSTALL_PREFIX:-/usr/local}"
 
