@@ -25,5 +25,3 @@ pip3 install --no-cache-dir jupyter-rsession-proxy
 
 R --quiet -e "devtools::install_github('IRkernel/IRkernel')"
 R --quiet -e "IRkernel::installspec(prefix='${PYTHON_VENV_PATH}')"
-
-

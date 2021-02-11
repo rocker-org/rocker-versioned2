@@ -12,7 +12,3 @@ rsession --standalone=1 \
          --session-timeout-minutes=0 \
          --user-identity=rstudio \
          --www-port=8787
-
-
-
-

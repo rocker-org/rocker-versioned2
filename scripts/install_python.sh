@@ -26,7 +26,7 @@ fi
 mkdir -p ${WORKON_HOME}
 python3 -m venv ${PYTHON_VENV_PATH}
 
-install2.r --skipinstalled --error reticulate 
+install2.r --skipinstalled --error reticulate
 
 ## Ensure RStudio inherits this env var
 echo "" >> ${R_HOME}/etc/Renviron
@@ -52,4 +52,3 @@ fi
 chown -R :staff ${WORKON_HOME}
 chmod g+wx ${WORKON_HOME}
 chown :staff ${PYTHON_VENV_PATH}
-

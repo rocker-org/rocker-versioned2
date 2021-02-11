@@ -1,11 +1,8 @@
 #!/bin/bash
-
-set -e 
+set -e
 
 CRAN=${CRAN_SOURCE:-https://cran.r-project.org}
-echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
-
-
+echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> "${R_HOME}/etc/Rprofile.site"
 
 export DEBIAN_FRONTEND=noninteractive; apt-get -y update \
   && apt-get install -y \
@@ -113,7 +110,7 @@ wget http://download.osgeo.org/geos/geos-${GEOS_VERSION}.tar.bz2 \
 
 # svn  checkout svn://scm.r-forge.r-project.org/svnroot/rgdal/
 # R CMD build rgdal/pkg --no-build-vignettes
-# R CMD INSTALL rgdal_*.tar.gz 
+# R CMD INSTALL rgdal_*.tar.gz
 
 Rscript -e 'install.packages(c("sp", "rgeos", "rgdal", "RPostgreSQL", "RSQLite", "testthat", "knitr", "tidyr", "geosphere", "maptools", "maps", "microbenchmark", "raster", "dplyr", "tibble", "units", "DBI",  "covr", "protolite", "tmap", "mapview", "odbc", "pool", "rmarkdown", "RPostgres","spatstat", "stars"))'
 

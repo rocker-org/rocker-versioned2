@@ -14,15 +14,12 @@ echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
 bold=$(tput bold)
 normal=$(tput sgr0)
 
-
 if [[ ${DISABLE_AUTH,,} == "true" ]]
 
 then
 	mv /etc/rstudio/disable_auth_rserver.conf /etc/rstudio/rserver.conf
 	echo "USER=$USER" >> /etc/environment
 fi
-
-
 
 if grep --quiet "auth-none=1" /etc/rstudio/rserver.conf
 then

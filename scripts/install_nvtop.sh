@@ -7,4 +7,3 @@ mkdir -p nvtop/build && cd nvtop/build
 cmake .. -DNVML_RETRIEVE_HEADER_ONLINE=True
 make
 make install
-

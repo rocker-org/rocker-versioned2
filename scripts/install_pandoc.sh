@@ -39,5 +39,4 @@ if [ "$INSTALLED_PANDOC" != "$PANDOC_VERSION" ]; then
   cp -r pandoc-templates*/* /opt/pandoc/templates && rm -rf pandoc-templates*
   rm -fr /root/.pandoc
   mkdir /root/.pandoc && ln -s /opt/pandoc/templates /root/.pandoc/templates
-
 fi

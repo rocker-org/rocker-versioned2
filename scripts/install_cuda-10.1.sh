@@ -27,12 +27,10 @@ echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
 PATH=${PATH:-/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}}
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-/usr/local/nvidia/lib:/usr/local/nvidia/lib64}
 
-
 # nvidia-container-runtime
 NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-all}
 NVIDIA_DRIVER_CAPABILITIES=${NVIDIA_DRIVER_CAPABILITIES:-"compute,utility"}
 NVIDIA_REQUIRE_CUDA=${NVIDIA_REQUIRE_CUDA:-"cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411"}
-
 
 ## Tensorflow config for cuda runtime.
 ## Adapted from:
