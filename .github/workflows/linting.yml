@@ -1,6 +1,6 @@
 name: linting
 
-'on':
+"on":
   pull_request:
 
 jobs:
@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@main
+        uses: actions/checkout@v2
       - name: Run yaml Lint
         uses: actionshub/yamllint@main
 
@@ -16,6 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@main
+        uses: actions/checkout@v2
       - name: Run Markdown Lint
         uses: actionshub/markdownlint@main
+
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
