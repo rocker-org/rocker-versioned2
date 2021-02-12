@@ -69,7 +69,7 @@ rm rstudio-server-*-amd64.deb
 
 ## RStudio wants an /etc/R, will populate from $R_HOME/etc
 mkdir -p /etc/R
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
+echo "PATH=${PATH}" >> "${R_HOME}/etc/Renviron"
 
 ## Make RStudio compatible with case when R is built from source
 ## (and thus is at /usr/local/bin/R), because RStudio doesn't obey
@@ -88,6 +88,7 @@ echo "auth-none=1" >> /etc/rstudio/disable_auth_rserver.conf
 
 ## Set up RStudio init scripts
 mkdir -p /etc/services.d/rstudio
+# shellcheck disable=SC2016
 echo '#!/usr/bin/with-contenv bash
 ## load /etc/environment vars first:
 for line in $( cat /etc/environment ) ; do export $line > /dev/null; done
@@ -120,12 +121,15 @@ cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
 cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 
 ## Rocker's default RStudio settings, for better reproducibility
+
+USER_SETTINGS='alwaysSaveHistory="0"
+loadRData="0"
+saveAction="0"
+'
+
 mkdir -p /home/rstudio/.rstudio/monitored/user-settings \
-  && echo 'alwaysSaveHistory="0" \
-          \nloadRData="0" \
-          \nsaveAction="0"' \
+  && printf "%s" "$USER_SETTINGS" \
           > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
   && chown -R rstudio:rstudio /home/rstudio/.rstudio
 
-##
 git config --system credential.helper 'cache --timeout=3600'
