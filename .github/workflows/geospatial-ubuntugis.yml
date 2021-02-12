@@ -1,6 +1,6 @@
 name: geospatial-ubuntugis
 
-on: [push]
+'on': [push]
 #  release:
 #    types: [published]
 
