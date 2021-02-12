@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 # Note that 'default' pandoc version means the version bundled with RStudio

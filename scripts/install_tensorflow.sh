@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 TENSORFLOW_VERSION=${1:-${TENSORFLOW_VERSION:-default}}

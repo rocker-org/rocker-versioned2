@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo 'selected_scheme scheme-infraonly
 TEXDIR /usr/local/texlive
 TEXMFCONFIG /opt/texlive/texmf-config

@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 apt-get update && apt-get install -y --no-install-recommends \
 gnupg2 curl ca-certificates && \
