@@ -57,11 +57,11 @@ fi
 RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
 
 if [ "$UBUNTU_VERSION" = "xenial" ]; then
-  wget $RSTUDIO_URL || \
-  wget `echo $RSTUDIO_URL | sed 's/server-/server-xenial-/'` || \
-  wget `echo $RSTUDIO_URL | sed 's/xenial/trusty/'`
+  wget "${RSTUDIO_URL}" || \
+  wget "${RSTUDIO_URL//server-/server-xenial-/}" || \
+  wget "${RSTUDIO_URL//xenial/trusty/}"
 else
-  wget $RSTUDIO_URL
+  wget "${RSTUDIO_URL}"
 fi
 
 dpkg -i rstudio-server-*-amd64.deb
