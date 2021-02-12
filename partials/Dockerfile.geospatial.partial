@@ -2,5 +2,3 @@
 COPY scripts/install_geospatial.sh /rocker_scripts/install_geospatial.sh
 {{/ROCKER_DEV_WORKFLOW}}
 RUN /rocker_scripts/install_geospatial.sh
-
-

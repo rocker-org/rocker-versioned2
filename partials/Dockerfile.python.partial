@@ -1,18 +1,12 @@
-
 {{#ROCKER_DEV_WORKFLOW}}
 COPY scripts/install_python.sh /rocker_scripts/install_python.sh
 {{/ROCKER_DEV_WORKFLOW}}
 
-ENV WORKON_HOME=/opt/venv
-
 ## A default python venv, e.g. for binder etc.
-ENV PYTHON_VENV_PATH=${WORKON_HOME}/reticulate 
-
-
-ENV RETICULATE_AUTOCONFIGURE=0
-
-## Add this venv to path (FIXME should use symlinks for pip, python, virtualenv in script instead?
-ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}
+## Add venv to path (FIXME should use symlinks for pip, python, virtualenv in script instead?
+ENV WORKON_HOME=/opt/venv \
+    PYTHON_VENV_PATH=${WORKON_HOME}/reticulate \
+    RETICULATE_AUTOCONFIGURE=0 \
+    PATH=${PYTHON_VENV_PATH}/bin:${PATH}
 
 RUN . /rocker_scripts/install_python.sh
-

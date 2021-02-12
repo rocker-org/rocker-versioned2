@@ -1,22 +1,20 @@
-
 {{^ROCKER_DEV_WORKFLOW}}
 COPY scripts /rocker_scripts
 {{/ROCKER_DEV_WORKFLOW}}
 
 # Set system environmetnal variables
 ENV TERM=xterm
-ENV LC_ALL=en_US.UTF-8
-ENV LANG=en_US.UTF-8
-ENV DEBIAN_FRONTEND=noninteractive
-ENV UBUNTU_VERSION={{UBUNTU_VERSION}}
+    LC_ALL=en_US.UTF-8 \
+    LANG=en_US.UTF-8 \
+    DEBIAN_FRONTEND=noninteractive \
+    UBUNTU_VERSION={{UBUNTU_VERSION}}
 
 # Set up and install R
-ENV R_HOME=/usr/local/lib/R
-ENV R_VERSION={{R_VERSION}}
-
+ENV R_HOME=/usr/local/lib/R \
+    R_VERSION={{R_VERSION}}
 {{#MRAN}}
-ENV MRAN={{MRAN}}
-ENV CRAN=https://mran.microsoft.com/snapshot/{{MRAN}}
+ENV MRAN={{MRAN}} \
+    CRAN=https://mran.microsoft.com/snapshot/{{MRAN}}
 {{/MRAN}}
 {{^MRAN}}
 ENV CRAN=https://cran.rstudio.com
@@ -26,4 +24,3 @@ ENV CRAN=https://cran.rstudio.com
 COPY scripts/install_R.sh /rocker_scripts/install_R-devel.sh
 {{/ROCKER_DEV_WORKFLOW}}
 RUN /rocker_scripts/install_R-devel.sh
-
