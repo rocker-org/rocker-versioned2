@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -eu
 
 git clone https://github.com/OSGeo/PROJ
