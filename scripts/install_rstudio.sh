@@ -104,6 +104,14 @@ if [ ! -z "$CUDA_HOME" ]; then
   echo "rsession-ld-library-path=$LD_LIBRARY_PATH" >> /etc/rstudio/rserver.conf
 fi
 
+# Log to stderr
+LOGGING="[*]
+log-level=warn
+logger-type=stderr
+"
+
+printf "%s" "$LOGGING" > /etc/rstudio/logging.conf
+
 # set up default user
 /rocker_scripts/default_user.sh
 
