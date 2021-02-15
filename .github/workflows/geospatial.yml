@@ -1,6 +1,8 @@
 name: geospatial
 
 "on": [push]
+#  release:
+#    types: [published]
 
 jobs:
   build:

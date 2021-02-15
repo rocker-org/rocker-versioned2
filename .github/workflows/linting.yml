@@ -4,13 +4,13 @@ name: linting
   pull_request:
 
 jobs:
-  yamllint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Run yaml Lint
-        uses: actionshub/yamllint@main
+  # yamllint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v2
+  #     - name: Run yaml Lint
+  #       uses: actionshub/yamllint@main
 
   mdl:
     runs-on: ubuntu-latest
