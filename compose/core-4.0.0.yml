@@ -8,21 +8,21 @@ services:
   rstudio-4.0.0:
     image: rocker/rstudio:4.0.0
     depends_on:
-    - r-ver-4.0.0
+      - r-ver-4.0.0
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_rstudio_4.0.0
   tidyverse-4.0.0:
     image: rocker/tidyverse:4.0.0
     depends_on:
-    - rstudio-4.0.0
+      - rstudio-4.0.0
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_tidyverse_4.0.0
   verse-4.0.0:
     image: rocker/verse:4.0.0
     depends_on:
-    - tidyverse-4.0.0
+      - tidyverse-4.0.0
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_verse_4.0.0

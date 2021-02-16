@@ -1,6 +1,6 @@
 name: Build & Push shiny
 
-on: [push]
+'on': [push]
 #  release:
 #    types: [published]
 

@@ -1,6 +1,6 @@
 name: Update Dockerfiles and docker-compose files
 
-on: [push]
+'on': [push]
 #  release:
 #    types: [published]
 

@@ -8,7 +8,7 @@ services:
   shiny-verse-4.0.2:
     image: rocker/shiny-verse:4.0.2
     depends_on:
-    - shiny-4.0.2
+      - shiny-4.0.2
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_shiny-verse_4.0.2
