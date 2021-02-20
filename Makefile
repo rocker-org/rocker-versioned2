@@ -3,7 +3,7 @@ STACKFILES=$(wildcard stacks/*.json)
 STACKS=$(notdir $(basename $(STACKFILES)))
 COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
 PUSHES=$(addsuffix .push,$(STACKS))
-LATEST_TAG=4.0.3
+LATEST_TAG=4.0.4
 
 .PHONY: clean build setup push latest
 .PHONY: $(STACKS) $(PUSHES)

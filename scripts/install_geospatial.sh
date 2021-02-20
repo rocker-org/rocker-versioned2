@@ -35,9 +35,8 @@ apt-get update -qq \
 # lwgeom 0.2-2 and 0.2-3 have a regression which prevents install on ubuntu:bionic
 ## permissionless PAT for builds
 UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
-
 if [ ${UBUNTU_VERSION} == "bionic" ]; then
-  R -e "Sys.setenv(GITHUB_PAT='0e7777db4b3bb48acb542b8912a989b8047f6351'); remotes::install_github('r-spatial/lwgeom')"
+  R -e "Sys.setenv(GITHUB_PAT='8a103d7f9872a210a259dca273b9db05ca0ee84e'); remotes::install_github('r-spatial/lwgeom')"
 fi
 
 

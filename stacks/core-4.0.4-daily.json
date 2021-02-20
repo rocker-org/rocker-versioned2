@@ -1,6 +1,6 @@
 {
   "ordered": true,
-  "TAG": "4.0.3-daily",
+  "TAG": "4.0.4-daily",
   "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "stack": [
   {
@@ -17,12 +17,12 @@
   },
   {
     "IMAGE": "tidyverse",
-    "FROM": "rocker/rstudio:4.0.3-daily",
+    "FROM": "rocker/rstudio:4.0.4-daily",
     "RUN": "/rocker_scripts/install_tidyverse.sh"
   },
   {
     "IMAGE": "verse",
-    "FROM": "rocker/tidyverse:4.0.3-daily",
+    "FROM": "rocker/tidyverse:4.0.4-daily",
     "ENV": {
       "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
       "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"
