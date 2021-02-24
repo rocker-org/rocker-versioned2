@@ -1,27 +1,27 @@
-version: '3'
+version: "3"
 services:
   geospatial-ubuntugis:
     image: rocker/geospatial:ubuntugis
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_geospatial_ubuntugis
   geospatial-4.0.3-ubuntugis:
     image: rocker/geospatial:4.0.3-ubuntugis
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_geospatial_4.0.3-ubuntugis
   geospatial-4.0.2-ubuntugis:
     image: rocker/geospatial:4.0.2-ubuntugis
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_geospatial_4.0.2-ubuntugis
   geospatial-4.0.1-ubuntugis:
     image: rocker/geospatial:4.0.1-ubuntugis
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_geospatial_4.0.1-ubuntugis
   geospatial-4.0.0-ubuntugis:
     image: rocker/geospatial:4.0.0-ubuntugis
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_geospatial_4.0.0-ubuntugis

@@ -19,7 +19,8 @@ $(COMPOSEFILES): make-dockerfiles.R write-compose.R $(STACKFILES)
 build: $(STACKS)
 
 $(STACKS): %: compose/%.yml
-	docker-compose -f compose/$@.yml build
+	# docker-compose -f compose/$@.yml build
+	docker buildx bake -f compose/$@.yml --load
 
 ## Dependency order
 binder-$(LATEST_TAG): geospatial-$(LATEST_TAG)

@@ -1,28 +1,28 @@
-version: '3'
+version: "3"
 services:
   r-ver-devel:
     image: rocker/r-ver:devel
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_r-ver_devel
   rstudio-devel:
     image: rocker/rstudio:devel
     depends_on:
-    - r-ver-devel
+      - r-ver-devel
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_rstudio_devel
   tidyverse-devel:
     image: rocker/tidyverse:devel
     depends_on:
-    - rstudio-devel
+      - rstudio-devel
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_tidyverse_devel
   verse-devel:
     image: rocker/verse:devel
     depends_on:
-    - tidyverse-devel
+      - tidyverse-devel
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_verse_devel

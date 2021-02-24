@@ -1,14 +1,14 @@
-version: '3'
+version: "3"
 services:
   shiny-4.0.3:
     image: rocker/shiny:4.0.3
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_shiny_4.0.3
   shiny-verse-4.0.3:
     image: rocker/shiny-verse:4.0.3
     depends_on:
-    - shiny-4.0.3
+      - shiny-4.0.3
     build:
-      context: ..
+      context: .
       dockerfile: dockerfiles/Dockerfile_shiny-verse_4.0.3
