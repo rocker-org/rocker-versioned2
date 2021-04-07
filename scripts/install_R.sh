@@ -9,7 +9,7 @@ LC_ALL=${LC_ALL:-en_US.UTF-8}
 CRAN=${CRAN:-https://cran.r-project.org}
 
 ##  mechanism to force source installs if we're using RSPM
-CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION"/""}
+CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
 
 export DEBIAN_FRONTEND=noninteractive
 

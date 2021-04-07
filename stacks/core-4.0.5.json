@@ -1,14 +1,30 @@
 {
   "ordered": true,
-  "TAG": "4.0.4-daily",
+  "TAG": "4.0.5",
   "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "stack": [
   {
-    "IMAGE": "rstudio",
-    "FROM": "rocker/r-ver",
+    "IMAGE": "r-ver",
+    "FROM": "ubuntu:20.04",
     "ENV": {
-      "S6_VERSION": "v1.21.7.0",
-      "RSTUDIO_VERSION": "daily",
+      "R_VERSION": "4.0.5",
+      "TERM": "xterm",
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8",
+      "R_HOME": "/usr/local/lib/R",
+      "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
+      "TZ": "Etc/UTC"
+    },
+    "COPY": "scripts /rocker_scripts",
+    "RUN": "/rocker_scripts/install_R.sh",
+    "CMD": "[\"R\"]"
+  },
+  {
+    "IMAGE": "rstudio",
+    "FROM": "rocker/r-ver:4.0.5",
+    "ENV": {
+      "S6_VERSION": "v2.1.0.2",
+      "RSTUDIO_VERSION": "latest",
       "PATH": "/usr/lib/rstudio-server/bin:$PATH"
     },
     "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
@@ -17,12 +33,12 @@
   },
   {
     "IMAGE": "tidyverse",
-    "FROM": "rocker/rstudio:4.0.4-daily",
+    "FROM": "rocker/rstudio:4.0.5",
     "RUN": "/rocker_scripts/install_tidyverse.sh"
   },
   {
     "IMAGE": "verse",
-    "FROM": "rocker/tidyverse:4.0.4-daily",
+    "FROM": "rocker/tidyverse:4.0.5",
     "ENV": {
       "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
       "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"

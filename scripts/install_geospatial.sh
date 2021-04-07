@@ -36,7 +36,7 @@ apt-get update -qq \
 ## permissionless PAT for builds
 UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
 if [ ${UBUNTU_VERSION} == "bionic" ]; then
-  R -e "Sys.setenv(GITHUB_PAT='8a103d7f9872a210a259dca273b9db05ca0ee84e'); remotes::install_github('r-spatial/lwgeom')"
+  R -e "remotes::install_version('lwgeom', '0.2-4')"
 fi
 
 

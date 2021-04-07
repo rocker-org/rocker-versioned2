@@ -1,4 +1,4 @@
-FROM rocker/r-ver:4.0.4
+FROM rocker/r-ver:4.0.5
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
@@ -6,7 +6,7 @@ LABEL org.label-schema.license="GPL-2.0" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
 ENV S6_VERSION=v2.1.0.2
-ENV RSTUDIO_VERSION=1.4.1106
+ENV RSTUDIO_VERSION=latest
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
 

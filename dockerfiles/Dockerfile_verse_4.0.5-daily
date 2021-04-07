@@ -1,21 +1,17 @@
-FROM rocker/r-ver:4.0.4
+FROM rocker/tidyverse:4.0.5-daily
 
 LABEL org.label-schema.license="GPL-2.0" \
       org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
       org.label-schema.vendor="Rocker Project" \
       maintainer="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV S6_VERSION=v2.1.0.2
-ENV RSTUDIO_VERSION=1.4.1106
-ENV PATH=/usr/lib/rstudio-server/bin:$PATH
+ENV CTAN_REPO=http://mirror.ctan.org/systems/texlive/tlnet
+ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
 
 
-RUN /rocker_scripts/install_rstudio.sh
-RUN /rocker_scripts/install_pandoc.sh
+RUN /rocker_scripts/install_verse.sh
 
-EXPOSE 8787
 
-CMD ["/init"]
 
 
 
