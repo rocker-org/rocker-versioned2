@@ -19,7 +19,7 @@ mkdir -p /opt/texlive
 apt-get update && apt-get -y install wget perl xzdec
 wget ${CTAN_REPO}/install-tl-unx.tar.gz
 tar -xzf install-tl-unx.tar.gz
-install-tl-20*/install-tl --profile=/tmp/texlive-profile.txt && \
+install-tl-20*/install-tl --profile=/tmp/texlive-profile.txt --repository $CTAN_REPO && \
     rm -rf install-tl-*
 
 tlmgr update --self
