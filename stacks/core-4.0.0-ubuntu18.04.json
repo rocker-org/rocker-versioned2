@@ -41,7 +41,7 @@
     "IMAGE": "verse",
     "FROM": "rocker/tidyverse:4.0.0-ubuntu18.04",
     "ENV": {
-      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
+      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
       "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"
     },
     "RUN": "/rocker_scripts/install_verse.sh"

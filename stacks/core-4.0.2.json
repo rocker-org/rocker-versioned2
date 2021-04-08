@@ -40,7 +40,7 @@
     "IMAGE": "verse",
     "FROM": "rocker/tidyverse:4.0.2",
     "ENV": {
-      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
+      "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2020/10/07/tlnet", 
       "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"
     },
     "RUN": "/rocker_scripts/install_verse.sh"
