@@ -18,7 +18,6 @@ ENV PYTHON_VENV_PATH=/opt/venv/reticulate
 ENV RETICULATE_AUTOCONFIGURE=0
 ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin
 
-COPY scripts/ /rocker_scripts/
 
 RUN /rocker_scripts/install_cuda-10.1.sh
 RUN /rocker_scripts/config_R_cuda.sh
