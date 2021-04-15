@@ -13,7 +13,7 @@
       "LC_ALL": "en_US.UTF-8",
       "LANG": "en_US.UTF-8",
       "R_HOME": "/usr/local/lib/R",
-      "CRAN": "https://packagemanager.rstudio.com/all/__linux__/bionic/291",
+      "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/bionic/291",
       "TZ": "Etc/UTC"
     },
     "COPY": "scripts /rocker_scripts",
@@ -25,7 +25,7 @@
     "FROM": "rocker/r-ver:4.0.0-ubuntu18.04",
     "ENV": {
       "S6_VERSION": "v1.21.7.0",
-      "RSTUDIO_VERSION": "latest",
+      "RSTUDIO_VERSION": "1.3.959",
       "PATH": "/usr/lib/rstudio-server/bin:$PATH"
     },
     "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
@@ -41,7 +41,7 @@
     "IMAGE": "verse",
     "FROM": "rocker/tidyverse:4.0.0-ubuntu18.04",
     "ENV": {
-      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
+      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
       "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"
     },
     "RUN": "/rocker_scripts/install_verse.sh"

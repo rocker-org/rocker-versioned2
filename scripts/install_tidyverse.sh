@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 ## build ARGs
@@ -17,7 +16,6 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
     unixodbc-dev && \
   rm -rf /var/lib/apt/lists/*
 
-
 install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     tidyverse \
     devtools \
@@ -26,7 +24,7 @@ install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     vroom \
     gert
 
-## dplyr database backends 
+## dplyr database backends
 install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     arrow \
     dbplyr \
@@ -40,8 +38,6 @@ install2.r --error --skipinstalled -r $CRAN -n $NCPUS \
     fst
 
 ## a bridge to far? -- brings in another 60 packages
-# install2.r --error --skipinstalled -r $CRAN -n $NCPUS tidymodels 
+# install2.r --error --skipinstalled -r $CRAN -n $NCPUS tidymodels
 
  rm -rf /tmp/downloaded_packages
-
-

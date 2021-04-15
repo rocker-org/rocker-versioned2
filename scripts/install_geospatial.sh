@@ -1,5 +1,4 @@
 #!/bin/bash
-
 set -e
 
 # always set this for scripts but don't declare as ENV..
@@ -36,13 +35,12 @@ apt-get update -qq \
 # lwgeom 0.2-2 and 0.2-3 have a regression which prevents install on ubuntu:bionic
 ## permissionless PAT for builds
 UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
-
-if [ ${UBUNTU_VERSION} == "bionic" ]; then 
-  R -e "Sys.setenv(GITHUB_PAT='0e7777db4b3bb48acb542b8912a989b8047f6351'); remotes::install_github('r-spatial/lwgeom')"
+if [ ${UBUNTU_VERSION} == "bionic" ]; then
+  R -e "remotes::install_version('lwgeom', '0.2-4')"
 fi
 
 
-## Somehow foreign is messed up on CRAN between 2020-04-25 -- 2020-05-0?  
+## Somehow foreign is messed up on CRAN between 2020-04-25 -- 2020-05-0?
 ##install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 foreign
 
 install2.r --error --skipinstalled \
@@ -77,7 +75,7 @@ install2.r --error --skipinstalled \
 
 R -e "BiocManager::install('rhdf5')"
 
-## install wgrib2 for NOAA's NOMADS / rNOMADS forecast files 
+## install wgrib2 for NOAA's NOMADS / rNOMADS forecast files
 /rocker_scripts/install_wgrib2.sh
 
 rm -r /tmp/downloaded_packages

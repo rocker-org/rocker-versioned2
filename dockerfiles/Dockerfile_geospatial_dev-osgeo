@@ -1,0 +1,18 @@
+FROM rocker/verse:4.0.3
+
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+ENV PROJ_VERSION=7.2.0
+ENV GDAL_VERSION=3.2.0
+ENV GEOS_VERSION=3.8.1
+
+
+RUN /rocker_scripts/dev_osgeo.sh
+
+
+
+
+

@@ -8,7 +8,7 @@
     "TAG": "devel",
     "FROM": "rocker/geospatial:devel",
     "ENV": {
-      "NB_USER": "jovyan"
+      "NB_USER": "rstudio"
            },
     "RUN": ["/rocker_scripts/install_python.sh", "/rocker_scripts/install_binder.sh"],
     "USER": "${NB_USER}",

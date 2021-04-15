@@ -9,14 +9,12 @@ LC_ALL=${LC_ALL:-en_US.UTF-8}
 CRAN=${CRAN:-https://cran.r-project.org}
 
 ##  mechanism to force source installs if we're using RSPM
-CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION"/""}
+CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
 
 export DEBIAN_FRONTEND=noninteractive
 
 # Set up and install R
 R_HOME=${R_HOME:-/usr/local/lib/R}
-
-
 
 READLINE_VERSION=8
 OPENBLAS=libopenblas-dev
@@ -101,7 +99,7 @@ else                                                                 \
     wget https://cran.r-project.org/src/base/R-3/R-${R_VERSION}.tar.gz || \
     wget https://cran.r-project.org/src/base/R-4/R-${R_VERSION}.tar.gz; \
 fi &&                                                                \
-    tar xzf R-${R_VERSION}.tar.gz &&   
+    tar xzf R-${R_VERSION}.tar.gz &&
 
 cd R-${R_VERSION}
 R_PAPERSIZE=letter \
@@ -132,10 +130,9 @@ make clean
 echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
 
 ## Set HTTPUserAgent for RSPM (https://github.com/rocker-org/rocker/issues/400)
-echo  'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), 
-                 paste(getRversion(), R.version$platform, 
+echo  'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(),
+                 paste(getRversion(), R.version$platform,
                        R.version$arch, R.version$os)))' >> ${R_HOME}/etc/Rprofile.site
-
 
 ## Add a library directory (for user-installed packages)
 mkdir -p ${R_HOME}/site-library
@@ -162,5 +159,3 @@ apt-get remove --purge -y $BUILDDEPS
 apt-get autoremove -y
 apt-get autoclean -y
 rm -rf /var/lib/apt/lists/*
-
-

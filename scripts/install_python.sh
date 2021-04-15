@@ -3,7 +3,7 @@ set -e
 
 WORKON_HOME=${WORKON_HOME:-/opt/venv}
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-${WORKON_HOME}/reticulate}
-RETICULATE_AUTOCONFIGURE=${RETICULATE_AUTOCONFIGURE:-0}
+RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED:-FALSE}
 
 apt-get update && apt-get install -y --no-install-recommends \
         libpython3-dev \
@@ -26,12 +26,12 @@ fi
 mkdir -p ${WORKON_HOME}
 python3 -m venv ${PYTHON_VENV_PATH}
 
-install2.r --skipinstalled --error reticulate 
+install2.r --skipinstalled --error reticulate
 
 ## Ensure RStudio inherits this env var
 echo "" >> ${R_HOME}/etc/Renviron
 echo "WORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron
-echo "RETICULATE_AUTOCONFIGURE=${RETICULATE_AUTOCONFIGURE}" >> ${R_HOME}/etc/Renviron
+echo "RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED}" >> ${R_HOME}/etc/Renviron
 
 
 ## symlink these so that these are available when switching to a new venv
@@ -52,4 +52,3 @@ fi
 chown -R :staff ${WORKON_HOME}
 chmod g+wx ${WORKON_HOME}
 chown :staff ${PYTHON_VENV_PATH}
-

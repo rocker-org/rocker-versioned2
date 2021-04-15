@@ -1,0 +1,26 @@
+FROM rocker/r-ver:4.0.5-cuda10.1
+
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+ENV S6_VERSION=v1.21.7.0
+ENV RSTUDIO_VERSION=latest
+ENV PANDOC_VERSION=default
+ENV TENSORFLOW_VERSION=gpu
+ENV KERAS_VERSION=default
+ENV PATH=/usr/lib/rstudio-server/bin:$PATH
+
+
+RUN /rocker_scripts/install_rstudio.sh
+RUN /rocker_scripts/install_pandoc.sh
+RUN /rocker_scripts/install_tidyverse.sh
+RUN /rocker_scripts/install_tensorflow.sh
+
+EXPOSE 8787
+
+CMD ["/init"]
+
+
+

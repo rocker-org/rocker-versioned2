@@ -12,7 +12,7 @@
       "LC_ALL": "en_US.UTF-8",
       "LANG": "en_US.UTF-8",
       "R_HOME": "/usr/local/lib/R",
-      "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/291",
+      "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/291",
       "TZ": "Etc/UTC"
     },
     "COPY": "scripts /rocker_scripts",
@@ -23,8 +23,8 @@
     "IMAGE": "rstudio",
     "FROM": "rocker/r-ver:4.0.0",
     "ENV": {
-      "S6_VERSION": "v1.21.7.0",
-      "RSTUDIO_VERSION": "latest",
+      "S6_VERSION": "v2.0.0.1",
+      "RSTUDIO_VERSION": "1.3.959",
       "PATH": "/usr/lib/rstudio-server/bin:$PATH"
     },
     "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
@@ -40,7 +40,7 @@
     "IMAGE": "verse",
     "FROM": "rocker/tidyverse:4.0.0",
     "ENV": {
-      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
+      "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
       "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"
     },
     "RUN": "/rocker_scripts/install_verse.sh"

@@ -1,0 +1,17 @@
+FROM rocker/tidyverse:4.0.4
+
+LABEL org.label-schema.license="GPL-2.0" \
+      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
+      org.label-schema.vendor="Rocker Project" \
+      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+
+ENV CTAN_REPO=http://www.texlive.info/tlnet-archive/2021/03/30/tlnet
+ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
+
+
+RUN /rocker_scripts/install_verse.sh
+
+
+
+
+

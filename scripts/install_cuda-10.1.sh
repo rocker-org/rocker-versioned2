@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 apt-get update && apt-get install -y --no-install-recommends \
 gnupg2 curl ca-certificates && \
@@ -27,12 +27,10 @@ echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
 PATH=${PATH:-/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}}
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-/usr/local/nvidia/lib:/usr/local/nvidia/lib64}
 
-
 # nvidia-container-runtime
 NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES:-all}
 NVIDIA_DRIVER_CAPABILITIES=${NVIDIA_DRIVER_CAPABILITIES:-"compute,utility"}
 NVIDIA_REQUIRE_CUDA=${NVIDIA_REQUIRE_CUDA:-"cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411"}
-
 
 ## Tensorflow config for cuda runtime.
 ## Adapted from:
@@ -84,6 +82,6 @@ ln -s /usr/local/cuda/lib64/stubs/libcuda.so /usr/local/cuda/lib64/stubs/libcuda
 echo "/usr/local/cuda/lib64/stubs" > /etc/ld.so.conf.d/z-cuda-stubs.conf
 ldconfig
 
-
-
+## Add nvtop
+#/rocker_scripts/install_nvtop.sh
 

@@ -1,0 +1,34 @@
+{
+"ordered": false,
+"IMAGE": "geospatial",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
+"stack": [
+  {
+    "TAG": "ubuntugis",
+    "FROM": "rocker/verse",
+    "RUN": ["/rocker_scripts/install_geospatial_unstable.sh", "/rocker_scripts/install_geospatial.sh"]
+  },
+  {
+    "TAG": "4.0.3-ubuntugis",
+    "FROM": "rocker/verse:4.0.3",
+    "RUN": ["/rocker_scripts/install_geospatial_unstable.sh", "/rocker_scripts/install_geospatial.sh"]
+  },
+  {
+    "TAG": "4.0.2-ubuntugis",
+    "FROM": "rocker/verse:4.0.2",
+    "RUN": ["/rocker_scripts/install_geospatial_unstable.sh", "/rocker_scripts/install_geospatial.sh"]
+  },
+  {
+    "TAG": "4.0.1-ubuntugis",
+    "FROM": "rocker/verse:4.0.1",
+    "RUN": ["/rocker_scripts/install_geospatial_unstable.sh", "/rocker_scripts/install_geospatial.sh"]
+  },
+  {
+    "TAG": "4.0.0-ubuntugis",
+    "FROM": "rocker/verse:4.0.0",
+    "RUN": ["/rocker_scripts/install_geospatial_unstable.sh", "/rocker_scripts/install_geospatial.sh"]
+  }
+
+
+]
+}

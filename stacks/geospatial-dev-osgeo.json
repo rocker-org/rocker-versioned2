@@ -1,0 +1,15 @@
+{
+"ordered": false,
+"IMAGE": "geospatial",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
+"stack": [
+  {
+    "TAG": "dev-osgeo",
+    "FROM": "rocker/verse:4.0.3",
+    "ENV": {"PROJ_VERSION": "7.2.0",
+            "GDAL_VERSION": "3.2.0", 
+            "GEOS_VERSION": "3.8.1"},
+    "RUN": ["/rocker_scripts/dev_osgeo.sh"]
+  }
+]
+}

@@ -1,8 +1,11 @@
 #!/bin/bash
+set -e
+
+RSTUDIO_VERSION=1.3.959 /rocker_scripts/install_rstudio.sh
 
 ## NOTE: this runs as user NB_USER!
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-/opt/venv/reticulate}
-NB_USER=${NB_USER:-jovyan}
+NB_USER=${NB_USER:-rstudio}
 NB_UID=${NB_UID:-1000}
 WORKDIR=${WORKDIR:-/home/${NB_USER}}
 usermod -l ${NB_USER} rstudio
@@ -22,5 +25,3 @@ pip3 install --no-cache-dir jupyter-rsession-proxy
 
 R --quiet -e "devtools::install_github('IRkernel/IRkernel')"
 R --quiet -e "IRkernel::installspec(prefix='${PYTHON_VENV_PATH}')"
-
-

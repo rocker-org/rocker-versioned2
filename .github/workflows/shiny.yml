@@ -1,6 +1,6 @@
-name: Build & Push shiny 
+name: Build & Push shiny
 
-on: [push]
+'on': [push]
 #  release:
 #    types: [published]
 
@@ -9,12 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - name: Login to DockerHub Registry
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+      - uses: docker/login-action@v1
+        with:
+            username: ${{ secrets.DOCKER_USER }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build the tagged Docker image
-        run: | 
-             docker-compose -f compose/shiny-4.0.2.yml build 
+        run: docker-compose -f compose/shiny-4.0.4.yml build
       - name: Push the tagged Docker image
-        run: docker-compose  -f compose/shiny-4.0.2.yml push
-
-
+        run: docker-compose  -f compose/shiny-4.0.4.yml push

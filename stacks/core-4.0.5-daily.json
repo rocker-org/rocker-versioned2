@@ -1,0 +1,37 @@
+{
+  "ordered": true,
+  "TAG": "4.0.5-daily",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "stack": [
+  {
+    "IMAGE": "rstudio",
+    "FROM": "rocker/r-ver",
+    "ENV": {
+      "S6_VERSION": "v1.21.7.0",
+      "RSTUDIO_VERSION": "daily",
+      "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+    },
+    "RUN": ["/rocker_scripts/install_rstudio.sh", "/rocker_scripts/install_pandoc.sh"],
+    "CMD": "[\"/init\"]",
+    "EXPOSE": 8787
+  },
+  {
+    "IMAGE": "tidyverse",
+    "FROM": "rocker/rstudio:4.0.5-daily",
+    "RUN": "/rocker_scripts/install_tidyverse.sh"
+  },
+  {
+    "IMAGE": "verse",
+    "FROM": "rocker/tidyverse:4.0.5-daily",
+    "ENV": {
+      "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet", 
+      "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"
+    },
+    "RUN": "/rocker_scripts/install_verse.sh"
+  }
+  ]
+}
+
+
+
+
