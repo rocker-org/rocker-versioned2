@@ -67,6 +67,9 @@ fi
 dpkg -i rstudio-server-*-amd64.deb
 rm rstudio-server-*-amd64.deb
 
+# https://github.com/rocker-org/rocker-versioned2/issues/137
+rm -f /var/lib/rstudio-server/secret-cookie-key
+
 ## RStudio wants an /etc/R, will populate from $R_HOME/etc
 mkdir -p /etc/R
 echo "PATH=${PATH}" >> "${R_HOME}/etc/Renviron"
