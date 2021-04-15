@@ -22,7 +22,6 @@
       "RETICULATE_AUTOCONFIGURE": "0",
       "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/x86_64-linux"
      },
-    "COPY": "scripts/ /rocker_scripts/",
     "RUN": [
       "/rocker_scripts/install_cuda-10.1.sh",
       "/rocker_scripts/config_R_cuda.sh",
