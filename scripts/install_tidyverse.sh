@@ -13,6 +13,7 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
     libsasl2-dev \
     libsqlite3-dev \
     libssh2-1-dev \
+    libxtst6 \
     unixodbc-dev && \
   rm -rf /var/lib/apt/lists/*
 
