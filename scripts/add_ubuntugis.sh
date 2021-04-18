@@ -14,3 +14,6 @@ apt-get update \
   wget \
   ca-certificates \
   && add-apt-repository --enable-source --yes "ppa:ubuntugis/ubuntugis-$UBUNTUGIS_VERSION"
+
+# Clean up
+rm -rf /var/lib/apt/lists/*

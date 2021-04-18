@@ -78,4 +78,6 @@ R -e "BiocManager::install('rhdf5')"
 ## install wgrib2 for NOAA's NOMADS / rNOMADS forecast files
 /rocker_scripts/install_wgrib2.sh
 
+# Clean up
+rm -rf /var/lib/apt/lists/*
 rm -r /tmp/downloaded_packages

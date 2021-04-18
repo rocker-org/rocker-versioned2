@@ -7,3 +7,6 @@ mkdir -p nvtop/build && cd nvtop/build
 cmake .. -DNVML_RETRIEVE_HEADER_ONLINE=True
 make
 make install
+
+# Clean up
+rm -rf /var/lib/apt/lists/*

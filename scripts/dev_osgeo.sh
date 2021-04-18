@@ -127,3 +127,6 @@ R CMD INSTALL sf
 R CMD INSTALL lwgeom
 R CMD build --no-build-vignettes --no-manual stars
 R CMD INSTALL stars
+
+# Clean up
+rm -rf /var/lib/apt/lists/*

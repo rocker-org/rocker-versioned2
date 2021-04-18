@@ -52,3 +52,7 @@ fi
 chown -R :staff ${WORKON_HOME}
 chmod g+wx ${WORKON_HOME}
 chown :staff ${PYTHON_VENV_PATH}
+
+# Clean up
+rm -rf /var/lib/apt/lists/*
+rm -rf /tmp/downloaded_packages

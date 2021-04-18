@@ -20,3 +20,6 @@ else
 
   echo "$S6_VERSION" > /rocker_scripts/.s6_version
 fi
+
+# Clean up
+rm -rf /var/lib/apt/lists/*
