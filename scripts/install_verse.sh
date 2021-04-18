@@ -70,9 +70,12 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
 ## Install texlive
 /rocker_scripts/install_texlive.sh
 
+## Install Chrome for pagedown support
+/rocker_scripts/install_chrome.sh
+
 install2.r --error -r $CRAN --skipinstalled tinytex
 install2.r --error --deps TRUE -r $CRAN --skipinstalled \
-    blogdown bookdown rticles rmdshower rJava xaringan
+    blogdown bookdown pagedown rticles rmdshower rJava xaringan
 
 rm -rf /tmp/downloaded_packages
 rm -rf /var/lib/apt/lists/*
