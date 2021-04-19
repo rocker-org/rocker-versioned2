@@ -40,3 +40,6 @@ if [ "$INSTALLED_PANDOC" != "$PANDOC_VERSION" ]; then
   rm -fr /root/.pandoc
   mkdir /root/.pandoc && ln -s /opt/pandoc/templates /root/.pandoc/templates
 fi
+
+# Clean up
+rm -rf /var/lib/apt/lists/*

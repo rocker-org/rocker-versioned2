@@ -9,7 +9,7 @@
 set -e
 
 apt-get update && apt-get -y install curl python3-pip
-pip install --upgrade --ignore-installed pipenv 
+python3 -m pip --no-cache-dir install --upgrade --ignore-installed pipenv
 
 
 # consider a version-stable alternative for the installer?
@@ -22,6 +22,5 @@ echo 'PATH="/opt/pyenv/bin:~/.local/bin:$PATH"' >> /etc/bash.bashrc
 echo 'eval "$(pyenv init -)"' >>  /etc/bash.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> /etc/bash.bashrc
 
-
-
-
+# Clean up
+rm -rf /var/lib/apt/lists/*

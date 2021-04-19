@@ -56,3 +56,4 @@ chmod +x /etc/services.d/shiny-server/run
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
+rm -rf /tmp/downloaded_packages
