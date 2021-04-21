@@ -1,9 +1,9 @@
 FROM rocker/tidyverse:4.0.5-daily
 
-LABEL org.label-schema.license="GPL-2.0" \
-      org.label-schema.vcs-url="https://github.com/rocker-org/rocker-versioned" \
-      org.label-schema.vendor="Rocker Project" \
-      maintainer="Carl Boettiger <cboettig@ropensci.org>"
+LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
+      org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
+      org.opencontainers.image.vendor="Rocker Project" \
+      org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
 ENV CTAN_REPO=http://mirror.ctan.org/systems/texlive/tlnet
 ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
