@@ -15,7 +15,7 @@ CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
 export DEBIAN_FRONTEND=noninteractive
 
 # Set up and install R
-R_HOME=${R_HOME:-/usr/local/lib/R}
+R_HOME=${R_HOME:-/usr/lib/R}
 
 READLINE_VERSION=8
 OPENBLAS=libopenblas-dev
