@@ -6,6 +6,7 @@ PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-${WORKON_HOME}/reticulate}
 RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED:-FALSE}
 
 apt-get update && apt-get install -y --no-install-recommends \
+	git \
         libpython3-dev \
         python3-dev \
         python3-pip \

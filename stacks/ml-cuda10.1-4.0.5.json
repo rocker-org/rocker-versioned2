@@ -19,6 +19,7 @@
       "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
       "WORKON_HOME": "/opt/venv",
       "PYTHON_VENV_PATH": "/opt/venv/reticulate",
+      "PYTHON_CONFIGURE_OPTS": "--enable-shared",
       "RETICULATE_AUTOCONFIGURE": "0",
       "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/x86_64-linux"
      },

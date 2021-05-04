@@ -20,6 +20,7 @@
       "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
       "WORKON_HOME": "/opt/venv",
       "PYTHON_VENV_PATH": "/opt/venv/reticulate",
+      "PYTHON_CONFIGURE_OPTS": "--enable-shared",
       "RETICULATE_MINICONDA_ENABLED": "FALSE",
       "PATH": "${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/x86_64-linux"
      },
