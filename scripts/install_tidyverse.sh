@@ -14,6 +14,7 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
     libsqlite3-dev \
     libssh2-1-dev \
     libxtst6 \
+    libcurl4-openssl-dev \
     unixodbc-dev && \
   rm -rf /var/lib/apt/lists/*
 
