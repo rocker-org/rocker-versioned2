@@ -1,0 +1,21 @@
+version: '3'
+services:
+  r-ver-4.1.0-cuda11.1:
+    image: rocker/r-ver:4.1.0-cuda11.1
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver_4.1.0-cuda11.1
+  ml-4.1.0-cuda11.1:
+    image: rocker/ml:4.1.0-cuda11.1
+    depends_on:
+    - r-ver-4.1.0-cuda11.1
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_4.1.0-cuda11.1
+  ml-verse-4.1.0-cuda11.1:
+    image: rocker/ml-verse:4.1.0-cuda11.1
+    depends_on:
+    - ml-4.1.0-cuda11.1
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml-verse_4.1.0-cuda11.1

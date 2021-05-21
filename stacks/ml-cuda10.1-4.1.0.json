@@ -1,0 +1,67 @@
+{
+  "ordered": true,
+  "latest": true,
+  "TAG": "4.1.0-cuda11.1",
+  "LABEL": "org.label-schema.license=\"GPL-2.0\" \\\n      org.label-schema.vcs-url=\"https://github.com/rocker-org/rocker-versioned\" \\\n      org.label-schema.vendor=\"Rocker Project\" \\\n      maintainer=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "stack": [
+  {
+    "IMAGE": "r-ver",
+    "FROM": "rocker/r-ver:4.1.0",
+    "ENV": {
+      "CUDA_VERSION": "11.1",
+      "NCCL_VERSION": "2.7.8",
+      "NVIDIA_VISIBLE_DEVICES": "all",
+      "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+      "NVIDIA_REQUIRE_CUDA": "cuda>=11.1 brand=tesla,driver>=418,driver<419 brand=tesla,driver>=440,driver<441 brand=tesla,driver>=450,driver<451",
+
+      "CUDA_HOME": "/usr/local/cuda",
+      "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$CUDA_HOME/lib64/libnvblas.so:",
+      "LIBRARY_PATH": "/usr/local/cuda/lib64/stubs",
+      "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
+      "WORKON_HOME": "/opt/venv",
+      "PYTHON_VENV_PATH": "/opt/venv/reticulate",
+      "PYTHON_CONFIGURE_OPTS": "--enable-shared",
+      "RETICULATE_MINICONDA_ENABLED": "FALSE",
+      "PATH": "${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/x86_64-linux"
+     },
+    "RUN": [
+      "/rocker_scripts/install_cuda-11.1.sh",
+      "/rocker_scripts/config_R_cuda.sh",
+      "/rocker_scripts/install_python.sh"
+    ]
+  },
+  {
+    "IMAGE": "ml",
+    "FROM": "rocker/r-ver:4.1.0-cuda11.1",
+    "ENV": {
+      "S6_VERSION": "v1.21.7.0",
+      "RSTUDIO_VERSION": "latest",
+      "PANDOC_VERSION": "default",
+      "TENSORFLOW_VERSION": "gpu",
+      "KERAS_VERSION": "default",
+      "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+
+
+    },
+    "RUN": [
+      "/rocker_scripts/install_rstudio.sh",
+      "/rocker_scripts/install_pandoc.sh",
+      "/rocker_scripts/install_tidyverse.sh"
+      ],
+    "CMD": "[\"/init\"]",
+    "EXPOSE": 8787
+  },
+  {
+    "IMAGE": "ml-verse",
+    "FROM": "rocker/ml:4.1.0-cuda11.1",
+    "RUN": [
+      "/rocker_scripts/install_verse.sh",
+      "/rocker_scripts/install_geospatial.sh"
+      ]
+  }  
+  ]
+}
+
+
+
+

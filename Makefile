@@ -1,4 +1,4 @@
-LATEST_TAG=4.0.5
+LATEST_TAG=4.1.0
 CUDA=10.1
 
 SHELL=/bin/bash
@@ -15,6 +15,7 @@ latest: clean setup core-$(LATEST_TAG) geospatial-$(LATEST_TAG) ml-cuda$(CUDA)-$
 
 
 ## Alternate way of specifying stacks by group
+4.1.0: clean setup core-4.1.0 geospatial-4.1.0 binder-4.1.0 shiny-4.1.0 ml-cuda10.1-4.1.0 
 4.0.5: clean setup core-4.0.5 geospatial-4.0.5 binder-4.0.5 shiny-4.0.5 ml-cuda10.1-4.0.5
 4.0.4: clean setup core-4.0.4 geospatial-4.0.4 binder-4.0.4 shiny-4.0.4 ml-cuda10.1-4.0.4
 4.0.3: clean setup core-4.0.3 geospatial-4.0.3 binder-4.0.3 shiny-4.0.3 ml-cuda10.1-4.0.3

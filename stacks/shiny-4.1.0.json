@@ -1,0 +1,27 @@
+{
+  "ordered": true,
+  "TAG": "4.1.0",
+  "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "stack": [
+  {
+    "IMAGE": "shiny",
+    "FROM": "rocker/r-ver:4.1.0",
+    "ENV": {
+      "S6_VERSION": "v1.21.7.0",
+      "SHINY_SERVER_VERSION": "latest",
+      "PANDOC_VERSION": "default"
+    },
+    "RUN": "/rocker_scripts/install_shiny_server.sh",
+    "CMD": "[\"/init\"]",
+    "EXPOSE": 3838
+  },
+  {
+    "IMAGE": "shiny-verse",
+    "FROM": "rocker/shiny:4.1.0",
+    "RUN": "/rocker_scripts/install_tidyverse.sh"
+  }]
+}
+
+
+
+

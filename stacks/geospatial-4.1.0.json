@@ -1,0 +1,12 @@
+{
+"ordered": false,
+"IMAGE": "geospatial",
+  "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
+"stack": [
+  {
+    "TAG": "4.1.0",
+    "FROM": "rocker/verse:4.1.0",
+    "RUN": "/rocker_scripts/install_geospatial.sh"
+  }
+]
+}
