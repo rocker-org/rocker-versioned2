@@ -14,6 +14,6 @@ jobs:
             username: ${{ secrets.DOCKER_USER }}
             password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build the tagged Docker image
-        run: docker-compose -f compose/binder-4.0.4.yml build
+        run: docker-compose -f compose/binder-4.1.0.yml build
       - name: Push the tagged Docker image
-        run: docker-compose  -f compose/binder-4.0.4.yml push
+        run: docker-compose  -f compose/binder-4.1.0.yml push
