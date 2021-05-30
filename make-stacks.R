@@ -131,7 +131,7 @@ rstudio_versions <- function(n_versions = 10) {
 write_stack_core <- function(r_version, ubuntu_version, cran, rstudio_version, ctan_repo) {
     template <- jsonlite::read_json("stacks-templates/core.json")
 
-    output_path <- paste0("./stacks/core-", r_version, ".json")
+    output_path <- paste0("stacks/core-", r_version, ".json")
 
     template$TAG <- r_version
     # rocker/r-ver
@@ -148,6 +148,8 @@ write_stack_core <- function(r_version, ubuntu_version, cran, rstudio_version, c
     template$stack[[4]]$ENV$CTAN_REPO <- ctan_repo
 
     jsonlite::write_json(template, output_path, pretty = TRUE, auto_unbox = TRUE)
+
+    message(output_path)
 }
 
 
@@ -174,7 +176,7 @@ df_args <- .r_versions_data(min_version = 4.0) %>%
 
 
 # Write stack core files.
-df_args %>%
+devnull <- df_args %>%
     utils::tail(2) %>%
     apply(1, function(df) {
         write_stack_core(df[1], df[2], df[3], df[4], df[5])
