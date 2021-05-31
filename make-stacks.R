@@ -174,6 +174,7 @@ df_args <- .r_versions_data(min_version = 4.0) %>%
     dplyr::rename(r_version = version) %>%
     dplyr::select(!tidyselect::ends_with("_date"))
 
+message("\nstart writing stack files.")
 
 # Write stack core files.
 devnull <- df_args %>%
@@ -181,3 +182,5 @@ devnull <- df_args %>%
     apply(1, function(df) {
         write_stack_core(df[1], df[2], df[3], df[4], df[5])
     })
+
+message("make-stacks.R done!\n")
