@@ -1,0 +1,63 @@
+{
+  "ordered": true,
+  "latest": true,
+  "TAG": "4.1.0-cuda11.1",
+  "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "stack": [
+  {
+    "IMAGE": "r-ver",
+    "FROM": "nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04",
+    "COPY": "scripts /rocker_scripts",
+    "ENV": {
+      "R_VERSION": "4.1.0",
+      "TERM": "xterm",
+      "LC_ALL": "en_US.UTF-8",
+      "LANG": "en_US.UTF-8",
+      "R_HOME": "/usr/local/lib/R",
+      "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
+      "TZ": "Etc/UTC",
+      "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
+      "WORKON_HOME": "/opt/venv",
+      "PYTHON_VENV_PATH": "/opt/venv/reticulate",
+      "PYTHON_CONFIGURE_OPTS": "--enable-shared",
+      "RETICULATE_AUTOCONFIGURE": "0",
+      "PATH": "${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin"
+     },
+    "RUN": [
+      "/rocker_scripts/install_R.sh",
+      "/rocker_scripts/config_R_cuda.sh",
+      "/rocker_scripts/install_python.sh"
+    ]
+  },
+  {
+    "IMAGE": "ml",
+    "FROM": "rocker/r-ver:4.1.0-cuda11.1",
+    "ENV": {
+      "S6_VERSION": "v2.1.0.2",
+      "RSTUDIO_VERSION": "preview",
+      "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+
+
+    },
+    "RUN": [
+      "/rocker_scripts/install_rstudio.sh",
+      "/rocker_scripts/install_pandoc.sh",
+      "/rocker_scripts/install_tidyverse.sh"
+      ],
+    "CMD": "[\"/init\"]",
+    "EXPOSE": 8787
+  },
+  {
+    "IMAGE": "ml-verse",
+    "FROM": "rocker/ml:4.1.0-cuda11.1",
+    "RUN": [
+      "/rocker_scripts/install_verse.sh",
+      "/rocker_scripts/install_geospatial.sh"
+      ]
+  }
+  ]
+}
+
+
+
+
