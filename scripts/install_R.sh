@@ -141,7 +141,6 @@ chmod g+ws ${R_HOME}/site-library
 
 ## Fix library path
 echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >> ${R_HOME}/etc/Renviron
-echo "TZ=${TZ}" >> ${R_HOME}/etc/Renviron
 
 ## Use littler installation scripts
 Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
