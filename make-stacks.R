@@ -129,7 +129,7 @@ rstudio_versions <- function(n_versions = 10) {
 }
 
 write_stack_core <- function(r_version, ubuntu_version, cran, rstudio_version, ctan_repo) {
-    template <- jsonlite::read_json("stacks-templates/core.json")
+    template <- jsonlite::read_json("stacks/core-devel.json")
 
     output_path <- paste0("stacks/core-", r_version, ".json")
 
