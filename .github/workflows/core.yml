@@ -1,19 +1,126 @@
 name: Build & Push Core images
 
-'on': [push]
-#  release:
-#    types: [published]
+on:
+  push:
+    paths:
+      - "dockerfiles"
+      - "scripts"
+      - ".github/workflows/core.yml"
 
 jobs:
-  build:
+  generate_matrix:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - id: set-matrix
+        run: |
+          CONTENT=$(jq -r 'tostring' buildmatrix.json)
+          echo ::set-output name=matrix::${CONTENT}
+          echo ${CONTENT}
+
+  build:
+    needs: generate_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
+    steps:
+      - uses: docker/setup-buildx-action@v1
       - uses: docker/login-action@v1
         with:
-            username: ${{ secrets.DOCKER_USER }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build the tagged Docker image
-        run: docker-compose -f compose/core-4.1.0.yml build
-      - name: Push the tagged Docker image
-        run: docker-compose  -f compose/core-4.1.0.yml push
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Build & Push rocker/r-ver
+
+      - name: Prepare r-ver
+        id: prep-r-ver
+        run: |
+          DOCKER_IMAGE="rocker/r-ver"
+          TAGS="$DOCKER_IMAGE:${{ matrix.r_version }}"
+          if "${{ matrix.r_latest }}"; then
+            TAGS="$TAGS,$DOCKER_IMAGE:latest"
+          fi
+          echo ::set-output name=tags::${TAGS}
+          echo ${TAGS}
+
+      - name: Build and push r-ver
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: dockerfiles/Dockerfile_r-ver_${{ matrix.r_version }}
+          tags: ${{ steps.prep-r-ver.outputs.tags }}
+          push: true
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+
+      # Build & Push rocker/rstudio
+
+      - name: Prepare rstudio
+        id: prep-rstudio
+        run: |
+          DOCKER_IMAGE="rocker/rstudio"
+          TAGS="$DOCKER_IMAGE:${{ matrix.r_version }}"
+          if "${{ matrix.r_latest }}"; then
+            TAGS="$TAGS,$DOCKER_IMAGE:latest"
+          fi
+          echo ::set-output name=tags::${TAGS}
+          echo ${TAGS}
+
+      - name: Build and push rstudio
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: dockerfiles/Dockerfile_rstudio_${{ matrix.r_version }}
+          tags: ${{ steps.prep-rstudio.outputs.tags }}
+          push: true
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+
+      # Build & Push rocker/tidyverse
+
+      - name: Prepare tidyverse
+        id: prep-tidyverse
+        run: |
+          DOCKER_IMAGE="rocker/tidyverse"
+          TAGS="$DOCKER_IMAGE:${{ matrix.r_version }}"
+          if "${{ matrix.r_latest }}"; then
+            TAGS="$TAGS,$DOCKER_IMAGE:latest"
+          fi
+          echo ::set-output name=tags::${TAGS}
+          echo ${TAGS}
+
+      - name: Build and push tidyverse
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: dockerfiles/Dockerfile_tidyverse_${{ matrix.r_version }}
+          tags: ${{ steps.prep-tidyverse.outputs.tags }}
+          push: true
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
+
+      # Build & Push rocker/verse
+
+      - name: Prepare verse
+        id: prep-verse
+        run: |
+          DOCKER_IMAGE="rocker/verse"
+          TAGS="$DOCKER_IMAGE:${{ matrix.r_version }}"
+          if "${{ matrix.r_latest }}"; then
+            TAGS="$TAGS,$DOCKER_IMAGE:latest"
+          fi
+          echo ::set-output name=tags::${TAGS}
+          echo ${TAGS}
+
+      - name: Build and push verse
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: dockerfiles/Dockerfile_verse_${{ matrix.r_version }}
+          tags: ${{ steps.prep-verse.outputs.tags }}
+          push: true
+          labels: |
+            org.opencontainers.image.revision=${{ github.sha }}
