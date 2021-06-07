@@ -1,19 +1,57 @@
 name: Build & Push Core images
 
-'on': [push]
-#  release:
-#    types: [published]
+on:
+  push:
+    paths:
+      - ".github/workflows/buildmatrix/**"
+      - "scripts/**"
+      - "dockerfiles/Dockerfile_r-ver_*"
+      - "dockerfiles/Dockerfile_rstudio_*"
+      - "dockerfiles/Dockerfile_tidyverse_*"
+      - "dockerfiles/Dockerfile_verse_*"
 
 jobs:
-  build:
+  generate_matrix:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - id: set-json
+        run: |
+          JSON=.github/workflows/buildmatrix/latest.json
+          echo ::set-output name=json::${JSON}
+          echo ${JSON}
+      - id: set-matrix
+        run: |
+          CONTENT=$(jq -r 'tostring' ${{ steps.set-json.outputs.json }})
+          echo ::set-output name=matrix::${CONTENT}
+          echo ${CONTENT}
+
+  build:
+    needs: generate_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v2
       - uses: docker/login-action@v1
         with:
-            username: ${{ secrets.DOCKER_USER }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build the tagged Docker image
-        run: docker-compose -f compose/core-4.1.0.yml build
+        run: docker-compose -f compose/core-${{ matrix.r_version }}.yml build
       - name: Push the tagged Docker image
-        run: docker-compose  -f compose/core-4.1.0.yml push
+        run: docker-compose -f compose/core-${{ matrix.r_version }}.yml push
+      - name: Push latest tagged Docker image
+        if: matrix.r_latest == true
+        run: |
+          docker image tag rocker/r-ver:${{ matrix.r_version }} rocker/r-ver:latest
+          docker image tag rocker/rstudio:${{ matrix.r_version }} rocker/rstudio:latest
+          docker image tag rocker/tidyverse:${{ matrix.r_version }} rocker/tidyverse:latest
+          docker image tag rocker/verse:${{ matrix.r_version }} rocker/verse:latest
+          docker image push rocker/r-ver:latest
+          docker image push rocker/rstudio:latest
+          docker image push rocker/tidyverse:latest
+          docker image push rocker/verse:latest

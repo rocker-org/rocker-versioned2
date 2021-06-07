@@ -174,6 +174,15 @@ df_args <- .r_versions_data(min_version = 4.0) %>%
     dplyr::rename(r_version = version) %>%
     dplyr::select(!tidyselect::ends_with("_date"))
 
+# Write json file for GitHubActions build matrix.
+df_args %>%
+    dplyr::select(r_version, r_latest) %>%
+    utils::tail(1) %>%
+    {
+        list(include = .)
+    } %>%
+    jsonlite::write_json(".github/workflows/buildmatrix/latest.json", pretty = TRUE, auto_unbox = TRUE)
+
 message("\nstart writing stack files.")
 
 # Write stack core files.
