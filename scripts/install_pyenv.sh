@@ -22,7 +22,7 @@ mv /root/.pyenv /opt/pyenv
 # pipenv requires ~/.local/bin to be on the path...
 echo "PATH=/opt/pyenv/bin:~/.local/bin:$PATH" >> ${R_HOME}/etc/Renviron
 echo "PATH=/opt/pyenv/bin:~/.local/bin:$PATH" >> /etc/bash.bashrc
-echo 'eval "$(pyenv init -)"' >>  /etc/bash.bashrc
+echo 'eval "$(pyenv init --path)"' >>  /etc/bash.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> /etc/bash.bashrc
 
 # Clean up
