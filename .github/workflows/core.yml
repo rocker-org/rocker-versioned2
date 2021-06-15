@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - ".github/workflows/buildmatrix/**"
+      - ".github/workflows/core.yml"
       - "scripts/**"
       - "dockerfiles/Dockerfile_r-ver_*"
       - "dockerfiles/Dockerfile_rstudio_*"
