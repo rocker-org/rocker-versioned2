@@ -16,4 +16,5 @@ CMD jupyter notebook --ip 0.0.0.0
 
 USER ${NB_USER}
 
+WORKDIR /home/${NB_USER}
 
