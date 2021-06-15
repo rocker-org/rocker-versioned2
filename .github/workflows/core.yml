@@ -59,10 +59,10 @@ jobs:
           docker image tag rocker/rstudio:${{ matrix.r_version }} rocker/rstudio:latest
           docker image tag rocker/tidyverse:${{ matrix.r_version }} rocker/tidyverse:latest
           docker image tag rocker/verse:${{ matrix.r_version }} rocker/verse:latest
-          docker image tag rocker/verse:${{ matrix.r_version }} rocker/shiny:latest
-          docker image tag rocker/verse:${{ matrix.r_version }} rocker/shiny-verse:latest
-          docker image tag rocker/verse:${{ matrix.r_version }} rocker/geospatial:latest
-          docker image tag rocker/verse:${{ matrix.r_version }} rocker/binder:latest
+          docker image tag rocker/shiny:${{ matrix.r_version }} rocker/shiny:latest
+          docker image tag rocker/shiny-verse:${{ matrix.r_version }} rocker/shiny-verse:latest
+          docker image tag rocker/geospatial:${{ matrix.r_version }} rocker/geospatial:latest
+          docker image tag rocker/binder:${{ matrix.r_version }} rocker/binder:latest
           docker image push rocker/r-ver:latest
           docker image push rocker/rstudio:latest
           docker image push rocker/tidyverse:latest
