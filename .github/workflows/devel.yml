@@ -1,8 +1,8 @@
 name: Build & Push Core devel images
 
-'on': [push]
-#  release:
-#    types: [published]
+on:
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   build:
