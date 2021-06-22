@@ -11,7 +11,7 @@ PUSHES=$(addsuffix .push,$(STACKS))
 .PHONY: $(STACKS) $(PUSHES)
 
 all: clean build push
-latest: clean setup core-$(LATEST_TAG) geospatial-$(LATEST_TAG) ml-cuda$(CUDA)-$(LATEST_TAG)
+latest: clean setup core-$(LATEST_TAG) geospatial-$(LATEST_TAG) binder-$(LATEST_TAG) shiny-$(LATEST_TAG) ml-cuda$(CUDA)-$(LATEST_TAG)
 
 
 ## Alternate way of specifying stacks by group

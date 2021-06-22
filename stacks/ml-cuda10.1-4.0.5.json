@@ -9,7 +9,6 @@
     "FROM": "rocker/r-ver:4.0.5",
     "ENV": {
       "CUDA_VERSION": "10.1.243",
-      "CUDA_PKG_VERSION": "10-1=$CUDA_VERSION-1",
       "NVIDIA_VISIBLE_DEVICES": "all",
       "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
       "NVIDIA_REQUIRE_CUDA": "cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411",
