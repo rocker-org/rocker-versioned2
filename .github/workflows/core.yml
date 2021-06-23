@@ -2,14 +2,16 @@ name: Build & Push Core images
 
 on:
   push:
+    branches:
+      - "master"
     paths:
       - ".github/workflows/buildmatrix/**"
-      - ".github/workflows/core.yml"
       - "scripts/**"
       - "dockerfiles/Dockerfile_r-ver_*"
       - "dockerfiles/Dockerfile_rstudio_*"
       - "dockerfiles/Dockerfile_tidyverse_*"
       - "dockerfiles/Dockerfile_verse_*"
+  workflow_dispatch:
 
 jobs:
   generate_matrix:
