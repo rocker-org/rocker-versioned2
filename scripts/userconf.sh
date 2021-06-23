@@ -7,11 +7,11 @@ USERID=${USERID:=1000}
 GROUPID=${GROUPID:=1000}
 ROOT=${ROOT:=FALSE}
 UMASK=${UMASK:=022}
-LANG=${LANG:="en_US.UTF-8 UTF-8"}
-TZ=${TZ:="Etc/UTC"}
+LANG=${LANG:=en_US.UTF-8}
+TZ=${TZ:=Etc/UTC}
 
 ## Make sure RStudio inherits the full path
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
+echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -98,29 +98,26 @@ if [ "$UMASK" -ne 022 ]
     echo "Sys.umask(mode=$UMASK)" >> /home/$USER/.Rprofile
 fi
 
-## Update Locale if needed
-if [ "$LANG" -ne  "en_US.UTF-8 UTF-8" ]
-  then
-    echo "$LANG" >> /etc/locale.gen
-    locale-gen $LANG
-    /usr/sbin/update-locale LANG=$LANG
-    ## We have to set them after generating the locale
-    LANGUAGE=${LANG}
-    LC_ALL=${LANG}
-fi
-
 ## Next one for timezone setup
-if [ "$TZ" -ne  "Etc/UTC" ]
+if [ "$TZ" !=  "Etc/UTC" ]
   then
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 fi
 
 ## add these to the global environment so they are available to the RStudio user
-echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> /etc/environment
-echo "HTTR_PORT=$HTTR_PORT" >> /etc/R/environment
-## Set our dynamic variables in Rprofile.site to be reflected by RStudio
-## TODO: This should be a dynamic script so that all env vars in /etc/environment
-##       will be added as env var to the RStudio environment.
-##       The next line is just a demo how it could look like
-echo "Sys.setenv('HTTR_LOCALHOST'='$HTTR_LOCALHOST')
-Sys.setenv('HTTR_PORT'='$HTTR_PORT')" >> ${R_HOME}/etc/Rprofile.site
+echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> ${R_HOME}/etc/Renviron.site
+echo "HTTR_PORT=$HTTR_PORT" >> ${R_HOME}/etc/Renviron.site
+## Set our dynamic variables in Renviron.site to be reflected by RStudio
+for file in /var/run/s6/container_environment/*;
+    do echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site;
+done;
+
+## Update Locale if needed
+if [ "$LANG" !=  "en_US.UTF-8" ]
+  then
+    /usr/sbin/locale-gen --lang $LANG
+    /usr/sbin/update-locale --reset LANG=$LANG
+    echo "LANG=$LANG" >> ${R_HOME}/etc/Renviron.site
+    echo "LC_ALL=$LANG" >> ${R_HOME}/etc/Renviron.site
+fi
+
