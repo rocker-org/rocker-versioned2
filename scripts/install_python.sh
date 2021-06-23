@@ -30,9 +30,9 @@ python3 -m venv ${PYTHON_VENV_PATH}
 install2.r --skipinstalled --error reticulate
 
 ## Ensure RStudio inherits this env var
-echo "" >> ${R_HOME}/etc/Renviron
-echo "WORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron
-echo "RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED}" >> ${R_HOME}/etc/Renviron
+echo "" >> ${R_HOME}/etc/Renviron.site
+echo "WORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron.site
+echo "RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED}" >> ${R_HOME}/etc/Renviron.site
 
 
 ## symlink these so that these are available when switching to a new venv

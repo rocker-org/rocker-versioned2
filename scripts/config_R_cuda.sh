@@ -11,8 +11,8 @@ NVBLAS_CONFIG_FILE=${NVBLAS_CONFIG_FILE:-/etc/nvblas.conf}
 
 ## cli R inherits these, but RStudio needs to have these set in as follows:
 ## (From https://tensorflow.rstudio.com/tools/local_gpu.html#environment-variables)
-echo "CUDA_HOME=$CUDA_HOME" >> ${R_HOME}/etc/Renviron
-echo "PATH=$PATH" >> ${R_HOME}/etc/Renviron
+echo "CUDA_HOME=$CUDA_HOME" >> ${R_HOME}/etc/Renviron.site
+echo "PATH=$PATH" >> ${R_HOME}/etc/Renviron.site
 
 if test -f /etc/rstudio/rserver.conf; then
   sed -i '/^rsession-ld-library-path/d' /etc/rstudio/rserver.conf
@@ -29,7 +29,7 @@ echo 'NVBLAS_LOGFILE /var/log/nvblas.log
 NVBLAS_CPU_BLAS_LIB /usr/lib/x86_64-linux-gnu/openblas/libblas.so.3
 NVBLAS_GPU_LIST ALL' > /etc/nvblas.conf
 
-echo "NVBLAS_CONFIG_FILE=$NVBLAS_CONFIG_FILE" >> ${R_HOME}/etc/Renviron
+echo "NVBLAS_CONFIG_FILE=$NVBLAS_CONFIG_FILE" >> ${R_HOME}/etc/Renviron.site
 
 ## We don't want to set LD_PRELOAD globally
 ##ENV LD_PRELOAD=/usr/local/cuda/lib64/libnvblas.so

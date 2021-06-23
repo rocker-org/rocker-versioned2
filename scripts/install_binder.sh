@@ -14,7 +14,7 @@ usermod -l ${NB_USER} rstudio
 mkdir -p ${PYTHON_VENV_PATH} && chown -R ${NB_USER} ${PYTHON_VENV_PATH}
 
 # And set ENV for R! It doesn't read from the environment...
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
+echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
 echo "export PATH=${PATH}" >> ${WORKDIR}/.profile
 
 ## This gets run as user

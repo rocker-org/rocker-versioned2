@@ -29,7 +29,7 @@ tlmgr install ae bibtex context inconsolata listings makeindex metafont mfware p
 ## do not add to /usr/local/bin
 # tlmgr path add
 # instead, we keep binaries separate and add to PATH
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
+echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
 
 ## open permissions to avoid needless warnings
 chown -R rstudio:staff /opt/texlive
