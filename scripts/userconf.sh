@@ -9,7 +9,7 @@ ROOT=${ROOT:=FALSE}
 UMASK=${UMASK:=022}
 
 ## Make sure RStudio inherits the full path
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
+echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -97,5 +97,5 @@ if [ "$UMASK" -ne 022 ]
 fi
 
 ## add these to the global environment so they are avialable to the RStudio user
-echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> /etc/R/Renviron.site
-echo "HTTR_PORT=$HTTR_PORT" >> /etc/R/Renviron.site
+echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> ${R_HOME}/etc/Renviron.site
+echo "HTTR_PORT=$HTTR_PORT" >> ${R_HOME}/etc/Renviron.site

@@ -10,6 +10,8 @@ set -e
 
 
 PYTHON_CONFIGURE_OPTS=${PYTHON_CONFIGURE_OPTS:-"--enable-shared"}
+echo "PYTHON_CONFIGURE_OPTS=$PYTHON_CONFIGURE_OPTS" >> ${R_HOME}/etc/R_environ
+
 
 apt-get update && apt-get -y install curl python3-pip
 python3 -m pip --no-cache-dir install --upgrade --ignore-installed pipenv
@@ -20,7 +22,7 @@ curl https://pyenv.run | bash
 mv /root/.pyenv /opt/pyenv
 
 # pipenv requires ~/.local/bin to be on the path...
-echo "PATH=/opt/pyenv/bin:~/.local/bin:$PATH" >> ${R_HOME}/etc/Renviron
+echo "PATH=/opt/pyenv/bin:~/.local/bin:$PATH" >> ${R_HOME}/etc/Renviron.site
 echo "PATH=/opt/pyenv/bin:~/.local/bin:$PATH" >> /etc/bash.bashrc
 echo 'eval "$(pyenv init --path)"' >>  /etc/bash.bashrc
 echo 'eval "$(pyenv virtualenv-init -)"' >> /etc/bash.bashrc
