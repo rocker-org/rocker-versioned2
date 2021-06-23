@@ -85,3 +85,8 @@ ldconfig
 ## Add nvtop
 #/rocker_scripts/install_nvtop.sh
 
+
+## Add tensorflow-gpu==1.15 dependencies on the CUDA 10.0 libraries:
+/rocker_scripts/install_tf1_cuda_10_0.sh
+
+
