@@ -1,0 +1,21 @@
+version: '3'
+services:
+  r-ver-devel-cuda11.1:
+    image: rocker/r-ver:devel-cuda11.1
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver_devel-cuda11.1
+  ml-devel-cuda11.1:
+    image: rocker/ml:devel-cuda11.1
+    depends_on:
+    - r-ver-devel-cuda11.1
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_devel-cuda11.1
+  ml-verse-devel-cuda11.1:
+    image: rocker/ml-verse:devel-cuda11.1
+    depends_on:
+    - ml-devel-cuda11.1
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml-verse_devel-cuda11.1

@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV S6_VERSION=v1.21.7.0
+ENV S6_VERSION=v2.1.0.2
 ENV RSTUDIO_VERSION=latest
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 

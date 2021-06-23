@@ -1,0 +1,7 @@
+version: '3'
+services:
+  geospatial-4.1.0:
+    image: rocker/geospatial:4.1.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_4.1.0

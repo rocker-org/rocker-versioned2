@@ -1,18 +1,18 @@
 {
   "ordered": true,
-  "TAG": "devel",
+  "TAG": "4.1.0",
   "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "stack": [
     {
       "IMAGE": "r-ver",
-      "FROM": "ubuntu:latest",
+      "FROM": "ubuntu:focal",
       "ENV": {
-        "R_VERSION": "devel",
+        "R_VERSION": "4.1.0",
         "TERM": "xterm",
         "LC_ALL": "en_US.UTF-8",
         "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://cloud.r-project.org",
+        "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
         "TZ": "Etc/UTC"
       },
       "COPY": "scripts /rocker_scripts",
@@ -21,10 +21,10 @@
     },
     {
       "IMAGE": "rstudio",
-      "FROM": "rocker/r-ver:devel",
+      "FROM": "rocker/r-ver:4.1.0",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "latest",
+        "RSTUDIO_VERSION": "1.4.1717",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -36,12 +36,12 @@
     },
     {
       "IMAGE": "tidyverse",
-      "FROM": "rocker/rstudio:devel",
+      "FROM": "rocker/rstudio:4.1.0",
       "RUN": "/rocker_scripts/install_tidyverse.sh"
     },
     {
       "IMAGE": "verse",
-      "FROM": "rocker/tidyverse:devel",
+      "FROM": "rocker/tidyverse:4.1.0",
       "ENV": {
         "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
         "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux"

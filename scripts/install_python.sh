@@ -7,11 +7,13 @@ RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED:-FALSE}
 
 apt-get update && apt-get install -y --no-install-recommends \
 	git \
+	libpng-dev \
         libpython3-dev \
         python3-dev \
         python3-pip \
         python3-virtualenv \
-        python3-venv && \
+        python3-venv \
+        swig && \
     rm -rf /var/lib/apt/lists/*
 
 python3 -m pip --no-cache-dir install --upgrade \

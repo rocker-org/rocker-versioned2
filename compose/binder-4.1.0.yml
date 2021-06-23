@@ -1,0 +1,7 @@
+version: '3'
+services:
+  binder-4.1.0:
+    image: rocker/binder:4.1.0
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_binder_4.1.0
