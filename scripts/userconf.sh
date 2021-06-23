@@ -7,6 +7,8 @@ USERID=${USERID:=1000}
 GROUPID=${GROUPID:=1000}
 ROOT=${ROOT:=FALSE}
 UMASK=${UMASK:=022}
+LANG=${LANG:=en_US.UTF-8}
+TZ=${TZ:=Etc/UTC}
 
 ## Make sure RStudio inherits the full path
 echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
@@ -96,6 +98,27 @@ if [ "$UMASK" -ne 022 ]
     echo "Sys.umask(mode=$UMASK)" >> /home/$USER/.Rprofile
 fi
 
-## add these to the global environment so they are avialable to the RStudio user
+## Next one for timezone setup
+if [ "$TZ" !=  "Etc/UTC" ]
+  then
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+fi
+
+## add these to the global environment so they are available to the RStudio user
 echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> ${R_HOME}/etc/Renviron.site
 echo "HTTR_PORT=$HTTR_PORT" >> ${R_HOME}/etc/Renviron.site
+## Set our dynamic variables in Renviron.site to be reflected by RStudio
+for file in /var/run/s6/container_environment/*;
+    do echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site;
+done;
+
+## Update Locale if needed
+if [ "$LANG" !=  "en_US.UTF-8" ]
+  then
+    /usr/sbin/locale-gen --lang $LANG
+    /usr/sbin/update-locale --reset LANG=$LANG
+    echo "LANG=$LANG" >> ${R_HOME}/etc/Renviron.site
+    echo "LC_ALL=$LANG" >> ${R_HOME}/etc/Renviron.site
+fi
+
+

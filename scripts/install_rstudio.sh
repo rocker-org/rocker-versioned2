@@ -72,7 +72,7 @@ rm -f /var/lib/rstudio-server/secure-cookie-key
 
 ## RStudio wants an /etc/R, will populate from $R_HOME/etc
 mkdir -p /etc/R
-echo "PATH=${PATH}" >> "${R_HOME}/etc/Renviron.site"
+echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
 
 ## Make RStudio compatible with case when R is built from source
 ## (and thus is at /usr/local/bin/R), because RStudio doesn't obey
