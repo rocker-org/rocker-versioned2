@@ -113,6 +113,9 @@ exclude_vars="HOME PASSWORD"
 ## Set our dynamic variables in Renviron.site to be reflected by RStudio
 for file in /var/run/s6/container_environment/*
 do
+  ## Remove variable if it already exists, to avoid repeated declaration on container-restart:
+  sed -i "/$file/d" ${R_HOME}/etc/Renviron.site
+  ## Only add non-excluded variables (space-sep list above) to Renviron.site
   [[ $exclude_vars =~ (^| )$file($| ) ]] && echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site || echo "skipping $file" 
 done
 
@@ -124,5 +127,8 @@ if [ "$LANG" !=  "en_US.UTF-8" ]
     echo "LANG=$LANG" >> ${R_HOME}/etc/Renviron.site
     echo "LC_ALL=$LANG" >> ${R_HOME}/etc/Renviron.site
 fi
+
+## only file-owner (root) should read container_environment files:
+chmod 600 /var/run/s6/container_environment/*
 
 
