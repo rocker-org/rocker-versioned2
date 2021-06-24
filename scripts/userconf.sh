@@ -108,9 +108,12 @@ fi
 echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> ${R_HOME}/etc/Renviron.site
 echo "HTTR_PORT=$HTTR_PORT" >> ${R_HOME}/etc/Renviron.site
 ## Set our dynamic variables in Renviron.site to be reflected by RStudio
-for file in /var/run/s6/container_environment/*;
-    do echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site;
-done;
+for file in /var/run/s6/container_environment/*
+do
+  if [ "${file##*/}" != "HOME" ]; then
+    echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site
+  fi
+done
 
 ## Update Locale if needed
 if [ "$LANG" !=  "en_US.UTF-8" ]
