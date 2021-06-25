@@ -10,9 +10,6 @@ UMASK=${UMASK:=022}
 LANG=${LANG:=en_US.UTF-8}
 TZ=${TZ:=Etc/UTC}
 
-## Make sure RStudio inherits the full path
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
-
 bold=$(tput bold)
 normal=$(tput sgr0)
 
@@ -104,15 +101,13 @@ if [ "$TZ" !=  "Etc/UTC" ]
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 fi
 
-## add these to the global environment so they are available to the RStudio user
-echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> ${R_HOME}/etc/Renviron.site
-echo "HTTR_PORT=$HTTR_PORT" >> ${R_HOME}/etc/Renviron.site
 ## Set our dynamic variables in Renviron.site to be reflected by RStudio
+exclude_vars="HOME PASSWORD"
 for file in /var/run/s6/container_environment/*
 do
-  if [ "${file##*/}" != "HOME" ]; then
-    echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site
-  fi
+  sed -i "/^${file##*/}=/d" ${R_HOME}/etc/Renviron.site
+  regex="(^| )${file##*/}($| )"
+  [[ ! $exclude_vars =~ $regex ]] && echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site || echo "skipping $file"
 done
 
 ## Update Locale if needed
@@ -120,8 +115,9 @@ if [ "$LANG" !=  "en_US.UTF-8" ]
   then
     /usr/sbin/locale-gen --lang $LANG
     /usr/sbin/update-locale --reset LANG=$LANG
-    echo "LANG=$LANG" >> ${R_HOME}/etc/Renviron.site
-    echo "LC_ALL=$LANG" >> ${R_HOME}/etc/Renviron.site
 fi
+
+## only file-owner (root) should read container_environment files:
+chmod 600 /var/run/s6/container_environment/*
 
 
