@@ -116,7 +116,8 @@ do
   ## Remove variable if it already exists, to avoid repeated declaration on container-restart:
   sed -i "/^${file##*/}=/d" ${R_HOME}/etc/Renviron.site
   ## Only add non-excluded variables (space-sep list above) to Renviron.site
-  [[ $exclude_vars =~ (^| )$file($| ) ]] && echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site || echo "skipping $file" 
+  regex="(^| )${file##*/}($| )"
+  [[ ! $exclude_vars =~ $regex ]] && echo "${file##*/}=$(cat $file)"
 done
 
 ## Update Locale if needed
