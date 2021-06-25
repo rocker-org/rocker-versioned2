@@ -114,7 +114,7 @@ exclude_vars="HOME PASSWORD"
 for file in /var/run/s6/container_environment/*
 do
   ## Remove variable if it already exists, to avoid repeated declaration on container-restart:
-  sed -i "/$file/d" ${R_HOME}/etc/Renviron.site
+  sed -i "/^${file##*/}=/d" ${R_HOME}/etc/Renviron.site
   ## Only add non-excluded variables (space-sep list above) to Renviron.site
   [[ $exclude_vars =~ (^| )$file($| ) ]] && echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site || echo "skipping $file" 
 done
