@@ -32,7 +32,7 @@
       "IMAGE": "ml",
       "FROM": "rocker/r-ver:devel-cuda10.1",
       "ENV": {
-        "S6_VERSION": "v1.21.7.0",
+        "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "latest",
         "PANDOC_VERSION": "default",
         "TENSORFLOW_VERSION": "gpu",
