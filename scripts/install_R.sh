@@ -11,6 +11,11 @@ CRAN=${CRAN:-https://cran.r-project.org}
 ##  mechanism to force source installs if we're using RSPM
 CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
 
+## source install if using RSPM and arm64 image
+if [ "$(uname -m)" = "aarch64" ]; then
+    CRAN=$CRAN_SOURCE
+fi
+
 export DEBIAN_FRONTEND=noninteractive
 
 # Set up and install R
