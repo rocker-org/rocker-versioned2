@@ -5,10 +5,8 @@ if id -u "${user}" >/dev/null 2>&1; then
 else
   ## Need to configure non-root user for RStudio
   DEFAULT_USER=${1:-${DEFAULT_USER:-rstudio}}
-  useradd -s /bin/bash $DEFAULT_USER
+  useradd -s /bin/bash -m $DEFAULT_USER
   echo "${DEFAULT_USER}:${DEFAULT_USER}" | chpasswd
-  mkdir -p /home/${DEFAULT_USER}
-  chown ${DEFAULT_USER}:${DEFAULT_USER} /home/${DEFAULT_USER}
   addgroup ${DEFAULT_USER} staff
 
   mkdir -p /home/${DEFAULT_USER}/.rstudio/monitored/user-settings
