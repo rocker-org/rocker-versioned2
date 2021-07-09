@@ -5,7 +5,7 @@ on:
     branches:
       - "master"
     paths:
-      - ".github/workflows/buildmatrix/**"
+      - "build/matrix/**"
       - "scripts/**"
       - "dockerfiles/Dockerfile_r-ver_*"
       - "dockerfiles/Dockerfile_rstudio_*"
@@ -22,7 +22,7 @@ jobs:
       - uses: actions/checkout@v2
       - id: set-json
         run: |
-          JSON=.github/workflows/buildmatrix/latest.json
+          JSON=build/matrix/latest.json
           echo ::set-output name=json::${JSON}
           echo ${JSON}
       - id: set-matrix

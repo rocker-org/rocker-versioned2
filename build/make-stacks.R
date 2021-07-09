@@ -252,7 +252,7 @@ df_args %>%
     {
         list(include = .)
     } %>%
-    jsonlite::write_json(".github/workflows/buildmatrix/latest.json", pretty = TRUE, auto_unbox = TRUE)
+    jsonlite::write_json("build/matrix/latest.json", pretty = TRUE, auto_unbox = TRUE)
 
 message("\nstart writing stack files.")
 
