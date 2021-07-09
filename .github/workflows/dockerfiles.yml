@@ -16,7 +16,7 @@ jobs:
           install2.r --error --skipinstalled -r https://r-lib.github.io/p/pak/dev/ -n -1 pak
       - name: Make changes to pull request
         run: |
-          ./make-stacks.R
+          ./build/make-stacks.R
           make setup
       - name: Create Pull Request
         id: cpr

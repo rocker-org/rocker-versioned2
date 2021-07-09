@@ -25,9 +25,9 @@ latest: clean setup core-$(LATEST_TAG) geospatial-$(LATEST_TAG) binder-$(LATEST_
 
 
 setup: $(COMPOSEFILES)
-$(COMPOSEFILES): make-dockerfiles.R write-compose.R $(STACKFILES)
-	./make-dockerfiles.R
-	./write-compose.R
+$(COMPOSEFILES): ./build/make-dockerfiles.R ./build/write-compose.R $(STACKFILES)
+	./build/make-dockerfiles.R
+	./build/write-compose.R
 
 
 ## Builds all stacks
