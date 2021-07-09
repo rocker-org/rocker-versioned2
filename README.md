@@ -38,9 +38,9 @@ image            | description                               | size   | pull
 
 ### Modifying and extending images in the new architecture
 
-In our new build system, pre-built images are defined with JSON files under the `stacks/` folder
-in this repository.  Each file defines a series of related images.  The `.R` files in the base
-folder use these to create the actual Dockerfiles under `dockerfiles` and images are built using the `Makefile`.
+In our new build system, pre-built images are defined with JSON files under [the `stacks/` folder](./stacks)
+in this repository.  Each file defines a series of related images.  The `.R` files in [the `build/`
+folder](./build) use these to create the actual Dockerfiles under [the `dockerfiles/` folder](./dockerfiles) and images are built using the `Makefile`.
 These Dockerfiles are server as examples of how to build your own custom images.
 
 Importantly, we have moved as much of the detailed install logic out of Dockerfiles and into standalone scripts, or "modules", under the `scripts` directory.  These files are available in all Docker images, under a top-level `/rocker_scripts` directory.  This allows users to extend images by selecting additional modules to install on top of any pre-built images.  For instance, if one wishes to install Shiny Server and Binder dependencies on top of a base of `rstudio:3.6.3`, one could write a simple Dockerfile as follows:
