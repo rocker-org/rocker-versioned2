@@ -50,6 +50,9 @@
     {
       "IMAGE": "ml-verse",
       "FROM": "rocker/ml:devel-cuda10.1",
+      "ENV": {
+        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
+      },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
