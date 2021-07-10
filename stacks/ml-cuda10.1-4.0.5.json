@@ -33,7 +33,7 @@
       "FROM": "rocker/r-ver:4.0.5-cuda10.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "latest",
+        "RSTUDIO_VERSION": "1.4.1106",
         "PANDOC_VERSION": "default",
         "TENSORFLOW_VERSION": "gpu",
         "KERAS_VERSION": "default",
@@ -50,6 +50,9 @@
     {
       "IMAGE": "ml-verse",
       "FROM": "rocker/ml:4.0.5-cuda10.1",
+      "ENV": {
+        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/05/17/tlnet"
+      },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
