@@ -49,7 +49,7 @@ fi
 # So: we can build the redland package bindings and then swap back to libcurl-openssl-dev... (ick)
 # explicitly install runtime library sub-deps of librdf0-dev so they are not auto-removed.
 apt-get install -y librdf0-dev
-install2.r --error --skipinstalled -r redland
+install2.r --error --skipinstalled redland
 apt-get install -y \
 	libcurl4-openssl-dev \
 	libxslt-dev \
@@ -70,8 +70,8 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
 ## Install texlive
 /rocker_scripts/install_texlive.sh
 
-install2.r --error -r --skipinstalled tinytex
-install2.r --error --deps TRUE -r --skipinstalled \
+install2.r --error --skipinstalled tinytex
+install2.r --error --deps TRUE --skipinstalled \
     blogdown bookdown rticles rmdshower rJava xaringan
 
 rm -rf /tmp/downloaded_packages
