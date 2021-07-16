@@ -1,21 +1,21 @@
 version: '3'
 services:
-  rstudio-4.0.5-daily:
-    image: rocker/rstudio:4.0.5-daily
+  rstudio-latest-daily:
+    image: rocker/rstudio:latest-daily
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_rstudio_4.0.5-daily
-  tidyverse-4.0.5-daily:
-    image: rocker/tidyverse:4.0.5-daily
+      dockerfile: dockerfiles/Dockerfile_rstudio_latest-daily
+  tidyverse-latest-daily:
+    image: rocker/tidyverse:latest-daily
     depends_on:
-    - rstudio-4.0.5-daily
+    - rstudio-latest-daily
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_tidyverse_4.0.5-daily
-  verse-4.0.5-daily:
-    image: rocker/verse:4.0.5-daily
+      dockerfile: dockerfiles/Dockerfile_tidyverse_latest-daily
+  verse-latest-daily:
+    image: rocker/verse:latest-daily
     depends_on:
-    - tidyverse-4.0.5-daily
+    - tidyverse-latest-daily
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_verse_4.0.5-daily
+      dockerfile: dockerfiles/Dockerfile_verse_latest-daily
