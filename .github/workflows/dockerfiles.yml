@@ -18,6 +18,7 @@ jobs:
         run: |
           ./build/sync-template-vars.R
           ./build/make-stacks.R
+          make clean
           make setup
       - name: Create Pull Request
         id: cpr
