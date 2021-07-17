@@ -71,7 +71,8 @@ install2.r --error --skipinstalled \
     tidync \
     tmap \
     geoR \
-    geosphere
+    geosphere \
+    BiocManager
 
 R -e "BiocManager::install('rhdf5')"
 
