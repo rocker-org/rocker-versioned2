@@ -23,7 +23,7 @@ write_bakejson <- function(stack_file) {
       dockerfile = paste0("dockerfiles/Dockerfile_", name, "_", stack_tag),
       tags = purrr::map(
         value,
-        ~ dplyr::if_else(is.null(.x$tags), list(paste0("docker.io/rocker/", .x$IMAGE, ":", stack_tag)), .x$tags)
+        ~ if (!is.null(.x$tags)) .x$tags else list(paste0("docker.io/rocker/", .x$IMAGE, ":", stack_tag))
       ),
       platforms = purrr::map(value, "platforms", .default = list("linux/amd64"))
     ) %>%
