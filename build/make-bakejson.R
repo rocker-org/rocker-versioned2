@@ -38,7 +38,7 @@ write_bakejson <- function(stack_file) {
 
 message("\nstart writing docker-bake.json files.")
 
-devnull <- list.files(path = "stacks", pattern = "\\.json$", full.names = TRUE) %>%
-  purrr::map(write_bakejson)
+list.files(path = "stacks", pattern = "\\.json$", full.names = TRUE) %>%
+  purrr::walk(write_bakejson)
 
 message("make-bakejson.R done!\n")
