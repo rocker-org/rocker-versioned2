@@ -8,7 +8,7 @@ library(purrr, warn.conflicts = FALSE)
 
 write_bakejson <- function(stack_file) {
   output_path <- sub("^stacks/", "bakefiles/", stack_file) %>% {
-    sub(".json", ".docker-bake.json", .)
+    sub(".json$", ".docker-bake.json", .)
   }
 
   stack_content <- jsonlite::read_json(stack_file)
