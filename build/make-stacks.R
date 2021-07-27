@@ -199,6 +199,32 @@ write_stack_binder <- function(r_version, ubuntu_version, cran, rstudio_version,
     message(output_path)
 }
 
+write_stack_mlcuda10 <- function(r_version, ubuntu_version, cran, rstudio_version, ctan_repo) {
+    template <- jsonlite::read_json("stacks/ml-cuda10.1-devel.json")
+
+    output_path <- paste0("stacks/ml-cuda10.1-", r_version, ".json")
+
+    template$TAG <- paste0(r_version, "-cuda10.1")
+    # rocker/r-ver:X.Y.Z-cuda10.1
+    template$stack[[1]]$FROM <- paste0("rocker/r-ver:", r_version)
+    # rocker/ml:X.Y.Z-cuda10.1
+    template$stack[[2]]$FROM <- paste0("rocker/r-ver:", r_version, "-cuda10.1")
+    template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_version
+    # rocker/ml-verse:X.Y.Z-cuda10.1
+    template$stack[[3]]$FROM <- paste0("rocker/ml:", r_version, "-cuda10.1")
+    template$stack[[3]]$ENV$CTAN_REPO <- ctan_repo
+    # rocker/ml:X.Y.Z
+    template$stack[[4]]$FROM <- paste0("rocker/ml:", r_version, "-cuda10.1")
+    template$stack[[4]]$TAG <- paste0(r_version)
+    # rocker/ml-verse:X.Y.Z
+    template$stack[[5]]$FROM <- paste0("rocker/ml-verse:", r_version, "-cuda10.1")
+    template$stack[[5]]$TAG <- paste0(r_version)
+
+    jsonlite::write_json(template, output_path, pretty = TRUE, auto_unbox = TRUE)
+
+    message(output_path)
+}
+
 
 df_args <- .r_versions_data(min_version = 4.0) %>%
     dplyr::rowwise() %>%
@@ -228,7 +254,7 @@ df_args %>%
     {
         list(include = .)
     } %>%
-    jsonlite::write_json(".github/workflows/buildmatrix/latest.json", pretty = TRUE, auto_unbox = TRUE)
+    jsonlite::write_json("build/matrix/latest.json", pretty = TRUE, auto_unbox = TRUE)
 
 message("\nstart writing stack files.")
 
@@ -240,6 +266,7 @@ devnull <- df_args %>%
         write_stack_shiny(df[1], df[2], df[3], df[4], df[5])
         write_stack_geospatial(df[1], df[2], df[3], df[4], df[5])
         write_stack_binder(df[1], df[2], df[3], df[4], df[5])
+        write_stack_mlcuda10(df[1], df[2], df[3], df[4], df[5])
     })
 
 message("make-stacks.R done!\n")

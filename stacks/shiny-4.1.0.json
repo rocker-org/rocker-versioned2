@@ -7,7 +7,7 @@
       "IMAGE": "shiny",
       "FROM": "rocker/r-ver:4.1.0",
       "ENV": {
-        "S6_VERSION": "v1.21.7.0",
+        "S6_VERSION": "v2.1.0.2",
         "SHINY_SERVER_VERSION": "latest",
         "PANDOC_VERSION": "default"
       },
