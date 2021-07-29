@@ -14,18 +14,18 @@ Instructions for image usage largely follows documentation in the above reposito
 
 ![](https://avatars0.githubusercontent.com/u/9100160?v=3&s=200)
 
-image            | description                               | size   | pull
----------------- | ----------------------------------------- | ------ | -------
-[r-ver](https://hub.docker.com/r/rocker/r-ver)            |  Version-stable base R & src build tools  | [![](https://images.microbadger.com/badges/image/rocker/r-ver.svg)](https://microbadger.com/images/rocker/r-ver) | [![](https://img.shields.io/docker/pulls/rocker/r-ver.svg)](https://hub.docker.com/r/rocker/r-ver)
-[rstudio](https://hub.docker.com/r/rocker/rstudio)          |  Adds rstudio server                    | [![](https://images.microbadger.com/badges/image/rocker/rstudio-stable.svg)](https://microbadger.com/images/rocker/rstudio) | [![](https://img.shields.io/docker/pulls/rocker/rstudio.svg)](https://hub.docker.com/r/rocker/rstudio)
-[tidyverse](https://hub.docker.com/r/rocker/tidyverse)        |  Adds tidyverse & devtools                | [![](https://images.microbadger.com/badges/image/rocker/tidyverse.svg)](https://microbadger.com/images/rocker/tidyverse) | [![](https://img.shields.io/docker/pulls/rocker/tidyverse.svg)](https://hub.docker.com/r/rocker/tidyverse)
-[verse](https://hub.docker.com/r/rocker/verse)            |  Adds tex & publishing-related packages   | [![](https://images.microbadger.com/badges/image/rocker/verse.svg)](https://microbadger.com/images/rocker/verse) | [![](https://img.shields.io/docker/pulls/rocker/verse.svg)](https://hub.docker.com/r/rocker/verse)
-[geospatial](https://hub.docker.com/r/rocker/geospatial)            |  Adds geospatial packages on top of 'verse'   | [![](https://images.microbadger.com/badges/image/rocker/geospatial.svg)](https://microbadger.com/images/rocker/geospatial) | [![](https://img.shields.io/docker/pulls/rocker/geospatial.svg)](https://hub.docker.com/r/rocker/geospatial)
-[shiny](https://hub.docker.com/r/rocker/shiny)            |  Adds shiny server on top of 'r-ver'   | [![](https://images.microbadger.com/badges/image/rocker/shiny.svg)](https://microbadger.com/images/rocker/shiny) | [![](https://img.shields.io/docker/pulls/rocker/shiny.svg)](https://hub.docker.com/r/rocker/shiny)
-[shiny-verse](https://hub.docker.com/r/rocker/shiny-verse)            |  Adds tidyverse packages on top of 'shiny'   | [![](https://images.microbadger.com/badges/image/rocker/shiny-verse.svg)](https://microbadger.com/images/rocker/shiny-verse) | [![](https://img.shields.io/docker/pulls/rocker/shiny-verse.svg)](https://hub.docker.com/r/rocker/shiny-verse)
-[binder](https://hub.docker.com/r/rocker/binder)            |  Adds requirements to 'geospatial' to run repositories on [mybinder.org](https://mybinder.org/)    | [![](https://images.microbadger.com/badges/image/rocker/binder.svg)](https://microbadger.com/images/rocker/binder) | [![](https://img.shields.io/docker/pulls/rocker/binder.svg)](https://hub.docker.com/r/rocker/binder)
-[ml](https://hub.docker.com/r/rocker/ml)            |  Adds python and Tensorflow to 'tidyverse'   | [![](https://images.microbadger.com/badges/image/rocker/ml.svg)](https://microbadger.com/images/rocker/ml) | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml)
-[ml-verse](https://hub.docker.com/r/rocker/ml)            |  Adds python and Tensorflow to 'verse'   | [![](https://images.microbadger.com/badges/image/rocker/ml.svg)](https://microbadger.com/images/rocker/ml) | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml)
+image                                                      | description                                                                                    | pull
+-----------------------------------------------------------|------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------
+[r-ver](https://hub.docker.com/r/rocker/r-ver)             | Version-stable base R & src build tools                                                        | [![](https://img.shields.io/docker/pulls/rocker/r-ver.svg)](https://hub.docker.com/r/rocker/r-ver)
+[rstudio](https://hub.docker.com/r/rocker/rstudio)         | Adds rstudio server                                                                            | [![](https://img.shields.io/docker/pulls/rocker/rstudio.svg)](https://hub.docker.com/r/rocker/rstudio)
+[tidyverse](https://hub.docker.com/r/rocker/tidyverse)     | Adds tidyverse & devtools                                                                      | [![](https://img.shields.io/docker/pulls/rocker/tidyverse.svg)](https://hub.docker.com/r/rocker/tidyverse)
+[verse](https://hub.docker.com/r/rocker/verse)             | Adds tex & publishing-related packages                                                         | [![](https://img.shields.io/docker/pulls/rocker/verse.svg)](https://hub.docker.com/r/rocker/verse)
+[geospatial](https://hub.docker.com/r/rocker/geospatial)   | Adds geospatial packages on top of 'verse'                                                     | [![](https://img.shields.io/docker/pulls/rocker/geospatial.svg)](https://hub.docker.com/r/rocker/geospatial)
+[shiny](https://hub.docker.com/r/rocker/shiny)             | Adds shiny server on top of 'r-ver'                                                            | [![](https://img.shields.io/docker/pulls/rocker/shiny.svg)](https://hub.docker.com/r/rocker/shiny)
+[shiny-verse](https://hub.docker.com/r/rocker/shiny-verse) | Adds tidyverse packages on top of 'shiny'                                                      | [![](https://img.shields.io/docker/pulls/rocker/shiny-verse.svg)](https://hub.docker.com/r/rocker/shiny-verse)
+[binder](https://hub.docker.com/r/rocker/binder)           | Adds requirements to 'geospatial' to run repositories on [mybinder.org](https://mybinder.org/) | [![](https://img.shields.io/docker/pulls/rocker/binder.svg)](https://hub.docker.com/r/rocker/binder)
+[ml](https://hub.docker.com/r/rocker/ml)                   | Adds python and Tensorflow to 'tidyverse'                                                      | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml)
+[ml-verse](https://hub.docker.com/r/rocker/ml)             | Adds python and Tensorflow to 'verse'                                                          | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml)
 
 ## Notes on new architecture for R >= 4.0.0
 
@@ -43,10 +43,10 @@ in this repository.  Each file defines a series of related images.  The `.R` fil
 folder](./build) use these to create the actual Dockerfiles under [the `dockerfiles/` folder](./dockerfiles) and images are built using the `Makefile`.
 These Dockerfiles are server as examples of how to build your own custom images.
 
-Importantly, we have moved as much of the detailed install logic out of Dockerfiles and into standalone scripts, or "modules", under the `scripts` directory.  These files are available in all Docker images, under a top-level `/rocker_scripts` directory.  This allows users to extend images by selecting additional modules to install on top of any pre-built images.  For instance, if one wishes to install Shiny Server and Binder dependencies on top of a base of `rstudio:3.6.3`, one could write a simple Dockerfile as follows:
+Importantly, we have moved as much of the detailed install logic out of Dockerfiles and into standalone scripts, or "modules", under the `scripts` directory.  These files are available in all Docker images, under a top-level `/rocker_scripts` directory.  This allows users to extend images by selecting additional modules to install on top of any pre-built images.  For instance, if one wishes to install Shiny Server on top of a base of `rstudio:4.0.0`, one could write a simple Dockerfile as follows:
 
 ```shell
-FROM rstudio/r-ver:3.6.3
+FROM rstudio/rstudio:4.0.0
 
 RUN /rocker_scripts/install_shiny_server.sh
 ```
