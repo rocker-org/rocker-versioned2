@@ -47,7 +47,7 @@ write_dockerfiles <- function(stack, global){
   })
 }
 
-stack_files <- list.files("stacks", full.names = TRUE)
+stack_files <- list.files("stacks", pattern = "\\.json$",full.names = TRUE)
 stacks <- lapply(stack_files, jsonlite::read_json)
 
 devnull <- lapply(stacks, function(stack){

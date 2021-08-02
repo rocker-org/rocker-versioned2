@@ -61,4 +61,4 @@ $(PUSHES): %.push: %
 
 
 clean:
-	rm -f dockerfiles/* compose/*
+	rm -f dockerfiles/Dockerfile_* compose/*.yml bakefiles/*.json
