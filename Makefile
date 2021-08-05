@@ -59,6 +59,21 @@ $(PUSHES): %.push: %
 	./tag.sh $< $(LATEST_TAG)
 
 
+BUILT_IMAGES := $(shell docker image ls -q -f "label=org.opencontainers.image.source=https://github.com/rocker-org/rocker-versioned2")
+REPORT_SOURCE_DIR ?= tmp
+REPORT_DIR ?= reports
+
+## Display the value. ex. print-BUILT_IMAGES
+print-%:
+	@echo $* = $($*)
+
+.PHONY: inspect-images
+
+inspect-images:
+	$(foreach I, $(BUILT_IMAGES), $(shell mkdir -p $(REPORT_SOURCE_DIR)/$(I)))
+	$(foreach I, $(BUILT_IMAGES), $(shell docker image inspect $(I) > $(REPORT_SOURCE_DIR)/$(I)/docker_inspect.json))
+	$(foreach I, $(BUILT_IMAGES), $(shell docker run --rm -it $(I) dpkg-query --show --showformat='$${Package}\t$${Version}\n' > $(REPORT_SOURCE_DIR)/$(I)/apt_packages.tsv))
+	$(foreach I, $(BUILT_IMAGES), $(shell docker run --rm -it $(I) Rscript -e 'as.data.frame(installed.packages()[, 3])' > $(REPORT_SOURCE_DIR)/$(I)/r_packages.ssv))
 
 clean:
 	rm -f dockerfiles/Dockerfile_* compose/*.yml bakefiles/*.json
