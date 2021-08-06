@@ -10,6 +10,7 @@ params:
   inspect_file: ""
   apt_file: ""
   r_file: ""
+  pip_file: ""
 ---
 
 ```{r setup, include=FALSE}
@@ -26,12 +27,15 @@ jsonlite::read_json(params$inspect_file) |>
     RepoTags = purrr::map(value, "RepoTags"),
     RepoDigests = purrr::map_chr(value, list("RepoDigests", 1)),
     CreatedTime = purrr::map_chr(value, "Created"),
+    Size = purrr::map_dbl(value, "Size"),
     Env = purrr::map(value, c("ContainerConfig", "Env"))
   ) |>
+  tidyr::replace_na(list(RepoTags = list("None"))) |>
   dplyr::mutate(
     ImageID = paste0("`", ImageID, "`"),
     RepoTags = paste0("`", paste(unlist(RepoTags), collapse = "`, `"), "`"),
     RepoDigests = paste0("`", RepoDigests, "`"),
+    Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
     Env = paste(unlist(Env), collapse = ", ")
   ) |>
   tidyr::pivot_longer(cols = tidyselect::everything())
@@ -55,4 +59,17 @@ readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
     package = X1,
     version = X2
   )
+```
+
+## Python3 pip packages
+
+```{r}
+try(
+  readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
+    dplyr::transmute(
+      package = X1,
+      version = X2
+    ),
+  silent = TRUE
+)
 ```
