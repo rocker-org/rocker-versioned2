@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  rocker:
+    image: rocker
+    build:
+      context: .
+      dockerfile: "Dockerfile"
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
