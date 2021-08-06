@@ -1,0 +1,78 @@
+---
+title: "`r params$image_name`"
+date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S %Z')`"
+output:
+  github_document:
+    html_preview: false
+    df_print: kable
+params:
+  image_name: ""
+  inspect_file: ""
+  apt_file: ""
+  r_file: ""
+  pip_file: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+## Image info
+
+```{r}
+jsonlite::read_json(params$inspect_file) |>
+  tibble::enframe() |>
+  dplyr::transmute(
+    ImageID = purrr::map_chr(value, "Id"),
+    RepoTags = purrr::map(value, "RepoTags"),
+    RepoDigests = purrr::map_chr(value, list("RepoDigests", 1)),
+    CreatedTime = purrr::map_chr(value, "Created"),
+    Size = purrr::map_dbl(value, "Size"),
+    Env = purrr::map(value, c("ContainerConfig", "Env"))
+  ) |>
+  dplyr::mutate(
+    ImageID = paste0("`", ImageID, "`"),
+    RepoTags = dplyr::if_else(
+      !is.null(unlist(RepoTags)),
+      paste0("`", paste(unlist(RepoTags), collapse = "`, `"), "`"),
+      ""
+    ),
+    RepoDigests = paste0("`", RepoDigests, "`"),
+    Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
+    Env = paste(unlist(Env), collapse = ", ")
+  ) |>
+  tidyr::pivot_longer(cols = tidyselect::everything())
+```
+
+## apt packages
+
+```{r}
+readr::read_tsv(params$apt_file, col_names = FALSE) |>
+  dplyr::transmute(
+    package = X1,
+    version = X2
+  )
+```
+
+## R packages
+
+```{r}
+readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
+  dplyr::transmute(
+    package = X1,
+    version = X2
+  )
+```
+
+## Python3 pip packages
+
+```{r}
+try(
+  readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
+    dplyr::transmute(
+      package = X1,
+      version = X2
+    ),
+  silent = TRUE
+)
+```
