@@ -25,7 +25,7 @@ image                                                      | description        
 [shiny-verse](https://hub.docker.com/r/rocker/shiny-verse) | Adds tidyverse packages on top of 'shiny'                                                      | [![](https://img.shields.io/docker/pulls/rocker/shiny-verse.svg)](https://hub.docker.com/r/rocker/shiny-verse)
 [binder](https://hub.docker.com/r/rocker/binder)           | Adds requirements to 'geospatial' to run repositories on [mybinder.org](https://mybinder.org/) | [![](https://img.shields.io/docker/pulls/rocker/binder.svg)](https://hub.docker.com/r/rocker/binder)
 [ml](https://hub.docker.com/r/rocker/ml)                   | Adds python and Tensorflow to 'tidyverse'                                                      | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml)
-[ml-verse](https://hub.docker.com/r/rocker/ml)             | Adds python and Tensorflow to 'verse'                                                          | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml)
+[ml-verse](https://hub.docker.com/r/rocker/ml-verse)       | Adds python and Tensorflow to 'verse'                                                          | [![](https://img.shields.io/docker/pulls/rocker/ml-verse.svg)](https://hub.docker.com/r/rocker/ml-verse)
 
 ## Notes on new architecture for R >= 4.0.0
 
@@ -45,7 +45,7 @@ These Dockerfiles serve as examples of how to build your own custom images.
 
 Importantly, we have moved as much of the detailed install logic out of Dockerfiles and into standalone scripts, or "modules", under the `scripts` directory.  These files are available in all Docker images, under a top-level `/rocker_scripts` directory.  This allows users to extend images by selecting additional modules to install on top of any pre-built images.  For instance, if one wishes to install Shiny Server on top of a base of `rstudio:4.0.0`, one could write a simple Dockerfile as follows:
 
-```shell
+```Dockerfile
 FROM rstudio/rstudio:4.0.0
 
 RUN /rocker_scripts/install_shiny_server.sh
@@ -53,13 +53,13 @@ RUN /rocker_scripts/install_shiny_server.sh
 
 Install scripts can generally take a version as a first argument or ingest an environment variable to specify the version to install. So to install fixed versions, one can use either of the following syntaxes:
 
-```shell
+```Dockerfile
 ENV SHINY_SERVER_VERSION 1.5.14.948
 RUN /rocker_scripts/install_shiny_server.sh
 
 ```
 
-```shell
+```Dockerfile
 RUN /rocker_scripts/install_shiny_server.sh 1.5.14.948
 ```
 
