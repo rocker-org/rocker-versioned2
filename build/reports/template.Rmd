@@ -30,10 +30,13 @@ jsonlite::read_json(params$inspect_file) |>
     Size = purrr::map_dbl(value, "Size"),
     Env = purrr::map(value, c("ContainerConfig", "Env"))
   ) |>
-  tidyr::replace_na(list(RepoTags = list("None"))) |>
   dplyr::mutate(
     ImageID = paste0("`", ImageID, "`"),
-    RepoTags = paste0("`", paste(unlist(RepoTags), collapse = "`, `"), "`"),
+    RepoTags = dplyr::if_else(
+      !is.null(unlist(RepoTags)),
+      paste0("`", paste(unlist(RepoTags), collapse = "`, `"), "`"),
+      ""
+    ),
     RepoDigests = paste0("`", RepoDigests, "`"),
     Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
     Env = paste(unlist(Env), collapse = ", ")
