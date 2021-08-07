@@ -54,7 +54,7 @@ df_all <- fs::dir_ls(path = "../../reports/imagelist", glob = "*tsv") |>
     tag = X3,
     CreatedTime = lubridate::as_datetime(X4, format = "%Y-%m-%d %H:%M:%S")
   ) |>
-  dplyr::filter(tag != "<none>" & repo %in% repos)
+  dplyr::filter(tag != "<none>")
 
 df_tags <- df_all |>
   dplyr::mutate(repo_tags = paste0(repo, ":", tag)) |>
@@ -67,7 +67,7 @@ df_tags <- df_all |>
   )
 
 df_all |>
-  dplyr::filter(stringr::str_detect(tag, "^\\d\\.\\d\\.\\d$")) |>
+  dplyr::filter(repo %in% repos & stringr::str_detect(tag, "^\\d\\.\\d\\.\\d$")) |>
   dplyr::group_by(repo, tag) |>
   dplyr::slice_max(order_by = CreatedTime) |>
   dplyr::ungroup() |>
