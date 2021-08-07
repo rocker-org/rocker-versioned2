@@ -3,8 +3,9 @@ title: "`r params$image_name`"
 date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S %Z')`"
 output:
   github_document:
-    html_preview: false
+    toc: true
     df_print: kable
+    html_preview: false
 params:
   image_name: ""
   inspect_file: ""
@@ -17,27 +18,46 @@ params:
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 ```
 
+```{r}
+.link_to_commit <- function(commit_hash) {
+  base_url <- "https://github.com/rocker-org/rocker-versioned2/tree/"
+  commit_short_hash <- commit_hash |>
+    substr(1, 7)
+  linked_text <- paste0("[`", commit_short_hash, "`](", base_url, commit_hash, ")")
+
+  return(linked_text)
+}
+```
+
+*This report was generated from `r system("git rev-parse HEAD", intern = TRUE) |> .link_to_commit()`.*
+
 ## Image info
 
 ```{r}
+.unlist_and_enclose <- function(x) {
+  chr <- dplyr::if_else(
+    !is.null(unlist(x)),
+    paste0("`", paste(unlist(x), collapse = "`, `"), "`"),
+    ""
+  )
+
+  return(chr)
+}
+
 jsonlite::read_json(params$inspect_file) |>
   tibble::enframe() |>
   dplyr::transmute(
     ImageID = purrr::map_chr(value, "Id"),
     RepoTags = purrr::map(value, "RepoTags"),
-    RepoDigests = purrr::map_chr(value, list("RepoDigests", 1)),
+    RepoDigests = purrr::map(value, list("RepoDigests")),
     CreatedTime = purrr::map_chr(value, "Created"),
     Size = purrr::map_dbl(value, "Size"),
     Env = purrr::map(value, c("ContainerConfig", "Env"))
   ) |>
   dplyr::mutate(
     ImageID = paste0("`", ImageID, "`"),
-    RepoTags = dplyr::if_else(
-      !is.null(unlist(RepoTags)),
-      paste0("`", paste(unlist(RepoTags), collapse = "`, `"), "`"),
-      ""
-    ),
-    RepoDigests = paste0("`", RepoDigests, "`"),
+    RepoTags = .unlist_and_enclose(RepoTags),
+    RepoDigests = .unlist_and_enclose(RepoDigests),
     Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
     Env = paste(unlist(Env), collapse = ", ")
   ) |>
