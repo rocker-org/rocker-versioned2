@@ -90,6 +90,7 @@ jobs:
           path: tmp
 
   publish_reports:
+    if: always()
     needs: build
     runs-on: ubuntu-latest
     container:
