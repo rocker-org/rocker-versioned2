@@ -70,9 +70,9 @@ print-%:
 inspect-image/%:
 	mkdir -p $(REPORT_SOURCE_ROOT)/$(@F)
 	-docker image inspect $(@F) > $(REPORT_SOURCE_ROOT)/$(@F)/docker_inspect.json
-	-docker run --rm -it $(@F) dpkg-query --show --showformat='$${Package}\t$${Version}\n' > $(REPORT_SOURCE_ROOT)/$(@F)/apt_packages.tsv
-	-docker run --rm -it $(@F) Rscript -e 'as.data.frame(installed.packages()[, 3])' > $(REPORT_SOURCE_ROOT)/$(@F)/r_packages.ssv
-	-docker run --rm -it $(@F) python3 -m pip list --disable-pip-version-check > $(REPORT_SOURCE_ROOT)/$(@F)/pip_packages.ssv
+	-docker run --rm $(@F) dpkg-query --show --showformat='$${Package}\t$${Version}\n' > $(REPORT_SOURCE_ROOT)/$(@F)/apt_packages.tsv
+	-docker run --rm $(@F) Rscript -e 'as.data.frame(installed.packages()[, 3])' > $(REPORT_SOURCE_ROOT)/$(@F)/r_packages.ssv
+	-docker run --rm $(@F) python3 -m pip list --disable-pip-version-check > $(REPORT_SOURCE_ROOT)/$(@F)/pip_packages.ssv
 inspect-image-all: $(foreach I, $(shell docker image ls -q -f "label=org.opencontainers.image.source=$(IMAGE_SOURCE)"), inspect-image/$(I))
 
 REPORT_SOURCE_DIR := $(wildcard $(REPORT_SOURCE_ROOT)/*)

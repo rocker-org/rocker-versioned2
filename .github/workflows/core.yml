@@ -86,6 +86,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
+          name: tmp
           path: tmp
 
   publish_reports:
@@ -104,6 +105,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
+          name: tmp
           path: tmp
       - name: Generate reports
         run: |
