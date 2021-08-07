@@ -35,7 +35,7 @@ jobs:
     needs: generate_matrix
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
@@ -82,7 +82,7 @@ jobs:
           docker image push rocker/ml-verse:latest
       - name: Inspect built image
         run: |
-          make inspect-image-all
+          IMAGELIST_NAME=${{ matrix.r_version }}.tsv make inspect-image-all
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -90,8 +90,11 @@ jobs:
           path: tmp
 
   publish_reports:
-    needs: build
+    needs: [generate_matrix, build]
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     container:
       image: rocker/tidyverse:latest
     steps:
@@ -107,9 +110,10 @@ jobs:
         with:
           name: tmp
           path: tmp
-      - name: Generate reports
+      - name: Generate reports and update wiki home
         run: |
           make report-all
+          IMAGELIST_NAME=${{ matrix.r_version }}.tsv make wiki-home
       - name: Update wiki
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
