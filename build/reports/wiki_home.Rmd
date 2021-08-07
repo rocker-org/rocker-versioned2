@@ -16,6 +16,7 @@ library(dplyr)
 library(readr)
 library(forcats)
 library(stringr)
+library(lubridate)
 ```
 
 ```{r}
@@ -52,15 +53,16 @@ df_all <- fs::dir_ls(path = "../../reports/imagelist", glob = "*tsv") |>
     id = X1,
     repo = X2,
     tag = X3,
-    CreatedTime = lubridate::as_datetime(X4, format = "%Y-%m-%d %H:%M:%S")
+    CreatedTime = lubridate::ymd_hms(X4)
   ) |>
-  dplyr::filter(tag != "<none>")
+  dplyr::filter(tag != "<none>") |>
+  dplyr::distinct(id, repo, tag, .keep_all = TRUE)
 
 df_tags <- df_all |>
   dplyr::mutate(repo_tags = paste0(repo, ":", tag)) |>
   dplyr::arrange(desc(repo_tags)) |>
   dplyr::group_by(id) |>
-  dplyr::summarise(repo_tags = paste0(repo_tags, collapse = "`, `"), .groups = "drop") |>
+  dplyr::summarise(repo_tags = paste0(repo_tags, collapse = "`<br/>`"), .groups = "drop") |>
   dplyr::transmute(
     id,
     RepoTags = paste0("`", repo_tags, "`")
