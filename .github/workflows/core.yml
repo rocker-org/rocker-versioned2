@@ -90,11 +90,8 @@ jobs:
           path: tmp
 
   publish_reports:
-    needs: [generate_matrix, build]
+    needs: build
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     container:
       image: rocker/tidyverse:latest
     steps:
@@ -113,7 +110,7 @@ jobs:
       - name: Generate reports and update wiki home
         run: |
           make report-all
-          IMAGELIST_NAME=${{ matrix.r_version }}.tsv make wiki-home
+          make wiki-home
       - name: Update wiki
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
