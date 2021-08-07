@@ -64,7 +64,9 @@ jsonlite::read_json(params$inspect_file) |>
   tidyr::pivot_longer(cols = tidyselect::everything())
 ```
 
-## apt packages
+## Installed packages
+
+### apt packages
 
 ```{r}
 readr::read_tsv(params$apt_file, col_names = FALSE) |>
@@ -74,7 +76,7 @@ readr::read_tsv(params$apt_file, col_names = FALSE) |>
   )
 ```
 
-## R packages
+### R packages
 
 ```{r}
 readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
@@ -84,7 +86,7 @@ readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
   )
 ```
 
-## Python3 pip packages
+### Python3 pip packages
 
 ```{r}
 try(
