@@ -49,10 +49,12 @@ jsonlite::read_json(params$inspect_file) |>
   dplyr::transmute(
     ImageID = purrr::map_chr(value, "Id"),
     RepoTags = purrr::map(value, "RepoTags"),
-    RepoDigests = purrr::map(value, list("RepoDigests")),
-    CreatedTime = purrr::map_chr(value, "Created"),
-    Size = purrr::map_dbl(value, "Size"),
-    Env = purrr::map(value, c("ContainerConfig", "Env"))
+    RepoDigests = purrr::map(value, "RepoDigests"),
+    ImageSource = purrr::map_chr(value, c("Config", "Labels", "org.opencontainers.image.source"), .default = NA_character_),
+    ImageRevision = purrr::map_chr(value, c("Config", "Labels", "org.opencontainers.image.revision"), .default = NA_character_),
+    CreatedTime = purrr::map_chr(value, "Created", .default = NA_character_),
+    Size = purrr::map_dbl(value, "Size", .default = NA_real_),
+    Env = purrr::map(value, c("Config", "Env"))
   ) |>
   dplyr::mutate(
     ImageID = paste0("`", ImageID, "`"),
