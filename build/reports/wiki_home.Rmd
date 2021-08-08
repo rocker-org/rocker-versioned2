@@ -31,7 +31,7 @@ library(lubridate)
 ```
 
 This wiki contains information about images built from this repository by GitHub Actions and published to DockerHub.  
-For more general information about Rocker Project, check out [the rocker-org/rocker repository's wiki](https://github.com/rocker-org/rocker/wiki) and [the Rocker Project website](https://www.rocker-project.org/).
+For more general information about the Rocker Project, check out [the rocker-org/rocker repository's wiki](https://github.com/rocker-org/rocker/wiki) and [the Rocker Project website](https://www.rocker-project.org/).
 
 *This page was generated from `r system("git rev-parse HEAD", intern = TRUE) |> .link_to_commit()`.*
 
@@ -43,11 +43,11 @@ Click on the ID to see detailed information about each image.
 ```{r}
 repos <- paste0(
   "rocker/",
-  c("r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "ml", "ml-verse")
+  c("r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "ml", "ml-verse")
 ) |>
   forcats::as_factor()
 
-df_all <- fs::dir_ls(path = "../../reports/imagelist", glob = "*tsv") |>
+df_all <- fs::dir_ls(path = "../../reports/imagelist", glob = "*.tsv") |>
   readr::read_tsv(col_names = FALSE) |>
   dplyr::transmute(
     id = X1,
