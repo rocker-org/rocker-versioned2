@@ -30,6 +30,10 @@
     },
     {
       "IMAGE": "ml",
+      "tags": [
+        "docker.io/rocker/ml:4.0.4-cuda10.1",
+        "docker.io/rocker/ml:4.0.4"
+      ],
       "FROM": "rocker/r-ver:4.0.4-cuda10.1",
       "ENV": {
         "S6_VERSION": "v1.21.7.0",
@@ -50,21 +54,15 @@
     },
     {
       "IMAGE": "ml-verse",
+      "tags": [
+        "docker.io/rocker/ml-verse:4.0.4-cuda10.1",
+        "docker.io/rocker/ml-verse:4.0.4"
+      ],
       "FROM": "rocker/ml:4.0.4-cuda10.1",
       "RUN": [
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
-    },
-    {
-      "IMAGE": "ml",
-      "FROM": "rocker/ml:4.0.4-cuda10.1",
-      "TAG": "4.0.4"
-    },
-    {
-      "IMAGE": "ml-verse",
-      "FROM": "rocker/ml-verse:4.0.4-cuda10.1",
-      "TAG": "4.0.4"
     }
   ]
 }
