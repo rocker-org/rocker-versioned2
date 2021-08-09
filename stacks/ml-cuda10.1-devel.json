@@ -30,6 +30,10 @@
     },
     {
       "IMAGE": "ml",
+      "tags":[
+        "docker.io/rocker/ml:devel-cuda10.1",
+        "docker.io/rocker/ml:devel"
+      ],
       "FROM": "rocker/r-ver:devel-cuda10.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
@@ -49,6 +53,10 @@
     },
     {
       "IMAGE": "ml-verse",
+      "tags":[
+        "docker.io/rocker/ml-verse:devel-cuda10.1",
+        "docker.io/rocker/ml-verse:devel"
+      ],
       "FROM": "rocker/ml:devel-cuda10.1",
       "ENV": {
         "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
@@ -57,16 +65,6 @@
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
-    },
-    {
-      "IMAGE": "ml",
-      "FROM": "rocker/ml:devel-cuda10.1",
-      "TAG": "devel"
-    },
-    {
-      "IMAGE": "ml-verse",
-      "FROM": "rocker/ml-verse:devel-cuda10.1",
-      "TAG": "devel"
     }
   ]
 }

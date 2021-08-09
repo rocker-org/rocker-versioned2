@@ -19,17 +19,3 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_ml-verse_4.0.2-cuda10.1
-  ml-4.0.2:
-    image: rocker/ml:4.0.2
-    depends_on:
-    - ml-verse-4.0.2-cuda10.1
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_ml_4.0.2
-  ml-verse-4.0.2:
-    image: rocker/ml-verse:4.0.2
-    depends_on:
-    - ml-4.0.2
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_ml-verse_4.0.2

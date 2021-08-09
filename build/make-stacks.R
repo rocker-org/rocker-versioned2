@@ -209,16 +209,12 @@ write_stack_mlcuda10 <- function(r_version, ubuntu_version, cran, rstudio_versio
     template$stack[[1]]$FROM <- paste0("rocker/r-ver:", r_version)
     # rocker/ml:X.Y.Z-cuda10.1
     template$stack[[2]]$FROM <- paste0("rocker/r-ver:", r_version, "-cuda10.1")
+    template$stack[[2]]$tags <- list(paste0("docker.io/rocker/ml:", r_version, "-cuda10.1"), paste0("docker.io/rocker/ml:", r_version))
     template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_version
     # rocker/ml-verse:X.Y.Z-cuda10.1
     template$stack[[3]]$FROM <- paste0("rocker/ml:", r_version, "-cuda10.1")
+    template$stack[[3]]$tags <- list(paste0("docker.io/rocker/ml-verse:", r_version, "-cuda10.1"), paste0("docker.io/rocker/ml-verse:", r_version))
     template$stack[[3]]$ENV$CTAN_REPO <- ctan_repo
-    # rocker/ml:X.Y.Z
-    template$stack[[4]]$FROM <- paste0("rocker/ml:", r_version, "-cuda10.1")
-    template$stack[[4]]$TAG <- paste0(r_version)
-    # rocker/ml-verse:X.Y.Z
-    template$stack[[5]]$FROM <- paste0("rocker/ml-verse:", r_version, "-cuda10.1")
-    template$stack[[5]]$TAG <- paste0(r_version)
 
     jsonlite::write_json(template, output_path, pretty = TRUE, auto_unbox = TRUE)
 

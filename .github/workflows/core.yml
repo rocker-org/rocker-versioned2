@@ -57,6 +57,12 @@ jobs:
           docker-compose -f compose/geospatial-${{ matrix.r_version }}.yml push
           docker-compose -f compose/binder-${{ matrix.r_version }}.yml push
           docker-compose -f compose/ml-cuda10.1-${{ matrix.r_version }}.yml push
+      - name: Push ml multi-tagged image
+        run: |
+          docker image tag rocker/ml:${{ matrix.r_version }}-cuda10.1 rocker/ml:${{ matrix.r_version }}
+          docker image tag rocker/ml-verse:${{ matrix.r_version }}-cuda10.1 rocker/ml-verse:${{ matrix.r_version }}
+          docker image push rocker/ml:${{ matrix.r_version }}
+          docker image push rocker/ml-verse:${{ matrix.r_version }}
       - name: Push latest tagged Docker image
         if: matrix.r_latest == true
         run: |

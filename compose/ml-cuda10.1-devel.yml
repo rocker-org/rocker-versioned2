@@ -19,17 +19,3 @@ services:
     build:
       context: ..
       dockerfile: dockerfiles/Dockerfile_ml-verse_devel-cuda10.1
-  ml-devel:
-    image: rocker/ml:devel
-    depends_on:
-    - ml-verse-devel-cuda10.1
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_ml_devel
-  ml-verse-devel:
-    image: rocker/ml-verse:devel
-    depends_on:
-    - ml-devel
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_ml-verse_devel
