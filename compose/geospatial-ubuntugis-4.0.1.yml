@@ -1,0 +1,7 @@
+version: '3'
+services:
+  geospatial-4.0.1-ubuntugis:
+    image: rocker/geospatial:4.0.1-ubuntugis
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_4.0.1-ubuntugis
