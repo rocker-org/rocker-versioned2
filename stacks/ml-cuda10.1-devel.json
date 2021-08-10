@@ -30,7 +30,7 @@
     },
     {
       "IMAGE": "ml",
-      "tags":[
+      "tags": [
         "docker.io/rocker/ml:devel-cuda10.1",
         "docker.io/rocker/ml:devel"
       ],
@@ -53,7 +53,7 @@
     },
     {
       "IMAGE": "ml-verse",
-      "tags":[
+      "tags": [
         "docker.io/rocker/ml-verse:devel-cuda10.1",
         "docker.io/rocker/ml-verse:devel"
       ],
