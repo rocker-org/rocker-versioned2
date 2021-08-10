@@ -136,7 +136,8 @@ rstudio_versions <- function(n_versions = 10) {
                            r_major_latest = FALSE,
                            r_latest = FALSE,
                            use_latest_tag = TRUE,
-                           tag_suffix = "") {
+                           tag_suffix = "",
+                           latest_tag = "latest") {
   list_tags <- list(paste0(base_name, ":", r_version, tag_suffix))
 
   r_minor_version <- stringr::str_extract(r_version, "^\\d+\\.\\d+")
@@ -144,7 +145,7 @@ rstudio_versions <- function(n_versions = 10) {
 
   if (r_minor_latest == TRUE) list_tags <- c(list_tags, list(paste0(base_name, ":", r_minor_version, tag_suffix)))
   if (r_major_latest == TRUE) list_tags <- c(list_tags, list(paste0(base_name, ":", r_major_version, tag_suffix)))
-  if (r_latest == TRUE & use_latest_tag == TRUE) list_tags <- c(list_tags, list(paste0(base_name, ":latest")))
+  if (r_latest == TRUE & use_latest_tag == TRUE) list_tags <- c(list_tags, list(paste0(base_name, ":", latest_tag)))
 
   return(list_tags)
 }
