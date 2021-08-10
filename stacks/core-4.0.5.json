@@ -17,7 +17,11 @@
       },
       "COPY": "scripts /rocker_scripts",
       "RUN": "/rocker_scripts/install_R.sh",
-      "CMD": "[\"R\"]"
+      "CMD": "[\"R\"]",
+      "tags": [
+        "docker.io/rocker/r-ver:4.0.5",
+        "docker.io/rocker/r-ver:4.0"
+      ]
     },
     {
       "IMAGE": "rstudio",
@@ -32,12 +36,20 @@
         "/rocker_scripts/install_pandoc.sh"
       ],
       "CMD": "[\"/init\"]",
-      "EXPOSE": 8787
+      "EXPOSE": 8787,
+      "tags": [
+        "docker.io/rocker/rstudio:4.0.5",
+        "docker.io/rocker/rstudio:4.0"
+      ]
     },
     {
       "IMAGE": "tidyverse",
       "FROM": "rocker/rstudio:4.0.5",
-      "RUN": "/rocker_scripts/install_tidyverse.sh"
+      "RUN": "/rocker_scripts/install_tidyverse.sh",
+      "tags": [
+        "docker.io/rocker/tidyverse:4.0.5",
+        "docker.io/rocker/tidyverse:4.0"
+      ]
     },
     {
       "IMAGE": "verse",
@@ -46,7 +58,11 @@
         "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/05/17/tlnet",
         "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux"
       },
-      "RUN": "/rocker_scripts/install_verse.sh"
+      "RUN": "/rocker_scripts/install_verse.sh",
+      "tags": [
+        "docker.io/rocker/verse:4.0.5",
+        "docker.io/rocker/verse:4.0"
+      ]
     }
   ]
 }

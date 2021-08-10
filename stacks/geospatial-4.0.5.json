@@ -6,7 +6,11 @@
     {
       "IMAGE": "geospatial",
       "FROM": "rocker/verse:4.0.5",
-      "RUN": "/rocker_scripts/install_geospatial.sh"
+      "RUN": "/rocker_scripts/install_geospatial.sh",
+      "tags": [
+        "docker.io/rocker/geospatial:4.0.5",
+        "docker.io/rocker/geospatial:4.0"
+      ]
     }
   ]
 }

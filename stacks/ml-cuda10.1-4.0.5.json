@@ -26,13 +26,19 @@
         "/rocker_scripts/install_cuda-10.1.sh",
         "/rocker_scripts/config_R_cuda.sh",
         "/rocker_scripts/install_python.sh"
+      ],
+      "tags": [
+        "docker.io/rocker/r-ver:4.0.5-cuda10.1",
+        "docker.io/rocker/r-ver:4.0-cuda10.1"
       ]
     },
     {
       "IMAGE": "ml",
       "tags": [
         "docker.io/rocker/ml:4.0.5-cuda10.1",
-        "docker.io/rocker/ml:4.0.5"
+        "docker.io/rocker/ml:4.0-cuda10.1",
+        "docker.io/rocker/ml:4.0.5",
+        "docker.io/rocker/ml:4.0"
       ],
       "FROM": "rocker/r-ver:4.0.5-cuda10.1",
       "ENV": {
@@ -55,7 +61,9 @@
       "IMAGE": "ml-verse",
       "tags": [
         "docker.io/rocker/ml-verse:4.0.5-cuda10.1",
-        "docker.io/rocker/ml-verse:4.0.5"
+        "docker.io/rocker/ml-verse:4.0-cuda10.1",
+        "docker.io/rocker/ml-verse:4.0.5",
+        "docker.io/rocker/ml-verse:4.0"
       ],
       "FROM": "rocker/ml:4.0.5-cuda10.1",
       "ENV": {

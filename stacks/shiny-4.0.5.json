@@ -13,12 +13,20 @@
       },
       "RUN": "/rocker_scripts/install_shiny_server.sh",
       "CMD": "[\"/init\"]",
-      "EXPOSE": 3838
+      "EXPOSE": 3838,
+      "tags": [
+        "docker.io/rocker/shiny:4.0.5",
+        "docker.io/rocker/shiny:4.0"
+      ]
     },
     {
       "IMAGE": "shiny-verse",
       "FROM": "rocker/shiny:4.0.5",
-      "RUN": "/rocker_scripts/install_tidyverse.sh"
+      "RUN": "/rocker_scripts/install_tidyverse.sh",
+      "tags": [
+        "docker.io/rocker/shiny-verse:4.0.5",
+        "docker.io/rocker/shiny-verse:4.0"
+      ]
     }
   ]
 }
