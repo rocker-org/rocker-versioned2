@@ -13,6 +13,7 @@ library(purrr)
 library(glue)
 library(tidyr)
 library(tidyselect)
+library(stringr)
 
 
 .r_versions_data <- function(min_version) {
@@ -127,6 +128,21 @@ rstudio_versions <- function(n_versions = 10) {
     )
     return(url)
 }
+
+
+.generate_tags <- function(base_name, r_version, tag_suffix = "", r_minor_latest = FALSE, r_major_latest = FALSE, r_latest = FALSE, use_latest_tag = FALSE) {
+    list_tags <- list(paste0(base_name, ":", r_version, tag_suffix))
+
+    r_minor_version <- stringr::str_extract(r_version, "^\\d+\\.\\d+")
+    r_major_version <- stringr::str_extract(r_version, "^\\d+")
+
+    if(r_minor_latest == TRUE) list_tags <- c(list_tags, list(paste0(base_name, ":", r_minor_version, tag_suffix)))
+    if(r_major_latest == TRUE) list_tags <- c(list_tags, list(paste0(base_name, ":", r_major_version, tag_suffix)))
+    if(r_latest == TRUE & use_latest_tag == TRUE) list_tags <- c(list_tags, list(paste0(base_name, ":latest")))
+
+    return(list_tags)
+}
+
 
 write_stack_core <- function(r_version, ubuntu_version, cran, rstudio_version, ctan_repo) {
     template <- jsonlite::read_json("stacks/core-devel.json")
