@@ -1,6 +1,8 @@
 ---
 - hosts: rocker-server-aws
   vars:
+    os_release: ubuntu
+    os_id: 20.04
   tasks:
     - name: add docker gpg apt key
       apt_key:
@@ -18,7 +20,7 @@
         state: present
     - name: copy nvidia-docker.list
       get_url:
-        url: https://nvidia.github.io/nvidia-docker/ubuntu20.04/nvidia-docker.list
+        url: https://nvidia.github.io/nvidia-docker/{{ os_release }}{{ os_id }}/nvidia-docker.list
         dest: /etc/apt/sources.list.d/nvidia-docker.list
     - name: install system packages
       apt:
@@ -44,17 +46,30 @@
         dest: /root
       become: yes
       loop:
-        - "Dockerfile"
+        - "Dockerfile.cuda10"
+        - "Dockerfile.cuda11"
         - "docker-compose.yml"
         - "test-gpu.sh"
-    - name: build docker image
+    - name: build docker image cuda10
       become: yes
       docker_image:
         name: test-1
         build:
+          dockerfile: Dockerfile.cuda10
           path: /root
           nocache: yes
         source: build
+        state: present
+    - name: build docker image cuda11
+      become: yes
+      docker_image:
+        name: test-1
+        build:
+          dockerfile: Dockerfile.cuda11
+          path: /root
+          nocache: yes
+        source: build
+        state: present
     - name: run docker image
       become: yes
       docker_service:
@@ -64,5 +79,3 @@
 ##### manual steps required:
 # 1) run test script
 
-# bugs
-# in 'copy nvidia-docker.list we need to get ubuntu20.04 from env vars not my hardcoding

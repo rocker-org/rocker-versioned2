@@ -1,11 +1,22 @@
 version: '3'
 
 services:
-  rocker:
-    image: rocker
+
+  rocker10:
+    image: rocker_cuda10
     build:
       context: .
-      dockerfile: "Dockerfile"
+      dockerfile: "Dockerfile.cuda10"
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - capabilities: [gpu]
+  rocker11:
+    image: rocker_cuda11
+    build:
+      context: .
+      dockerfile: "Dockerfile.cuda11"
     deploy:
       resources:
         reservations:

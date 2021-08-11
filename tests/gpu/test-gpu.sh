@@ -2,6 +2,29 @@
 
 # This script tests for gpu fuctionality
 
+# check for input parameter
+
+if [ $# -ne 1 ]
+then
+  echo "Error: one input parameter is required"
+  echo "Usage: $0 <cuda version>"
+  exit 1
+fi
+
+if [ $1 -eq 10 ]
+then
+  CUDA_PACKAGE=cuda-samples-10-0
+  CUDA_DIR=cuda-10.0
+elif [ $1 -eq 11 ]
+then
+  CUDA_PACKAGE=cuda-samples-11-1
+  CUDA_DIR=cuda-11.1
+else
+  echo "Error bad value $1 for cuda version"
+  echo "cuda version must be either 10 or 11"
+  exit 1
+fi
+
 # first check for proc file for driver version
 
 echo "checking for driver version file..."
@@ -43,7 +66,7 @@ fi
 
 # run tests from CUDA samples
 printf "\nchecking for CUDA Samples...\n"
-DPKG_QUERY_SAMPLES=$(dpkg-query -l cuda-samples-9-0 2>&1)
+DPKG_QUERY_SAMPLES=$(dpkg-query -l ${CUDA_PACKAGE} 2>&1)
 if [ $? -ne 0 ]
 then
   echo "CUDA samples not installed. Please install for additional tests."
@@ -52,7 +75,7 @@ else
 
   # run deviceQuery
   printf "\ntesting deviceQuery...\n"
-  DEVICE_QUERY_OUTPUT=$(/usr/local/cuda-9.0/samples/1_Utilities/deviceQuery/deviceQuery 2>&1)
+  DEVICE_QUERY_OUTPUT=$(/usr/local/${CUDA_DIR}/samples/1_Utilities/deviceQuery/deviceQuery 2>&1)
   if [ $? -ne 0 ]
   then
     echo "deviceQuery failed with error message: $DEVICE_QUERY_OUTPUT"
@@ -62,7 +85,7 @@ else
 
   # run bandwidthTest
   printf "\nrunning bandwidthTest...\n"
-  BANDWIDTH_TEST_OUTPUT=$(/usr/local/cuda-9.0/samples/1_Utilities/bandwidthTest/bandwidthTest 2>&1)
+  BANDWIDTH_TEST_OUTPUT=$(/usr/local/${CUDA_DIR}/samples/1_Utilities/bandwidthTest/bandwidthTest 2>&1)
   if [ $? -ne 0 ]
   then
     echo "bandwidthTest failed error message: $BANDWIDTH_TEST_OUTPUT"
@@ -72,7 +95,7 @@ else
 
   # run matrixMulCUBLAS
   printf "\nrunning matrixMulCUBLAS...\n"
-  SIMPLECUBLAS_OUTPUT=$(/usr/local/cuda-9.0/samples/7_CUDALibraries/simpleCUBLAS/simpleCUBLAS 2>&1)
+  SIMPLECUBLAS_OUTPUT=$(/usr/local/${CUDA_DIR}/samples/7_CUDALibraries/simpleCUBLAS/simpleCUBLAS 2>&1)
   if [ $? -ne 0 ]
   then
     echo "simpleCUBLAS failed with error message: $SIMPLECUBLAS_OUTPUT"
