@@ -43,7 +43,7 @@ Click on the ID to see detailed information about each image.
 ```{r}
 repos <- paste0(
   "rocker/",
-  c("r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "ml", "ml-verse")
+  c("r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "cuda", "ml", "ml-verse")
 ) |>
   forcats::as_factor()
 
