@@ -1,11 +1,16 @@
 {
   "ordered": true,
   "latest": true,
-  "TAG": "devel-cuda10.1",
+  "TAG": "devel",
   "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "stack": [
     {
-      "IMAGE": "r-ver",
+      "IMAGE": "cuda",
+      "tags": [
+        "docker.io/rocker/r-ver:devel-cuda10.1",
+        "docker.io/rocker/cuda:devel-cuda10.1",
+        "docker.io/rocker/cuda:devel"
+      ],
       "FROM": "rocker/r-ver:devel",
       "ENV": {
         "CUDA_VERSION": "10.1.243",
@@ -34,7 +39,7 @@
         "docker.io/rocker/ml:devel-cuda10.1",
         "docker.io/rocker/ml:devel"
       ],
-      "FROM": "rocker/r-ver:devel-cuda10.1",
+      "FROM": "rocker/cuda:devel",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "latest",
@@ -57,7 +62,7 @@
         "docker.io/rocker/ml-verse:devel-cuda10.1",
         "docker.io/rocker/ml-verse:devel"
       ],
-      "FROM": "rocker/ml:devel-cuda10.1",
+      "FROM": "rocker/ml:devel",
       "ENV": {
         "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
       },

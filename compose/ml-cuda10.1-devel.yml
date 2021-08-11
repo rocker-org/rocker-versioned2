@@ -1,21 +1,21 @@
 version: '3'
 services:
-  r-ver-devel-cuda10.1:
-    image: rocker/r-ver:devel-cuda10.1
+  cuda-devel:
+    image: rocker/cuda:devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_r-ver_devel-cuda10.1
-  ml-devel-cuda10.1:
-    image: rocker/ml:devel-cuda10.1
+      dockerfile: dockerfiles/Dockerfile_cuda_devel
+  ml-devel:
+    image: rocker/ml:devel
     depends_on:
-    - r-ver-devel-cuda10.1
+    - cuda-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_ml_devel-cuda10.1
-  ml-verse-devel-cuda10.1:
-    image: rocker/ml-verse:devel-cuda10.1
+      dockerfile: dockerfiles/Dockerfile_ml_devel
+  ml-verse-devel:
+    image: rocker/ml-verse:devel
     depends_on:
-    - ml-devel-cuda10.1
+    - ml-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_ml-verse_devel-cuda10.1
+      dockerfile: dockerfiles/Dockerfile_ml-verse_devel
