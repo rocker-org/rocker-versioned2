@@ -1,0 +1,77 @@
+version: '3'
+services:
+  r-ver-4.0.2:
+    image: rocker/r-ver:4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver_4.0.2
+  rstudio-4.0.2:
+    image: rocker/rstudio:4.0.2
+    depends_on:
+    - r-ver-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_rstudio_4.0.2
+  tidyverse-4.0.2:
+    image: rocker/tidyverse:4.0.2
+    depends_on:
+    - rstudio-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tidyverse_4.0.2
+  verse-4.0.2:
+    image: rocker/verse:4.0.2
+    depends_on:
+    - tidyverse-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_verse_4.0.2
+  geospatial-4.0.2:
+    image: rocker/geospatial:4.0.2
+    depends_on:
+    - verse-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_4.0.2
+  shiny-4.0.2:
+    image: rocker/shiny:4.0.2
+    depends_on:
+    - geospatial-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_shiny_4.0.2
+  shiny-verse-4.0.2:
+    image: rocker/shiny-verse:4.0.2
+    depends_on:
+    - shiny-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_shiny-verse_4.0.2
+  binder-4.0.2:
+    image: rocker/binder:4.0.2
+    depends_on:
+    - shiny-verse-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_binder_4.0.2
+  cuda-4.0.2:
+    image: rocker/cuda:4.0.2
+    depends_on:
+    - binder-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_cuda_4.0.2
+  ml-4.0.2:
+    image: rocker/ml:4.0.2
+    depends_on:
+    - cuda-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_4.0.2
+  ml-verse-4.0.2:
+    image: rocker/ml-verse:4.0.2
+    depends_on:
+    - ml-4.0.2
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml-verse_4.0.2
