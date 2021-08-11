@@ -6,10 +6,6 @@
 
 The latest two versions of the following stack files, which exist for each version of R, are automatically updated by [make-stacks.R](../build/make-stacks.R), which is executed daily by GitHub Actions.
 
-- `binder-X.Y.Z.json`
-- `core-X.Y.Z.json`
-- `geospatial-X.Y.Z.json`
-- `ml-cuda10.1-X.Y.Z.json`
-- `shiny-X.Y.Z.json`
+- `X.Y.Z.json`
 
 See [the build directory](../build) for details.
