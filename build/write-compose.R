@@ -12,10 +12,10 @@ inherit_global <- function(image, global){
 #' not define the build rule for the FROM image. (Obviously that's true
 #' for the first image, but can be true for later images too).
 write_compose <-
-  function(json_file, out = "docker-compose.yml", org = "rocker"){
+  function(json_file, out = "docker-compose.yml", org = "rocker", json = NULL){
 
 
-    json <- yaml::read_yaml(json_file) #jsonlite::read_json(json_file)
+    if(is.null(json)) json <- yaml::read_yaml(json_file) #jsonlite::read_json(json_file)
     global <- json[ !(names(json) %in% c("ordered", "stack"))]
     json_stack <- lapply(json$stack, inherit_global, global)
 
@@ -81,5 +81,13 @@ stacks <- list.files("stacks", pattern = "\\.json$",full.names=TRUE)
 compose <- file.path("compose", gsub(".json$", ".yml", basename(stacks)))
 devfiles <- data.frame(stacks, compose, org = "rocker")
 devnull <- apply(devfiles, 1, function(f) write_compose(f[1], f[2], org = f[3]))
+
+
+## write `core-devel.yml` for daily build of devel images.
+stack_devel <- "stacks/devel.json"
+develcontent <- yaml::read_yaml(stack_devel)
+### Only use r-ver, rstudio, tidyverse, verse
+develcontent$stack <- develcontent$stack[1:4]
+write_compose(stack_devel, "compose/core-devel.yml", json = develcontent)
 
 message(paste("write-compose.R done!\n"))
