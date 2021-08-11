@@ -45,22 +45,18 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build the tagged Docker image
         run: |
-          docker-compose -f compose/core-${{ matrix.r_version }}.yml build
-          docker-compose -f compose/shiny-${{ matrix.r_version }}.yml build
-          docker-compose -f compose/geospatial-${{ matrix.r_version }}.yml build
-          docker-compose -f compose/binder-${{ matrix.r_version }}.yml build
-          docker-compose -f compose/ml-cuda10.1-${{ matrix.r_version }}.yml build
+          docker-compose -f compose/${{ matrix.r_version }}.yml build
       - name: Push the tagged Docker image
         run: |
-          docker-compose -f compose/core-${{ matrix.r_version }}.yml push
-          docker-compose -f compose/shiny-${{ matrix.r_version }}.yml push
-          docker-compose -f compose/geospatial-${{ matrix.r_version }}.yml push
-          docker-compose -f compose/binder-${{ matrix.r_version }}.yml push
-          docker-compose -f compose/ml-cuda10.1-${{ matrix.r_version }}.yml push
+          docker-compose -f compose/${{ matrix.r_version }}.yml push
       - name: Push ml multi-tagged image
         run: |
+          docker image tag rocker/cuda:${{ matrix.r_version }} rocker/cuda:${{ matrix.r_version }}-cuda10.1
+          docker image tag rocker/cuda:${{ matrix.r_version }} rocker/r-ver:${{ matrix.r_version }}-cuda10.1
           docker image tag rocker/ml:${{ matrix.r_version }} rocker/ml:${{ matrix.r_version }}-cuda10.1
           docker image tag rocker/ml-verse:${{ matrix.r_version }} rocker/ml-verse:${{ matrix.r_version }}-cuda10.1
+          docker image push rocker/cuda:${{ matrix.r_version }}-cuda10.1
+          docker image push rocker/r-ver:${{ matrix.r_version }}-cuda10.1
           docker image push rocker/ml:${{ matrix.r_version }}
           docker image push rocker/ml-verse:${{ matrix.r_version }}
       - name: Push latest tagged Docker image
@@ -74,6 +70,7 @@ jobs:
           docker image tag rocker/shiny-verse:${{ matrix.r_version }} rocker/shiny-verse:latest
           docker image tag rocker/geospatial:${{ matrix.r_version }} rocker/geospatial:latest
           docker image tag rocker/binder:${{ matrix.r_version }} rocker/binder:latest
+          docker image tag rocker/cuda:${{ matrix.r_version }} rocker/cuda:latest
           docker image tag rocker/ml:${{ matrix.r_version }} rocker/ml:latest
           docker image tag rocker/ml-verse:${{ matrix.r_version }} rocker/ml-verse:latest
           docker image push rocker/r-ver:latest
@@ -84,6 +81,7 @@ jobs:
           docker image push rocker/shiny-verse:latest
           docker image push rocker/geospatial:latest
           docker image push rocker/binder:latest
+          docker image push rocker/cuda:latest
           docker image push rocker/ml:latest
           docker image push rocker/ml-verse:latest
       - name: Inspect built image
