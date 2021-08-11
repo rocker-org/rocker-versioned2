@@ -1,0 +1,221 @@
+{
+  "ordered": true,
+  "TAG": "4.1.1",
+  "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "stack": [
+    {
+      "IMAGE": "r-ver",
+      "FROM": "ubuntu:focal",
+      "ENV": {
+        "R_VERSION": "4.1.1",
+        "TERM": "xterm",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "R_HOME": "/usr/local/lib/R",
+        "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
+        "TZ": "Etc/UTC"
+      },
+      "COPY": "scripts /rocker_scripts",
+      "RUN": "/rocker_scripts/install_R.sh",
+      "CMD": "[\"R\"]",
+      "tags": [
+        "docker.io/rocker/r-ver:4.1.1",
+        "docker.io/rocker/r-ver:4.1",
+        "docker.io/rocker/r-ver:4",
+        "docker.io/rocker/r-ver:latest"
+      ]
+    },
+    {
+      "IMAGE": "rstudio",
+      "FROM": "rocker/r-ver:4.1.1",
+      "ENV": {
+        "S6_VERSION": "v2.1.0.2",
+        "RSTUDIO_VERSION": "1.4.1717",
+        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+      },
+      "RUN": [
+        "/rocker_scripts/install_rstudio.sh",
+        "/rocker_scripts/install_pandoc.sh"
+      ],
+      "CMD": "[\"/init\"]",
+      "EXPOSE": 8787,
+      "tags": [
+        "docker.io/rocker/rstudio:4.1.1",
+        "docker.io/rocker/rstudio:4.1",
+        "docker.io/rocker/rstudio:4",
+        "docker.io/rocker/rstudio:latest"
+      ]
+    },
+    {
+      "IMAGE": "tidyverse",
+      "FROM": "rocker/rstudio:4.1.1",
+      "RUN": "/rocker_scripts/install_tidyverse.sh",
+      "tags": [
+        "docker.io/rocker/tidyverse:4.1.1",
+        "docker.io/rocker/tidyverse:4.1",
+        "docker.io/rocker/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest"
+      ]
+    },
+    {
+      "IMAGE": "verse",
+      "FROM": "rocker/tidyverse:4.1.1",
+      "ENV": {
+        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
+        "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux"
+      },
+      "RUN": "/rocker_scripts/install_verse.sh",
+      "tags": [
+        "docker.io/rocker/verse:4.1.1",
+        "docker.io/rocker/verse:4.1",
+        "docker.io/rocker/verse:4",
+        "docker.io/rocker/verse:latest"
+      ]
+    },
+    {
+      "IMAGE": "geospatial",
+      "FROM": "rocker/verse:4.1.1",
+      "RUN": "/rocker_scripts/install_geospatial.sh",
+      "tags": [
+        "docker.io/rocker/geospatial:4.1.1",
+        "docker.io/rocker/geospatial:4.1",
+        "docker.io/rocker/geospatial:4",
+        "docker.io/rocker/geospatial:latest"
+      ]
+    },
+    {
+      "IMAGE": "shiny",
+      "FROM": "rocker/r-ver:4.1.1",
+      "ENV": {
+        "S6_VERSION": "v2.1.0.2",
+        "SHINY_SERVER_VERSION": "latest",
+        "PANDOC_VERSION": "default"
+      },
+      "RUN": "/rocker_scripts/install_shiny_server.sh",
+      "CMD": "[\"/init\"]",
+      "EXPOSE": 3838,
+      "tags": [
+        "docker.io/rocker/shiny:4.1.1",
+        "docker.io/rocker/shiny:4.1",
+        "docker.io/rocker/shiny:4",
+        "docker.io/rocker/shiny:latest"
+      ]
+    },
+    {
+      "IMAGE": "shiny-verse",
+      "FROM": "rocker/shiny:4.1.1",
+      "RUN": "/rocker_scripts/install_tidyverse.sh",
+      "tags": [
+        "docker.io/rocker/shiny-verse:4.1.1",
+        "docker.io/rocker/shiny-verse:4.1",
+        "docker.io/rocker/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest"
+      ]
+    },
+    {
+      "IMAGE": "binder",
+      "FROM": "rocker/geospatial:4.1.1",
+      "ENV": {
+        "NB_USER": "rstudio"
+      },
+      "RUN": [
+        "/rocker_scripts/install_python.sh",
+        "/rocker_scripts/install_binder.sh"
+      ],
+      "USER": "${NB_USER}",
+      "WORKDIR": "/home/${NB_USER}",
+      "CMD": "jupyter notebook --ip 0.0.0.0",
+      "tags": [
+        "docker.io/rocker/binder:4.1.1",
+        "docker.io/rocker/binder:4.1",
+        "docker.io/rocker/binder:4",
+        "docker.io/rocker/binder:latest"
+      ]
+    },
+    {
+      "IMAGE": "cuda",
+      "tags": [
+        "docker.io/rocker/cuda:4.1.1-cuda10.1",
+        "docker.io/rocker/cuda:4.1-cuda10.1",
+        "docker.io/rocker/cuda:4-cuda10.1",
+        "docker.io/rocker/cuda:cuda10.1",
+        "docker.io/rocker/cuda:4.1.1",
+        "docker.io/rocker/cuda:4.1",
+        "docker.io/rocker/cuda:4",
+        "docker.io/rocker/cuda:latest",
+        "docker.io/rocker/r-ver:4.1.1-cuda10.1"
+      ],
+      "FROM": "rocker/r-ver:4.1.1",
+      "ENV": {
+        "CUDA_VERSION": "10.1.243",
+        "CUDA_PKG_VERSION": "10-1=$CUDA_VERSION-1",
+        "NVIDIA_VISIBLE_DEVICES": "all",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "NVIDIA_REQUIRE_CUDA": "cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesla,driver>=396,driver<397 brand=tesla,driver>=410,driver<411",
+        "CUDA_HOME": "/usr/local/cuda",
+        "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$CUDA_HOME/lib64/libnvblas.so:",
+        "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
+        "WORKON_HOME": "/opt/venv",
+        "PYTHON_VENV_PATH": "/opt/venv/reticulate",
+        "PYTHON_CONFIGURE_OPTS": "--enable-shared",
+        "RETICULATE_AUTOCONFIGURE": "0",
+        "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/x86_64-linux"
+      },
+      "RUN": [
+        "/rocker_scripts/install_cuda-10.1.sh",
+        "/rocker_scripts/config_R_cuda.sh",
+        "/rocker_scripts/install_python.sh"
+      ]
+    },
+    {
+      "IMAGE": "ml",
+      "tags": [
+        "docker.io/rocker/ml:4.1.1-cuda10.1",
+        "docker.io/rocker/ml:4.1-cuda10.1",
+        "docker.io/rocker/ml:4-cuda10.1",
+        "docker.io/rocker/ml:cuda10.1",
+        "docker.io/rocker/ml:4.1.1",
+        "docker.io/rocker/ml:4.1",
+        "docker.io/rocker/ml:4",
+        "docker.io/rocker/ml:latest"
+      ],
+      "FROM": "rocker/cuda:4.1.1",
+      "ENV": {
+        "S6_VERSION": "v2.1.0.2",
+        "RSTUDIO_VERSION": "1.4.1717",
+        "PANDOC_VERSION": "default",
+        "TENSORFLOW_VERSION": "gpu",
+        "KERAS_VERSION": "default",
+        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+      },
+      "RUN": [
+        "/rocker_scripts/install_rstudio.sh",
+        "/rocker_scripts/install_pandoc.sh",
+        "/rocker_scripts/install_tidyverse.sh"
+      ],
+      "CMD": "[\"/init\"]",
+      "EXPOSE": 8787
+    },
+    {
+      "IMAGE": "ml-verse",
+      "tags": [
+        "docker.io/rocker/ml-verse:4.1.1-cuda10.1",
+        "docker.io/rocker/ml-verse:4.1-cuda10.1",
+        "docker.io/rocker/ml-verse:4-cuda10.1",
+        "docker.io/rocker/ml-verse:cuda10.1",
+        "docker.io/rocker/ml-verse:4.1.1",
+        "docker.io/rocker/ml-verse:4.1",
+        "docker.io/rocker/ml-verse:4",
+        "docker.io/rocker/ml-verse:latest"
+      ],
+      "FROM": "rocker/ml:4.1.1",
+      "ENV": {
+        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
+      },
+      "RUN": [
+        "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_geospatial.sh"
+      ]
+    }
+  ]
+}
