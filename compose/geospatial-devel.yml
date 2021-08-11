@@ -1,7 +1,0 @@
-version: '3'
-services:
-  geospatial-devel:
-    image: rocker/geospatial:devel
-    build:
-      context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_devel

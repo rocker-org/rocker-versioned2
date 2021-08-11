@@ -24,8 +24,11 @@ image                                                      | description        
 [shiny](https://hub.docker.com/r/rocker/shiny)             | Adds shiny server on top of 'r-ver'                                                            | [![](https://img.shields.io/docker/pulls/rocker/shiny.svg)](https://hub.docker.com/r/rocker/shiny)
 [shiny-verse](https://hub.docker.com/r/rocker/shiny-verse) | Adds tidyverse packages on top of 'shiny'                                                      | [![](https://img.shields.io/docker/pulls/rocker/shiny-verse.svg)](https://hub.docker.com/r/rocker/shiny-verse)
 [binder](https://hub.docker.com/r/rocker/binder)           | Adds requirements to 'geospatial' to run repositories on [mybinder.org](https://mybinder.org/) | [![](https://img.shields.io/docker/pulls/rocker/binder.svg)](https://hub.docker.com/r/rocker/binder)
-[ml](https://hub.docker.com/r/rocker/ml)                   | Adds python and Tensorflow to 'tidyverse'                                                      | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml)
-[ml-verse](https://hub.docker.com/r/rocker/ml-verse)       | Adds python and Tensorflow to 'verse'                                                          | [![](https://img.shields.io/docker/pulls/rocker/ml-verse.svg)](https://hub.docker.com/r/rocker/ml-verse)
+[cuda](https://hub.docker.com/r/rocker/cuda)               | Adds cuda and Python to 'r-ver' (a.k.a `rocker/r-ver:X.Y.Z-cuda10.1`)                          | [![](https://img.shields.io/docker/pulls/rocker/cuda.svg)](https://hub.docker.com/r/rocker/cuda)
+[ml](https://hub.docker.com/r/rocker/ml)                   | Adds rstudio server, tiyverse, devtools to 'cuda'                                              | [![](https://img.shields.io/docker/pulls/rocker/ml.svg)](https://hub.docker.com/r/rocker/ml)
+[ml-verse](https://hub.docker.com/r/rocker/ml-verse)       | Adds tex & publishing-related packages & geospatial packages to 'ml'                           | [![](https://img.shields.io/docker/pulls/rocker/ml-verse.svg)](https://hub.docker.com/r/rocker/ml-verse)
+
+**For more information on public container images, please see [the Wiki of this repository](https://github.com/rocker-org/rocker-versioned2/wiki).**
 
 ## Notes on new architecture for R >= 4.0.0
 
@@ -40,7 +43,7 @@ image                                                      | description        
 
 In our new build system, pre-built images are defined with JSON files under [the `stacks/` folder](./stacks)
 in this repository.  Each file defines a series of related images.  The `.R` files in [the `build/`
-folder](./build) use these to create the actual Dockerfiles under [the `dockerfiles/` folder](./dockerfiles) and images are built using the `Makefile`.
+folder](./build) use these to create the actual Dockerfiles under [the `dockerfiles/` folder](./dockerfiles) and images are built by the GitHub Actions workflow.
 These Dockerfiles serve as examples of how to build your own custom images.
 
 Importantly, we have moved as much of the detailed install logic out of Dockerfiles and into standalone scripts, or "modules", under the `scripts` directory.  These files are available in all Docker images, under a top-level `/rocker_scripts` directory.  This allows users to extend images by selecting additional modules to install on top of any pre-built images.  For instance, if one wishes to install Shiny Server on top of a base of `rstudio:4.0.0`, one could write a simple Dockerfile as follows:

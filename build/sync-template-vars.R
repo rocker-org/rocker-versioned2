@@ -2,19 +2,28 @@
 
 library(jsonlite)
 
-template_core <- jsonlite::read_json("stacks/core-devel.json")
-template_shiny <- jsonlite::read_json("stacks/shiny-devel.json")
-template_mlcuda_10 <- jsonlite::read_json("stacks/ml-cuda10.1-devel.json")
+template_main <- jsonlite::read_json("stacks/devel.json")
 
-# Copy S6_VERSION from core to others.
-s6_ver <- template_core$stack[[2]]$ENV$S6_VERSION
+# Copy S6_VERSION from rstudio to others.
+s6_ver <- template_main$stack[[2]]$ENV$S6_VERSION
+## shiny
+template_main$stack[[6]]$ENV$S6_VERSION <- s6_ver
+## ml
+template_main$stack[[10]]$ENV$S6_VERSION <- s6_ver
+# Rewrite the template file.
+jsonlite::write_json(template_main, "stacks/devel.json", pretty = TRUE, auto_unbox = TRUE)
 
-template_mlcuda_10$stack[[2]]$ENV$S6_VERSION <- s6_ver
-template_shiny$stack[[1]]$ENV$S6_VERSION <- s6_ver
 
-
-# Rewrite template files.
-jsonlite::write_json(template_shiny, "stacks/shiny-devel.json", pretty = TRUE, auto_unbox = TRUE)
-jsonlite::write_json(template_mlcuda_10, "stacks/ml-cuda10.1-devel.json", pretty = TRUE, auto_unbox = TRUE)
+# Update core-latest-daily
+latest_daily <- template_main
+latest_daily$TAG <- "latest-daily"
+## Only rstudio, tidyverse, verse
+latest_daily$stack <- template_main$stack[2:4]
+latest_daily$stack[[1]]$FROM <- "rocker/r-ver:latest"
+latest_daily$stack[[1]]$ENV$RSTUDIO_VERSION <- "daily"
+latest_daily$stack[[2]]$FROM <- "rocker/rstudio:latest-daily"
+latest_daily$stack[[3]]$FROM <- "rocker/tidyverse:latest-daily"
+# Write the template file.
+jsonlite::write_json(latest_daily, "stacks/core-latest-daily.json", pretty = TRUE, auto_unbox = TRUE)
 
 message("sync-template-vers.R done!\n")

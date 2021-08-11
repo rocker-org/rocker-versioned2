@@ -1,0 +1,77 @@
+version: '3'
+services:
+  r-ver-devel:
+    image: rocker/r-ver:devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_r-ver_devel
+  rstudio-devel:
+    image: rocker/rstudio:devel
+    depends_on:
+    - r-ver-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_rstudio_devel
+  tidyverse-devel:
+    image: rocker/tidyverse:devel
+    depends_on:
+    - rstudio-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_tidyverse_devel
+  verse-devel:
+    image: rocker/verse:devel
+    depends_on:
+    - tidyverse-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_verse_devel
+  geospatial-devel:
+    image: rocker/geospatial:devel
+    depends_on:
+    - verse-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_geospatial_devel
+  shiny-devel:
+    image: rocker/shiny:devel
+    depends_on:
+    - geospatial-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_shiny_devel
+  shiny-verse-devel:
+    image: rocker/shiny-verse:devel
+    depends_on:
+    - shiny-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_shiny-verse_devel
+  binder-devel:
+    image: rocker/binder:devel
+    depends_on:
+    - shiny-verse-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_binder_devel
+  cuda-devel:
+    image: rocker/cuda:devel
+    depends_on:
+    - binder-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_cuda_devel
+  ml-devel:
+    image: rocker/ml:devel
+    depends_on:
+    - cuda-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml_devel
+  ml-verse-devel:
+    image: rocker/ml-verse:devel
+    depends_on:
+    - ml-devel
+    build:
+      context: ..
+      dockerfile: dockerfiles/Dockerfile_ml-verse_devel
