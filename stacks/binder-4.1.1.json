@@ -1,11 +1,11 @@
 {
   "ordered": false,
-  "TAG": "4.0.4",
+  "TAG": "4.1.1",
   "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "stack": [
     {
       "IMAGE": "binder",
-      "FROM": "rocker/geospatial:4.0.4",
+      "FROM": "rocker/geospatial:4.1.1",
       "ENV": {
         "NB_USER": "rstudio"
       },
