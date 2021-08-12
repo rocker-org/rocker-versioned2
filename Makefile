@@ -84,7 +84,7 @@ inspect-image/%:
 	-docker run --rm $(@F) python3 -m pip list --disable-pip-version-check > $(REPORT_SOURCE_ROOT)/$(@F)/pip_packages.ssv
 inspect-image-all: $(foreach I, $(shell docker image ls -q -f "$(IMAGE_FILTER)"), inspect-image/$(I))
 	mkdir -p $(IMAGELIST_DIR)
-	docker image ls -f "label=org.opencontainers.image.source=$(IMAGE_SOURCE)" --format "{{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" > $(IMAGELIST_DIR)/$(IMAGELIST_NAME)
+	docker image ls -f "$(IMAGE_FILTER)" --format "{{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" > $(IMAGELIST_DIR)/$(IMAGELIST_NAME)
 
 REPORT_SOURCE_DIR := $(wildcard $(REPORT_SOURCE_ROOT)/*)
 report/%:
