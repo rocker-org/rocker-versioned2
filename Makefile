@@ -24,10 +24,10 @@ latest: clean setup $(LATEST_TAG)
 4.0.0: clean setup 4.0.0
 
 
-setup: $(COMPOSEFILES)
-$(COMPOSEFILES): ./build/make-dockerfiles.R ./build/write-compose.R $(STACKFILES)
+setup: ./build/make-dockerfiles.R ./build/write-compose.R ./build/make-bakejson.R $(STACKFILES)
 	./build/make-dockerfiles.R
 	./build/write-compose.R
+	./build/make-bakejson.R
 
 
 ## Builds all stacks

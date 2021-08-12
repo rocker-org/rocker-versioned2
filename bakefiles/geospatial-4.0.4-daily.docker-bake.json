@@ -1,0 +1,14 @@
+{
+  "target": {
+    "1": {
+      "context": "./",
+      "dockerfile": "dockerfiles/Dockerfile_NA_",
+      "tags": [
+        "docker.io/rocker/:"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ]
+    }
+  }
+}

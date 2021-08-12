@@ -1,0 +1,34 @@
+{
+  "target": {
+    "rstudio": {
+      "context": "./",
+      "dockerfile": "dockerfiles/Dockerfile_rstudio_latest-daily",
+      "tags": [
+        "docker.io/rocker/rstudio:latest-daily"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ]
+    },
+    "tidyverse": {
+      "context": "./",
+      "dockerfile": "dockerfiles/Dockerfile_tidyverse_latest-daily",
+      "tags": [
+        "docker.io/rocker/tidyverse:latest-daily"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ]
+    },
+    "verse": {
+      "context": "./",
+      "dockerfile": "dockerfiles/Dockerfile_verse_latest-daily",
+      "tags": [
+        "docker.io/rocker/verse:latest-daily"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ]
+    }
+  }
+}
