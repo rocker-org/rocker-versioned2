@@ -5,7 +5,7 @@ on:
     branches:
       - "master"
     paths:
-      - "build/matrix/**"
+      - "build/matrix/latest.json"
       - "scripts/**"
       - "dockerfiles/Dockerfile_r-ver_*"
       - "dockerfiles/Dockerfile_rstudio_*"

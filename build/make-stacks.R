@@ -342,17 +342,25 @@ df_args <- .r_versions_data(min_version = 4.0) %>%
   dplyr::mutate(
     ctan_url = .latest_ctan_url(freeze_date),
     r_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)
-  ) %>%
-  dplyr::select(!tidyselect::ends_with("_date"))
+  )
 
 # Write json file for GitHubActions build matrix.
 df_args %>%
   dplyr::select(r_version, r_latest) %>%
-  utils::tail(1) %>%
   {
-    list(include = .)
-  } %>%
-  jsonlite::write_json("build/matrix/latest.json", pretty = TRUE, auto_unbox = TRUE)
+    jsonlite::write_json(
+      list(include = .),
+      "build/matrix/all.json",
+      pretty = TRUE,
+      auto_unbox = TRUE
+    )
+    jsonlite::write_json(
+      list(include = utils::tail(., 1)),
+      "build/matrix/latest.json",
+      pretty = TRUE,
+      auto_unbox = TRUE
+    )
+  }
 
 message("\nstart writing stack files.")
 

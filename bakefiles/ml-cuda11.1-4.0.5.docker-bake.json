@@ -1,0 +1,34 @@
+{
+  "target": {
+    "r-ver": {
+      "context": "./",
+      "dockerfile": "dockerfiles/Dockerfile_r-ver_4.0.5-cuda11.1",
+      "tags": [
+        "docker.io/rocker/r-ver:4.0.5-cuda11.1"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ]
+    },
+    "ml": {
+      "context": "./",
+      "dockerfile": "dockerfiles/Dockerfile_ml_4.0.5-cuda11.1",
+      "tags": [
+        "docker.io/rocker/ml:4.0.5-cuda11.1"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ]
+    },
+    "ml-verse": {
+      "context": "./",
+      "dockerfile": "dockerfiles/Dockerfile_ml-verse_4.0.5-cuda11.1",
+      "tags": [
+        "docker.io/rocker/ml-verse:4.0.5-cuda11.1"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ]
+    }
+  }
+}

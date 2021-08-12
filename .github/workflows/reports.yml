@@ -1,0 +1,74 @@
+name: Report published images
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-json
+        run: |
+          JSON=build/matrix/all.json
+          echo ::set-output name=json::${JSON}
+          echo ${JSON}
+      - id: set-matrix
+        run: |
+          CONTENT=$(jq -r 'tostring' ${{ steps.set-json.outputs.json }})
+          echo ::set-output name=matrix::${CONTENT}
+          echo ${CONTENT}
+
+  inspect:
+    needs: generate_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Clean up
+        run: |
+          docker image prune --all --force
+      - name: Pull images
+        run: |
+          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json make pull-image-all
+      - name: Inspect built image
+        run: |
+          IMAGELIST_NAME=${{ matrix.r_version }}.tsv IMAGE_FILTER= make inspect-image-all
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: tmp
+          path: tmp
+
+  publish_reports:
+    if: always()
+    needs: inspect
+    runs-on: ubuntu-latest
+    container:
+      image: rocker/tidyverse:latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v2
+      - name: Checkout wiki
+        uses: actions/checkout@v2
+        with:
+          repository: "${{ github.repository }}.wiki"
+          path: reports
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: tmp
+          path: tmp
+      - name: Generate reports and update wiki home
+        run: |
+          make report-all
+          make wiki-home
+      - name: Update wiki
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Automated update
+          repository: reports
