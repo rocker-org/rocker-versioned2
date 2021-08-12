@@ -1,0 +1,36 @@
+{
+  "include": [
+    {
+      "r_version": "4.0.0",
+      "r_latest": false
+    },
+    {
+      "r_version": "4.0.1",
+      "r_latest": false
+    },
+    {
+      "r_version": "4.0.2",
+      "r_latest": false
+    },
+    {
+      "r_version": "4.0.3",
+      "r_latest": false
+    },
+    {
+      "r_version": "4.0.4",
+      "r_latest": false
+    },
+    {
+      "r_version": "4.0.5",
+      "r_latest": false
+    },
+    {
+      "r_version": "4.1.0",
+      "r_latest": false
+    },
+    {
+      "r_version": "4.1.1",
+      "r_latest": true
+    }
+  ]
+}
