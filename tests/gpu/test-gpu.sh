@@ -114,3 +114,21 @@ else
   echo "tensorflow installed"
 fi
 
+if [ $1 -eq 11 ]
+then
+  # test installed tensorflow version 1.15
+  python -c 'import tensorflow as tf; print(tf.__version__)'
+  python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
+
+  # remove tensorflow 1.15, install 2.2.0 and test
+  pip uninstall --yes nvidia-tensorflow[horovod]
+  pip install --upgrade tensorflow==2.2
+  python -c 'import tensorflow as tf; print(tf.__version__)'
+  python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
+
+  # remove tensorflow 2.2, install latest version and test
+  pip uninstall --yes nvidia-tensorflow[horovod]
+  pip install --upgrade tensorflow
+  python -c 'import tensorflow as tf; print(tf.__version__)'
+  python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
+fi
