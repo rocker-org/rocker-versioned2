@@ -57,6 +57,7 @@ $(PUSHES): %.push: %
 
 
 IMAGE_SOURCE ?= https://github.com/rocker-org/rocker-versioned2
+IMAGE_FILTER ?= label=org.opencontainers.image.source=$(IMAGE_SOURCE)
 REPORT_SOURCE_ROOT ?= tmp/inspects
 IMAGELIST_DIR ?= tmp/imagelist
 IMAGELIST_NAME ?= imagelist.tsv
@@ -66,13 +67,22 @@ REPORT_DIR ?= reports
 print-%:
 	@echo $* = $($*)
 
+
+# Set docker-bake.json file path to BAKE_JSON before running `make pull-image-all`.
+# ex. $ BAKE_JSON=bakefiles/devel.docker-bake.json make pull-image-all
+BAKE_JSON ?= ""
+pull-image/%:
+	-docker pull $(subst pull-image/, , $@)
+pull-image-all: $(foreach I, $(shell jq '.target[].tags[]' -r $(BAKE_JSON) | sed -e 's/:/\\:/g'), pull-image/$(I))
+
+
 inspect-image/%:
 	mkdir -p $(REPORT_SOURCE_ROOT)/$(@F)
 	-docker image inspect $(@F) > $(REPORT_SOURCE_ROOT)/$(@F)/docker_inspect.json
 	-docker run --rm $(@F) dpkg-query --show --showformat='$${Package}\t$${Version}\n' > $(REPORT_SOURCE_ROOT)/$(@F)/apt_packages.tsv
 	-docker run --rm $(@F) Rscript -e 'as.data.frame(installed.packages()[, 3])' > $(REPORT_SOURCE_ROOT)/$(@F)/r_packages.ssv
 	-docker run --rm $(@F) python3 -m pip list --disable-pip-version-check > $(REPORT_SOURCE_ROOT)/$(@F)/pip_packages.ssv
-inspect-image-all: $(foreach I, $(shell docker image ls -q -f "label=org.opencontainers.image.source=$(IMAGE_SOURCE)"), inspect-image/$(I))
+inspect-image-all: $(foreach I, $(shell docker image ls -q -f "$(IMAGE_FILTER)"), inspect-image/$(I))
 	mkdir -p $(IMAGELIST_DIR)
 	docker image ls -f "label=org.opencontainers.image.source=$(IMAGE_SOURCE)" --format "{{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" > $(IMAGELIST_DIR)/$(IMAGELIST_NAME)
 
