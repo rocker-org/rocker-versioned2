@@ -29,6 +29,9 @@ jobs:
       matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v2
+      - name: Clean up
+        run: |
+          docker image prune --all --force
       - name: Pull images
         run: |
           BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json make pull-image-all
