@@ -9,9 +9,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 RUN pip install --upgrade tensorflow
 
-RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 700 --slave /usr/bin/g++ g++ /usr/bin/g++-7
-WORKDIR /usr/local/cuda-10.0/samples
-RUN make
+# RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 700 --slave /usr/bin/g++ g++ /usr/bin/g++-7
+# WORKDIR /usr/local/cuda-10.0/samples
+# RUN make
 
 COPY ./test-gpu.sh /test-gpu.sh
 RUN chmod +x /test-gpu.sh
