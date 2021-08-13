@@ -120,9 +120,15 @@ then
   python -c 'import tensorflow as tf; print(tf.__version__)'
   python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
 
-  # remove tensorflow 1.15, install 2.2.0 and test
+  # remove tensorflow 1.15, install 2.2 and test
   pip uninstall --yes nvidia-tensorflow[horovod]
   pip install --upgrade tensorflow==2.2
+  python -c 'import tensorflow as tf; print(tf.__version__)'
+  python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
+
+  # remove tensorflow 2.2, install 2.5 and test
+  pip uninstall --yes nvidia-tensorflow[horovod]
+  pip install --upgrade tensorflow==2.5
   python -c 'import tensorflow as tf; print(tf.__version__)'
   python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
 
