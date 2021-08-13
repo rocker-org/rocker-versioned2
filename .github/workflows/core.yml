@@ -57,8 +57,8 @@ jobs:
           docker image tag rocker/ml-verse:${{ matrix.r_version }} rocker/ml-verse:${{ matrix.r_version }}-cuda10.1
           docker image push rocker/cuda:${{ matrix.r_version }}-cuda10.1
           docker image push rocker/r-ver:${{ matrix.r_version }}-cuda10.1
-          docker image push rocker/ml:${{ matrix.r_version }}
-          docker image push rocker/ml-verse:${{ matrix.r_version }}
+          docker image push rocker/ml:${{ matrix.r_version }}-cuda10.1
+          docker image push rocker/ml-verse:${{ matrix.r_version }}-cuda10.1
       - name: Push latest tagged Docker image
         if: matrix.r_latest == true
         run: |
