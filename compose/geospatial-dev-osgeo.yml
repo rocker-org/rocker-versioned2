@@ -4,4 +4,4 @@ services:
     image: rocker/geospatial:dev-osgeo
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_dev-osgeo
+      dockerfile: dockerfiles/geospatial_dev-osgeo.Dockerfile

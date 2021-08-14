@@ -2,7 +2,7 @@
   "target": {
     "rstudio": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_rstudio_latest-daily",
+      "dockerfile": "dockerfiles/rstudio_latest-daily.Dockerfile",
       "tags": [
         "docker.io/rocker/rstudio:latest-daily"
       ],
@@ -12,7 +12,7 @@
     },
     "tidyverse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_tidyverse_latest-daily",
+      "dockerfile": "dockerfiles/tidyverse_latest-daily.Dockerfile",
       "tags": [
         "docker.io/rocker/tidyverse:latest-daily"
       ],
@@ -22,7 +22,7 @@
     },
     "verse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_verse_latest-daily",
+      "dockerfile": "dockerfiles/verse_latest-daily.Dockerfile",
       "tags": [
         "docker.io/rocker/verse:latest-daily"
       ],

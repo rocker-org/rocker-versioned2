@@ -4,74 +4,74 @@ services:
     image: rocker/r-ver:devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_r-ver_devel
+      dockerfile: dockerfiles/r-ver_devel.Dockerfile
   rstudio-devel:
     image: rocker/rstudio:devel
     depends_on:
     - r-ver-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_rstudio_devel
+      dockerfile: dockerfiles/rstudio_devel.Dockerfile
   tidyverse-devel:
     image: rocker/tidyverse:devel
     depends_on:
     - rstudio-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_tidyverse_devel
+      dockerfile: dockerfiles/tidyverse_devel.Dockerfile
   verse-devel:
     image: rocker/verse:devel
     depends_on:
     - tidyverse-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_verse_devel
+      dockerfile: dockerfiles/verse_devel.Dockerfile
   geospatial-devel:
     image: rocker/geospatial:devel
     depends_on:
     - verse-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_devel
+      dockerfile: dockerfiles/geospatial_devel.Dockerfile
   shiny-devel:
     image: rocker/shiny:devel
     depends_on:
     - geospatial-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_shiny_devel
+      dockerfile: dockerfiles/shiny_devel.Dockerfile
   shiny-verse-devel:
     image: rocker/shiny-verse:devel
     depends_on:
     - shiny-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_shiny-verse_devel
+      dockerfile: dockerfiles/shiny-verse_devel.Dockerfile
   binder-devel:
     image: rocker/binder:devel
     depends_on:
     - shiny-verse-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_binder_devel
+      dockerfile: dockerfiles/binder_devel.Dockerfile
   cuda-devel:
     image: rocker/cuda:devel
     depends_on:
     - binder-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_cuda_devel
+      dockerfile: dockerfiles/cuda_devel.Dockerfile
   ml-devel:
     image: rocker/ml:devel
     depends_on:
     - cuda-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_ml_devel
+      dockerfile: dockerfiles/ml_devel.Dockerfile
   ml-verse-devel:
     image: rocker/ml-verse:devel
     depends_on:
     - ml-devel
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_ml-verse_devel
+      dockerfile: dockerfiles/ml-verse_devel.Dockerfile

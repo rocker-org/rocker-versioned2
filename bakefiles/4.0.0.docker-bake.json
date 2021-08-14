@@ -2,7 +2,7 @@
   "target": {
     "r-ver": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_r-ver_4.0.0",
+      "dockerfile": "dockerfiles/r-ver_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/r-ver:4.0.0"
       ],
@@ -12,7 +12,7 @@
     },
     "rstudio": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_rstudio_4.0.0",
+      "dockerfile": "dockerfiles/rstudio_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/rstudio:4.0.0"
       ],
@@ -22,7 +22,7 @@
     },
     "tidyverse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_tidyverse_4.0.0",
+      "dockerfile": "dockerfiles/tidyverse_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/tidyverse:4.0.0"
       ],
@@ -32,7 +32,7 @@
     },
     "verse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_verse_4.0.0",
+      "dockerfile": "dockerfiles/verse_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/verse:4.0.0"
       ],
@@ -42,7 +42,7 @@
     },
     "geospatial": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_geospatial_4.0.0",
+      "dockerfile": "dockerfiles/geospatial_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/geospatial:4.0.0"
       ],
@@ -52,7 +52,7 @@
     },
     "shiny": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_shiny_4.0.0",
+      "dockerfile": "dockerfiles/shiny_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/shiny:4.0.0"
       ],
@@ -62,7 +62,7 @@
     },
     "shiny-verse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_shiny-verse_4.0.0",
+      "dockerfile": "dockerfiles/shiny-verse_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/shiny-verse:4.0.0"
       ],
@@ -72,7 +72,7 @@
     },
     "binder": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_binder_4.0.0",
+      "dockerfile": "dockerfiles/binder_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/binder:4.0.0"
       ],
@@ -82,7 +82,7 @@
     },
     "cuda": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_cuda_4.0.0",
+      "dockerfile": "dockerfiles/cuda_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/cuda:4.0.0-cuda10.1",
         "docker.io/rocker/cuda:4.0.0",
@@ -94,7 +94,7 @@
     },
     "ml": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_ml_4.0.0",
+      "dockerfile": "dockerfiles/ml_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/ml:4.0.0-cuda10.1",
         "docker.io/rocker/ml:4.0.0"
@@ -105,7 +105,7 @@
     },
     "ml-verse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_ml-verse_4.0.0",
+      "dockerfile": "dockerfiles/ml-verse_4.0.0.Dockerfile",
       "tags": [
         "docker.io/rocker/ml-verse:4.0.0-cuda10.1",
         "docker.io/rocker/ml-verse:4.0.0"

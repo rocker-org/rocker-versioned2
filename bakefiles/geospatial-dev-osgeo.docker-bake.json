@@ -2,7 +2,7 @@
   "target": {
     "geospatial": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_geospatial_dev-osgeo",
+      "dockerfile": "dockerfiles/geospatial_dev-osgeo.Dockerfile",
       "tags": [
         "docker.io/rocker/geospatial:dev-osgeo"
       ],

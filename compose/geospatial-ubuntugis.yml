@@ -4,4 +4,4 @@ services:
     image: rocker/geospatial:ubuntugis
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_geospatial_ubuntugis
+      dockerfile: dockerfiles/geospatial_ubuntugis.Dockerfile
