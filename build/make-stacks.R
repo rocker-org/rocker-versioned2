@@ -360,6 +360,12 @@ df_args %>%
       pretty = TRUE,
       auto_unbox = TRUE
     )
+    jsonlite::write_json(
+      list(include = dplyr::slice(., -dplyr::n())),
+      "build/matrix/non_latest.json",
+      pretty = TRUE,
+      auto_unbox = TRUE
+    )
   }
 
 message("\nstart writing stack files.")
