@@ -20,7 +20,7 @@ write_bakejson <- function(stack_file) {
     dplyr::transmute(
       name = purrr::map_chr(value, "IMAGE", .default = NA),
       context = "./",
-      dockerfile = paste0("dockerfiles/Dockerfile_", name, "_", stack_tag),
+      dockerfile = paste0("dockerfiles/", name, "_", stack_tag, ".Dockerfile"),
       tags = purrr::map(
         value,
         ~ if (!is.null(.x$tags)) .x$tags else list(paste0("docker.io/rocker/", .x$IMAGE, ":", stack_tag))

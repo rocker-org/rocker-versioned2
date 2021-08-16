@@ -65,3 +65,4 @@ wiki-home:
 
 clean:
 	rm -f dockerfiles/Dockerfile_* compose/*.yml bakefiles/*.json tmp/*
+  

@@ -21,23 +21,26 @@ write_compose <-
 
     ordered <- isTRUE(json$ordered)
 
-    prefix <- "dockerfiles/Dockerfile_"
+    prefix <- "dockerfiles/"
+    suffix <- ".Dockerfile"
     map_chr <- function(x, name) vapply(x, `[[`, character(1L), name)
     map_lgl <- function(x, FUN) vapply(x, FUN, logical(1L))
 
     name <- map_chr(json_stack, "IMAGE")
     tag <-  map_chr(json_stack, "TAG")
 
-    dockerfiles <- paste0(prefix, name, "_", tag)
+    dockerfiles <- paste0(prefix, name, "_", tag, suffix)
     names(dockerfiles) <- name
 
     image_name <- function(d, org){
       x <- gsub(prefix, "", d)
+      x <- gsub(suffix, "", x)
       x <- gsub("_", ":", x)
       paste(org, x, sep = "/")
     }
     service_name <- function(d){
       x <- gsub(prefix, "", d)
+      x <- gsub(suffix, "", x)
     }
 
     image <- paste(name, tag, sep = "-")

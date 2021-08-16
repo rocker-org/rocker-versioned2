@@ -7,10 +7,10 @@ on:
     paths:
       - "build/matrix/latest.json"
       - "scripts/**"
-      - "dockerfiles/Dockerfile_r-ver_*"
-      - "dockerfiles/Dockerfile_rstudio_*"
-      - "dockerfiles/Dockerfile_tidyverse_*"
-      - "dockerfiles/Dockerfile_verse_*"
+      - "dockerfiles/r-ver_*"
+      - "dockerfiles/rstudio_*"
+      - "dockerfiles/tidyverse_*"
+      - "dockerfiles/verse_*"
   workflow_dispatch:
 
 jobs:

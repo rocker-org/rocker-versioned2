@@ -2,7 +2,7 @@
   "target": {
     "r-ver": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_r-ver_devel",
+      "dockerfile": "dockerfiles/r-ver_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/r-ver:devel"
       ],
@@ -12,7 +12,7 @@
     },
     "rstudio": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_rstudio_devel",
+      "dockerfile": "dockerfiles/rstudio_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/rstudio:devel"
       ],
@@ -22,7 +22,7 @@
     },
     "tidyverse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_tidyverse_devel",
+      "dockerfile": "dockerfiles/tidyverse_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/tidyverse:devel"
       ],
@@ -32,7 +32,7 @@
     },
     "verse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_verse_devel",
+      "dockerfile": "dockerfiles/verse_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/verse:devel"
       ],
@@ -42,7 +42,7 @@
     },
     "geospatial": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_geospatial_devel",
+      "dockerfile": "dockerfiles/geospatial_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/geospatial:devel"
       ],
@@ -52,7 +52,7 @@
     },
     "shiny": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_shiny_devel",
+      "dockerfile": "dockerfiles/shiny_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/shiny:devel"
       ],
@@ -62,7 +62,7 @@
     },
     "shiny-verse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_shiny-verse_devel",
+      "dockerfile": "dockerfiles/shiny-verse_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/shiny-verse:devel"
       ],
@@ -72,7 +72,7 @@
     },
     "binder": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_binder_devel",
+      "dockerfile": "dockerfiles/binder_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/binder:devel"
       ],
@@ -82,7 +82,7 @@
     },
     "cuda": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_cuda_devel",
+      "dockerfile": "dockerfiles/cuda_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/r-ver:devel-cuda10.1",
         "docker.io/rocker/cuda:devel-cuda10.1",
@@ -94,7 +94,7 @@
     },
     "ml": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_ml_devel",
+      "dockerfile": "dockerfiles/ml_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/ml:devel-cuda10.1",
         "docker.io/rocker/ml:devel"
@@ -105,7 +105,7 @@
     },
     "ml-verse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_ml-verse_devel",
+      "dockerfile": "dockerfiles/ml-verse_devel.Dockerfile",
       "tags": [
         "docker.io/rocker/ml-verse:devel-cuda10.1",
         "docker.io/rocker/ml-verse:devel"

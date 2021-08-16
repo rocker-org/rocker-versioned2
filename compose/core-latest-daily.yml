@@ -4,18 +4,18 @@ services:
     image: rocker/rstudio:latest-daily
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_rstudio_latest-daily
+      dockerfile: dockerfiles/rstudio_latest-daily.Dockerfile
   tidyverse-latest-daily:
     image: rocker/tidyverse:latest-daily
     depends_on:
     - rstudio-latest-daily
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_tidyverse_latest-daily
+      dockerfile: dockerfiles/tidyverse_latest-daily.Dockerfile
   verse-latest-daily:
     image: rocker/verse:latest-daily
     depends_on:
     - tidyverse-latest-daily
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_verse_latest-daily
+      dockerfile: dockerfiles/verse_latest-daily.Dockerfile
