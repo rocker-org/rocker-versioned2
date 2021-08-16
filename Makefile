@@ -1,81 +1,45 @@
-LATEST_TAG=4.1.1
-
 SHELL=/bin/bash
-STACKFILES=$(wildcard stacks/*.json)
-STACKS=$(notdir $(basename $(STACKFILES)))
-COMPOSEFILES=$(addprefix compose/,$(addsuffix .yml,$(STACKS)))
-PUSHES=$(addsuffix .push,$(STACKS))
 
-.PHONY: clean build setup push latest
-.PHONY: $(STACKS) $(PUSHES)
+.PHONY: clean setup print-% pull-image% bake-json% inspect-image% report% wiki%
 
-all: clean build push
-latest: clean setup $(LATEST_TAG)
+all:
 
-
-## Alternate way of specifying stacks by group
-4.1.1: clean setup 4.1.1
-4.1.0: clean setup 4.1.0
-4.0.5: clean setup 4.0.5
-4.0.4: clean setup 4.0.4
-4.0.3: clean setup 4.0.3
-4.0.2: clean setup 4.0.2
-4.0.1: clean setup 4.0.1
-4.0.0: clean setup 4.0.0
-
-
-setup: ./build/make-dockerfiles.R ./build/write-compose.R ./build/make-bakejson.R $(STACKFILES)
+setup:
 	./build/make-dockerfiles.R
 	./build/write-compose.R
 	./build/make-bakejson.R
 
-
-## Builds all stacks
-build: $(STACKS)
-
-
-
-
-$(STACKS): %: compose/%.yml
-	docker-compose -f compose/$@.yml build
-	docker-compose -f compose/$@.yml push
-
-
-
-## Dependency order
-geospatial-ubuntugis: $(LATEST_TAG)
-geospatial-dev-osgeos: $(LATEST_TAG)
-geospatial-4.0.0-ubuntu18.04: core-4.0.0-ubuntu18.04
-
-
-## Assumes we are logged into the Docker Registry already
-push: $(PUSHES)
-
-$(PUSHES): %.push: %
-	docker-compose -f compose/$<.yml push; \
-	./tag.sh $< $(LATEST_TAG)
-
-
 IMAGE_SOURCE ?= https://github.com/rocker-org/rocker-versioned2
-IMAGE_FILTER ?= label=org.opencontainers.image.source=$(IMAGE_SOURCE)
+COMMIT_HASH := $(shell git rev-parse HEAD)
+IMAGE_VERSION ?= $(COMMIT_HASH)
 REPORT_SOURCE_ROOT ?= tmp/inspects
 IMAGELIST_DIR ?= tmp/imagelist
 IMAGELIST_NAME ?= imagelist.tsv
 REPORT_DIR ?= reports
 
-## Display the value. ex. print-REPORT_SOURCE_DIR
+# Display the value.
+# ex. $ make print-REPORT_SOURCE_DIR
+# ex. $ make print-IMAGE_VERSION
 print-%:
 	@echo $* = $($*)
 
-
-# Set docker-bake.json file path to BAKE_JSON before running `make pull-image-all`.
-# ex. $ BAKE_JSON=bakefiles/devel.docker-bake.json make pull-image-all
+# Set docker-bake.json file path to BAKE_JSON before running `make pull-image-all` or `make bake-json-all`.
+# ex. $ BAKE_JSONbakefiles/core-latest-daily.docker-bake.json make pull-image-all
 BAKE_JSON ?= ""
 pull-image/%:
 	-docker pull $(subst pull-image/, , $@)
 pull-image-all: $(foreach I, $(shell jq '.target[].tags[]' -r $(BAKE_JSON) | sed -e 's/:/\\:/g'), pull-image/$(I))
 
+# docker buildx bake options. When specifying multiple options, please escape spaces with "\".
+# ex. $ BAKE_JSON=bakefiles/core-latest-daily.docker-bake.json BAKE_OPTION=--load make bake-json-all
+# ex. $ BAKE_JSON=bakefiles/devel.docker-bake.json BAKE_OPTION=--print\ -f\ build/platforms.docker-bake.override.json make bake-json/r-ver
+BAKE_OPTION ?= --print
+bake-json/%:
+	docker buildx bake -f $(BAKE_JSON) --set=*.labels.org.opencontainers.image.revision=$(IMAGE_VERSION) $(BAKE_OPTION) $(@F)
+bake-json-all: $(foreach I, $(shell jq '.target | keys_unsorted | .[]' -r $(BAKE_JSON)), bake-json/$(I))
 
+
+IMAGE_FILTER ?= label=org.opencontainers.image.source=$(IMAGE_SOURCE)
 inspect-image/%:
 	mkdir -p $(REPORT_SOURCE_ROOT)/$(@F)
 	-docker image inspect $(@F) > $(REPORT_SOURCE_ROOT)/$(@F)/docker_inspect.json
@@ -86,11 +50,13 @@ inspect-image-all: $(foreach I, $(shell docker image ls -q -f "$(IMAGE_FILTER)")
 	mkdir -p $(IMAGELIST_DIR)
 	docker image ls -f "$(IMAGE_FILTER)" --format "{{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" > $(IMAGELIST_DIR)/$(IMAGELIST_NAME)
 
+
 REPORT_SOURCE_DIR := $(wildcard $(REPORT_SOURCE_ROOT)/*)
 report/%:
 	mkdir -p $(REPORT_DIR)
 	-./build/knit-report.R -d ../../$(REPORT_SOURCE_ROOT)/$(@F) $(@F) $(REPORT_DIR)
 report-all: $(foreach I, $(REPORT_SOURCE_DIR), report/$(I))
+
 
 # Move image list to wiki and update Home.md
 wiki-home:
@@ -98,4 +64,5 @@ wiki-home:
 	-Rscript -e 'rmarkdown::render(input = "build/reports/wiki_home.Rmd", output_dir = "$(REPORT_DIR)", output_file = "Home.md")'
 
 clean:
-	rm -f dockerfiles/*.Dockerfile compose/*.yml bakefiles/*.json
+	rm -f dockerfiles/Dockerfile_* compose/*.yml bakefiles/*.json tmp/*
+  
