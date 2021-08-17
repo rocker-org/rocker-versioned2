@@ -6,10 +6,7 @@ on:
       - "master"
     paths:
       - "scripts/**"
-      - "dockerfiles/r-ver_*"
-      - "dockerfiles/rstudio_*"
-      - "dockerfiles/tidyverse_*"
-      - "dockerfiles/verse_*"
+      - "dockerfiles/*_devel.Dockerfile"
   workflow_run:
     workflows:
       - "Create new release"
@@ -30,6 +27,9 @@ jobs:
       - id: set-json
         run: |
           JSON=build/matrix/latest.json
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            JSON=build/matrix/all.json
+          fi
           echo ::set-output name=json::${JSON}
           echo ${JSON}
       - id: set-matrix
