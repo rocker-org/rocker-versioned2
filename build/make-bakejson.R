@@ -28,7 +28,14 @@ write_bakejson <- function(stack_file) {
       platforms = purrr::map(value, "platforms", .default = list("linux/amd64"))
     ) %>%
     {
-      list(target = purrr::transpose(dplyr::select(., !name), .names = .$name))
+      list(
+        group = if (!is.null(stack_content$group)) {
+          stack_content$group
+        } else {
+          list(c(list(default = list(c(list(targets = c(.$name)))))))
+        },
+        target = purrr::transpose(dplyr::select(., !name), .names = .$name)
+      )
     } %>%
     jsonlite::write_json(output_path, pretty = TRUE, auto_unbox = TRUE)
 
