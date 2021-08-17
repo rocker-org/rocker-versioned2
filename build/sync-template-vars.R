@@ -15,8 +15,7 @@ jsonlite::write_json(template_main, "stacks/devel.json", pretty = TRUE, auto_unb
 
 
 # Update core-latest-daily
-latest_daily <- template_main
-latest_daily$TAG <- "latest-daily"
+latest_daily <- jsonlite::read_json("stacks/core-latest-daily.json")
 ## Only rstudio, tidyverse, verse
 latest_daily$stack <- template_main$stack[2:4]
 latest_daily$stack[[1]]$FROM <- "rocker/r-ver:latest"
