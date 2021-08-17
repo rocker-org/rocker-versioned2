@@ -11,7 +11,7 @@ setup:
 
 IMAGE_SOURCE ?= https://github.com/rocker-org/rocker-versioned2
 COMMIT_HASH := $(shell git rev-parse HEAD)
-IMAGE_VERSION ?= $(COMMIT_HASH)
+IMAGE_REVISION ?= $(COMMIT_HASH)
 REPORT_SOURCE_ROOT ?= tmp/inspects
 IMAGELIST_DIR ?= tmp/imagelist
 IMAGELIST_NAME ?= imagelist.tsv
@@ -19,7 +19,7 @@ REPORT_DIR ?= reports
 
 # Display the value.
 # ex. $ make print-REPORT_SOURCE_DIR
-# ex. $ make print-IMAGE_VERSION
+# ex. $ make print-IMAGE_REVISION
 print-%:
 	@echo $* = $($*)
 
@@ -35,7 +35,7 @@ pull-image-all: $(foreach I, $(shell jq '.target[].tags[]' -r $(BAKE_JSON) | sed
 # ex. $ BAKE_JSON=bakefiles/devel.docker-bake.json BAKE_OPTION=--print\ -f\ build/platforms.docker-bake.override.json make bake-json/r-ver
 BAKE_OPTION ?= --print
 bake-json/%:
-	docker buildx bake -f $(BAKE_JSON) --set=*.labels.org.opencontainers.image.revision=$(IMAGE_VERSION) $(BAKE_OPTION) $(@F)
+	docker buildx bake -f $(BAKE_JSON) --set=*.labels.org.opencontainers.image.revision=$(IMAGE_REVISION) $(BAKE_OPTION) $(@F)
 bake-json-all: $(foreach I, $(shell jq '.target | keys_unsorted | .[]' -r $(BAKE_JSON)), bake-json/$(I))
 
 
