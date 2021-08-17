@@ -1,0 +1,10 @@
+{
+  "target": {
+    "r-ver": {
+      "platforms": [
+        "linux/amd64",
+        "linux/arm64"
+      ]
+    }
+  }
+}

@@ -2,7 +2,7 @@
   "target": {
     "geospatial": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_geospatial_4.0.0-ubuntugis",
+      "dockerfile": "dockerfiles/geospatial_4.0.0-ubuntugis.Dockerfile",
       "tags": [
         "docker.io/rocker/geospatial:4.0.0-ubuntugis"
       ],

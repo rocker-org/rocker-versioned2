@@ -4,18 +4,18 @@ services:
     image: rocker/r-ver:devel-cuda11.1
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_r-ver_devel-cuda11.1
+      dockerfile: dockerfiles/r-ver_devel-cuda11.1.Dockerfile
   ml-devel-cuda11.1:
     image: rocker/ml:devel-cuda11.1
     depends_on:
     - r-ver-devel-cuda11.1
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_ml_devel-cuda11.1
+      dockerfile: dockerfiles/ml_devel-cuda11.1.Dockerfile
   ml-verse-devel-cuda11.1:
     image: rocker/ml-verse:devel-cuda11.1
     depends_on:
     - ml-devel-cuda11.1
     build:
       context: ..
-      dockerfile: dockerfiles/Dockerfile_ml-verse_devel-cuda11.1
+      dockerfile: dockerfiles/ml-verse_devel-cuda11.1.Dockerfile

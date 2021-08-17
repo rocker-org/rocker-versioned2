@@ -2,7 +2,7 @@
   "target": {
     "r-ver": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_r-ver_devel-cuda11.1",
+      "dockerfile": "dockerfiles/r-ver_devel-cuda11.1.Dockerfile",
       "tags": [
         "docker.io/rocker/r-ver:devel-cuda11.1"
       ],
@@ -12,7 +12,7 @@
     },
     "ml": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_ml_devel-cuda11.1",
+      "dockerfile": "dockerfiles/ml_devel-cuda11.1.Dockerfile",
       "tags": [
         "docker.io/rocker/ml:devel-cuda11.1"
       ],
@@ -22,7 +22,7 @@
     },
     "ml-verse": {
       "context": "./",
-      "dockerfile": "dockerfiles/Dockerfile_ml-verse_devel-cuda11.1",
+      "dockerfile": "dockerfiles/ml-verse_devel-cuda11.1.Dockerfile",
       "tags": [
         "docker.io/rocker/ml-verse:devel-cuda11.1"
       ],

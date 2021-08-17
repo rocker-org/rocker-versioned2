@@ -40,7 +40,7 @@ write_dockerfiles <- function(stack, global){
       collapse ="\n"
     )
 
-    path <- file.path("dockerfiles", paste("Dockerfile", image$IMAGE, image$TAG, sep="_"))
+    path <- file.path("dockerfiles", paste0(image$IMAGE, "_", image$TAG, ".Dockerfile"))
     writeLines(body, path)
 
     message(paste(path))
