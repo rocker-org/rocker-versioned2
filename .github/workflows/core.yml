@@ -48,7 +48,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Build and push Docker images
         run: |
-          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json BAKE_OPTION=--load\ --push make bake-json-all
+          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json BAKE_OPTION=--push make bake-json-all
       - name: Inspect built image
         run: |
           IMAGELIST_NAME=${{ matrix.r_version }}.tsv make inspect-image-all
