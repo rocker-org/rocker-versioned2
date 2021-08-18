@@ -344,23 +344,6 @@ df_args <- .r_versions_data(min_version = 4.0) %>%
     r_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)
   )
 
-# Write json file for GitHubActions build matrix.
-df_args %>%
-  dplyr::select(r_version, r_latest) %>%
-  {
-    jsonlite::write_json(
-      list(include = .),
-      "build/matrix/all.json",
-      pretty = TRUE,
-      auto_unbox = TRUE
-    )
-    jsonlite::write_json(
-      list(include = utils::tail(., 1)),
-      "build/matrix/latest.json",
-      pretty = TRUE,
-      auto_unbox = TRUE
-    )
-  }
 
 message("\nstart writing stack files.")
 
