@@ -8,6 +8,7 @@ setup:
 	./build/make-dockerfiles.R
 	./build/write-compose.R
 	./build/make-bakejson.R
+	./build/make-matrix.R
 
 IMAGE_SOURCE ?= https://github.com/rocker-org/rocker-versioned2
 COMMIT_HASH := $(shell git rev-parse HEAD)
