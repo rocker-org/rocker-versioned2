@@ -27,7 +27,7 @@
       "FROM": "rocker/r-ver:4.0.3",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "latest",
+        "RSTUDIO_VERSION": "1.4.1106",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -146,7 +146,7 @@
       "FROM": "rocker/cuda:4.0.3",
       "ENV": {
         "S6_VERSION": "v1.21.7.0",
-        "RSTUDIO_VERSION": "latest",
+        "RSTUDIO_VERSION": "1.4.1106",
         "PANDOC_VERSION": "default",
         "TENSORFLOW_VERSION": "gpu",
         "KERAS_VERSION": "default",
@@ -168,6 +168,9 @@
         "docker.io/rocker/ml-verse:4.0.3"
       ],
       "FROM": "rocker/ml:4.0.3",
+      "ENV": {
+        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/02/14/tlnet"
+      },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
