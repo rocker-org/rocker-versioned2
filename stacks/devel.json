@@ -164,6 +164,76 @@
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
+    },
+    {
+      "IMAGE": "geospatial-ubuntugis",
+      "tags": [
+        "docker.io/rocker/geospatial:devel-ubuntugis"
+      ],
+      "FROM": "rocker/verse:devel",
+      "RUN": [
+        "/rocker_scripts/install_geospatial_unstable.sh",
+        "/rocker_scripts/install_geospatial.sh"
+      ]
+    },
+    {
+      "IMAGE": "cuda11",
+      "tags": [
+        "docker.io/rocker/r-ver:devel-cuda11.1",
+        "docker.io/rocker/cuda:devel-cuda11.1"
+      ],
+      "FROM": "nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04",
+      "COPY": "scripts /rocker_scripts",
+      "ENV": {
+        "R_VERSION": "devel",
+        "TERM": "xterm",
+        "LC_ALL": "en_US.UTF-8",
+        "LANG": "en_US.UTF-8",
+        "R_HOME": "/usr/local/lib/R",
+        "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
+        "TZ": "Etc/UTC",
+        "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
+        "WORKON_HOME": "/opt/venv",
+        "PYTHON_VENV_PATH": "/opt/venv/reticulate",
+        "PYTHON_CONFIGURE_OPTS": "--enable-shared",
+        "RETICULATE_AUTOCONFIGURE": "0",
+        "PATH": "${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin"
+      },
+      "RUN": [
+        "/rocker_scripts/install_R.sh",
+        "/rocker_scripts/config_R_cuda.sh",
+        "/rocker_scripts/install_python.sh"
+      ]
+    },
+    {
+      "IMAGE": "ml-cuda11",
+      "tags": [
+        "docker.io/rocker/ml:devel-cuda11.1"
+      ],
+      "FROM": "rocker/cuda:devel-cuda11.1",
+      "ENV": {
+        "S6_VERSION": "v2.1.0.2",
+        "RSTUDIO_VERSION": "preview",
+        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+      },
+      "RUN": [
+        "/rocker_scripts/install_rstudio.sh",
+        "/rocker_scripts/install_pandoc.sh",
+        "/rocker_scripts/install_tidyverse.sh"
+      ],
+      "CMD": "[\"/init\"]",
+      "EXPOSE": 8787
+    },
+    {
+      "IMAGE": "ml-verse-cuda11",
+      "tags": [
+        "docker.io/rocker/ml-verse:devel-cuda11.1"
+      ],
+      "FROM": "rocker/ml:devel-cuda11.1",
+      "RUN": [
+        "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_geospatial.sh"
+      ]
     }
   ]
 }

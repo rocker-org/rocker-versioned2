@@ -172,6 +172,17 @@
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
+    },
+    {
+      "IMAGE": "geospatial-ubuntugis",
+      "tags": [
+        "docker.io/rocker/geospatial:4.0.1-ubuntugis"
+      ],
+      "FROM": "rocker/verse:4.0.1",
+      "RUN": [
+        "/rocker_scripts/install_geospatial_unstable.sh",
+        "/rocker_scripts/install_geospatial.sh"
+      ]
     }
   ]
 }

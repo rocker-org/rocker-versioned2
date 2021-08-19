@@ -165,6 +165,28 @@ write_stack <- function(r_version,
 
   template$TAG <- r_version
 
+  template$group <- list(c(list(
+    default = list(c(list(targets = c(
+      "r-ver",
+      "rstudio",
+      "tidyverse",
+      "verse",
+      "geospatial",
+      "shiny",
+      "shiny-verse",
+      "binder",
+      "cuda",
+      "ml",
+      "ml-verse",
+      "geospatial-ubuntugis"
+    )))),
+    cuda11 = list(c(list(targets = c(
+      "cuda11",
+      "ml-cuda11",
+      "ml-verse-cuda11"
+    ))))
+  )))
+
   # rocker/r-ver
   template$stack[[1]]$FROM <- paste0("ubuntu:", ubuntu_version)
   template$stack[[1]]$tags <- .generate_tags(
@@ -243,7 +265,7 @@ write_stack <- function(r_version,
   template$stack[[8]]$FROM <- paste0("rocker/geospatial:", r_version)
   template$stack[[8]]$tags <- .generate_tags("docker.io/rocker/binder", r_version, r_minor_latest, r_major_latest, r_latest)
 
-  # rocker/r-ver:X.Y.Z-cuda10.1
+  # rocker/cuda:X.Y.Z-cuda10.1
   template$stack[[9]]$FROM <- paste0("rocker/r-ver:", r_version)
   template$stack[[9]]$tags <- c(
     .generate_tags(
@@ -311,6 +333,70 @@ write_stack <- function(r_version,
     )
   )
   template$stack[[11]]$ENV$CTAN_REPO <- ctan_repo
+
+  # rocker/geospatial:X.Y.Z-ubuntugis
+  template$stack[[12]]$FROM <- paste0("rocker/verse:", r_version)
+  template$stack[[12]]$tags <- c(
+    .generate_tags(
+      "docker.io/rocker/geospatial",
+      r_version,
+      r_minor_latest,
+      r_major_latest,
+      r_latest,
+      use_latest_tag = TRUE,
+      latest_tag = "ubuntugis",
+      tag_suffix = "-ubuntugis"
+    )
+  )
+
+  # rocker/cuda:X.Y.Z-cuda11.1
+  template$stack[[13]]$tags <- c(
+    .generate_tags(
+      "docker.io/rocker/cuda",
+      r_version,
+      r_minor_latest,
+      r_major_latest,
+      r_latest,
+      use_latest_tag = TRUE,
+      latest_tag = "cuda11.1",
+      tag_suffix = "-cuda11.1"
+    ),
+    list(paste0("docker.io/rocker/r-ver:", r_version, "-cuda11.1"))
+  )
+  template$stack[[13]]$ENV$R_VERSION <- r_version
+  template$stack[[13]]$ENV$CRAN <- cran
+
+  # rocker/ml:X.Y.Z-cuda11.1
+  template$stack[[14]]$FROM <- paste0("rocker/cuda:", r_version, "-cuda11.1")
+  template$stack[[14]]$tags <- c(
+    .generate_tags(
+      "docker.io/rocker/ml",
+      r_version,
+      r_minor_latest,
+      r_major_latest,
+      r_latest,
+      use_latest_tag = TRUE,
+      latest_tag = "cuda11.1",
+      tag_suffix = "-cuda11.1"
+    )
+  )
+  template$stack[[14]]$ENV$RSTUDIO_VERSION <- rstudio_version
+
+  # rocker/ml-verse:X.Y.Z-cuda11.1
+  template$stack[[15]]$FROM <- paste0("rocker/ml:", r_version, "-cuda11.1")
+  template$stack[[15]]$tags <- c(
+    .generate_tags(
+      "docker.io/rocker/ml-verse",
+      r_version,
+      r_minor_latest,
+      r_major_latest,
+      r_latest,
+      use_latest_tag = TRUE,
+      latest_tag = "cuda11.1",
+      tag_suffix = "-cuda11.1"
+    )
+  )
+  template$stack[[15]]$ENV$CTAN_REPO <- ctan_repo
 
   jsonlite::write_json(template, output_path, pretty = TRUE, auto_unbox = TRUE)
 
