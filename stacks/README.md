@@ -4,8 +4,9 @@
 
 ## Automatic updates
 
-The latest two versions of the following stack files, which exist for each version of R, are automatically updated by [make-stacks.R](../build/make-stacks.R), which is executed daily by GitHub Actions.
+The latest two versions of stack files which exist for each version of R, and theirs template, are automatically updated by [make-stacks.R](../build/make-stacks.R), which is executed daily by GitHub Actions.
 
+- `devel.json`
 - `X.Y.Z.json`
 
 See [the build directory](../build) for details.

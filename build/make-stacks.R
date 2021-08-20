@@ -434,13 +434,40 @@ df_args <- .r_versions_data(min_version = 4.0) %>%
 
 message("\nstart writing stack files.")
 
-# Update the RStudio Server Version in the devel stack file.
+# Update the template, devel.json
 template <- jsonlite::read_json("stacks/devel.json")
+# Copy S6_VERSION from rstudio to others.
+## shiny
+template$stack[[6]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
+## ml
+template$stack[[10]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
+## ml-cuda11
+template$stack[[14]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
+# Update the RStudio Server Version.
+## rstudio
 template$stack[[2]]$ENV$RSTUDIO_VERSION <- dplyr::last(df_args$rstudio_version)
+## ml
+template$stack[[10]]$ENV$RSTUDIO_VERSION <- template$stack[[2]]$ENV$RSTUDIO_VERSION
+## ml-cuda11
+template$stack[[14]]$ENV$RSTUDIO_VERSION <- template$stack[[2]]$ENV$RSTUDIO_VERSION
+
 jsonlite::write_json(template, "stacks/devel.json", pretty = TRUE, auto_unbox = TRUE)
 message("stacks/devel.json")
 
-# Write stack core files.
+
+# Update core-latest-daily
+latest_daily <- jsonlite::read_json("stacks/core-latest-daily.json")
+## Only rstudio, tidyverse, verse
+latest_daily$stack <- template$stack[2:4]
+latest_daily$stack[[1]]$FROM <- "rocker/r-ver:latest"
+latest_daily$stack[[1]]$ENV$RSTUDIO_VERSION <- "daily"
+latest_daily$stack[[2]]$FROM <- "rocker/rstudio:latest-daily"
+latest_daily$stack[[3]]$FROM <- "rocker/tidyverse:latest-daily"
+# Write the template file.
+jsonlite::write_json(latest_daily, "stacks/core-latest-daily.json", pretty = TRUE, auto_unbox = TRUE)
+message("stacks/core-latest-daily.json")
+
+# Write latest two stack files.
 devnull <- df_args %>%
   utils::tail(2) %>%
   dplyr::select(
