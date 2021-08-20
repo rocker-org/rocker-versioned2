@@ -105,36 +105,22 @@ else
 fi
 
 # check for tensorflow
-printf "\nchecking for tensorflow install...\n"
-TENSORFLOW_TEST_OUTPUT=$(python -c "import tensorflow as tf;print(tf.reduce_sum(tf.random.normal([1000, 1000])))" 2>&1)
-if [ $? -ne 0 ]
-then
-  echo "tensorflow failed with error: $TENSORFLOW_TEST_OUTPUT"
-else
-  echo "tensorflow installed"
-fi
+printf "\ntest tensorflow versions in R\n"
 
-if [ $1 -eq 11 ]
-then
-  # test installed tensorflow version 1.15
-  python -c 'import tensorflow as tf; print(tf.__version__)'
-  python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
-
-  # remove tensorflow 1.15, install 2.2 and test
-  pip uninstall --yes nvidia-tensorflow[horovod]
-  pip install --upgrade tensorflow==2.2
-  python -c 'import tensorflow as tf; print(tf.__version__)'
-  python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
-
-  # remove tensorflow 2.2, install 2.5 and test
-  pip uninstall --yes nvidia-tensorflow[horovod]
-  pip install --upgrade tensorflow==2.5
-  python -c 'import tensorflow as tf; print(tf.__version__)'
-  python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
-
-  # remove tensorflow 2.2, install latest version and test
-  pip uninstall --yes nvidia-tensorflow[horovod]
-  pip install --upgrade tensorflow
-  python -c 'import tensorflow as tf; print(tf.__version__)'
-  python -c "import tensorflow as tf; print('Num GPUs Available: ', len(tf.config.experimental.list_physical_devices('GPU')))"
-fi
+declare -a test_versions=( "1.14.0" "2.2" "2.5" "2.6" )
+for ver in "${test_versions[@]}"
+do
+  if [ $ver != "1.14.0" ]
+  then
+    pip uninstall --yes nvidia-tensorflow[horovod]
+    R -e 'install.packages("tensorflow")'
+    R -e "tensorflow::install_tensorflow(version=\"${ver}-gpu\", extra_packages=\"tensorflow-probability==0.7.0\")"
+    if [ $? -ne 0 ]
+    then
+      echo "Failed to install tensorflow version ${ver}"
+      exit 1
+    fi
+  fi
+  Rscript /nvblas.R
+  echo " "
+done

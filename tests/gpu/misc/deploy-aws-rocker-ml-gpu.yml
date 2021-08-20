@@ -49,7 +49,9 @@
         - "Dockerfile.cuda10"
         - "Dockerfile.cuda11"
         - "docker-compose.yml"
+        - "nvblas-cuda11.conf"
         - "test-gpu.sh"
+        - "nvblas.R"
     - name: build docker image cuda10
       become: yes
       docker_image:
@@ -71,6 +73,7 @@
           path: /root
           nocache: yes
         source: build
+        state: present
         state: present
     - name: run docker image
       become: yes
