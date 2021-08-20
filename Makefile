@@ -64,5 +64,4 @@ wiki-home:
 	-Rscript -e 'rmarkdown::render(input = "build/reports/wiki_home.Rmd", output_dir = "$(REPORT_DIR)", output_file = "Home.md")'
 
 clean:
-	rm -f dockerfiles/Dockerfile_* compose/*.yml bakefiles/*.json tmp/*
-  
+	rm -r -f dockerfiles/*.Dockerfile compose/*.yml bakefiles/*.json tmp/*

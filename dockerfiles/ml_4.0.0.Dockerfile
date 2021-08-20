@@ -5,8 +5,8 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV S6_VERSION=v1.21.7.0
-ENV RSTUDIO_VERSION=latest
+ENV S6_VERSION=v2.0.0.1
+ENV RSTUDIO_VERSION=1.3.959
 ENV PANDOC_VERSION=default
 ENV TENSORFLOW_VERSION=gpu
 ENV KERAS_VERSION=default
