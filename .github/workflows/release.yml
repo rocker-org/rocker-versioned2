@@ -1,0 +1,40 @@
+name: Create new release
+on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - "build/matrix/latest.json"
+  workflow_dispatch:
+
+jobs:
+  create_tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag-version.outputs.new_tag }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: set-version
+        run: |
+          VERSION=$(jq '.include[-1].r_version' -r build/matrix/latest.json)
+          echo ::set-output name=version::${VERSION}
+          echo ${VERSION}
+      - name: Bump version and push tag
+        id: tag-version
+        uses: mathieudutour/github-tag-action@v5
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: false
+          custom_tag: ${{ steps.set-version.outputs.version }}
+          tag_prefix: "R"
+
+  create_release:
+    needs: create_tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ needs.create_tag.outputs.tag }}
+          allowUpdates: false
+          token: ${{ secrets.GITHUB_TOKEN }}

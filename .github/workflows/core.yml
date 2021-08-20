@@ -5,17 +5,21 @@ on:
     branches:
       - "master"
     paths:
-      - "build/matrix/latest.json"
       - "scripts/**"
-      - "dockerfiles/r-ver_*"
-      - "dockerfiles/rstudio_*"
-      - "dockerfiles/tidyverse_*"
-      - "dockerfiles/verse_*"
+      - "dockerfiles/*_devel.Dockerfile"
+  workflow_run:
+    workflows:
+      - "Create new release"
+    branches:
+      - "master"
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:
   generate_matrix:
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -23,6 +27,9 @@ jobs:
       - id: set-json
         run: |
           JSON=build/matrix/latest.json
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            JSON=build/matrix/all.json
+          fi
           echo ::set-output name=json::${JSON}
           echo ${JSON}
       - id: set-matrix
@@ -48,41 +55,4 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Build and push Docker images
         run: |
-          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json BAKE_OPTION=--load\ --push make bake-json-all
-      - name: Inspect built image
-        run: |
-          IMAGELIST_NAME=${{ matrix.r_version }}.tsv make inspect-image-all
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: tmp
-          path: tmp
-
-  publish_reports:
-    if: always()
-    needs: build
-    runs-on: ubuntu-latest
-    container:
-      image: rocker/tidyverse:latest
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@v2
-      - name: Checkout wiki
-        uses: actions/checkout@v2
-        with:
-          repository: "${{ github.repository }}.wiki"
-          path: reports
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: tmp
-          path: tmp
-      - name: Generate reports and update wiki home
-        run: |
-          make report-all
-          make wiki-home
-      - name: Update wiki
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Automated update
-          repository: reports
+          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json BAKE_OPTION=--push make bake-json-all

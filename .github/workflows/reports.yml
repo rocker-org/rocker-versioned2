@@ -1,6 +1,13 @@
 name: Report published images
 
 on:
+  workflow_run:
+    workflows:
+      - "Build & Push Core images"
+    branches:
+      - "master"
+    types:
+      - completed
   workflow_dispatch:
 
 jobs:

@@ -431,7 +431,14 @@ df_args <- .r_versions_data(min_version = 4.0) %>%
   )
 
 
+
 message("\nstart writing stack files.")
+
+# Update the RStudio Server Version in the devel stack file.
+template <- jsonlite::read_json("stacks/devel.json")
+template$stack[[2]]$ENV$RSTUDIO_VERSION <- dplyr::last(df_args$rstudio_version)
+jsonlite::write_json(template, "stacks/devel.json", pretty = TRUE, auto_unbox = TRUE)
+message("stacks/devel.json")
 
 # Write stack core files.
 devnull <- df_args %>%

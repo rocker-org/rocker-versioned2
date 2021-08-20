@@ -38,7 +38,7 @@
       "FROM": "rocker/r-ver:devel",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "latest",
+        "RSTUDIO_VERSION": "1.4.1717",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
