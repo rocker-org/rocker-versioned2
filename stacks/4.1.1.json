@@ -280,10 +280,10 @@
     {
       "IMAGE": "ml-cuda11",
       "tags": [
-        "docker.io/rocker/ml:4.1.1-cuda10.1",
-        "docker.io/rocker/ml:4.1-cuda10.1",
-        "docker.io/rocker/ml:4-cuda10.1",
-        "docker.io/rocker/ml:cuda10.1"
+        "docker.io/rocker/ml:4.1.1-cuda11.1",
+        "docker.io/rocker/ml:4.1-cuda11.1",
+        "docker.io/rocker/ml:4-cuda11.1",
+        "docker.io/rocker/ml:cuda11.1"
       ],
       "FROM": "rocker/cuda:4.1.1-cuda11.1",
       "ENV": {
