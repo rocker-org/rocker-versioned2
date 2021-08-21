@@ -180,7 +180,7 @@ write_stack <- function(r_version,
       "ml-verse",
       "geospatial-ubuntugis"
     )))),
-    cuda11 = list(c(list(targets = c(
+    cuda11images = list(c(list(targets = c(
       "cuda11",
       "ml-cuda11",
       "ml-verse-cuda11"
