@@ -7,8 +7,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install nvidia-pyindex
 RUN pip install nvidia-tensorflow[horovod]
 
-# WORKDIR /usr/local/cuda-11.1/samples
-# RUN make
+WORKDIR /usr/local/cuda-11.1/samples
+RUN make
 
 COPY nvblas-cuda11.conf /etc/nvblas.conf
 COPY nvblas.R /
