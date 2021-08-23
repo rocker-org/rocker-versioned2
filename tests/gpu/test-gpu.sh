@@ -107,10 +107,10 @@ fi
 # check for tensorflow
 printf "\ntest tensorflow versions in R\n"
 
-declare -a test_versions=( "1.14.0" "2.2" "2.5" "2.6" )
+declare -a test_versions=( "1.15.5" "2.2" "2.5" "2.6" )
 for ver in "${test_versions[@]}"
 do
-  if [ $ver != "1.14.0" ]
+  if [ $ver != "1.15.5" ]
   then
     pip uninstall --yes nvidia-tensorflow[horovod]
     R -e 'install.packages("tensorflow")'

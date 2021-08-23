@@ -10,7 +10,7 @@ RUN pip install nvidia-tensorflow[horovod]
 WORKDIR /usr/local/cuda-11.1/samples
 RUN make
 
-COPY nvblas-cuda11.conf /etc/nvblas.conf
+COPY nvblas-cuda.conf /etc/nvblas.conf
 COPY nvblas.R /
 COPY test-gpu.sh /
 RUN chmod +x /test-gpu.sh
