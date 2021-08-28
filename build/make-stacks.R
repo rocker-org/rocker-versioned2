@@ -399,6 +399,7 @@ write_stack <- function(r_version,
   )
   template$stack[[13]]$ENV$R_VERSION <- r_version
   template$stack[[13]]$ENV$CRAN <- cran
+  template$stack[[13]]$`cache-from` <- list(paste0("docker.io/rocker/cuda:", r_version, "-cuda11.1"))
 
   # rocker/ml:X.Y.Z-cuda11.1
   template$stack[[14]]$FROM <- paste0("rocker/cuda:", r_version, "-cuda11.1")

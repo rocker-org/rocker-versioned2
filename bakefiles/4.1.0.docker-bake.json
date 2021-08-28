@@ -280,7 +280,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/cuda:4.1.0-cuda11.1"
       ]
     },
     "ml-cuda11": {

@@ -312,6 +312,9 @@
       "RUN": [
         "/rocker_scripts/config_R_cuda.sh",
         "/rocker_scripts/install_python.sh"
+      ],
+      "cache-from": [
+        "docker.io/rocker/cuda:4.1.0-cuda11.1"
       ]
     },
     {
