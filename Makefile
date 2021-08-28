@@ -39,6 +39,8 @@ bake-json/%:
 	docker buildx bake -f $(BAKE_JSON) --set=*.labels.org.opencontainers.image.revision=$(IMAGE_REVISION) $(BAKE_OPTION) $(@F)
 bake-json-all: $(foreach I, $(shell jq '.target | keys_unsorted | .[]' -r $(BAKE_JSON)), bake-json/$(I))
 
+BAKE_GROUP ?= default
+bake-json-group: $(foreach I, $(shell jq '.group[].$(BAKE_GROUP)[].targets[]' -r $(BAKE_JSON)), bake-json/$(I))
 
 IMAGE_FILTER ?= label=org.opencontainers.image.source=$(IMAGE_SOURCE)
 inspect-image/%:
