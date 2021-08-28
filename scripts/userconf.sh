@@ -1,7 +1,8 @@
 #!/usr/bin/with-contenv bash
 
 ## Set defaults for environmental variables in case they are undefined
-USER=${USER:=rstudio}
+DEFAULT_USER=${DEFAULT_USER:-rstudio}
+USER=${USER:=${DEFAULT_USER}}
 PASSWORD=${PASSWORD:=rstudio}
 USERID=${USERID:=1000}
 GROUPID=${GROUPID:=1000}
@@ -51,20 +52,20 @@ fi
 if [ "$USERID" -ne 1000 ]
 ## Configure user with a different USERID if requested.
   then
-    echo "deleting user rstudio"
-    userdel rstudio
+    echo "deleting the default user"
+    userdel $DEFAULT_USER
     echo "creating new $USER with UID $USERID"
     useradd -m $USER -u $USERID
     mkdir -p /home/$USER
     chown -R $USER /home/$USER
     usermod -a -G staff $USER
-elif [ "$USER" != "rstudio" ]
+elif [ "$USER" != "$DEFAULT_USER" ]
   then
     ## cannot move home folder when it's a shared volume, have to copy and change permissions instead
-    cp -r /home/rstudio /home/$USER
+    cp -r /home/$DEFAULT_USER /home/$USER
     ## RENAME the user
-    usermod -l $USER -d /home/$USER rstudio
-    groupmod -n $USER rstudio
+    usermod -l $USER -d /home/$USER $DEFAULT_USER
+    groupmod -n $USER $DEFAULT_USER
     usermod -a -G staff $USER
     chown -R $USER:$USER /home/$USER
     echo "USER is now $USER"

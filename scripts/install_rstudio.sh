@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+DEFAULT_USER=${DEFAULT_USER:-rstudio}
+
 apt-get update
 apt-get install -y --no-install-recommends \
     file \
@@ -130,9 +132,9 @@ loadRData="0"
 saveAction="0"
 '
 
-mkdir -p /home/rstudio/.rstudio/monitored/user-settings \
+mkdir -p /home/${DEFAULT_USER}/.rstudio/monitored/user-settings \
   && printf "%s" "$USER_SETTINGS" \
-          > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
-  && chown -R rstudio:rstudio /home/rstudio/.rstudio
+          > /home/${DEFAULT_USER}/.rstudio/monitored/user-settings/user-settings \
+  && chown -R ${DEFAULT_USER}:${DEFAULT_USER} /home/${DEFAULT_USER}/.rstudio
 
 git config --system credential.helper 'cache --timeout=3600'

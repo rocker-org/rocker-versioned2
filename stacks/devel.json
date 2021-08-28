@@ -50,6 +50,7 @@
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
+        "DEFAULT_USER": "rstudio",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -188,6 +189,7 @@
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
+        "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "TENSORFLOW_VERSION": "gpu",
         "KERAS_VERSION": "default",
@@ -286,6 +288,7 @@
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
+        "DEFAULT_USER": "rstudio",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
