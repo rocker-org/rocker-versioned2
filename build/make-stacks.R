@@ -189,6 +189,8 @@ write_stack <- function(r_version,
 
   # rocker/r-ver
   template$stack[[1]]$FROM <- paste0("ubuntu:", ubuntu_version)
+  template$stack[[1]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/library/", template$stack[[1]]$FROM)
+  template$stack[[1]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[1]]$tags <- .generate_tags(
     "docker.io/rocker/r-ver",
     r_version,
@@ -201,6 +203,8 @@ write_stack <- function(r_version,
 
   # rocker/rstudio
   template$stack[[2]]$FROM <- paste0("rocker/r-ver:", r_version)
+  template$stack[[2]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[2]]$FROM)
+  template$stack[[2]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[2]]$tags <- .generate_tags(
     "docker.io/rocker/rstudio",
     r_version,
@@ -212,6 +216,8 @@ write_stack <- function(r_version,
 
   # rocker/tidyverse
   template$stack[[3]]$FROM <- paste0("rocker/rstudio:", r_version)
+  template$stack[[3]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[3]]$FROM)
+  template$stack[[3]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[3]]$tags <- .generate_tags(
     "docker.io/rocker/tidyverse",
     r_version,
@@ -222,6 +228,8 @@ write_stack <- function(r_version,
 
   # rocker/verse
   template$stack[[4]]$FROM <- paste0("rocker/tidyverse:", r_version)
+  template$stack[[4]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[4]]$FROM)
+  template$stack[[4]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[4]]$tags <- .generate_tags(
     "docker.io/rocker/verse",
     r_version,
@@ -233,6 +241,8 @@ write_stack <- function(r_version,
 
   # rocker/geospatial
   template$stack[[5]]$FROM <- paste0("rocker/verse:", r_version)
+  template$stack[[5]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[5]]$FROM)
+  template$stack[[5]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[5]]$tags <- .generate_tags(
     "docker.io/rocker/geospatial",
     r_version,
@@ -243,6 +253,8 @@ write_stack <- function(r_version,
 
   # rocker/shiny
   template$stack[[6]]$FROM <- paste0("rocker/r-ver:", r_version)
+  template$stack[[6]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[6]]$FROM)
+  template$stack[[6]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[6]]$tags <- .generate_tags(
     "docker.io/rocker/shiny",
     r_version,
@@ -253,6 +265,8 @@ write_stack <- function(r_version,
 
   # rocker/shiny-verse
   template$stack[[7]]$FROM <- paste0("rocker/shiny:", r_version)
+  template$stack[[7]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[7]]$FROM)
+  template$stack[[7]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[7]]$tags <- .generate_tags(
     "docker.io/rocker/shiny-verse",
     r_version,
@@ -263,10 +277,20 @@ write_stack <- function(r_version,
 
   # rocker/binder
   template$stack[[8]]$FROM <- paste0("rocker/geospatial:", r_version)
-  template$stack[[8]]$tags <- .generate_tags("docker.io/rocker/binder", r_version, r_minor_latest, r_major_latest, r_latest)
+  template$stack[[8]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[8]]$FROM)
+  template$stack[[8]]$labels$org.opencontainers.image.version <- r_version
+  template$stack[[8]]$tags <- .generate_tags(
+    "docker.io/rocker/binder",
+    r_version,
+    r_minor_latest,
+    r_major_latest,
+    r_latest
+  )
 
   # rocker/cuda:X.Y.Z-cuda10.1
   template$stack[[9]]$FROM <- paste0("rocker/r-ver:", r_version)
+  template$stack[[9]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[9]]$FROM)
+  template$stack[[9]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[9]]$tags <- c(
     .generate_tags(
       "docker.io/rocker/cuda",
@@ -290,6 +314,8 @@ write_stack <- function(r_version,
 
   # rocker/ml:X.Y.Z-cuda10.1
   template$stack[[10]]$FROM <- paste0("rocker/cuda:", r_version)
+  template$stack[[10]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[10]]$FROM)
+  template$stack[[10]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[10]]$tags <- c(
     .generate_tags(
       "docker.io/rocker/ml",
@@ -313,6 +339,8 @@ write_stack <- function(r_version,
 
   # rocker/ml-verse:X.Y.Z-cuda10.1
   template$stack[[11]]$FROM <- paste0("rocker/ml:", r_version)
+  template$stack[[11]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[11]]$FROM)
+  template$stack[[11]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[11]]$tags <- c(
     .generate_tags(
       "docker.io/rocker/ml-verse",
@@ -336,6 +364,8 @@ write_stack <- function(r_version,
 
   # rocker/geospatial:X.Y.Z-ubuntugis
   template$stack[[12]]$FROM <- paste0("rocker/verse:", r_version)
+  template$stack[[12]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[12]]$FROM)
+  template$stack[[12]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[12]]$tags <- c(
     .generate_tags(
       "docker.io/rocker/geospatial",
@@ -350,6 +380,9 @@ write_stack <- function(r_version,
   )
 
   # rocker/cuda:X.Y.Z-cuda11.1
+  # Not update the base image automatically, because we don't know if an NVIDIA CUDA images based on the new version of Ubuntu will be released soon.
+  template$stack[[13]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[13]]$FROM)
+  template$stack[[13]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[13]]$tags <- c(
     .generate_tags(
       "docker.io/rocker/cuda",
@@ -368,6 +401,8 @@ write_stack <- function(r_version,
 
   # rocker/ml:X.Y.Z-cuda11.1
   template$stack[[14]]$FROM <- paste0("rocker/cuda:", r_version, "-cuda11.1")
+  template$stack[[14]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[14]]$FROM)
+  template$stack[[14]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[14]]$tags <- c(
     .generate_tags(
       "docker.io/rocker/ml",
@@ -384,6 +419,8 @@ write_stack <- function(r_version,
 
   # rocker/ml-verse:X.Y.Z-cuda11.1
   template$stack[[15]]$FROM <- paste0("rocker/ml:", r_version, "-cuda11.1")
+  template$stack[[15]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", template$stack[[15]]$FROM)
+  template$stack[[15]]$labels$org.opencontainers.image.version <- r_version
   template$stack[[15]]$tags <- c(
     .generate_tags(
       "docker.io/rocker/ml-verse",
@@ -460,9 +497,12 @@ latest_daily <- jsonlite::read_json("stacks/core-latest-daily.json")
 ## Only rstudio, tidyverse, verse
 latest_daily$stack <- template$stack[2:4]
 latest_daily$stack[[1]]$FROM <- "rocker/r-ver:latest"
+latest_daily$stack[[1]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", latest_daily$stack[[1]]$FROM)
 latest_daily$stack[[1]]$ENV$RSTUDIO_VERSION <- "daily"
 latest_daily$stack[[2]]$FROM <- "rocker/rstudio:latest-daily"
+latest_daily$stack[[2]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", latest_daily$stack[[2]]$FROM)
 latest_daily$stack[[3]]$FROM <- "rocker/tidyverse:latest-daily"
+latest_daily$stack[[3]]$labels$org.opencontainers.image.base.name <- paste0("docker.io/", latest_daily$stack[[3]]$FROM)
 # Write the template file.
 jsonlite::write_json(latest_daily, "stacks/core-latest-daily.json", pretty = TRUE, auto_unbox = TRUE)
 message("stacks/core-latest-daily.json")
