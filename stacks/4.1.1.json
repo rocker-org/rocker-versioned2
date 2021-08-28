@@ -9,7 +9,7 @@
           "targets": ["r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "cuda", "ml", "ml-verse", "geospatial-ubuntugis"]
         }
       ],
-      "cuda11": [
+      "cuda11images": [
         {
           "targets": ["cuda11", "ml-cuda11", "ml-verse-cuda11"]
         }
@@ -19,6 +19,12 @@
   "stack": [
     {
       "IMAGE": "r-ver",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/r-ver",
+        "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:focal",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "ubuntu:focal",
       "ENV": {
         "R_VERSION": "4.1.1",
@@ -29,22 +35,33 @@
         "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
         "TZ": "Etc/UTC"
       },
+      "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
+      "RUN_a_script": "/rocker_scripts/install_R.sh",
       "COPY": "scripts /rocker_scripts",
-      "RUN": "/rocker_scripts/install_R.sh",
       "CMD": "[\"R\"]",
       "tags": [
         "docker.io/rocker/r-ver:4.1.1",
         "docker.io/rocker/r-ver:4.1",
         "docker.io/rocker/r-ver:4",
         "docker.io/rocker/r-ver:latest"
+      ],
+      "cache-from": [
+        "docker.io/rocker/r-ver:4.1.1"
       ]
     },
     {
       "IMAGE": "rstudio",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.description": "RStudio Server with fixed version of R",
+        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/r-ver:4.1.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
+        "DEFAULT_USER": "rstudio",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -62,6 +79,12 @@
     },
     {
       "IMAGE": "tidyverse",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/rstudio:4.1.1",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
@@ -73,6 +96,12 @@
     },
     {
       "IMAGE": "verse",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/tidyverse:4.1.1",
       "ENV": {
         "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
@@ -88,6 +117,12 @@
     },
     {
       "IMAGE": "geospatial",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/verse:4.1.1",
       "RUN": "/rocker_scripts/install_geospatial.sh",
       "tags": [
@@ -99,6 +134,12 @@
     },
     {
       "IMAGE": "shiny",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/shiny",
+        "org.opencontainers.image.description": "Shiny Server on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/r-ver:4.1.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
@@ -117,6 +158,12 @@
     },
     {
       "IMAGE": "shiny-verse",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/shiny-verse",
+        "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/shiny:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/shiny:4.1.1",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
@@ -128,6 +175,12 @@
     },
     {
       "IMAGE": "binder",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/binder",
+        "org.opencontainers.image.description": "Adds binder to rocker/geospatial, providing JupyterHub access on rocker containers.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/geospatial:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/geospatial:4.1.1",
       "ENV": {
         "NB_USER": "rstudio"
@@ -159,6 +212,12 @@
         "docker.io/rocker/cuda:latest",
         "docker.io/rocker/r-ver:4.1.1-cuda10.1"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/cuda",
+        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/r-ver:4.1.1",
       "ENV": {
         "CUDA_VERSION": "10.1.243",
@@ -193,10 +252,17 @@
         "docker.io/rocker/ml:4",
         "docker.io/rocker/ml:latest"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/cuda:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/cuda:4.1.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
+        "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "TENSORFLOW_VERSION": "gpu",
         "KERAS_VERSION": "default",
@@ -222,6 +288,12 @@
         "docker.io/rocker/ml-verse:4",
         "docker.io/rocker/ml-verse:latest"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml-verse",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/ml:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/ml:4.1.1",
       "ENV": {
         "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
@@ -239,6 +311,12 @@
         "docker.io/rocker/geospatial:4-ubuntugis",
         "docker.io/rocker/geospatial:ubuntugis"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial (ubuntugis)",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.1.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/verse:4.1.1",
       "RUN": [
         "/rocker_scripts/install_geospatial_unstable.sh",
@@ -254,8 +332,13 @@
         "docker.io/rocker/cuda:cuda11.1",
         "docker.io/rocker/r-ver:4.1.1-cuda11.1"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/cuda (CUDA 11)",
+        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04",
-      "COPY": "scripts /rocker_scripts",
       "ENV": {
         "R_VERSION": "4.1.1",
         "TERM": "xterm",
@@ -271,8 +354,10 @@
         "RETICULATE_AUTOCONFIGURE": "0",
         "PATH": "${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin"
       },
+      "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
+      "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "COPY": "scripts /rocker_scripts",
       "RUN": [
-        "/rocker_scripts/install_R.sh",
         "/rocker_scripts/config_R_cuda.sh",
         "/rocker_scripts/install_python.sh"
       ]
@@ -285,10 +370,17 @@
         "docker.io/rocker/ml:4-cuda11.1",
         "docker.io/rocker/ml:cuda11.1"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml (CUDA 11)",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/cuda:4.1.1-cuda11.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/cuda:4.1.1-cuda11.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
+        "DEFAULT_USER": "rstudio",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -307,6 +399,12 @@
         "docker.io/rocker/ml-verse:4-cuda11.1",
         "docker.io/rocker/ml-verse:cuda11.1"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml-verse (CUDA 11)",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/ml:4.1.1-cuda11.1",
+        "org.opencontainers.image.version": "4.1.1"
+      },
       "FROM": "rocker/ml:4.1.1-cuda11.1",
       "RUN": [
         "/rocker_scripts/install_verse.sh",
