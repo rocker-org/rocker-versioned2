@@ -43,11 +43,11 @@ if [ -z "$1" ];
 fi
 
 if [ -z "$RSTUDIO_VERSION_ARG" ] || [ "$RSTUDIO_VERSION_ARG" = "latest" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+" -m 1)
 elif [ "$RSTUDIO_VERSION_ARG" = "preview" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-preview%2B[0-9]+" -m 1)
 elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]+-[0-9]+\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-daily%2B[0-9]+" -m 1)
 else
     DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG}
 fi
