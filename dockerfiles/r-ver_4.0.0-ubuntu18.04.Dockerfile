@@ -17,8 +17,4 @@ COPY scripts /rocker_scripts
 
 RUN /rocker_scripts/install_R.sh
 
-
 CMD ["R"]
-
-
-

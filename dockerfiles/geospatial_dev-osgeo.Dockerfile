@@ -9,10 +9,4 @@ ENV PROJ_VERSION=7.2.0
 ENV GDAL_VERSION=3.2.0
 ENV GEOS_VERSION=3.8.1
 
-
 RUN /rocker_scripts/dev_osgeo.sh
-
-
-
-
-

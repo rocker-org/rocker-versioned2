@@ -8,10 +8,4 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 ENV CTAN_REPO=http://www.texlive.info/tlnet-archive/2021/02/14/tlnet
 ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
 
-
 RUN /rocker_scripts/install_verse.sh
-
-
-
-
-

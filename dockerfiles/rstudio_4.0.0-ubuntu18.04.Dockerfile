@@ -9,13 +9,9 @@ ENV S6_VERSION=v1.21.7.0
 ENV RSTUDIO_VERSION=1.3.959
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
-
 RUN /rocker_scripts/install_rstudio.sh
 RUN /rocker_scripts/install_pandoc.sh
 
 EXPOSE 8787
 
 CMD ["/init"]
-
-
-
