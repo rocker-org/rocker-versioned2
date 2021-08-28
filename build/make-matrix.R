@@ -17,10 +17,10 @@ library(tidyselect)
 .write_matrix <- function(data, path) {
   list(
     r_version = unique(data$r_version),
-    group = list("default"),
+    group = "default",
     include = dplyr::filter(data, group != "default")
   ) |>
-    jsonlite::write_json(path, pretty = TRUE, auto_unbox = TRUE)
+    jsonlite::write_json(path, pretty = TRUE, auto_unbox = FALSE)
 
   message(path)
 }

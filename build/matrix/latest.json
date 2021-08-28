@@ -1,8 +1,6 @@
 {
-  "r_version": "4.1.1",
-  "group": [
-    "default"
-  ],
+  "r_version": ["4.1.1"],
+  "group": ["default"],
   "include": [
     {
       "r_version": "4.1.1",
