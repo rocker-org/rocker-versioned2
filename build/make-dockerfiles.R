@@ -6,7 +6,7 @@ inherit_global <- function(image, global){
 
 paste_if <- function(element, image){
 
-  key <- element
+  key <- sub("_.*", "", element)
   value <- unlist(image[[element]])
 
   if(is.null(value))
@@ -31,6 +31,8 @@ write_dockerfiles <- function(stack, global){
       paste_if("FROM", image),
       paste_if("LABEL", image),
       paste_if("ENV", image),
+      paste_if("COPY_a_script", image),
+      paste_if("RUN_a_script", image),
       paste_if("COPY", image),
       paste_if("RUN", image),
       paste_if("EXPOSE", image),

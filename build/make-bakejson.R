@@ -26,7 +26,8 @@ write_bakejson <- function(stack_file) {
         value,
         ~ if (!is.null(.x$tags)) .x$tags else list(paste0("docker.io/rocker/", .x$IMAGE, ":", stack_tag))
       ),
-      platforms = purrr::map(value, "platforms", .default = list("linux/amd64"))
+      platforms = purrr::map(value, "platforms", .default = list("linux/amd64")),
+      `cache-from` = purrr::map(value, "cache-from", .default = list(""))
     ) %>%
     {
       list(

@@ -34,8 +34,9 @@
         "CRAN": "https://cloud.r-project.org",
         "TZ": "Etc/UTC"
       },
+      "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
+      "RUN_a_script": "/rocker_scripts/install_R.sh",
       "COPY": "scripts /rocker_scripts",
-      "RUN": "/rocker_scripts/install_R.sh",
       "CMD": "[\"R\"]"
     },
     {
@@ -248,7 +249,6 @@
         "org.opencontainers.image.base.name": "docker.io/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04"
       },
       "FROM": "nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04",
-      "COPY": "scripts /rocker_scripts",
       "ENV": {
         "R_VERSION": "devel",
         "TERM": "xterm",
@@ -264,8 +264,10 @@
         "RETICULATE_AUTOCONFIGURE": "0",
         "PATH": "${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin"
       },
+      "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
+      "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "COPY": "scripts /rocker_scripts",
       "RUN": [
-        "/rocker_scripts/install_R.sh",
         "/rocker_scripts/config_R_cuda.sh",
         "/rocker_scripts/install_python.sh"
       ]
