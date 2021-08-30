@@ -34,7 +34,7 @@ write_bakejson <- function(stack_file) {
         group = if (!is.null(stack_content$group)) {
           stack_content$group
         } else {
-          list(c(list(default = list(c(list(targets = c(.$name)))))))
+          list(c(list(default = list(c(list(targets = if (length(.$name) == 1) list(.$name) else c(.$name)))))))
         },
         target = purrr::transpose(dplyr::select(., !name), .names = .$name)
       )

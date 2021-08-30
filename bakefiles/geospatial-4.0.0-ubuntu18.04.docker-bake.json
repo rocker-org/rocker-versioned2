@@ -3,7 +3,9 @@
     {
       "default": [
         {
-          "targets": "geospatial"
+          "targets": [
+            "geospatial"
+          ]
         }
       ]
     }
