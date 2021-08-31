@@ -224,22 +224,6 @@
       ]
     },
     {
-      "IMAGE": "geospatial-ubuntugis",
-      "tags": [
-        "docker.io/rocker/geospatial:devel-ubuntugis"
-      ],
-      "labels": {
-        "org.opencontainers.image.title": "rocker/geospatial (ubuntugis)",
-        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:devel"
-      },
-      "FROM": "rocker/verse:devel",
-      "RUN": [
-        "/rocker_scripts/install_geospatial_unstable.sh",
-        "/rocker_scripts/install_geospatial.sh"
-      ]
-    },
-    {
       "IMAGE": "cuda11",
       "tags": [
         "docker.io/rocker/r-ver:devel-cuda11.1",

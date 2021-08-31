@@ -6,7 +6,7 @@
     {
       "default": [
         {
-          "targets": ["r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "cuda", "ml", "ml-verse", "geospatial-ubuntugis"]
+          "targets": ["r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "cuda", "ml", "ml-verse"]
         }
       ],
       "cuda11images": [
@@ -300,26 +300,6 @@
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
-        "/rocker_scripts/install_geospatial.sh"
-      ]
-    },
-    {
-      "IMAGE": "geospatial-ubuntugis",
-      "tags": [
-        "docker.io/rocker/geospatial:4.1.1-ubuntugis",
-        "docker.io/rocker/geospatial:4.1-ubuntugis",
-        "docker.io/rocker/geospatial:4-ubuntugis",
-        "docker.io/rocker/geospatial:ubuntugis"
-      ],
-      "labels": {
-        "org.opencontainers.image.title": "rocker/geospatial (ubuntugis)",
-        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.1.1",
-        "org.opencontainers.image.version": "4.1.1"
-      },
-      "FROM": "rocker/verse:4.1.1",
-      "RUN": [
-        "/rocker_scripts/install_geospatial_unstable.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
     },

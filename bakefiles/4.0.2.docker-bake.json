@@ -3,7 +3,7 @@
     {
       "default": [
         {
-          "targets": ["r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "cuda", "ml", "ml-verse", "geospatial-ubuntugis"]
+          "targets": ["r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "cuda", "ml", "ml-verse"]
         }
       ]
     }
@@ -214,25 +214,6 @@
       "tags": [
         "docker.io/rocker/ml-verse:4.0.2-cuda10.1",
         "docker.io/rocker/ml-verse:4.0.2"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        ""
-      ]
-    },
-    "geospatial-ubuntugis": {
-      "context": "./",
-      "dockerfile": "dockerfiles/geospatial-ubuntugis_4.0.2.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/geospatial (ubuntugis)",
-        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.0.2",
-        "org.opencontainers.image.version": "4.0.2"
-      },
-      "tags": [
-        "docker.io/rocker/geospatial:4.0.2-ubuntugis"
       ],
       "platforms": [
         "linux/amd64"
