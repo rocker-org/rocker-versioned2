@@ -7,6 +7,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 
 ENV S6_VERSION=v1.21.7.0
 ENV RSTUDIO_VERSION=1.3.959
+ENV DEFAULT_USER=rstudio
 ENV PATH=/usr/lib/rstudio-server/bin:$PATH
 
 RUN /rocker_scripts/install_rstudio.sh

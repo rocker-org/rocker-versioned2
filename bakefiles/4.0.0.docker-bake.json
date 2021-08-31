@@ -3,7 +3,30 @@
     {
       "default": [
         {
-          "targets": ["r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "cuda", "ml", "ml-verse"]
+          "targets": [
+            "r-ver",
+            "rstudio",
+            "tidyverse",
+            "verse",
+            "geospatial",
+            "shiny",
+            "shiny-verse",
+            "binder",
+            "cuda",
+            "ml",
+            "ml-verse"
+          ]
+        }
+      ],
+      "bionicimages": [
+        {
+          "targets": [
+            "r-ver-ubuntu18.04",
+            "rstudio-ubuntu18.04",
+            "tidyverse-ubuntu18.04",
+            "verse-ubuntu18.04",
+            "geospatial-ubuntu18.04"
+          ]
         }
       ]
     }
@@ -214,6 +237,101 @@
       "tags": [
         "docker.io/rocker/ml-verse:4.0.0-cuda10.1",
         "docker.io/rocker/ml-verse:4.0.0"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ]
+    },
+    "r-ver-ubuntu18.04": {
+      "context": "./",
+      "dockerfile": "dockerfiles/r-ver-ubuntu18.04_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/r-ver",
+        "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:bionic",
+        "org.opencontainers.image.version": "4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/r-ver:4.0.0-ubuntu18.04"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        "docker.io/rocker/r-ver:4.0.0-ubuntu18.04"
+      ]
+    },
+    "rstudio-ubuntu18.04": {
+      "context": "./",
+      "dockerfile": "dockerfiles/rstudio-ubuntu18.04_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.description": "RStudio Server with fixed version of R",
+        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.0.0-ubuntu18.04",
+        "org.opencontainers.image.version": "4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/rstudio:4.0.0-ubuntu18.04"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ]
+    },
+    "tidyverse-ubuntu18.04": {
+      "context": "./",
+      "dockerfile": "dockerfiles/tidyverse-ubuntu18.04_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:4.0.0-ubuntu18.04",
+        "org.opencontainers.image.version": "4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/tidyverse:4.0.0-ubuntu18.04"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ]
+    },
+    "verse-ubuntu18.04": {
+      "context": "./",
+      "dockerfile": "dockerfiles/verse-ubuntu18.04_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:4.0.0-ubuntu18.04",
+        "org.opencontainers.image.version": "4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/verse:4.0.0-ubuntu18.04"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ]
+    },
+    "geospatial-ubuntu18.04": {
+      "context": "./",
+      "dockerfile": "dockerfiles/geospatial-ubuntu18.04_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.0.0-ubuntu18.04",
+        "org.opencontainers.image.version": "4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/geospatial:4.0.0-ubuntu18.04"
       ],
       "platforms": [
         "linux/amd64"

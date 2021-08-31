@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:bionic
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
@@ -13,8 +13,10 @@ ENV R_HOME=/usr/local/lib/R
 ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/bionic/291
 ENV TZ=Etc/UTC
 
-COPY scripts /rocker_scripts
+COPY scripts/install_R.sh /rocker_scripts/install_R.sh
 
 RUN /rocker_scripts/install_R.sh
+
+COPY scripts /rocker_scripts
 
 CMD ["R"]

@@ -3,6 +3,10 @@
   "group": ["default"],
   "include": [
     {
+      "r_version": "4.0.0",
+      "group": "bionicimages"
+    },
+    {
       "r_version": "4.1.0",
       "group": "cuda11images"
     },
