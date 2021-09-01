@@ -20,8 +20,7 @@
       "IMAGE": "rstudio",
       "labels": {
         "org.opencontainers.image.title": "rocker/rstudio",
-        "org.opencontainers.image.description": "RStudio Server with fixed version of R",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:latest"
+        "org.opencontainers.image.description": "RStudio Server with fixed version of R"
       },
       "FROM": "rocker/r-ver:latest",
       "ENV": {
@@ -41,8 +40,7 @@
       "IMAGE": "tidyverse",
       "labels": {
         "org.opencontainers.image.title": "rocker/tidyverse",
-        "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:latest-daily"
+        "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages."
       },
       "FROM": "rocker/rstudio:latest-daily",
       "RUN": "/rocker_scripts/install_tidyverse.sh"
@@ -51,8 +49,7 @@
       "IMAGE": "verse",
       "labels": {
         "org.opencontainers.image.title": "rocker/verse",
-        "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:latest-daily"
+        "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image."
       },
       "FROM": "rocker/tidyverse:latest-daily",
       "ENV": {
