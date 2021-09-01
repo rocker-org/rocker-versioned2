@@ -19,12 +19,6 @@ ENV PYTHON_CONFIGURE_OPTS=--enable-shared
 ENV RETICULATE_AUTOCONFIGURE=0
 ENV PATH=${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/x86_64-linux
 
-
 RUN /rocker_scripts/install_cuda-10.1.sh
 RUN /rocker_scripts/config_R_cuda.sh
 RUN /rocker_scripts/install_python.sh
-
-
-
-
-

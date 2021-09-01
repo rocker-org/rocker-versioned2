@@ -5,7 +5,11 @@
   "stack": [
     {
       "IMAGE": "r-ver",
-      "FROM": "ubuntu:20.04",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/r-ver",
+        "org.opencontainers.image.description": "Reproducible builds to fixed version of R"
+      },
+      "FROM": "ubuntu:focal",
       "ENV": {
         "R_VERSION": "4.0.3",
         "TERM": "xterm",
@@ -15,19 +19,28 @@
         "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2021-02-17",
         "TZ": "Etc/UTC"
       },
+      "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
+      "RUN_a_script": "/rocker_scripts/install_R.sh",
       "COPY": "scripts /rocker_scripts",
-      "RUN": "/rocker_scripts/install_R.sh",
       "CMD": "[\"R\"]",
       "tags": [
+        "docker.io/rocker/r-ver:4.0.3"
+      ],
+      "cache-from": [
         "docker.io/rocker/r-ver:4.0.3"
       ]
     },
     {
       "IMAGE": "rstudio",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.description": "RStudio Server with fixed version of R"
+      },
       "FROM": "rocker/r-ver:4.0.3",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1106",
+        "DEFAULT_USER": "rstudio",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -42,6 +55,10 @@
     },
     {
       "IMAGE": "tidyverse",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages."
+      },
       "FROM": "rocker/rstudio:4.0.3",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
@@ -50,6 +67,10 @@
     },
     {
       "IMAGE": "verse",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image."
+      },
       "FROM": "rocker/tidyverse:4.0.3",
       "ENV": {
         "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/02/14/tlnet",
@@ -62,6 +83,10 @@
     },
     {
       "IMAGE": "geospatial",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image."
+      },
       "FROM": "rocker/verse:4.0.3",
       "RUN": "/rocker_scripts/install_geospatial.sh",
       "tags": [
@@ -70,6 +95,10 @@
     },
     {
       "IMAGE": "shiny",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/shiny",
+        "org.opencontainers.image.description": "Shiny Server on versioned Rocker image."
+      },
       "FROM": "rocker/r-ver:4.0.3",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
@@ -85,6 +114,10 @@
     },
     {
       "IMAGE": "shiny-verse",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/shiny-verse",
+        "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image."
+      },
       "FROM": "rocker/shiny:4.0.3",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
@@ -93,6 +126,10 @@
     },
     {
       "IMAGE": "binder",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/binder",
+        "org.opencontainers.image.description": "Adds binder to rocker/geospatial, providing JupyterHub access on rocker containers."
+      },
       "FROM": "rocker/geospatial:4.0.3",
       "ENV": {
         "NB_USER": "rstudio"
@@ -115,6 +152,10 @@
         "docker.io/rocker/cuda:4.0.3",
         "docker.io/rocker/r-ver:4.0.3-cuda10.1"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/cuda",
+        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image."
+      },
       "FROM": "rocker/r-ver:4.0.3",
       "ENV": {
         "CUDA_VERSION": "10.1.243",
@@ -143,10 +184,15 @@
         "docker.io/rocker/ml:4.0.3-cuda10.1",
         "docker.io/rocker/ml:4.0.3"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries."
+      },
       "FROM": "rocker/cuda:4.0.3",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1106",
+        "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "TENSORFLOW_VERSION": "gpu",
         "KERAS_VERSION": "default",
@@ -167,6 +213,10 @@
         "docker.io/rocker/ml-verse:4.0.3-cuda10.1",
         "docker.io/rocker/ml-verse:4.0.3"
       ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml-verse",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages."
+      },
       "FROM": "rocker/ml:4.0.3",
       "ENV": {
         "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/02/14/tlnet"
@@ -175,6 +225,84 @@
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
+    },
+    {
+      "IMAGE": "cuda11",
+      "tags": [
+        "docker.io/rocker/cuda:4.0.3-cuda11.1",
+        "docker.io/rocker/r-ver:4.0.3-cuda11.1"
+      ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/cuda (CUDA 11)",
+        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image."
+      },
+      "FROM": "rocker/r-ver:4.0.3",
+      "ENV": {
+        "CUDA_VERSION": "11.1",
+        "NCCL_VERSION": "2.7.8",
+        "NVIDIA_VISIBLE_DEVICES": "all",
+        "NVIDIA_DRIVER_CAPABILITIES": "compute,utility",
+        "NVIDIA_REQUIRE_CUDA": "cuda>=11.1 brand=tesla,driver>=418,driver<419 brand=tesla,driver>=440,driver<441 brand=tesla,driver>=450,driver<451",
+        "CUDA_HOME": "/usr/local/cuda",
+        "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$CUDA_HOME/lib64/libnvblas.so:",
+        "LIBRARY_PATH": "/usr/local/cuda/lib64/stubs",
+        "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
+        "WORKON_HOME": "/opt/venv",
+        "PYTHON_VENV_PATH": "/opt/venv/reticulate",
+        "PYTHON_CONFIGURE_OPTS": "--enable-shared",
+        "RETICULATE_MINICONDA_ENABLED": "FALSE",
+        "PATH": "${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/x86_64-linux"
+      },
+      "RUN": [
+        "/rocker_scripts/install_cuda-11.1.sh",
+        "/rocker_scripts/config_R_cuda.sh",
+        "/rocker_scripts/install_python.sh"
+      ]
+    },
+    {
+      "IMAGE": "ml-cuda11",
+      "tags": [
+        "docker.io/rocker/ml:4.0.3-cuda11.1"
+      ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml (CUDA 11)",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries."
+      },
+      "FROM": "rocker/cuda:4.0.3-cuda11.1",
+      "ENV": {
+        "S6_VERSION": "v2.1.0.2",
+        "RSTUDIO_VERSION": "1.4.1106",
+        "DEFAULT_USER": "rstudio",
+        "PANDOC_VERSION": "default",
+        "TENSORFLOW_VERSION": "gpu",
+        "KERAS_VERSION": "default",
+        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+      },
+      "RUN": [
+        "/rocker_scripts/install_rstudio.sh",
+        "/rocker_scripts/install_pandoc.sh",
+        "/rocker_scripts/install_tidyverse.sh"
+      ],
+      "CMD": "[\"/init\"]",
+      "EXPOSE": 8787
+    },
+    {
+      "IMAGE": "ml-verse-cuda11",
+      "tags": [
+        "docker.io/rocker/ml-verse:4.0.3-cuda11.1"
+      ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml-verse (CUDA 11)",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages."
+      },
+      "FROM": "rocker/ml:4.0.3-cuda11.1",
+      "RUN": [
+        "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_geospatial.sh"
+      ],
+      "ENV": {
+        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/02/14/tlnet"
+      }
     }
   ]
 }

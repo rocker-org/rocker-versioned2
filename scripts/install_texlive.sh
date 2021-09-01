@@ -12,6 +12,8 @@ option_doc 0
 option_src 0' > /tmp/texlive-profile.txt
 
 CTAN_REPO=${CTAN_REPO:-http://mirror.ctan.org/systems/texlive/tlnet}
+DEFAULT_USER=${DEFAULT_USER:-rstudio}
+
 export PATH=$PATH:/usr/local/texlive/bin/x86_64-linux/
 
 mkdir -p /opt/texlive
@@ -32,7 +34,7 @@ tlmgr install ae bibtex context inconsolata listings makeindex metafont mfware p
 echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
 
 ## open permissions to avoid needless warnings
-chown -R rstudio:staff /opt/texlive
-chown -R rstudio:staff /usr/local/texlive
+chown -R ${DEFAULT_USER}:staff /opt/texlive
+chown -R ${DEFAULT_USER}:staff /usr/local/texlive
 chmod -R 777 /opt/texlive
 chmod -R 777 /usr/local/texlive

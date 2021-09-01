@@ -24,7 +24,7 @@ jobs:
           echo ${JSON}
       - id: set-matrix
         run: |
-          CONTENT=$(jq -r 'tostring' ${{ steps.set-json.outputs.json }})
+          CONTENT=$(jq -r 'with_entries(select(.key == "r_version")) | tostring' ${{ steps.set-json.outputs.json }})
           echo ::set-output name=matrix::${CONTENT}
           echo ${CONTENT}
 

@@ -16,7 +16,6 @@ jobs:
           install2.r --error --skipinstalled -r https://r-lib.github.io/p/pak/dev/ -n -1 pak
       - name: Make changes to pull request
         run: |
-          ./build/sync-template-vars.R
           ./build/make-stacks.R
           make clean
           make setup

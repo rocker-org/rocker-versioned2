@@ -6,10 +6,11 @@ set -e
 
 ## NOTE: this runs as user NB_USER!
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-/opt/venv/reticulate}
-NB_USER=${NB_USER:-rstudio}
+DEFAULT_USER=${DEFAULT_USER:-rstudio}
+NB_USER=${NB_USER:-${DEFAULT_USER}}
 NB_UID=${NB_UID:-1000}
 WORKDIR=${WORKDIR:-/home/${NB_USER}}
-usermod -l ${NB_USER} rstudio
+usermod -l ${NB_USER} ${DEFAULT_USER}
 # Create a venv dir owned by unprivileged user & set up notebook in it
 # This allows non-root to install python libraries if required
 mkdir -p ${PYTHON_VENV_PATH} && chown -R ${NB_USER} ${PYTHON_VENV_PATH}

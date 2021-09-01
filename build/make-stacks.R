@@ -165,6 +165,27 @@ write_stack <- function(r_version,
 
   template$TAG <- r_version
 
+  template$group <- list(c(list(
+    default = list(c(list(targets = c(
+      "r-ver",
+      "rstudio",
+      "tidyverse",
+      "verse",
+      "geospatial",
+      "shiny",
+      "shiny-verse",
+      "binder",
+      "cuda",
+      "ml",
+      "ml-verse"
+    )))),
+    cuda11images = list(c(list(targets = c(
+      "cuda11",
+      "ml-cuda11",
+      "ml-verse-cuda11"
+    ))))
+  )))
+
   # rocker/r-ver
   template$stack[[1]]$FROM <- paste0("ubuntu:", ubuntu_version)
   template$stack[[1]]$tags <- .generate_tags(
@@ -176,6 +197,7 @@ write_stack <- function(r_version,
   )
   template$stack[[1]]$ENV$R_VERSION <- r_version
   template$stack[[1]]$ENV$CRAN <- cran
+  template$stack[[1]]$`cache-from` <- list(paste0("docker.io/rocker/r-ver:", r_version))
 
   # rocker/rstudio
   template$stack[[2]]$FROM <- paste0("rocker/r-ver:", r_version)
@@ -241,9 +263,15 @@ write_stack <- function(r_version,
 
   # rocker/binder
   template$stack[[8]]$FROM <- paste0("rocker/geospatial:", r_version)
-  template$stack[[8]]$tags <- .generate_tags("docker.io/rocker/binder", r_version, r_minor_latest, r_major_latest, r_latest)
+  template$stack[[8]]$tags <- .generate_tags(
+    "docker.io/rocker/binder",
+    r_version,
+    r_minor_latest,
+    r_major_latest,
+    r_latest
+  )
 
-  # rocker/r-ver:X.Y.Z-cuda10.1
+  # rocker/cuda:X.Y.Z-cuda10.1
   template$stack[[9]]$FROM <- paste0("rocker/r-ver:", r_version)
   template$stack[[9]]$tags <- c(
     .generate_tags(
@@ -312,6 +340,57 @@ write_stack <- function(r_version,
   )
   template$stack[[11]]$ENV$CTAN_REPO <- ctan_repo
 
+  # rocker/cuda:X.Y.Z-cuda11.1
+  # Not update the base image automatically, because we don't know if an NVIDIA CUDA images based on the new version of Ubuntu will be released soon.
+  template$stack[[12]]$tags <- c(
+    .generate_tags(
+      "docker.io/rocker/cuda",
+      r_version,
+      r_minor_latest,
+      r_major_latest,
+      r_latest,
+      use_latest_tag = TRUE,
+      latest_tag = "cuda11.1",
+      tag_suffix = "-cuda11.1"
+    ),
+    list(paste0("docker.io/rocker/r-ver:", r_version, "-cuda11.1"))
+  )
+  template$stack[[12]]$ENV$R_VERSION <- r_version
+  template$stack[[12]]$ENV$CRAN <- cran
+  template$stack[[12]]$`cache-from` <- list(paste0("docker.io/rocker/cuda:", r_version, "-cuda11.1"))
+
+  # rocker/ml:X.Y.Z-cuda11.1
+  template$stack[[13]]$FROM <- paste0("rocker/cuda:", r_version, "-cuda11.1")
+  template$stack[[13]]$tags <- c(
+    .generate_tags(
+      "docker.io/rocker/ml",
+      r_version,
+      r_minor_latest,
+      r_major_latest,
+      r_latest,
+      use_latest_tag = TRUE,
+      latest_tag = "cuda11.1",
+      tag_suffix = "-cuda11.1"
+    )
+  )
+  template$stack[[13]]$ENV$RSTUDIO_VERSION <- rstudio_version
+
+  # rocker/ml-verse:X.Y.Z-cuda11.1
+  template$stack[[14]]$FROM <- paste0("rocker/ml:", r_version, "-cuda11.1")
+  template$stack[[14]]$tags <- c(
+    .generate_tags(
+      "docker.io/rocker/ml-verse",
+      r_version,
+      r_minor_latest,
+      r_major_latest,
+      r_latest,
+      use_latest_tag = TRUE,
+      latest_tag = "cuda11.1",
+      tag_suffix = "-cuda11.1"
+    )
+  )
+  template$stack[[14]]$ENV$CTAN_REPO <- ctan_repo
+
   jsonlite::write_json(template, output_path, pretty = TRUE, auto_unbox = TRUE)
 
   message(output_path)
@@ -344,34 +423,74 @@ df_args <- .r_versions_data(min_version = 4.0) %>%
     r_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)
   )
 
-# Write json file for GitHubActions build matrix.
-df_args %>%
-  dplyr::select(r_version, r_latest) %>%
-  {
-    jsonlite::write_json(
-      list(include = .),
-      "build/matrix/all.json",
-      pretty = TRUE,
-      auto_unbox = TRUE
-    )
-    jsonlite::write_json(
-      list(include = utils::tail(., 1)),
-      "build/matrix/latest.json",
-      pretty = TRUE,
-      auto_unbox = TRUE
-    )
-  }
 
+r_latest_version <- dplyr::last(df_args$r_version)
+rstudio_latest_version <- dplyr::last(df_args$rstudio_version)
+
+message(paste0("\nThe latest R version is ", r_latest_version))
+message(paste0("The latest RStudio version is ", rstudio_latest_version))
 
 message("\nstart writing stack files.")
 
-# Update the RStudio Server Version in the devel stack file.
+# Update the template, devel.json
 template <- jsonlite::read_json("stacks/devel.json")
-template$stack[[2]]$ENV$RSTUDIO_VERSION <- dplyr::last(df_args$rstudio_version)
+# Copy S6_VERSION from rstudio to others.
+## shiny
+template$stack[[6]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
+## ml
+template$stack[[10]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
+## ml-cuda11
+template$stack[[13]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
+# Update the RStudio Server Version.
+## rstudio
+template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
+## ml
+template$stack[[10]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
+## ml-cuda11
+template$stack[[13]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
+
 jsonlite::write_json(template, "stacks/devel.json", pretty = TRUE, auto_unbox = TRUE)
 message("stacks/devel.json")
 
-# Write stack core files.
+
+# Update core-latest-daily
+latest_daily <- jsonlite::read_json("stacks/core-latest-daily.json")
+## Only rstudio, tidyverse, verse
+latest_daily$stack <- template$stack[2:4]
+latest_daily$stack[[1]]$FROM <- "rocker/r-ver:latest"
+latest_daily$stack[[1]]$ENV$RSTUDIO_VERSION <- "daily"
+latest_daily$stack[[2]]$FROM <- "rocker/rstudio:latest-daily"
+latest_daily$stack[[3]]$FROM <- "rocker/tidyverse:latest-daily"
+
+jsonlite::write_json(latest_daily, "stacks/core-latest-daily.json", pretty = TRUE, auto_unbox = TRUE)
+message("stacks/core-latest-daily.json")
+
+
+# Update the extra stack
+extra <- jsonlite::read_json("stacks/extra.json")
+extra$TAG <- r_latest_version
+## geospatial-ubuntugis
+extra$stack[[1]]$FROM <- paste0("rocker/verse:", r_latest_version)
+extra$stack[[1]]$tags <- c(
+  .generate_tags(
+    "docker.io/rocker/geospatial",
+    r_latest_version,
+    r_minor_latest = FALSE,
+    r_major_latest = FALSE,
+    r_latest = TRUE,
+    use_latest_tag = TRUE,
+    latest_tag = "ubuntugis",
+    tag_suffix = "-ubuntugis"
+  )
+)
+## geospatial-dev-osgeo
+extra$stack[[2]]$FROM <- paste0("rocker/verse:", r_latest_version)
+
+jsonlite::write_json(extra, "stacks/extra.json", pretty = TRUE, auto_unbox = TRUE)
+message("stacks/extra.json")
+
+
+# Write latest two stack files.
 devnull <- df_args %>%
   utils::tail(2) %>%
   dplyr::select(

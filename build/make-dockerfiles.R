@@ -6,11 +6,11 @@ inherit_global <- function(image, global){
 
 paste_if <- function(element, image){
 
-  key <- element
+  key <- sub("_.*", "", element)
   value <- unlist(image[[element]])
 
   if(is.null(value))
-    return("")
+    return(NA)
 
   if(!is.null(names(value)))
     out <- paste0(key, " ", names(value), "=", value, collapse = "\n")
@@ -27,21 +27,22 @@ write_dockerfiles <- function(stack, global){
 
     image <- inherit_global(image, global)
 
-    body <- paste(c(
+    body <- paste(na.omit(c(
       paste_if("FROM", image),
       paste_if("LABEL", image),
       paste_if("ENV", image),
+      paste_if("COPY_a_script", image),
+      paste_if("RUN_a_script", image),
       paste_if("COPY", image),
       paste_if("RUN", image),
       paste_if("EXPOSE", image),
       paste_if("CMD", image),
       paste_if("USER", image),
-      paste_if("WORKDIR", image)),
-      collapse ="\n"
-    )
+      paste_if("WORKDIR", image)
+    )), collapse = "\n")
 
     path <- file.path("dockerfiles", paste0(image$IMAGE, "_", image$TAG, ".Dockerfile"))
-    writeLines(body, path)
+    writeLines(body, path, sep = "")
 
     message(paste(path))
   })

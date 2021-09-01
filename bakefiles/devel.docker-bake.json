@@ -1,88 +1,171 @@
 {
+  "group": [
+    {
+      "default": [
+        {
+          "targets": [
+            "r-ver",
+            "rstudio",
+            "tidyverse",
+            "verse"
+          ]
+        }
+      ]
+    }
+  ],
   "target": {
     "r-ver": {
       "context": "./",
       "dockerfile": "dockerfiles/r-ver_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/r-ver",
+        "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:latest"
+      },
       "tags": [
         "docker.io/rocker/r-ver:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "rstudio": {
       "context": "./",
       "dockerfile": "dockerfiles/rstudio_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.description": "RStudio Server with fixed version of R",
+        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:devel"
+      },
       "tags": [
         "docker.io/rocker/rstudio:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "tidyverse": {
       "context": "./",
       "dockerfile": "dockerfiles/tidyverse_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:devel"
+      },
       "tags": [
         "docker.io/rocker/tidyverse:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "verse": {
       "context": "./",
       "dockerfile": "dockerfiles/verse_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:devel"
+      },
       "tags": [
         "docker.io/rocker/verse:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "geospatial": {
       "context": "./",
       "dockerfile": "dockerfiles/geospatial_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:devel"
+      },
       "tags": [
         "docker.io/rocker/geospatial:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "shiny": {
       "context": "./",
       "dockerfile": "dockerfiles/shiny_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/shiny",
+        "org.opencontainers.image.description": "Shiny Server on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:devel"
+      },
       "tags": [
         "docker.io/rocker/shiny:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "shiny-verse": {
       "context": "./",
       "dockerfile": "dockerfiles/shiny-verse_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/shiny-verse",
+        "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/shiny:devel"
+      },
       "tags": [
         "docker.io/rocker/shiny-verse:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "binder": {
       "context": "./",
       "dockerfile": "dockerfiles/binder_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/binder",
+        "org.opencontainers.image.description": "Adds binder to rocker/geospatial, providing JupyterHub access on rocker containers.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/geospatial:devel"
+      },
       "tags": [
         "docker.io/rocker/binder:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "cuda": {
       "context": "./",
       "dockerfile": "dockerfiles/cuda_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/cuda",
+        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:devel"
+      },
       "tags": [
         "docker.io/rocker/r-ver:devel-cuda10.1",
         "docker.io/rocker/cuda:devel-cuda10.1",
@@ -90,28 +173,102 @@
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "ml": {
       "context": "./",
       "dockerfile": "dockerfiles/ml_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/cuda:devel"
+      },
       "tags": [
         "docker.io/rocker/ml:devel-cuda10.1",
         "docker.io/rocker/ml:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     },
     "ml-verse": {
       "context": "./",
       "dockerfile": "dockerfiles/ml-verse_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml-verse",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/ml:devel"
+      },
       "tags": [
         "docker.io/rocker/ml-verse:devel-cuda10.1",
         "docker.io/rocker/ml-verse:devel"
       ],
       "platforms": [
         "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ]
+    },
+    "cuda11": {
+      "context": "./",
+      "dockerfile": "dockerfiles/cuda11_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/cuda (CUDA 11)",
+        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04"
+      },
+      "tags": [
+        "docker.io/rocker/r-ver:devel-cuda11.1",
+        "docker.io/rocker/cuda:devel-cuda11.1"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ]
+    },
+    "ml-cuda11": {
+      "context": "./",
+      "dockerfile": "dockerfiles/ml-cuda11_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml (CUDA 11)",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/cuda:devel-cuda11.1"
+      },
+      "tags": [
+        "docker.io/rocker/ml:devel-cuda11.1"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ]
+    },
+    "ml-verse-cuda11": {
+      "context": "./",
+      "dockerfile": "dockerfiles/ml-verse-cuda11_devel.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/ml-verse (CUDA 11)",
+        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/ml:devel-cuda11.1"
+      },
+      "tags": [
+        "docker.io/rocker/ml-verse:devel-cuda11.1"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
       ]
     }
   }

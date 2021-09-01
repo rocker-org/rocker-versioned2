@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+DEFAULT_USER=${DEFAULT_USER:-rstudio}
+
 apt-get update
 apt-get install -y --no-install-recommends \
     file \
@@ -41,11 +43,11 @@ if [ -z "$1" ];
 fi
 
 if [ -z "$RSTUDIO_VERSION_ARG" ] || [ "$RSTUDIO_VERSION_ARG" = "latest" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+" -m 1)
 elif [ "$RSTUDIO_VERSION_ARG" = "preview" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-preview%2B[0-9]+" -m 1)
 elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]+-[0-9]+\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-daily%2B[0-9]+" -m 1)
 else
     DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG}
 fi
@@ -130,9 +132,9 @@ loadRData="0"
 saveAction="0"
 '
 
-mkdir -p /home/rstudio/.rstudio/monitored/user-settings \
+mkdir -p /home/${DEFAULT_USER}/.rstudio/monitored/user-settings \
   && printf "%s" "$USER_SETTINGS" \
-          > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
-  && chown -R rstudio:rstudio /home/rstudio/.rstudio
+          > /home/${DEFAULT_USER}/.rstudio/monitored/user-settings/user-settings \
+  && chown -R ${DEFAULT_USER}:${DEFAULT_USER} /home/${DEFAULT_USER}/.rstudio
 
 git config --system credential.helper 'cache --timeout=3600'

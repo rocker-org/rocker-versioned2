@@ -1,7 +1,0 @@
-version: '3'
-services:
-  geospatial-4.0.0-ubuntu18.04:
-    image: rocker/geospatial:4.0.0-ubuntu18.04
-    build:
-      context: ..
-      dockerfile: dockerfiles/geospatial_4.0.0-ubuntu18.04.Dockerfile
