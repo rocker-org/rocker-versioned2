@@ -1,7 +1,9 @@
 FROM rocker/ml:4.0.5-cuda11.1
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-  cuda-samples-11-1
+  cuda-samples-11-1 \
+  python3-dev \
+  python3-pip
 
 # install tensorflow 1.15.5
 RUN pip install nvidia-pyindex
