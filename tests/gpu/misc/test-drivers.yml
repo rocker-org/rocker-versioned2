@@ -26,6 +26,9 @@
       copy:
         src: "./{{ item }}"
         dest: /root
+        owner: root
+        group: root
+        mode: 0755      
       become: yes
       loop:
         - "test-gpu-outside.sh"

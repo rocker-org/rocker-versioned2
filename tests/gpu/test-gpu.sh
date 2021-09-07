@@ -4,10 +4,10 @@
 
 # check for input parameter
 
-if [ $# -ne 1 ]
+if [ $# -ne 2 ]
 then
   echo "Error: one input parameter is required"
-  echo "Usage: $0 <cuda version>"
+  echo "Usage: $0 <cuda version> <log file>"
   exit 1
 fi
 
@@ -25,102 +25,119 @@ else
   exit 1
 fi
 
+LOG_LOC=$2
+
 # first check for proc file for driver version
 
-echo "checking for driver version file..."
+echo "checking for driver version file..." | tee -a "$LOG_LOC"
 PROC_DRIVER_FILE=/proc/driver/nvidia/version
 if [ -f "$PROC_DRIVER_FILE" ]
 then
-  echo "driver version file found. Contents:"
-  cat $PROC_DRIVER_FILE
+  echo "driver version file found. Contents sent to log." | tee -a "$LOG_LOC"
+  cat $PROC_DRIVER_FILE >> "$LOG_LOC"
 else
-  echo "$PROC_DRIVER_FILE doesn't exist"
-  echo "WARNING: Nvidia CUDA driver may not be correctly installed."
+  echo "$PROC_DRIVER_FILE doesn't exist" | tee -a "$LOG_LOC"
+  echo "WARNING: Nvidia CUDA driver may not be correctly installed." | tee -a "$LOG_LOC"
 fi
 
 # check for driver and gpu info from nvida-smi
 
-printf "\nchecking for driver and gpu info from nvidia-smi...\n"
+printf "\nchecking for driver and gpu info from nvidia-smi...\n" | tee -a "$LOG_LOC"
 DRIVER_CHECK_OUTPUT=$(nvidia-smi 2>&1)
 if [ $? -ne 0 ]
 then
-  echo "failed to run nvidia-smi with error message: $DRIVER_CHECK_OUTPUT"
-  echo "WARNING: Nvidia CUDA driver may not be correctly installed."
+  echo "failed to run nvidia-smi with error message: $DRIVER_CHECK_OUTPUT" | tee -a "$LOG_LOC"
+  echo "WARNING: Nvidia CUDA driver may not be correctly installed." | tee -a "$LOG_LOC"
 else
-  echo "driver and gpu information from from nvidia-smi:"
+  echo "driver and gpu information from from nvidia-smi sent to log" | tee -a "$LOG_LOC"
   # running again because output format removed in variable
-  nvidia-smi
+  nvidia-smi >> $LOG_LOC
 fi
 
 # check CUDA Toolkit version with nvcc -V
-printf "\nchecking for CUDA Toolkit by running: nvcc -V...\n"
+printf "\nchecking for CUDA Toolkit by running: nvcc -V...\n" | tee -a "$LOG_LOC"
 TOOLKIT_CHECK_OUTPUT=$(nvcc -V 2>&1)
 if [ $? -ne 0 ]
 then
-  echo "Failed to run 'nvcc -V' with error message: $TOOLKIT_CHECK_OUTPUT"
-  echo "WARNING: CUDA toolkit may not be correctly installed."
+  echo "Failed to run 'nvcc -V' with error message: $TOOLKIT_CHECK_OUTPUT" | tee -a "$LOG_LOC"
+  echo "WARNING: CUDA toolkit may not be correctly installed." | tee -a "$LOG_LOC"
 else
-  echo "toolkit information from 'nvcc -V':"
-  echo $TOOLKIT_CHECK_OUTPUT
+  echo "toolkit information from 'nvcc -V' sent to log." | tee -a "$LOG_LOC"
+  echo $TOOLKIT_CHECK_OUTPUT >> "$LOG_LOC"
 fi
 
 # run tests from CUDA samples
-printf "\nchecking for CUDA Samples...\n"
-DPKG_QUERY_SAMPLES=$(dpkg-query -l ${CUDA_PACKAGE} 2>&1)
+printf "\nchecking for CUDA Samples...\n" | tee -a "$LOG_LOC"
+DPKG_QUERY_SAMPLES=$(dpkg-query -l ${CUDA_PACKAGE} 2>&1) | tee -a "$LOG_LOC"
 if [ $? -ne 0 ]
 then
-  echo "CUDA samples not installed. Please install for additional tests."
+  echo "CUDA samples not installed. Please install for additional tests." | tee -a "$LOG_LOC"
 else
-  echo "CUDA samples installed. Running sample code tests..."
+  echo "CUDA samples installed. Running sample code tests..." | tee -a "$LOG_LOC"
 
   # run deviceQuery
-  printf "\ntesting deviceQuery...\n"
+  printf "\ntesting deviceQuery...\n" | tee -a "$LOG_LOC"
   DEVICE_QUERY_OUTPUT=$(/usr/local/${CUDA_DIR}/samples/1_Utilities/deviceQuery/deviceQuery 2>&1)
   if [ $? -ne 0 ]
   then
-    echo "deviceQuery failed with error message: $DEVICE_QUERY_OUTPUT"
+    echo "deviceQuery failed with error message: $DEVICE_QUERY_OUTPUT" | tee -a "$LOG_LOC"
   else
-    echo "deviceQuery ran with output: $DEVICE_QUERY_OUTPUT"
+    echo "deviceQuery succeeded with output sent to log" | tee -a "$LOG_LOC"
+    # rerunning deviceQuery becuase formatting lost in variable
+    /usr/local/${CUDA_DIR}/samples/1_Utilities/deviceQuery/deviceQuery >> "$LOG_LOC" 2>&1
   fi
 
   # run bandwidthTest
-  printf "\nrunning bandwidthTest...\n"
+  printf "\nrunning bandwidthTest...\n" | tee -a "$LOG_LOC"
   BANDWIDTH_TEST_OUTPUT=$(/usr/local/${CUDA_DIR}/samples/1_Utilities/bandwidthTest/bandwidthTest 2>&1)
   if [ $? -ne 0 ]
   then
-    echo "bandwidthTest failed error message: $BANDWIDTH_TEST_OUTPUT"
+    echo "bandwidthTest failed error message: $BANDWIDTH_TEST_OUTPUT" | tee -a "$LOG_LOC"
   else
-    echo "bandwidthTest ran with output: $BANDWIDTH_TEST_OUTPUT"
+    echo "bandwidthTest succeeded with output sent to log." | tee -a "$LOG_LOC"
+    echo $BANDWIDTH_TEST_OUTPUT >> "$LOG_LOC"
   fi
 
   # run matrixMulCUBLAS
-  printf "\nrunning matrixMulCUBLAS...\n"
+  printf "\nrunning simpleCUBLAS...\n" | tee -a "$LOG_LOC"
   SIMPLECUBLAS_OUTPUT=$(/usr/local/${CUDA_DIR}/samples/7_CUDALibraries/simpleCUBLAS/simpleCUBLAS 2>&1)
   if [ $? -ne 0 ]
   then
-    echo "simpleCUBLAS failed with error message: $SIMPLECUBLAS_OUTPUT"
+    echo "simpleCUBLAS failed with error message: $SIMPLECUBLAS_OUTPUT" | tee -a "$LOG_LOC"
   else
-    echo "simpleCUBLAS ran with output: $SIMPLECUBLAS_OUTPUT"
+    echo "simpleCUBLAS succeeded with output sent to log." | tee -a "$LOG_LOC"
+    echo $SIMPLECUBLAS_OUTPUT >> "$LOG_LOC"
   fi
 fi
 
 # check for tensorflow
-printf "\ntest tensorflow versions in R\n"
+printf "\ntest tensorflow versions in R\n" | tee -a "$LOG_LOC"
 
 declare -a test_versions=( "1.15.5" "2.2" "2.5" "2.6" )
 for ver in "${test_versions[@]}"
 do
   if [ $ver != "1.15.5" ]
   then
-    pip uninstall --yes nvidia-tensorflow[horovod]
-    R -e 'install.packages("tensorflow")'
-    R -e "tensorflow::install_tensorflow(version=\"${ver}-gpu\", extra_packages=\"tensorflow-probability==0.7.0\")"
+    echo "uninstalling nvidia-tensorflow[horovod] if installed..." | tee -a "$LOG_LOC"
+    pip uninstall --yes nvidia-tensorflow[horovod] >> "$LOG_LOC" 2>&1
+    echo "installing tensorflow ${ver}..." | tee -a "$LOG_LOC"
+    R -e 'install.packages("tensorflow")' >> "$LOG_LOC" 2>&1
+    R -e "tensorflow::install_tensorflow(version=\"${ver}-gpu\", extra_packages=\"tensorflow-probability==0.7.0\")" >> $LOG_LOC 2>&1
     if [ $? -ne 0 ]
     then
-      echo "Failed to install tensorflow version ${ver}"
+      echo "Failed to install tensorflow version ${ver}" | tee -a "$LOG_LOC"
       exit 1
     fi
   fi
-  Rscript /nvblas.R
+  echo "running test of nvBLAS in R..." | tee -a "$LOG_LOC"
+  NVBLAS_OUTPUT=$(Rscript /nvblas.R 2>&1)
+  if [ $? -ne 0 ]
+  then
+    echo "Failed nvBLAS test for tensorflow version ${ver} with error $NVBLAS_OUTPUT" | tee -a "$LOG_LOC"
+  else
+    echo "nvBLAS test succeeded for tensorflow version ${ver}" | tee -a "$LOG_LOC"
+    echo "output in the log" | tee -a "$LOG_LOC"
+    echo $NVBLAS_OUTPUT >> "$LOG_LOC"
+  fi
   echo " "
 done
