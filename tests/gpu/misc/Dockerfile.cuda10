@@ -15,7 +15,6 @@ RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 700 --sla
 WORKDIR /usr/local/cuda-10.0/samples
 RUN make
 
-COPY nvblas-cuda.conf /etc/nvblas.conf
 COPY ./test-gpu.sh /test-gpu.sh
 RUN chmod +x /test-gpu.sh
 COPY nvblas.R /
