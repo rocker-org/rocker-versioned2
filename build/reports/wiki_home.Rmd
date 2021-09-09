@@ -67,7 +67,9 @@ df_all <- df_definitions |>
   dplyr::mutate(tags = stringr::str_remove(tags, "^docker.io/library|^docker.io/")) |>
   dplyr::inner_join(df_images, by = "tags") |>
   dplyr::group_by(id) |>
+  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE) |>
   dplyr::mutate(tags = stringr::str_c("`", stringr::str_c(tags, collapse = "`<br/>`"), "`")) |>
+  dplyr::filter(stringr::str_detect(tags, version) | stack == "extra") |>
   dplyr::slice_head(n = 1) |>
   dplyr::ungroup() |>
   tidyr::drop_na()
@@ -118,7 +120,6 @@ df_all |>
   dplyr::arrange(order_number) |>
   dplyr::filter(stack == "extra") |>
   dplyr::transmute(
-    R = version,
     ImageName = image_title,
     RepoTags = tags,
     ID = stringr::str_c("[[", id, "]]"),
