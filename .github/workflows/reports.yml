@@ -1,9 +1,15 @@
 name: Report published images
 
 on:
+  push:
+    branches:
+      - "master"
+    paths:
+      - "build/reports/*.Rmd"
   workflow_run:
     workflows:
       - "Build & Push Core images"
+      - "Build & Push extra images"
     branches:
       - "master"
     types:
@@ -17,14 +23,9 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
-      - id: set-json
-        run: |
-          JSON=build/matrix/all.json
-          echo ::set-output name=json::${JSON}
-          echo ${JSON}
       - id: set-matrix
         run: |
-          CONTENT=$(jq -r 'with_entries(select(.key == "r_version")) | tostring' ${{ steps.set-json.outputs.json }})
+          CONTENT=$(jq -r 'with_entries(select(.key == "r_version")) | .r_version += ["extra"]' build/matrix/all.json)
           echo ::set-output name=matrix::${CONTENT}
           echo ${CONTENT}
 
