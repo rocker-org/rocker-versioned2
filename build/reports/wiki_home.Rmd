@@ -89,15 +89,34 @@ For more general information about the Rocker Project, check out [the rocker-org
 
 *This page was generated from `r system("git rev-parse HEAD", intern = TRUE) |> .link_to_commit()`.*
 
-## Tagged images
+## Active tagged images
 
-The currently tagged images are as follows.  
+The currently updated images are as follows.  
 Click on the ID to see detailed information about each image.
+
+### Versioned images
 
 ```{r print_table}
 df_all |>
   dplyr::arrange(order_number) |>
   dplyr::filter(stack != "extra") |>
+  dplyr::transmute(
+    R = version,
+    ImageName = image_title,
+    RepoTags = tags,
+    ID = stringr::str_c("[[", id, "]]"),
+    CreatedTime
+  )
+```
+
+### Extra images
+
+The following images are experimental and may differ from other images in terms of the repositories used.
+
+```{r print_extra_table}
+df_all |>
+  dplyr::arrange(order_number) |>
+  dplyr::filter(stack == "extra") |>
   dplyr::transmute(
     R = version,
     ImageName = image_title,
