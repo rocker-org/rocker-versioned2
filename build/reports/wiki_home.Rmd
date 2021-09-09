@@ -10,13 +10,69 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot::is_git_root))
 
 library(fs)
 library(dplyr)
 library(readr)
+library(tibble)
+library(tidyr)
+library(purrr)
 library(forcats)
 library(stringr)
 library(lubridate)
+library(jsonlite)
+```
+
+```{r data_manipulation}
+.read_bakefile <- function(file) {
+  jsonlite::read_json(file)$target |>
+    tibble::enframe() |>
+    tidyr::hoist(
+      value,
+      version = c("labels", "org.opencontainers.image.version"),
+      image_title = c("labels", "org.opencontainers.image.title"),
+      tags = "tags"
+    ) |>
+    tidyr::unnest_longer(tags) |>
+    dplyr::select(name, version, image_title, tags)
+}
+
+
+df_definitions <- fs::dir_ls(
+  path = "bakefiles",
+  regexp = "([0-9]+\\.[0-9]+\\.[0-9]+|extra)\\.docker-bake.json$"
+) |>
+  rev() |>
+  purrr::map_dfr(.read_bakefile, .id = "file") |>
+  dplyr::mutate(
+    stack = stringr::str_remove_all(file, ".*/|\\.docker-bake\\.json"),
+    order_number = dplyr::row_number()
+  )
+
+df_images <- fs::dir_ls(path = "reports/imagelist", glob = "*.tsv") |>
+  readr::read_tsv(col_names = FALSE) |>
+  dplyr::filter(X3 != "<none>") |>
+  dplyr::transmute(
+    id = X1,
+    tags = stringr::str_c(X2, ":", X3),
+    CreatedTime = lubridate::ymd_hms(X4)
+  ) |>
+  dplyr::group_by(tags) |>
+  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE) |>
+  dplyr::ungroup()
+
+
+df_all <- df_definitions |>
+  dplyr::mutate(tags = stringr::str_remove(tags, "^docker.io/library|^docker.io/")) |>
+  dplyr::inner_join(df_images, by = "tags") |>
+  dplyr::group_by(id) |>
+  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE) |>
+  dplyr::mutate(tags = stringr::str_c("`", stringr::str_c(tags, collapse = "`<br/>`"), "`")) |>
+  dplyr::filter(stringr::str_detect(tags, version) | stack == "extra") |>
+  dplyr::slice_head(n = 1) |>
+  dplyr::ungroup() |>
+  tidyr::drop_na()
 ```
 
 ```{r}
@@ -35,51 +91,38 @@ For more general information about the Rocker Project, check out [the rocker-org
 
 *This page was generated from `r system("git rev-parse HEAD", intern = TRUE) |> .link_to_commit()`.*
 
-## Tagged images
+## Active tagged images
 
-The currently tagged images are as follows.  
+The currently updated images are as follows.  
 Click on the ID to see detailed information about each image.
 
-```{r}
-repos <- paste0(
-  "rocker/",
-  c("r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse", "binder", "cuda", "ml", "ml-verse")
-) |>
-  forcats::as_factor()
+### Versioned images
 
-df_all <- fs::dir_ls(path = "../../reports/imagelist", glob = "*.tsv") |>
-  readr::read_tsv(col_names = FALSE) |>
-  dplyr::transmute(
-    id = X1,
-    repo = X2,
-    tag = X3,
-    CreatedTime = lubridate::ymd_hms(X4)
-  ) |>
-  dplyr::filter(tag != "<none>") |>
-  dplyr::distinct(id, repo, tag, .keep_all = TRUE)
-
-df_tags <- df_all |>
-  dplyr::mutate(repo_tags = paste0(repo, ":", tag)) |>
-  dplyr::arrange(desc(repo_tags)) |>
-  dplyr::group_by(id) |>
-  dplyr::summarise(repo_tags = paste0(repo_tags, collapse = "`<br/>`"), .groups = "drop") |>
-  dplyr::transmute(
-    id,
-    RepoTags = paste0("`", repo_tags, "`")
-  )
-
+```{r print_table}
 df_all |>
-  dplyr::filter(repo %in% repos & stringr::str_detect(tag, "^\\d\\.\\d\\.\\d$")) |>
-  dplyr::group_by(repo, tag) |>
-  dplyr::slice_max(order_by = CreatedTime) |>
-  dplyr::ungroup() |>
-  dplyr::left_join(df_tags, by = "id") |>
-  dplyr::arrange(desc(tag), match(repo, repos)) |>
+  dplyr::arrange(order_number) |>
+  dplyr::filter(stack != "extra") |>
   dplyr::transmute(
-    R = tag,
-    ImageName = paste0("[`", repo, "`](https://hub.docker.com/r/", repo, ")"),
-    RepoTags,
-    ID = paste0("[`", id, "`](https://github.com/rocker-org/rocker-versioned2/wiki/", id, ")"),
+    R = version,
+    ImageName = image_title,
+    RepoTags = tags,
+    ID = stringr::str_c("[[", id, "]]"),
+    CreatedTime
+  )
+```
+
+### Extra images
+
+The following images are experimental and may differ from other images in terms of the repositories used.
+
+```{r print_extra_table}
+df_all |>
+  dplyr::arrange(order_number) |>
+  dplyr::filter(stack == "extra") |>
+  dplyr::transmute(
+    ImageName = image_title,
+    RepoTags = tags,
+    ID = stringr::str_c("[[", id, "]]"),
     CreatedTime
   )
 ```
