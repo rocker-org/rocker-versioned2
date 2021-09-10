@@ -72,7 +72,32 @@ df_all <- df_definitions |>
   dplyr::filter(stringr::str_detect(tags, version) | stack == "extra") |>
   dplyr::slice_head(n = 1) |>
   dplyr::ungroup() |>
-  tidyr::drop_na()
+  tidyr::drop_na() |>
+  dplyr::mutate(report_name = stringr::str_c(name, "_", id))
+```
+
+```{r rename_reports}
+.remove_old_report <- function(id, path = "reports", filename_prefix = ".*_") {
+  old_reports <- fs::dir_ls(path) |>
+    stringr::str_subset(stringr::str_c(filename_prefix, id))
+
+  if (length(old_reports) >= 1) fs::file_delete(old_reports)
+
+  return(invisible())
+}
+
+.rename_report <- function(id, new_file, path = "reports") {
+  report_path <- fs::path(path, id, ext = "md")
+  report_new_path <- fs::path(path, new_file, ext = "md")
+
+  fs::file_move(report_path, report_new_path)
+
+  return(invisible())
+}
+
+
+purrr::walk(df_all$id, .remove_old_report)
+purrr::walk2(df_all$id, df_all$report_name, .rename_report)
 ```
 
 ```{r}
@@ -106,7 +131,7 @@ df_all |>
     R = version,
     ImageName = image_title,
     RepoTags = tags,
-    ID = stringr::str_c("[[", id, "]]"),
+    ID = stringr::str_c("[[", id, "|", report_name, "]]"),
     CreatedTime
   )
 ```
@@ -122,7 +147,7 @@ df_all |>
   dplyr::transmute(
     ImageName = image_title,
     RepoTags = tags,
-    ID = stringr::str_c("[[", id, "]]"),
+    ID = stringr::str_c("[[", id, "|", report_name, "]]"),
     CreatedTime
   )
 ```
