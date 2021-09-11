@@ -1,5 +1,7 @@
 [![license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://opensource.org/licenses/GPL-2.0)
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Build & Push Core images](https://github.com/rocker-org/rocker-versioned2/actions/workflows/core.yml/badge.svg)](https://github.com/rocker-org/rocker-versioned2/actions/workflows/core.yml)
+[![Build & Push R devel images and RStudio daily build images](https://github.com/rocker-org/rocker-versioned2/actions/workflows/devel.yml/badge.svg)](https://github.com/rocker-org/rocker-versioned2/actions/workflows/devel.yml)
 
 Visit [rocker-project.org](https://rocker-project.org) for more about available Rocker images, configuration, and use.
 
@@ -35,7 +37,7 @@ image                                                      | description        
 - Images are now based on Ubuntu LTS releases rather than Debian and system libraries are tied to the Ubuntu version. Images will use the most recent LTS available at the time when the corresponding R version was released. Thus all 4.0.0 images are based on Ubuntu 20.04.
 - We use the [RStudio Package Manager (RSPM)](https://packagemanager.rstudio.com) as our default CRAN mirror.  RSPM serves compiled Linux
    binaries of R packages and greatly speeds up package installs.
-- Several images, `r-ver`, and new experimental `ml` and `ml-verse` are now available with CUDA drivers and libraries installed and preconfigured for use on machines with NVIDIA GPUs.  These are available under tags `4.X.X-cudaX.X`, with currently only CUDA 10.1 available pre-built.
+- Several images, `r-ver`, and new experimental `ml` and `ml-verse` are now available with CUDA drivers and libraries installed and preconfigured for use on machines with NVIDIA GPUs.  These are available under tags `4.X.X-cudaX.X`.
 - We no longer support `ADD=` runtime triggers for installing Shiny or similar modules.  See below for how to extend images to include custom extensions.
 - Shiny images, like RStudio images, now manage processes via the [S6](https://github.com/just-containers/s6-overlay) supervisor system allowing containers to manage multiple background processes gracefully.
 
