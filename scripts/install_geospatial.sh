@@ -68,6 +68,7 @@ install2.r --error --skipinstalled \
     spatialreg \
     spdep \
     stars \
+    terra \
     tidync \
     tmap \
     geoR \

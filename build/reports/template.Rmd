@@ -1,0 +1,102 @@
+---
+title: "`r params$image_name`"
+date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S %Z')`"
+output:
+  github_document:
+    toc: true
+    df_print: kable
+    html_preview: false
+params:
+  image_name: ""
+  inspect_file: ""
+  apt_file: ""
+  r_file: ""
+  pip_file: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+```
+
+```{r}
+.link_to_commit <- function(commit_hash) {
+  base_url <- "https://github.com/rocker-org/rocker-versioned2/tree/"
+  commit_short_hash <- commit_hash |>
+    substr(1, 7)
+  linked_text <- paste0("[`", commit_short_hash, "`](", base_url, commit_hash, ")")
+
+  return(linked_text)
+}
+```
+
+*This report was generated from `r system("git rev-parse HEAD", intern = TRUE) |> .link_to_commit()`.*
+
+## Image info
+
+```{r}
+.unlist_and_enclose <- function(x) {
+  chr <- dplyr::if_else(
+    !is.null(unlist(x)),
+    paste0("`", paste(unlist(x), collapse = "`, `"), "`"),
+    ""
+  )
+
+  return(chr)
+}
+
+jsonlite::read_json(params$inspect_file) |>
+  tibble::enframe() |>
+  dplyr::transmute(
+    ImageID = purrr::map_chr(value, "Id"),
+    RepoTags = purrr::map(value, "RepoTags"),
+    RepoDigests = purrr::map(value, "RepoDigests"),
+    ImageSource = purrr::map_chr(value, c("Config", "Labels", "org.opencontainers.image.source"), .default = NA_character_),
+    ImageRevision = purrr::map_chr(value, c("Config", "Labels", "org.opencontainers.image.revision"), .default = NA_character_),
+    CreatedTime = purrr::map_chr(value, "Created", .default = NA_character_),
+    Size = purrr::map_dbl(value, "Size", .default = NA_real_),
+    Env = purrr::map(value, c("Config", "Env"))
+  ) |>
+  dplyr::mutate(
+    ImageID = paste0("`", ImageID, "`"),
+    RepoTags = .unlist_and_enclose(RepoTags),
+    RepoDigests = .unlist_and_enclose(RepoDigests),
+    Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
+    Env = paste(unlist(Env), collapse = ", ")
+  ) |>
+  tidyr::pivot_longer(cols = tidyselect::everything())
+```
+
+## Installed packages
+
+### apt packages
+
+```{r}
+readr::read_tsv(params$apt_file, col_names = FALSE) |>
+  dplyr::transmute(
+    package = X1,
+    version = X2
+  )
+```
+
+### R packages
+
+```{r}
+readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
+  dplyr::transmute(
+    package = X1,
+    version = X2
+  )
+```
+
+### Python3 pip packages
+
+```{r}
+try(
+  readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
+    dplyr::transmute(
+      package = X1,
+      version = X2
+    ),
+  silent = TRUE
+)
+```

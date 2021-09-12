@@ -1,8 +1,0 @@
-{
-  "include": [
-    {
-      "r_version": "4.1.0",
-      "r_latest": true
-    }
-  ]
-}
