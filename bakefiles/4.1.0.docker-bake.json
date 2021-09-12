@@ -43,7 +43,8 @@
         "docker.io/rocker/r-ver:4.1.0"
       ],
       "platforms": [
-        "linux/amd64"
+        "linux/amd64",
+        "linux/arm64"
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.1.0"
