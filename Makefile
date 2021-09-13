@@ -39,7 +39,7 @@ pull-image-all: $(foreach I, $(shell jq '.target[].tags[]' -r $(BAKE_JSON) | sed
 
 # docker buildx bake options. When specifying multiple options, please escape spaces with "\".
 # ex. $ BAKE_JSON=bakefiles/core-latest-daily.docker-bake.json BAKE_OPTION=--load make bake-json-all
-# ex. $ BAKE_JSON=bakefiles/devel.docker-bake.json BAKE_OPTION=--print\ -f\ build/platforms.docker-bake.override.json make bake-json/r-ver
+# ex. $ BAKE_JSON=bakefiles/devel.docker-bake.json BAKE_OPTION=--load\ --no-cache make bake-json/r-ver
 BAKE_OPTION ?= --print
 bake-json/%:
 	docker buildx bake -f $(BAKE_JSON) --set=*.labels.org.opencontainers.image.revision=$(IMAGE_REVISION) $(BAKE_OPTION) $*

@@ -197,6 +197,7 @@ write_stack <- function(r_version,
   )
   template$stack[[1]]$ENV$R_VERSION <- r_version
   template$stack[[1]]$ENV$CRAN <- cran
+  template$stack[[1]]$platforms <- list("linux/amd64", "linux/arm64")
   template$stack[[1]]$`cache-from` <- list(paste0("docker.io/rocker/r-ver:", r_version))
 
   # rocker/rstudio
