@@ -14,18 +14,20 @@ jobs:
       tag: ${{ steps.tag-version.outputs.new_tag }}
     steps:
       - uses: actions/checkout@v2
+
       - id: set-version
         run: |
-          VERSION=$(jq '.r_version[-1]' -r build/matrix/latest.json)
-          echo ::set-output name=version::${VERSION}
+          NEW_VERSION=$(jq '.r_version[-1]' -r build/matrix/latest.json)
+          echo ::set-output name=newversion::${NEW_VERSION}
           echo ${VERSION}
+
       - name: Bump version and push tag
         id: tag-version
         uses: mathieudutour/github-tag-action@v5
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: false
-          custom_tag: ${{ steps.set-version.outputs.version }}
+          custom_tag: ${{ steps.set-version.outputs.newversion }}
           tag_prefix: "R"
 
   create_release:
@@ -33,8 +35,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: ncipollo/release-action@v1
+
+      - name: Build Changelog
+        id: build_changelog
+        uses: mikepenz/release-changelog-builder-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          configuration: "build/changelog_configuration.json"
+          toTag: ${{ needs.create_tag.outputs.tag }}
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
           tag: ${{ needs.create_tag.outputs.tag }}
+          body: ${{steps.build_changelog.outputs.changelog}}
           allowUpdates: false
           token: ${{ secrets.GITHUB_TOKEN }}
