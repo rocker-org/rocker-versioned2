@@ -5,6 +5,7 @@ set -e
 # if RStudio is installed , but latest otherwise
 
 PANDOC_VERSION=${1:-${PANDOC_VERSION:-default}}
+ARCH=$(dpkg --print-architecture)
 
 apt-get update && apt-get -y install wget
 
@@ -21,13 +22,13 @@ if [ "$INSTALLED_PANDOC" != "$PANDOC_VERSION" ]; then
     ln -fs /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/local/bin
   else
     if [ "$PANDOC_VERSION" = "default" ]; then
-      PANDOC_DL_URL=$(wget -qO- https://api.github.com/repos/jgm/pandoc/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*amd64\.deb")
+      PANDOC_DL_URL=$(wget -qO- https://api.github.com/repos/jgm/pandoc/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*${ARCH}\.deb")
     else
-      PANDOC_DL_URL=https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-amd64.deb
+      PANDOC_DL_URL=https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-${ARCH}.deb
     fi
-    wget ${PANDOC_DL_URL} -O pandoc-amd64.deb
-    dpkg -i pandoc-amd64.deb
-    rm pandoc-amd64.deb
+    wget ${PANDOC_DL_URL} -O pandoc-${ARCH}.deb
+    dpkg -i pandoc-${ARCH}.deb
+    rm pandoc-${ARCH}.deb
   fi
 
   ## Symlink pandoc & standard pandoc templates for use system-wide

@@ -4,6 +4,9 @@ set -e
 # always set this for scripts but don't declare as ENV..
 export DEBIAN_FRONTEND=noninteractive
 
+## build ARGs
+NCPUS=${NCPUS:-1}
+
 apt-get update -qq \
   && apt-get install -y --no-install-recommends \
     gdal-bin \
@@ -41,9 +44,9 @@ fi
 
 
 ## Somehow foreign is messed up on CRAN between 2020-04-25 -- 2020-05-0?
-##install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 foreign
+##install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 -n $NCPUS foreign
 
-install2.r --error --skipinstalled \
+install2.r --error --skipinstalled -n $NCPUS \
     RColorBrewer \
     RandomFields \
     RNetCDF \
@@ -72,7 +75,8 @@ install2.r --error --skipinstalled \
     tidync \
     tmap \
     geoR \
-    geosphere
+    geosphere \
+    BiocManager
 
 R -e "BiocManager::install('rhdf5')"
 

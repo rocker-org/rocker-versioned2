@@ -3,6 +3,9 @@ set -e
 
 SHINY_SERVER_VERSION=${1:-${SHINY_SERVER_VERSION:-latest}}
 
+## build ARGs
+NCPUS=${NCPUS:-1}
+
 # Run dependency scripts
 . /rocker_scripts/install_s6init.sh
 . /rocker_scripts/install_pandoc.sh
@@ -28,7 +31,7 @@ gdebi -n ss-latest.deb
 rm ss-latest.deb
 
 # Get R packages
-install2.r --error --skipinstalled shiny rmarkdown
+install2.r --error --skipinstalled -n $NCPUS shiny rmarkdown
 
 # Set up directories and permissions
 if [ -x "$(command -v rstudio-server)" ]; then

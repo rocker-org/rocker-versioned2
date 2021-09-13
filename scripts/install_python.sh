@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+## build ARGs
+NCPUS=${NCPUS:-1}
+
 WORKON_HOME=${WORKON_HOME:-/opt/venv}
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-${WORKON_HOME}/reticulate}
 RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED:-FALSE}
@@ -29,7 +32,7 @@ fi
 mkdir -p ${WORKON_HOME}
 python3 -m venv ${PYTHON_VENV_PATH}
 
-install2.r --skipinstalled --error reticulate
+install2.r --error --skipinstalled -n $NCPUS reticulate
 
 ## Ensure RStudio inherits this env var
 echo "" >> ${R_HOME}/etc/Renviron.site
