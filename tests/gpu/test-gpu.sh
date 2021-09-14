@@ -110,6 +110,18 @@ else
   fi
 fi
 
+# test nvBLAS
+echo "running test of nvBLAS in R..." | tee -a "$LOG_LOC"
+NVBLAS_OUTPUT=$(Rscript /nvblas.R 2>&1)
+if [ $? -ne 0 ]
+then
+  echo "Failed nvBLAS test with error $NVBLAS_OUTPUT" | tee -a "$LOG_LOC"
+else
+  echo "nvBLAS test succeeded" | tee -a "$LOG_LOC"
+  echo "output in the log" | tee -a "$LOG_LOC"
+  echo $NVBLAS_OUTPUT >> "$LOG_LOC"
+fi
+
 # check for tensorflow
 printf "\ntest tensorflow versions in R\n" | tee -a "$LOG_LOC"
 
@@ -129,15 +141,23 @@ do
       exit 1
     fi
   fi
-  echo "running test of nvBLAS in R..." | tee -a "$LOG_LOC"
-  NVBLAS_OUTPUT=$(Rscript /nvblas.R 2>&1)
+  echo "running test of tensorflow in R..." | tee -a "$LOG_LOC"
+  TF_OUTPUT=$(Rscript /examples_tf.R 2>&1)
   if [ $? -ne 0 ]
   then
-    echo "Failed nvBLAS test for tensorflow version ${ver} with error $NVBLAS_OUTPUT" | tee -a "$LOG_LOC"
+    echo "Failed tensorflow test for version ${ver} with error $TF_OUTPUT" | tee -a "$LOG_LOC"
   else
-    echo "nvBLAS test succeeded for tensorflow version ${ver}" | tee -a "$LOG_LOC"
-    echo "output in the log" | tee -a "$LOG_LOC"
-    echo $NVBLAS_OUTPUT >> "$LOG_LOC"
+    GPU_STR="Created device /job:localhost/replica:0/task:0/device:GPU:0"
+    if [[ "$TF_OUTPUT" == *"$GPU_STR"* ]]
+    then
+      echo "GPU tensorflow test succeeded for version ${ver}" | tee -a "$LOG_LOC"
+      echo "output in the log" | tee -a "$LOG_LOC"
+      echo $TF_OUTPUT >> "$LOG_LOC"
+    else
+      echo "CPU tensorflow test succeeded for version ${ver}" | tee -a "$LOG_LOC"
+      echo "Failed GPU tensorflow test for version ${ver}. See log for details." | tee -a "$LOG_LOC"
+      echo $TF_OUTPUT >> "$LOG_LOC"
+    fi
   fi
   echo " "
 done

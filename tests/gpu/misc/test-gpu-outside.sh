@@ -4,4 +4,4 @@
 
 docker ps | tail -n +2 | awk -f /root/cuda_ver.awk
 
-cat /test-gpu-10.log /test-gpu-11.log > /test-gpu.log
+cat /test-gpu-10.log /test-gpu-11.log >> /test-gpu.log

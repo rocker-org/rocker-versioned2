@@ -49,13 +49,34 @@ then
   echo "WARNING: CUDA toolkit may not be correctly installed." | tee -a /var/log/nvblas.log
   TEST_FAIL=true
 fi
-# tensorflow and nvblas
+# nvblas
 NVBLAS_OUTPUT=$(Rscript ../tests/gpu/misc/nvblas.R 2>&1)
 if [ $? -ne 0 ]
 then
   echo "Failed nvBLAS test with error $NVBLAS_OUTPUT" | tee -a /var/log/nvblas.log
   TEST_FAIL=true
 fi
+# tensorflow
+TF_OUTPUT=$(Rscript ../tests/gpu/misc/examples_tf.R 2>&1)
+if [ $? -ne 0 ]
+then
+  echo "Failed tensorflow test with error $TF_OUTPUT" | tee -a /var/log/nvblas.log
+else
+  GPU_STR="Created device /job:localhost/replica:0/task:0/device:GPU:0"
+  if [[ "$TF_OUTPUT" == *"$GPU_STR"* ]]
+  then
+    echo "tensorflow GPU test succeeded" | tee -a /var/log/nvblas.log
+    echo "output in the log" | tee -a /var/log/nvblas.log
+    echo $TF_OUTPUT >> /var/log/nvblas.log
+  else
+    echo "CPU tensorflow test succeeded" | tee -a /var/log/nvblas.log
+    echo "Failed GPU tensorflow test. See log for details." | tee -a /var/log/nvblas.log
+    echo $TF_OUTPUT >> /var/log/nvblas.log
+  fi
+fi
+
+
+
 if [ "$TEST_FAIL" = true ]
 then
   echo "WARNING: at least one of the GPU functionality tests has failed." | tee -a /var/log/nvblas.log

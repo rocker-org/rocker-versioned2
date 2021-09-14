@@ -52,6 +52,7 @@
         - "nvblas-cuda.conf"
         - "test-gpu.sh"
         - "nvblas.R"
+        - "examples_tf.R"
     - name: build docker image cuda10
       become: yes
       docker_image:

@@ -1,9 +1,12 @@
 FROM rocker/ml:4.0.5-cuda11.1
 
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
   cuda-samples-11-1 \
   python3-dev \
-  python3-pip
+  python3-pip \
+  libcudnn8
 
 # install tensorflow 1.15.5
 RUN pip install nvidia-pyindex
@@ -16,6 +19,7 @@ COPY nvblas-cuda.conf /etc/nvblas.conf
 COPY nvblas.R /
 COPY test-gpu.sh /
 RUN chmod +x /test-gpu.sh
+COPY examples_tf.R /
 
 ENTRYPOINT ["tail"]
 CMD ["-f","/dev/null"]

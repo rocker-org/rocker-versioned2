@@ -28,11 +28,12 @@
         dest: /root
         owner: root
         group: root
-        mode: 0755      
+        mode: 0755
       become: yes
       loop:
         - "test-gpu-outside.sh"
         - "cuda_ver.awk"
+        - "examples_tf.R"
     - name: run test script
       become: yes
       command: /root/test-gpu-outside.sh
