@@ -6,31 +6,22 @@ on:
       - "master"
 
 jobs:
-  # yamllint:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out code
-  #       uses: actions/checkout@v2
-  #     - name: Run yaml Lint
-  #       uses: actionshub/yamllint@main
-
-  mdl:
+  linter:
+    name: Lint Code Base
     runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Run Markdown Lint
-        uses: actionshub/markdownlint@main
 
-  shellcheck:
-    runs-on: ubuntu-latest
     steps:
-      - name: Check out code
+      - name: Checkout Code
         uses: actions/checkout@v2
-      - name: Run ShellCheck
-        uses: ludeeus/action-shellcheck@master
         with:
-          ignore: scripts
+          fetch-depth: 0
+
+      - name: Lint Code Base
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   make_test:
     runs-on: ubuntu-latest
