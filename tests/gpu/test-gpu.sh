@@ -147,7 +147,7 @@ do
   then
     echo "Failed tensorflow test for version ${ver} with error $TF_OUTPUT" | tee -a "$LOG_LOC"
   else
-    GPU_STR="Created device /job:localhost/replica:0/task:0/device:GPU:0"
+    GPU_STR="device:GPU:0"
     if [[ "$TF_OUTPUT" == *"$GPU_STR"* ]]
     then
       echo "GPU tensorflow test succeeded for version ${ver}" | tee -a "$LOG_LOC"
@@ -155,7 +155,7 @@ do
       echo $TF_OUTPUT >> "$LOG_LOC"
     else
       echo "CPU tensorflow test succeeded for version ${ver}" | tee -a "$LOG_LOC"
-      echo "Failed GPU tensorflow test for version ${ver}. See log for details." | tee -a "$LOG_LOC"
+      echo "GPU tensorflow test failed for version ${ver}. See log for details." | tee -a "$LOG_LOC"
       echo $TF_OUTPUT >> "$LOG_LOC"
     fi
   fi
