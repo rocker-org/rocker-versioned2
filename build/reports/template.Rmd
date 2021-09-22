@@ -19,6 +19,15 @@ knitr::opts_chunk$set(echo = FALSE, message = FALSE)
 knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot::is_git_root))
 ```
 
+```{r load_packages, include=FALSE}
+library(jsonlite)
+library(readr)
+library(dplyr)
+library(tibble)
+library(tidyr)
+library(tidyselect)
+```
+
 ```{r}
 .link_to_commit <- function(commit_hash) {
   base_url <- "https://github.com/rocker-org/rocker-versioned2/tree/"
@@ -47,15 +56,16 @@ knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot:
 
 jsonlite::read_json(params$inspect_file) |>
   tibble::enframe() |>
-  dplyr::transmute(
-    ImageID = purrr::map_chr(value, "Id"),
-    RepoTags = purrr::map(value, "RepoTags"),
-    RepoDigests = purrr::map(value, "RepoDigests"),
-    ImageSource = purrr::map_chr(value, c("Config", "Labels", "org.opencontainers.image.source"), .default = NA_character_),
-    ImageRevision = purrr::map_chr(value, c("Config", "Labels", "org.opencontainers.image.revision"), .default = NA_character_),
-    CreatedTime = purrr::map_chr(value, "Created", .default = NA_character_),
-    Size = purrr::map_dbl(value, "Size", .default = NA_real_),
-    Env = purrr::map(value, c("Config", "Env"))
+  tidyr::hoist(
+    .col = value,
+    ImageID = "Id",
+    "RepoTags",
+    "RepoDigests",
+    ImageSource = list("Config", "Labels", "org.opencontainers.image.source"),
+    ImageRevision = list("Config", "Labels", "org.opencontainers.image.revision"),
+    CreatedTime = "Created",
+    "Size",
+    Env = list("Config", "Env")
   ) |>
   dplyr::mutate(
     ImageID = paste0("`", ImageID, "`"),
@@ -64,6 +74,7 @@ jsonlite::read_json(params$inspect_file) |>
     Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
     Env = paste(unlist(Env), collapse = ", ")
   ) |>
+  dplyr::select(tidyselect:::where(is.character)) |>
   tidyr::pivot_longer(cols = tidyselect::everything())
 ```
 
