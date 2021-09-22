@@ -69,7 +69,7 @@ inspect-image-all: $(foreach I, $(shell docker image ls -q -f "$(IMAGE_FILTER)")
 
 report/%:
 	mkdir -p $(REPORT_DIR)
-	-./build/knit-report.R -d ../../$* $(@F) $(REPORT_DIR)
+	-./build/knit-report.R -d $* $(@F) $(REPORT_DIR)
 report-all: $(foreach I, $(wildcard $(REPORT_SOURCE_ROOT)/*), report/$(I))
 
 

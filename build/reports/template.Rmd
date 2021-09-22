@@ -16,6 +16,7 @@ params:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot::is_git_root))
 ```
 
 ```{r}
