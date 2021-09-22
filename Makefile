@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: clean setup test print-% pull-image% bake-json% inspect-image% report% wiki%
+.PHONY: clean setup test print-% pull-image% bake-json% inspect-% report% wiki%
 
 all:
 
@@ -61,7 +61,9 @@ inspect-image/%:
 	-docker run --rm $* dpkg-query --show --showformat='$${Package}\t$${Version}\n' > $(REPORT_SOURCE_ROOT)/$*/apt_packages.tsv
 	-docker run --rm $* Rscript -e 'as.data.frame(installed.packages()[, 3])' > $(REPORT_SOURCE_ROOT)/$*/r_packages.ssv
 	-docker run --rm $* python3 -m pip list --disable-pip-version-check > $(REPORT_SOURCE_ROOT)/$*/pip_packages.ssv
-inspect-image-all: $(foreach I, $(shell docker image ls -q -f "$(IMAGE_FILTER)"), inspect-image/$(I))
+inspect-manifest/%: inspect-image/%
+	-$(foreach I, $(shell jq '.[].RepoDigests[]' -r $(REPORT_SOURCE_ROOT)/$*/docker_inspect.json), $(shell docker buildx imagetools inspect $(I) >> $(REPORT_SOURCE_ROOT)/$*/imagetools_inspect.txt))
+inspect-image-all: $(foreach I, $(shell docker image ls -q -f "$(IMAGE_FILTER)"), inspect-manifest/$(I))
 	mkdir -p $(IMAGELIST_DIR)
 	docker image ls -f "$(IMAGE_FILTER)" --format "{{.ID}}\t{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" > $(IMAGELIST_DIR)/$(IMAGELIST_NAME)
 
