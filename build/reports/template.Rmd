@@ -37,9 +37,15 @@ library(tidyselect)
 
   return(linked_text)
 }
+
+commit_link <- system("git rev-parse HEAD", intern = TRUE) |>
+  .link_to_commit()
+
+image_arch <- jsonlite::read_json(params$inspect_file) |>
+  purrr::map_chr("Architecture")
 ```
 
-*This report was generated from `r system("git rev-parse HEAD", intern = TRUE) |> .link_to_commit()`.*
+*This report was generated from `r commit_link`, and based on the `r image_arch` architecture image.*
 
 ## Image info
 
