@@ -28,7 +28,7 @@ library(tidyr)
 library(tidyselect)
 ```
 
-```{r}
+```{r prepare_texts}
 .link_to_commit <- function(commit_hash) {
   base_url <- "https://github.com/rocker-org/rocker-versioned2/tree/"
   commit_short_hash <- commit_hash |>
@@ -49,7 +49,7 @@ image_arch <- jsonlite::read_json(params$inspect_file) |>
 
 ## Image info
 
-```{r}
+```{r docker_inspect}
 .unlist_and_enclose <- function(x) {
   chr <- dplyr::if_else(
     !is.null(unlist(x)),
@@ -88,7 +88,7 @@ jsonlite::read_json(params$inspect_file) |>
 
 ### apt packages
 
-```{r}
+```{r apt_packages}
 readr::read_tsv(params$apt_file, col_names = FALSE) |>
   dplyr::transmute(
     package = X1,
@@ -98,7 +98,7 @@ readr::read_tsv(params$apt_file, col_names = FALSE) |>
 
 ### R packages
 
-```{r}
+```{r r_packages}
 readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
   dplyr::transmute(
     package = X1,
@@ -108,7 +108,7 @@ readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
 
 ### Python3 pip packages
 
-```{r}
+```{r pip_packages}
 try(
   readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
     dplyr::transmute(
