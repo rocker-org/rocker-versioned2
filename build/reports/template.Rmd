@@ -9,13 +9,14 @@ output:
 params:
   image_name: ""
   inspect_file: ""
+  imagetotls_inspect_file: ""
   apt_file: ""
   r_file: ""
   pip_file: ""
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot::is_git_root))
 ```
 
@@ -26,6 +27,7 @@ library(dplyr)
 library(tibble)
 library(tidyr)
 library(tidyselect)
+library(purrr)
 ```
 
 ```{r prepare_texts}
@@ -60,7 +62,7 @@ image_arch <- jsonlite::read_json(params$inspect_file) |>
   return(chr)
 }
 
-jsonlite::read_json(params$inspect_file) |>
+df_inspect <- jsonlite::read_json(params$inspect_file) |>
   tibble::enframe() |>
   tidyr::hoist(
     .col = value,
@@ -72,7 +74,9 @@ jsonlite::read_json(params$inspect_file) |>
     CreatedTime = "Created",
     "Size",
     Env = list("Config", "Env")
-  ) |>
+  )
+
+df_inspect |>
   dplyr::mutate(
     ImageID = paste0("`", ImageID, "`"),
     RepoTags = .unlist_and_enclose(RepoTags),
@@ -82,6 +86,32 @@ jsonlite::read_json(params$inspect_file) |>
   ) |>
   dplyr::select(tidyselect:::where(is.character)) |>
   tidyr::pivot_longer(cols = tidyselect::everything())
+```
+
+You can install this image with a command with a RepoDigests, like the following:
+
+```shell
+docker pull `r df_inspect$RepoDigests |> purrr::chuck(1, 1)`
+```
+
+```{r imagetools_inspect, results='asis'}
+df_digest <- tryCatch(
+  readr::read_table(params$imagetotls_inspect_file, col_names = c("name", "value")) |>
+    dplyr::filter(name %in% c("Name:", "Platform:")) |>
+    dplyr::filter(!(name == "Name:" & dplyr::lead(name) != "Platform:")) |>
+    dplyr::mutate(id = (row_number() + 1) %/% 2) |>
+    tidyr::pivot_wider(id_cols = id) |>
+    dplyr::transmute(platform = `Platform:`, RepoDigests = `Name:`),
+  error = function(e) NULL
+)
+
+if (!is.null(df_digest)) {
+  cat("### Other platforms \n\n This image was created by a multi-architecture build. The digests for each platform are as follows.")
+
+  df_digest |>
+    dplyr::mutate(RepoDigests = paste0("`", RepoDigests, "`")) |>
+    knitr::kable()
+}
 ```
 
 ## Installed packages
