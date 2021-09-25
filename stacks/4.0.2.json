@@ -38,7 +38,7 @@
       },
       "FROM": "rocker/r-ver:4.0.2",
       "ENV": {
-        "S6_VERSION": "v2.0.0.1",
+        "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.3.1093",
         "DEFAULT_USER": "rstudio",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
@@ -101,7 +101,7 @@
       },
       "FROM": "rocker/r-ver:4.0.2",
       "ENV": {
-        "S6_VERSION": "v2.0.0.1",
+        "S6_VERSION": "v2.1.0.2",
         "SHINY_SERVER_VERSION": "latest",
         "PANDOC_VERSION": "default"
       },
@@ -190,7 +190,7 @@
       },
       "FROM": "rocker/cuda:4.0.2",
       "ENV": {
-        "S6_VERSION": "v2.0.0.1",
+        "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.3.1093",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
