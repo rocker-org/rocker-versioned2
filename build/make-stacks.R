@@ -6,116 +6,85 @@
 library(rversions)
 library(jsonlite)
 library(pak)
-library(dplyr)
+library(dplyr, warn.conflicts = FALSE)
 library(readr)
+library(tibble)
 library(httr)
-library(purrr)
-library(glue)
+library(purrr, warn.conflicts = FALSE)
+library(glue, warn.conflicts = FALSE)
 library(tidyr)
-library(tidyselect)
 library(stringr)
 
 
-.r_versions_data <- function(min_version) {
-  data <- rversions::r_versions() %>%
-    dplyr::mutate(
-      release_date = as.Date(date),
-      freeze_date = dplyr::lead(release_date, 1) - 1
-    ) %>%
-    dplyr::filter(readr::parse_number(version) >= min_version) %>%
-    dplyr::select(version, release_date, freeze_date) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(ubuntu_codename = .latest_ubuntu_lts_series(release_date)) %>%
-    dplyr::ungroup()
-
-  return(data)
-}
-
-.latest_ubuntu_lts_series <- function(date) {
-  data <- utils::read.csv("/usr/share/distro-info/ubuntu.csv", stringsAsFactors = FALSE) %>%
-    dplyr::filter(
-      as.Date(release) < as.Date(date),
-      version %in% grep("LTS", version, value = TRUE)
-    ) %>%
-    utils::tail(1)
-
-  return(data$series)
-}
-
-.latest_rspm_cran_url_linux <- function(date, distro_version_name) {
+.latest_rspm_cran_url_linux <- function(date, distro_version_name, r_version) {
   n_retry_max <- 6
-  if (is.na(date)) {
-    url <- .make_rspm_cran_url_linux(date, distro_version_name)
-    if (.is_cran_url_available(url) != TRUE) url <- NA_character_
+
+  dates_try <- if (is.na(date)) {
+    NA_real_
   } else {
-    dates <- seq(as.Date(date), as.Date(date) - n_retry_max, by = -1)
-    for (i in seq_len(length(dates))) {
-      url <- .make_rspm_cran_url_linux(dates[i], distro_version_name)
-      if (.is_cran_url_available(url) == TRUE) break
-      url <- NA_character_
-    }
+    seq(as.Date(date), as.Date(date) - n_retry_max, by = -1)
   }
+
+  urls_try <- list(
+    date = dates_try,
+    distro_version_name = distro_version_name,
+    type = c("binary", "source")
+  ) |>
+    purrr::cross() |>
+    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux))
+
+  for (i in seq_len(length(urls_try))) {
+    url <- urls_try[i]
+    if (.is_cran_url_available(url, r_version) == TRUE) break
+    url <- "https://cloud.r-project.org"
+  }
+
   return(url)
 }
 
-.make_rspm_cran_url_linux <- function(date, distro_version_name) {
-  if (is.na(date)) {
-    url <- paste("https://packagemanager.rstudio.com/all/__linux__", distro_version_name, "latest", sep = "/")
-  } else {
-    url <- paste("https://packagemanager.rstudio.com/cran/__linux__", distro_version_name, date, sep = "/")
-  }
+.make_rspm_cran_url_linux <- function(date, distro_version_name, type = "source") {
+  base_url <- "https://packagemanager.rstudio.com"
+  url <- dplyr::case_when(
+    type == "source" & is.na(date) ~ glue::glue("{base_url}/all/latest"),
+    type == "binary" & is.na(date) ~ glue::glue("{base_url}/all/__linux__/{distro_version_name}/latest"),
+    type == "source" ~ glue::glue("{base_url}/cran/{date}"),
+    type == "binary" ~ glue::glue("{base_url}/cran/__linux__/{distro_version_name}/{date}")
+  )
+
   return(url)
 }
 
-.is_cran_url_available <- function(url) {
-  repo_data <- pak::repo_ping(cran_mirror = url, bioc = FALSE)
-  return(repo_data[repo_data$name == "CRAN", ]$ok)
+.is_cran_url_available <- function(url, r_version) {
+  glue::glue("\n\nfor R {r_version}, repo_ping to {url}\n\n") |>
+    cat()
+
+  is_available <- pak::repo_ping(cran_mirror = url, r_version = r_version, bioc = FALSE) |>
+    dplyr::filter(name == "CRAN") |>
+    dplyr::pull(ok)
+
+  return(is_available)
 }
 
 .get_github_commit_date <- function(url) {
-  httr::GET(url, httr::add_headers(accept = "application/vnd.github.v3+json")) %>%
-    httr::content() %>%
-    purrr::pluck("commit", "committer", "date") %>%
+  httr::GET(url, httr::add_headers(accept = "application/vnd.github.v3+json")) |>
+    httr::content() |>
+    purrr::pluck("commit", "committer", "date") |>
     as.Date()
 }
 
-rstudio_versions <- function(n_versions = 10) {
-  data <- httr::GET(
-    "https://api.github.com/repos/rstudio/rstudio/tags",
-    httr::add_headers(accept = "application/vnd.github.v3+json"),
-    query = list(per_page = n_versions)
-  ) %>%
-    httr::content() %>%
-    {
-      data.frame(
-        rstudio_version = purrr::map_chr(., "name") %>% substring(2),
-        commit_url = purrr::map_chr(., c("commit", "url"))
-      )
-    } %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(commit_date = .get_github_commit_date(commit_url)) %>%
-    dplyr::ungroup() %>%
-    dplyr::select(!commit_url) %>%
-    dplyr::arrange(commit_date)
-
-  return(data)
-}
-
-.is_rstudio_deb_url <- function(rstudio_version, ubuntu_codename) {
+.is_rstudio_deb_available <- function(rstudio_version, ubuntu_codename) {
   os_ver <- dplyr::case_when(
+    ubuntu_codename %in% c("xenial") ~ "xenial",
     ubuntu_codename %in% c("bionic", "focal") ~ "bionic",
-    ubuntu_codename %in% c("xenial") ~ "xenial"
+    TRUE ~ "bionic"
   )
 
   is_available <- glue::glue(
     "https://s3.amazonaws.com/rstudio-ide-build/server/{os_ver}/amd64/rstudio-server-{rstudio_version}-amd64.deb"
-  ) %>%
-    httr::HEAD() %>%
-    httr::http_status() %>%
-    purrr::pluck("category") %>%
-    {
-      ifelse(. == "Success", TRUE, FALSE)
-    }
+  ) |>
+    httr::HEAD() |>
+    httr::http_status() |>
+    (function(x) purrr::pluck(x, "category") == "Success")()
 
   return(is_available)
 }
@@ -152,10 +121,10 @@ rstudio_versions <- function(n_versions = 10) {
 
 
 write_stack <- function(r_version,
-                        ubuntu_version,
+                        ubuntu_series,
                         cran,
                         rstudio_version,
-                        ctan_repo,
+                        ctan_url,
                         r_minor_latest = FALSE,
                         r_major_latest = FALSE,
                         r_latest = FALSE) {
@@ -187,7 +156,7 @@ write_stack <- function(r_version,
   )))
 
   # rocker/r-ver
-  template$stack[[1]]$FROM <- paste0("ubuntu:", ubuntu_version)
+  template$stack[[1]]$FROM <- paste0("ubuntu:", ubuntu_series)
   template$stack[[1]]$tags <- .generate_tags(
     "docker.io/rocker/r-ver",
     r_version,
@@ -230,7 +199,7 @@ write_stack <- function(r_version,
     r_major_latest,
     r_latest
   )
-  template$stack[[4]]$ENV$CTAN_REPO <- ctan_repo
+  template$stack[[4]]$ENV$CTAN_REPO <- ctan_url
 
   # rocker/geospatial
   template$stack[[5]]$FROM <- paste0("rocker/verse:", r_version)
@@ -339,7 +308,7 @@ write_stack <- function(r_version,
       r_latest
     )
   )
-  template$stack[[11]]$ENV$CTAN_REPO <- ctan_repo
+  template$stack[[11]]$ENV$CTAN_REPO <- ctan_url
 
   # rocker/cuda:X.Y.Z-cuda11.1
   # Not update the base image automatically, because we don't know if an NVIDIA CUDA images based on the new version of Ubuntu will be released soon.
@@ -390,7 +359,7 @@ write_stack <- function(r_version,
       tag_suffix = "-cuda11.1"
     )
   )
-  template$stack[[14]]$ENV$CTAN_REPO <- ctan_repo
+  template$stack[[14]]$ENV$CTAN_REPO <- ctan_url
 
   jsonlite::write_json(template, output_path, pretty = TRUE, auto_unbox = TRUE)
 
@@ -398,35 +367,88 @@ write_stack <- function(r_version,
 }
 
 
+# R versions data from the main R SVN repository.
+df_r <- rversions::r_versions() |>
+  dplyr::transmute(
+    r_version = version,
+    r_release_date = as.Date(date),
+    r_freeze_date = dplyr::lead(r_release_date, 1) - 1
+  ) |>
+  dplyr::filter(readr::parse_number(r_version) >= 4.0) |>
+  dplyr::arrange(r_release_date)
 
-df_args <- .r_versions_data(min_version = 4.0) %>%
-  dplyr::rename(r_version = version) %>%
-  dplyr::rowwise() %>%
+# Ubuntu versions data from the Ubuntu local csv file.
+df_ubuntu_lts <- suppressWarnings(
+  readr::read_csv("/usr/share/distro-info/ubuntu.csv", show_col_types = FALSE) |>
+    dplyr::filter(stringr::str_detect(version, "LTS")) |>
+    dplyr::transmute(
+      ubuntu_version = stringr::str_extract(version, "^\\d+\\.\\d+"),
+      ubuntu_series = series,
+      ubuntu_release_date = release
+    ) |>
+    dplyr::arrange(ubuntu_release_date)
+)
+
+# RStudio versions data from the RStudio GitHub repository.
+df_rstudio <- httr::GET(
+  "https://api.github.com/repos/rstudio/rstudio/tags",
+  httr::add_headers(accept = "application/vnd.github.v3+json"),
+  query = list(per_page = 10)
+) |>
+  httr::content() |>
+  tibble::enframe(name = NULL) |>
+  tidyr::hoist(
+    .col = value,
+    tag = "name",
+    commit_url = list("commit", "url")
+  ) |>
+  dplyr::rowwise() |>
+  dplyr::mutate(commit_date = .get_github_commit_date(commit_url)) |>
+  dplyr::ungroup() |>
+  dplyr::transmute(
+    rstudio_version = stringr::str_extract(tag, "\\d+\\.\\d+\\.\\d+"),
+    rstudio_commit_date = commit_date
+  ) |>
+  dplyr::arrange(rstudio_commit_date)
+
+
+df_args <- df_r |>
+  tidyr::expand_grid(df_ubuntu_lts) |>
+  dplyr::filter(r_release_date >= ubuntu_release_date) |>
+  dplyr::group_by(r_version) |>
+  dplyr::slice_max(ubuntu_release_date) |>
+  dplyr::ungroup() |>
+  (function(x) {
+    cat("\nPing to the RSPM CRAN mirrors...\n")
+    return(x)
+  })() |>
+  dplyr::rowwise() |>
   dplyr::mutate(
-    cran = .latest_rspm_cran_url_linux(freeze_date, ubuntu_codename),
-  ) %>%
-  dplyr::ungroup() %>%
-  tidyr::expand_grid(rstudio_versions(n_versions = 10)) %>%
-  dplyr::filter(freeze_date > commit_date | is.na(freeze_date)) %>%
-  dplyr::rowwise() %>%
-  dplyr::filter(.is_rstudio_deb_url(rstudio_version, ubuntu_codename)) %>%
-  dplyr::ungroup() %>%
-  dplyr::group_by(r_version) %>%
-  dplyr::slice_tail(n = 1) %>%
-  dplyr::group_by(r_minor_version = stringr::str_extract(r_version, "^\\d+\\.\\d+")) %>%
-  dplyr::mutate(r_minor_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)) %>%
-  dplyr::ungroup() %>%
-  dplyr::group_by(r_major_version = stringr::str_extract(r_version, "^\\d+")) %>%
-  dplyr::mutate(r_major_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)) %>%
-  dplyr::ungroup() %>%
+    cran = .latest_rspm_cran_url_linux(r_freeze_date, ubuntu_series, r_version)
+  ) |>
+  dplyr::ungroup() |>
+  tidyr::expand_grid(df_rstudio) |>
+  dplyr::filter(r_freeze_date > rstudio_commit_date | is.na(r_freeze_date)) |>
+  dplyr::rowwise() |>
+  dplyr::filter(.is_rstudio_deb_available(rstudio_version, ubuntu_series)) |>
+  dplyr::ungroup() |>
+  dplyr::group_by(r_version, ubuntu_series) |>
+  dplyr::slice_max(rstudio_commit_date) |>
+  dplyr::ungroup() |>
+  dplyr::group_by(r_minor_version = stringr::str_extract(r_version, "^\\d+\\.\\d+")) |>
+  dplyr::mutate(r_minor_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)) |>
+  dplyr::ungroup() |>
+  dplyr::group_by(r_major_version = stringr::str_extract(r_version, "^\\d+")) |>
+  dplyr::mutate(r_major_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)) |>
+  dplyr::ungroup() |>
   dplyr::mutate(
-    ctan_url = .latest_ctan_url(freeze_date),
+    ctan_url = .latest_ctan_url(r_freeze_date),
     r_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)
   )
 
 
-r_latest_version <- dplyr::last(df_args$r_version)
-rstudio_latest_version <- dplyr::last(df_args$rstudio_version)
+r_latest_version <- dplyr::last(df_r$r_version)
+rstudio_latest_version <- dplyr::last(df_rstudio$rstudio_version)
 
 message(paste0("\nThe latest R version is ", r_latest_version))
 message(paste0("The latest RStudio version is ", rstudio_latest_version))
@@ -492,20 +514,18 @@ message("stacks/extra.json")
 
 
 # Write latest two stack files.
-devnull <- df_args %>%
-  utils::tail(2) %>%
+df_args |>
+  dplyr::slice_max(r_release_date, n = 2) |>
   dplyr::select(
     r_version,
-    ubuntu_codename,
+    ubuntu_series,
     cran,
     rstudio_version,
     ctan_url,
     r_minor_latest,
     r_major_latest,
     r_latest
-  ) %>%
-  apply(1, function(df) {
-    write_stack(df[1], df[2], df[3], df[4], df[5], df[6], df[7], df[8])
-  })
+  ) |>
+  purrr::pwalk(write_stack)
 
 message("make-stacks.R done!\n")
