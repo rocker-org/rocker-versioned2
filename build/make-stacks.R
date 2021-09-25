@@ -19,26 +19,39 @@ library(stringr)
 
 .latest_rspm_cran_url_linux <- function(date, distro_version_name, r_version) {
   n_retry_max <- 6
-  if (is.na(date)) {
-    url <- .make_rspm_cran_url_linux(date, distro_version_name)
-    if (.is_cran_url_available(url, r_version) != TRUE) url <- NA_character_
+
+  dates_try <- if (is.na(date)) {
+    NA_real_
   } else {
-    dates <- seq(as.Date(date), as.Date(date) - n_retry_max, by = -1)
-    for (i in seq_len(length(dates))) {
-      url <- .make_rspm_cran_url_linux(dates[i], distro_version_name)
-      if (.is_cran_url_available(url, r_version) == TRUE) break
-      url <- NA_character_
-    }
+    seq(as.Date(date), as.Date(date) - n_retry_max, by = -1)
   }
+
+  urls_try <- list(
+    date = dates_try,
+    distro_version_name = distro_version_name,
+    type = c("binary", "source")
+  ) |>
+    purrr::cross() |>
+    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux))
+
+  for (i in seq_len(length(urls_try))) {
+    url <- urls_try[i]
+    if (.is_cran_url_available(url, r_version) == TRUE) break
+    url <- "https://cloud.r-project.org"
+  }
+
   return(url)
 }
 
-.make_rspm_cran_url_linux <- function(date, distro_version_name) {
-  if (is.na(date)) {
-    url <- paste("https://packagemanager.rstudio.com/all/__linux__", distro_version_name, "latest", sep = "/")
-  } else {
-    url <- paste("https://packagemanager.rstudio.com/cran/__linux__", distro_version_name, date, sep = "/")
-  }
+.make_rspm_cran_url_linux <- function(date, distro_version_name, type = "source") {
+  base_url <- "https://packagemanager.rstudio.com"
+  url <- dplyr::case_when(
+    type == "source" & is.na(date) ~ glue::glue("{base_url}/all/latest"),
+    type == "binary" & is.na(date) ~ glue::glue("{base_url}/all/__linux__/{distro_version_name}/latest"),
+    type == "source" ~ glue::glue("{base_url}/cran/{date}"),
+    type == "binary" ~ glue::glue("{base_url}/cran/__linux__/{distro_version_name}/{date}")
+  )
+
   return(url)
 }
 
