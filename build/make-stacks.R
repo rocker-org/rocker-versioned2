@@ -13,7 +13,6 @@ library(httr)
 library(purrr, warn.conflicts = FALSE)
 library(glue, warn.conflicts = FALSE)
 library(tidyr)
-library(tidyselect)
 library(stringr)
 
 
@@ -73,7 +72,7 @@ library(stringr)
     as.Date()
 }
 
-.is_rstudio_deb_url <- function(rstudio_version, ubuntu_codename) {
+.is_rstudio_deb_available <- function(rstudio_version, ubuntu_codename) {
   os_ver <- dplyr::case_when(
     ubuntu_codename %in% c("xenial") ~ "xenial",
     ubuntu_codename %in% c("bionic", "focal") ~ "bionic",
@@ -431,7 +430,7 @@ df_args <- df_r |>
   tidyr::expand_grid(df_rstudio) |>
   dplyr::filter(r_freeze_date > rstudio_commit_date | is.na(r_freeze_date)) |>
   dplyr::rowwise() |>
-  dplyr::filter(.is_rstudio_deb_url(rstudio_version, ubuntu_series)) |>
+  dplyr::filter(.is_rstudio_deb_available(rstudio_version, ubuntu_series)) |>
   dplyr::ungroup() |>
   dplyr::group_by(r_version, ubuntu_series) |>
   dplyr::slice_max(rstudio_commit_date) |>
