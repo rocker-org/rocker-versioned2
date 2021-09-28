@@ -42,21 +42,26 @@ if [ -z "$1" ];
   else RSTUDIO_VERSION_ARG=$1;
 fi
 
+RSTUDIO_BASE_URL=https://download2.rstudio.org/server
+
 if [ -z "$RSTUDIO_VERSION_ARG" ] || [ "$RSTUDIO_VERSION_ARG" = "latest" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+" -m 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+%2B[0-9]+" -m 1)
 elif [ "$RSTUDIO_VERSION_ARG" = "preview" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-preview%2B[0-9]+" -m 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-preview%2B[0-9]+" -m 1 ||
+      wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+%2B[0-9]+" -m 1)
+    RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
 elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
     DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-daily%2B[0-9]+" -m 1)
+    RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
 else
-    DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG}
+    DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG/"+"/"%2B"}
 fi
 
 ## UBUNTU_VERSION is not generally valid: only works for xenial and bionic, not other releases,
 ## and does not understand numeric versions. (2020-04-15)
-#RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_VERSION}/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
+#RSTUDIO_URL="${RSTUDIO_BASE_URL}/${UBUNTU_VERSION}/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
 ## hardwire bionic for now...
-RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
+RSTUDIO_URL="${RSTUDIO_BASE_URL}/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
 
 if [ "$UBUNTU_VERSION" = "xenial" ]; then
   wget "${RSTUDIO_URL}" || \
