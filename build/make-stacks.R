@@ -14,6 +14,7 @@ library(purrr, warn.conflicts = FALSE)
 library(glue, warn.conflicts = FALSE)
 library(tidyr)
 library(stringr)
+library(gert)
 
 
 .latest_rspm_cran_url_linux <- function(date, distro_version_name, r_version) {
@@ -82,8 +83,9 @@ library(stringr)
   )
 
   is_available <- glue::glue(
-    "https://s3.amazonaws.com/rstudio-ide-build/server/{os_ver}/amd64/rstudio-server-{rstudio_version}-amd64.deb"
+    "https://download2.rstudio.org/server/{os_ver}/amd64/rstudio-server-{rstudio_version}-amd64.deb"
   ) |>
+    stringr::str_replace_all("\\+", "%2B") |>
     httr::HEAD() |>
     httr::http_status() |>
     (function(x) purrr::pluck(x, "category") == "Success")()
@@ -399,23 +401,18 @@ df_ubuntu_lts <- suppressWarnings(
 )
 
 # RStudio versions data from the RStudio GitHub repository.
-df_rstudio <- httr::GET(
-  "https://api.github.com/repos/rstudio/rstudio/tags",
-  httr::add_headers(accept = "application/vnd.github.v3+json"),
-  query = list(per_page = 10)
-) |>
-  httr::content() |>
-  tibble::enframe(name = NULL) |>
-  tidyr::hoist(
-    .col = value,
-    tag = "name",
-    commit_url = list("commit", "url")
+df_rstudio <- gert::git_remote_ls(remote = "https://github.com/rstudio/rstudio.git") |>
+  dplyr::filter(stringr::str_detect(ref, "^refs/tags/")) |>
+  dplyr::transmute(
+    tag = stringr::str_remove(ref, "^refs/tags/"),
+    commit_url = glue::glue("https://api.github.com/repos/rstudio/rstudio/commits/{oid}")
   ) |>
+  dplyr::slice_max(readr::parse_number(tag), n = 5, with_ties = TRUE) |>
   dplyr::rowwise() |>
   dplyr::mutate(commit_date = .get_github_commit_date(commit_url)) |>
   dplyr::ungroup() |>
   dplyr::transmute(
-    rstudio_version = stringr::str_extract(tag, "\\d+\\.\\d+\\.\\d+"),
+    rstudio_version = stringr::str_remove(tag, "^v"),
     rstudio_commit_date = commit_date
   ) |>
   dplyr::arrange(rstudio_commit_date)
