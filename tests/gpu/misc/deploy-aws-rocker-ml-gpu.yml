@@ -49,7 +49,7 @@
         - "Dockerfile.cuda10"
         - "Dockerfile.cuda11"
         - "docker-compose.yml"
-        - "nvblas-cuda.conf"
+        - "nvblas.conf"
         - "test-gpu.sh"
         - "nvblas.R"
         - "examples_tf.R"
