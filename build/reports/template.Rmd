@@ -116,35 +116,48 @@ if (!is.null(df_digest)) {
 
 ## Installed packages
 
-### apt packages
-
-```{r apt_packages}
-readr::read_tsv(params$apt_file, col_names = FALSE) |>
+```{r package_data}
+df_apt <- readr::read_tsv(params$apt_file, col_names = FALSE) |>
   dplyr::transmute(
     package = X1,
     version = X2
   )
-```
 
-### R packages
-
-```{r r_packages}
-readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
+df_r <- readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
   dplyr::transmute(
     package = X1,
     version = X2
   )
-```
 
-### Python3 pip packages
-
-```{r pip_packages}
-try(
+df_pip <- tryCatch(
   readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
     dplyr::transmute(
       package = X1,
       version = X2
     ),
-  silent = TRUE
+  error = function(e) NULL
 )
+```
+
+### apt packages
+
+```{r apt_packages}
+df_apt |>
+  knitr::kable()
+```
+
+### R packages
+
+```{r r_packages}
+df_r |>
+  knitr::kable()
+```
+
+```{r pip_packages, results='asis'}
+if (!is.null(df_pip)) {
+  cat("### Python3 pip packages")
+
+  df_pip |>
+    knitr::kable()
+}
 ```
