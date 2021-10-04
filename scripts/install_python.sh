@@ -2,7 +2,7 @@
 set -e
 
 ## build ARGs
-NCPUS=${NCPUS:-1}
+NCPUS=${NCPUS:--1}
 
 WORKON_HOME=${WORKON_HOME:-/opt/venv}
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-${WORKON_HOME}/reticulate}

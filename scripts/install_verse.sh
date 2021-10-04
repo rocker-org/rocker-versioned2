@@ -2,7 +2,7 @@
 set -e
 
 ## build ARGs
-NCPUS=${NCPUS:-1}
+NCPUS=${NCPUS:--1}
 
 # always set this for scripts but don't declare as ENV..
 export DEBIAN_FRONTEND=noninteractive

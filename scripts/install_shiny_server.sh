@@ -4,7 +4,7 @@ set -e
 SHINY_SERVER_VERSION=${1:-${SHINY_SERVER_VERSION:-latest}}
 
 ## build ARGs
-NCPUS=${NCPUS:-1}
+NCPUS=${NCPUS:--1}
 
 # Run dependency scripts
 . /rocker_scripts/install_s6init.sh

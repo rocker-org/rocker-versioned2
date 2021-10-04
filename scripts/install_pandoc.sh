@@ -7,7 +7,10 @@ set -e
 PANDOC_VERSION=${1:-${PANDOC_VERSION:-default}}
 ARCH=$(dpkg --print-architecture)
 
-apt-get update && apt-get -y install wget
+if [ ! -x "$(command -v wget)" ]; then
+  apt-get update
+  apt-get -y install wget
+fi
 
 if [ -x "$(command -v pandoc)" ]; then
   INSTALLED_PANDOC=$(pandoc --version 2>/dev/null | head -n 1 | grep -oP '[\d\.]+$')

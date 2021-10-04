@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## build ARGs
-NCPUS=${NCPUS:-1}
+NCPUS=${NCPUS:--1}
 
 set -e
 apt-get update -qq && apt-get -y --no-install-recommends install \

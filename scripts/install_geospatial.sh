@@ -5,7 +5,7 @@ set -e
 export DEBIAN_FRONTEND=noninteractive
 
 ## build ARGs
-NCPUS=${NCPUS:-1}
+NCPUS=${NCPUS:--1}
 
 apt-get update -qq \
   && apt-get install -y --no-install-recommends \
