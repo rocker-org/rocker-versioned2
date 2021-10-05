@@ -101,9 +101,13 @@
       "FROM": "rocker/tidyverse:4.1.1",
       "ENV": {
         "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux"
+        "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux",
+        "QUARTO_VERSION": "latest"
       },
-      "RUN": "/rocker_scripts/install_verse.sh",
+      "RUN": [
+        "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_quarto.sh"
+      ],
       "tags": [
         "docker.io/rocker/verse:4.1.1",
         "docker.io/rocker/verse:4.1",
@@ -278,10 +282,12 @@
       },
       "FROM": "rocker/ml:4.1.1",
       "ENV": {
-        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
+        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
+        "QUARTO_VERSION": "latest"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_quarto.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
     },
@@ -365,13 +371,15 @@
         "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages."
       },
       "FROM": "rocker/ml:4.1.1-cuda11.1",
+      "ENV": {
+        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
+        "QUARTO_VERSION": "latest"
+      },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_quarto.sh",
         "/rocker_scripts/install_geospatial.sh"
-      ],
-      "ENV": {
-        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
-      }
+      ]
     }
   ]
 }
