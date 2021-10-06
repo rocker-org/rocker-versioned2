@@ -51,6 +51,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.1.1"
+      ],
+      "cache-to": [
+        "inline"
       ]
     },
     "rstudio": {
@@ -72,6 +75,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -95,6 +101,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "verse": {
@@ -116,6 +125,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -139,6 +151,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "shiny": {
@@ -160,6 +175,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -183,6 +201,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "binder": {
@@ -204,6 +225,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -232,6 +256,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "ml": {
@@ -257,6 +284,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -284,6 +314,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "cuda11": {
@@ -307,6 +340,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.1.1-cuda11.1"
+      ],
+      "cache-to": [
+        "inline"
       ]
     },
     "ml-cuda11": {
@@ -329,6 +365,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "ml-verse-cuda11": {
@@ -350,6 +389,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     }

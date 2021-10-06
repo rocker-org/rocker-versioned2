@@ -179,6 +179,7 @@ write_stack <- function(r_version,
   template$stack[[1]]$ENV$CRAN <- cran
   template$stack[[1]]$platforms <- list("linux/amd64", "linux/arm64")
   template$stack[[1]]$`cache-from` <- list(stringr::str_c("docker.io/rocker/r-ver:", r_version))
+  template$stack[[1]]$`cache-to` <- list("inline")
 
   # rocker/rstudio
   template$stack[[2]]$FROM <- stringr::str_c("rocker/r-ver:", r_version)
@@ -339,6 +340,7 @@ write_stack <- function(r_version,
   template$stack[[12]]$ENV$R_VERSION <- r_version
   template$stack[[12]]$ENV$CRAN <- cran
   template$stack[[12]]$`cache-from` <- list(stringr::str_c("docker.io/rocker/cuda:", r_version, "-cuda11.1"))
+  template$stack[[12]]$`cache-to` <- list("inline")
 
   # rocker/ml:X.Y.Z-cuda11.1
   template$stack[[13]]$FROM <- stringr::str_c("rocker/cuda:", r_version, "-cuda11.1")

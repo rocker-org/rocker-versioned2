@@ -29,6 +29,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.0.5"
+      ],
+      "cache-to": [
+        "inline"
       ]
     },
     {

@@ -42,6 +42,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.0.0"
+      ],
+      "cache-to": [
+        "inline"
       ]
     },
     {
@@ -265,6 +268,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.0.0-ubuntu18.04"
+      ],
+      "cache-to": [
+        "inline"
       ]
     },
     {
