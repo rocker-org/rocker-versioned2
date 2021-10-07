@@ -18,7 +18,6 @@ RUN make
 COPY nvblas.conf /etc/nvblas.conf
 COPY nvblas.R /
 COPY test-gpu.sh /
-RUN chmod +x /test-gpu.sh
 COPY examples_tf.R /
 
 ENTRYPOINT ["tail"]

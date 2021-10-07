@@ -17,7 +17,7 @@
       reboot:
     - name: run docker image
       become: yes
-      docker_service:
+      docker_compose:
         timeout: 600
         project_src: /root
         build:  yes
@@ -54,7 +54,7 @@
       reboot:
     - name: run docker image
       become: yes
-      docker_service:
+      docker_compose:
         timeout: 600
         project_src: /root
         build:  yes

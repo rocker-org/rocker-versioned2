@@ -25,6 +25,7 @@ chmod a+rw /var/log/nvblas.log
 
 ## Configure R & RStudio to use drop-in CUDA blas
 ## Allow R to use CUDA for BLAS, with fallback on openblas
+## NOTE: NVBLAS_CPU_BLAS_LIB must be correct for UBUNTU_VERSION selected in scripts/install_R.sh#L25
 echo 'NVBLAS_LOGFILE /var/log/nvblas.log
 NVBLAS_CPU_BLAS_LIB /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
 NVBLAS_GPU_LIST ALL' > /etc/nvblas.conf

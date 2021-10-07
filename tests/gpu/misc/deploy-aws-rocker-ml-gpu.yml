@@ -53,6 +53,8 @@
         - "test-gpu.sh"
         - "nvblas.R"
         - "examples_tf.R"
+    - name: mark test-gpu.sh as executable
+      file: dest=/root/test-gpu.sh mode=a+x
     - name: build docker image cuda10
       become: yes
       docker_image:

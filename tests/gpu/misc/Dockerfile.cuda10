@@ -21,7 +21,6 @@ RUN make
 
 COPY nvblas.conf /etc/nvblas.conf
 COPY test-gpu.sh /
-RUN chmod +x /test-gpu.sh
 COPY nvblas.R /
 COPY examples_tf.R /
 
