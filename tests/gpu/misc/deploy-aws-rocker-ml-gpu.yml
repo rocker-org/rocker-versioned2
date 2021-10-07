@@ -58,7 +58,7 @@
     - name: build docker image cuda10
       become: yes
       docker_image:
-        timeout: 600
+        timeout: 900
         name: test-1
         build:
           dockerfile: Dockerfile.cuda10
@@ -69,7 +69,7 @@
     - name: build docker image cuda11
       become: yes
       docker_image:
-        timeout: 600
+        timeout: 900
         name: test-1
         build:
           dockerfile: Dockerfile.cuda11
@@ -81,7 +81,7 @@
     - name: run docker image
       become: yes
       docker_compose:
-        timeout: 600
+        timeout: 900
         project_src: /root
         build:  yes
 

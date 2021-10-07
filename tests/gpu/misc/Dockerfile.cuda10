@@ -1,4 +1,4 @@
-FROM rocker/ml:4.0.5-cuda10.1
+FROM rocker/ml:cuda10.1
 
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
 
