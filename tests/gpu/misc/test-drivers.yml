@@ -1,0 +1,63 @@
+---
+- hosts: rocker-server-aws
+  tasks:
+    - name: remove existing nvidia driver
+      apt:
+        name: "nvidia-driver-*"
+        state: absent
+        autoremove: yes
+        purge: yes
+    - name: install driver 460
+      apt:
+        name:
+          - nvidia-driver-460
+        state: present
+        update_cache: yes
+    - name: restart instance
+      reboot:
+    - name: run docker image
+      become: yes
+      docker_compose:
+        timeout: 600
+        project_src: /root
+        build:  yes
+    - name: copy test scripts
+      become: yes
+      copy:
+        src: "./{{ item }}"
+        dest: /root
+        owner: root
+        group: root
+        mode: 0755
+      become: yes
+      loop:
+        - "test-gpu-outside.sh"
+        - "cuda_ver.awk"
+        - "examples_tf.R"
+    - name: run test script
+      become: yes
+      command: /root/test-gpu-outside.sh
+
+    - name: remove existing nvidia driver
+      apt:
+        name: "nvidia-driver-*"
+        state: absent
+        autoremove: yes
+        purge: yes
+    - name: install driver 470
+      apt:
+        name:
+          - nvidia-driver-470
+        state: present
+        update_cache: yes
+    - name: restart instance
+      reboot:
+    - name: run docker image
+      become: yes
+      docker_compose:
+        timeout: 600
+        project_src: /root
+        build:  yes
+    - name: run test script
+      become: yes
+      command: /root/test-gpu-outside.sh
