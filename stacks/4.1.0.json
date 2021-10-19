@@ -46,6 +46,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.1.0"
+      ],
+      "cache-to": [
+        "inline"
       ]
     },
     {
@@ -284,6 +287,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.1.0-cuda11.1"
+      ],
+      "cache-to": [
+        "inline"
       ]
     },
     {

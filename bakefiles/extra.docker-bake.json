@@ -36,6 +36,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "geospatial-dev-osgeo": {
@@ -54,6 +57,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     }
