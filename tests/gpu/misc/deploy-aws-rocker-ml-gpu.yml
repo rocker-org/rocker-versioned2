@@ -1,0 +1,88 @@
+---
+- hosts: rocker-server-aws
+  vars:
+    os_release: ubuntu
+    os_id: 20.04
+  tasks:
+    - name: add docker gpg apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+    - name: add docker repo
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+    - name: update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=present
+    - name: add nvidia-docker apt key
+      apt_key:
+        url: https://nvidia.github.io/nvidia-docker/gpgkey
+        state: present
+    - name: copy nvidia-docker.list
+      get_url:
+        url: https://nvidia.github.io/nvidia-docker/{{ os_release }}{{ os_id }}/nvidia-docker.list
+        dest: /etc/apt/sources.list.d/nvidia-docker.list
+    - name: install system packages
+      apt:
+        name:
+          - python3-pip
+          - python3-setuptools
+          - nvidia-docker2
+          - nvidia-driver-470
+        state: present
+        update_cache: yes
+    - name: install Docker module for Python
+      pip:
+        name:
+          - docker
+          - docker-compose
+    - name: restart docker daemon
+      command: systemctl restart docker
+    - name: reboot instance so graphics driver is active
+      reboot:
+    - name: copy files to instance
+      copy:
+        src: "./{{ item }}"
+        dest: /root
+      become: yes
+      loop:
+        - "Dockerfile.cuda10"
+        - "Dockerfile.cuda11"
+        - "docker-compose.yml"
+        - "test-gpu.sh"
+        - "nvblas.R"
+        - "examples_tf.R"
+    - name: mark test-gpu.sh as executable
+      file: dest=/root/test-gpu.sh mode=a+x
+    - name: build docker image cuda10
+      become: yes
+      docker_image:
+        timeout: 900
+        name: test-1
+        build:
+          dockerfile: Dockerfile.cuda10
+          path: /root
+          nocache: yes
+        source: build
+        state: present
+    - name: build docker image cuda11
+      become: yes
+      docker_image:
+        timeout: 900
+        name: test-1
+        build:
+          dockerfile: Dockerfile.cuda11
+          path: /root
+          nocache: yes
+        source: build
+        state: present
+        state: present
+    - name: run docker image
+      become: yes
+      docker_compose:
+        timeout: 900
+        project_src: /root
+        build:  yes
+
+##### manual steps required:
+# 1) run test script

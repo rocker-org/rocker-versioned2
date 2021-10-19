@@ -1,0 +1,2 @@
+[rocker-server-aws]
+54.81.189.38 ansible_ssh_private_key_file=~/Projects/Rocker/Rocker-aws-1/rocker-gpu.pem ansible_ssh_user=ubuntu

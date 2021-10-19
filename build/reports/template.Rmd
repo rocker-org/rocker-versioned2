@@ -1,0 +1,163 @@
+---
+title: "`r params$image_name`"
+date: "`r format(Sys.time(), '%Y-%m-%d %H:%M:%S %Z')`"
+output:
+  github_document:
+    toc: true
+    df_print: kable
+    html_preview: false
+params:
+  image_name: ""
+  inspect_file: ""
+  imagetotls_inspect_file: ""
+  apt_file: ""
+  r_file: ""
+  pip_file: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot::is_git_root))
+```
+
+```{r load_packages, include=FALSE}
+library(jsonlite)
+library(readr)
+library(dplyr)
+library(tibble)
+library(tidyr)
+library(tidyselect)
+library(purrr)
+```
+
+```{r prepare_texts}
+.link_to_commit <- function(commit_hash) {
+  base_url <- "https://github.com/rocker-org/rocker-versioned2/tree/"
+  commit_short_hash <- commit_hash |>
+    substr(1, 7)
+  linked_text <- paste0("[`", commit_short_hash, "`](", base_url, commit_hash, ")")
+
+  return(linked_text)
+}
+
+commit_link <- system("git rev-parse HEAD", intern = TRUE) |>
+  .link_to_commit()
+
+image_arch <- jsonlite::read_json(params$inspect_file) |>
+  purrr::map_chr("Architecture")
+```
+
+*This report was generated from `r commit_link`, and based on the `r image_arch` architecture image.*
+
+## Image info
+
+```{r docker_inspect}
+.unlist_and_enclose <- function(x) {
+  chr <- dplyr::if_else(
+    !is.null(unlist(x)),
+    paste0("`", paste(unlist(x), collapse = "`, `"), "`"),
+    ""
+  )
+
+  return(chr)
+}
+
+df_inspect <- jsonlite::read_json(params$inspect_file) |>
+  tibble::enframe() |>
+  tidyr::hoist(
+    .col = value,
+    ImageID = "Id",
+    "RepoTags",
+    "RepoDigests",
+    ImageSource = list("Config", "Labels", "org.opencontainers.image.source"),
+    ImageRevision = list("Config", "Labels", "org.opencontainers.image.revision"),
+    CreatedTime = "Created",
+    "Size",
+    Env = list("Config", "Env")
+  )
+
+df_inspect |>
+  dplyr::mutate(
+    ImageID = paste0("`", ImageID, "`"),
+    RepoTags = .unlist_and_enclose(RepoTags),
+    RepoDigests = .unlist_and_enclose(RepoDigests),
+    Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
+    Env = paste(unlist(Env), collapse = ", ")
+  ) |>
+  dplyr::select(tidyselect:::where(is.character)) |>
+  tidyr::pivot_longer(cols = tidyselect::everything())
+```
+
+You can install this image with a command with a RepoDigests, like the following:
+
+```shell
+docker pull `r df_inspect$RepoDigests |> purrr::chuck(1, 1)`
+```
+
+```{r imagetools_inspect, results='asis'}
+df_digest <- tryCatch(
+  readr::read_table(params$imagetotls_inspect_file, col_names = c("name", "value")) |>
+    dplyr::filter(name %in% c("Name:", "Platform:")) |>
+    dplyr::filter(!(name == "Name:" & dplyr::lead(name) != "Platform:")) |>
+    dplyr::mutate(id = (row_number() + 1) %/% 2) |>
+    tidyr::pivot_wider(id_cols = id) |>
+    dplyr::transmute(platform = `Platform:`, RepoDigests = `Name:`),
+  error = function(e) NULL
+)
+
+if (!is.null(df_digest)) {
+  cat("### Platforms \n\n This image was created by a multi-architecture build. The digests for each platform are as follows.")
+
+  df_digest |>
+    dplyr::mutate(RepoDigests = paste0("`", RepoDigests, "`")) |>
+    knitr::kable()
+}
+```
+
+## Installed packages
+
+```{r package_data}
+df_apt <- readr::read_tsv(params$apt_file, col_names = FALSE) |>
+  dplyr::transmute(
+    package = X1,
+    version = X2
+  )
+
+df_r <- readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
+  dplyr::transmute(
+    package = X1,
+    version = X2
+  )
+
+df_pip <- tryCatch(
+  readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
+    dplyr::transmute(
+      package = X1,
+      version = X2
+    ),
+  error = function(e) NULL
+)
+```
+
+### apt packages
+
+```{r apt_packages}
+df_apt |>
+  knitr::kable()
+```
+
+### R packages
+
+```{r r_packages}
+df_r |>
+  knitr::kable()
+```
+
+```{r pip_packages, results='asis'}
+if (!is.null(df_pip)) {
+  cat("### Python3 pip packages")
+
+  df_pip |>
+    knitr::kable()
+}
+```

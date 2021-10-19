@@ -1,15 +1,15 @@
 #!/usr/bin/with-contenv bash
 
 ## Set defaults for environmental variables in case they are undefined
-USER=${USER:=rstudio}
+DEFAULT_USER=${DEFAULT_USER:-rstudio}
+USER=${USER:=${DEFAULT_USER}}
 PASSWORD=${PASSWORD:=rstudio}
 USERID=${USERID:=1000}
 GROUPID=${GROUPID:=1000}
 ROOT=${ROOT:=FALSE}
 UMASK=${UMASK:=022}
-
-## Make sure RStudio inherits the full path
-echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron
+LANG=${LANG:=en_US.UTF-8}
+TZ=${TZ:=Etc/UTC}
 
 bold=$(tput bold)
 normal=$(tput sgr0)
@@ -52,20 +52,20 @@ fi
 if [ "$USERID" -ne 1000 ]
 ## Configure user with a different USERID if requested.
   then
-    echo "deleting user rstudio"
-    userdel rstudio
+    echo "deleting the default user"
+    userdel $DEFAULT_USER
     echo "creating new $USER with UID $USERID"
     useradd -m $USER -u $USERID
     mkdir -p /home/$USER
     chown -R $USER /home/$USER
     usermod -a -G staff $USER
-elif [ "$USER" != "rstudio" ]
+elif [ "$USER" != "$DEFAULT_USER" ]
   then
     ## cannot move home folder when it's a shared volume, have to copy and change permissions instead
-    cp -r /home/rstudio /home/$USER
+    cp -r /home/$DEFAULT_USER /home/$USER
     ## RENAME the user
-    usermod -l $USER -d /home/$USER rstudio
-    groupmod -n $USER rstudio
+    usermod -l $USER -d /home/$USER $DEFAULT_USER
+    groupmod -n $USER $DEFAULT_USER
     usermod -a -G staff $USER
     chown -R $USER:$USER /home/$USER
     echo "USER is now $USER"
@@ -96,6 +96,29 @@ if [ "$UMASK" -ne 022 ]
     echo "Sys.umask(mode=$UMASK)" >> /home/$USER/.Rprofile
 fi
 
-## add these to the global environment so they are avialable to the RStudio user
-echo "HTTR_LOCALHOST=$HTTR_LOCALHOST" >> /etc/R/Renviron.site
-echo "HTTR_PORT=$HTTR_PORT" >> /etc/R/Renviron.site
+## Next one for timezone setup
+if [ "$TZ" !=  "Etc/UTC" ]
+  then
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+fi
+
+## Set our dynamic variables in Renviron.site to be reflected by RStudio
+exclude_vars="HOME PASSWORD RSTUDIO_VERSION"
+for file in /var/run/s6/container_environment/*
+do
+  sed -i "/^${file##*/}=/d" ${R_HOME}/etc/Renviron.site
+  regex="(^| )${file##*/}($| )"
+  [[ ! $exclude_vars =~ $regex ]] && echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site || echo "skipping $file"
+done
+
+## Update Locale if needed
+if [ "$LANG" !=  "en_US.UTF-8" ]
+  then
+    /usr/sbin/locale-gen --lang $LANG
+    /usr/sbin/update-locale --reset LANG=$LANG
+fi
+
+## only file-owner (root) should read container_environment files:
+chmod 600 /var/run/s6/container_environment/*
+
+

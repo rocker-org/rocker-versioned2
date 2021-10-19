@@ -4,3 +4,8 @@
 .Ruserdata
 *.Rproj
 .*.swp
+
+tmp
+
+# Use for build reports
+/reports

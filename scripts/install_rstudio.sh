@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+DEFAULT_USER=${DEFAULT_USER:-rstudio}
+
 apt-get update
 apt-get install -y --no-install-recommends \
     file \
@@ -40,21 +42,26 @@ if [ -z "$1" ];
   else RSTUDIO_VERSION_ARG=$1;
 fi
 
+RSTUDIO_BASE_URL=https://download2.rstudio.org/server
+
 if [ -z "$RSTUDIO_VERSION_ARG" ] || [ "$RSTUDIO_VERSION_ARG" = "latest" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1)
 elif [ "$RSTUDIO_VERSION_ARG" = "preview" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-preview%2B[0-9]+" -m 1 ||
+      wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+%2B[0-9]+" -m 1)
+    RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
 elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]\.[0-9]\.[0-9]+" | sort | tail -n 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-daily%2B[0-9]+" -m 1)
+    RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
 else
-    DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG}
+    DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG/"+"/"%2B"}
 fi
 
 ## UBUNTU_VERSION is not generally valid: only works for xenial and bionic, not other releases,
 ## and does not understand numeric versions. (2020-04-15)
-#RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_VERSION}/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
+#RSTUDIO_URL="${RSTUDIO_BASE_URL}/${UBUNTU_VERSION}/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
 ## hardwire bionic for now...
-RSTUDIO_URL="https://s3.amazonaws.com/rstudio-ide-build/server/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
+RSTUDIO_URL="${RSTUDIO_BASE_URL}/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
 
 if [ "$UBUNTU_VERSION" = "xenial" ]; then
   wget "${RSTUDIO_URL}" || \
@@ -68,11 +75,11 @@ dpkg -i rstudio-server-*-amd64.deb
 rm rstudio-server-*-amd64.deb
 
 # https://github.com/rocker-org/rocker-versioned2/issues/137
-rm -f /var/lib/rstudio-server/secret-cookie-key
+rm -f /var/lib/rstudio-server/secure-cookie-key
 
 ## RStudio wants an /etc/R, will populate from $R_HOME/etc
 mkdir -p /etc/R
-echo "PATH=${PATH}" >> "${R_HOME}/etc/Renviron"
+echo "PATH=${PATH}" >> ${R_HOME}/etc/Renviron.site
 
 ## Make RStudio compatible with case when R is built from source
 ## (and thus is at /usr/local/bin/R), because RStudio doesn't obey
@@ -130,9 +137,9 @@ loadRData="0"
 saveAction="0"
 '
 
-mkdir -p /home/rstudio/.rstudio/monitored/user-settings \
+mkdir -p /home/${DEFAULT_USER}/.rstudio/monitored/user-settings \
   && printf "%s" "$USER_SETTINGS" \
-          > /home/rstudio/.rstudio/monitored/user-settings/user-settings \
-  && chown -R rstudio:rstudio /home/rstudio/.rstudio
+          > /home/${DEFAULT_USER}/.rstudio/monitored/user-settings/user-settings \
+  && chown -R ${DEFAULT_USER}:${DEFAULT_USER} /home/${DEFAULT_USER}/.rstudio
 
 git config --system credential.helper 'cache --timeout=3600'

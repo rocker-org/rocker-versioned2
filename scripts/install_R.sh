@@ -11,6 +11,11 @@ CRAN=${CRAN:-https://cran.r-project.org}
 ##  mechanism to force source installs if we're using RSPM
 CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
 
+## source install if using RSPM and arm64 image
+if [ "$(uname -m)" = "aarch64" ]; then
+    CRAN=$CRAN_SOURCE
+fi
+
 export DEBIAN_FRONTEND=noninteractive
 
 # Set up and install R
@@ -140,8 +145,7 @@ chown root:staff ${R_HOME}/site-library
 chmod g+ws ${R_HOME}/site-library
 
 ## Fix library path
-echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >> ${R_HOME}/etc/Renviron
-echo "TZ=${TZ}" >> ${R_HOME}/etc/Renviron
+echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >> ${R_HOME}/etc/Renviron.site
 
 ## Use littler installation scripts
 Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"

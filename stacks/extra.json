@@ -1,0 +1,60 @@
+{
+  "ordered": false,
+  "TAG": "4.1.1",
+  "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
+  "group": [
+    {
+      "ubuntugis": [
+        {
+          "targets": [
+            "geospatial-ubuntugis"
+          ]
+        }
+      ],
+      "osgeo": [
+        {
+          "targets": [
+            "geospatial-dev-osgeo"
+          ]
+        }
+      ]
+    }
+  ],
+  "stack": [
+    {
+      "IMAGE": "geospatial-ubuntugis",
+      "tags": [
+        "docker.io/rocker/geospatial:4.1.1-ubuntugis",
+        "docker.io/rocker/geospatial:ubuntugis"
+      ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial (ubuntugis)",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image."
+      },
+      "FROM": "rocker/verse:4.1.1",
+      "RUN": [
+        "/rocker_scripts/install_geospatial_unstable.sh",
+        "/rocker_scripts/install_geospatial.sh"
+      ]
+    },
+    {
+      "IMAGE": "geospatial-dev-osgeo",
+      "tags": [
+        "docker.io/rocker/geospatial:dev-osgeo"
+      ],
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial (dev-osgeo)",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image."
+      },
+      "FROM": "rocker/verse:4.1.1",
+      "ENV": {
+        "PROJ_VERSION": "7.2.0",
+        "GDAL_VERSION": "3.2.0",
+        "GEOS_VERSION": "3.8.1"
+      },
+      "RUN": [
+        "/rocker_scripts/dev_osgeo.sh"
+      ]
+    }
+  ]
+}

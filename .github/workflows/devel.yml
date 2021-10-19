@@ -1,19 +1,23 @@
-name: Build & Push Core devel images
+name: Build & Push R devel images and RStudio daily build images
 
-'on': [push]
-#  release:
-#    types: [published]
+on:
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        composefile: [core-devel.yml, core-latest-daily.yml]
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: docker/login-action@v1
         with:
-            username: ${{ secrets.DOCKER_USER }}
-            password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build the tagged Docker image
-        run: docker-compose -f compose/core-devel.yml build
-      - name: Push the tagged Docker image
-        run: docker-compose  -f compose/core-devel.yml push
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build Docker images
+        run: docker-compose -f compose/${{ matrix.composefile }} build
+      - name: Push Docker images
+        run: docker-compose -f compose/${{ matrix.composefile }} push
