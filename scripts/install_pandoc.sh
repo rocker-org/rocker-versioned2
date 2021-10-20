@@ -27,7 +27,7 @@ if [ "$INSTALLED_PANDOC" != "$PANDOC_VERSION" ]; then
     if [ "$PANDOC_VERSION" = "default" ]; then
       PANDOC_DL_URL=$(wget -qO- https://api.github.com/repos/jgm/pandoc/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*${ARCH}\.deb")
     else
-      PANDOC_DL_URL=https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-${ARCH}.deb
+      PANDOC_DL_URL=https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-${ARCH}.deb
     fi
     wget ${PANDOC_DL_URL} -O pandoc-${ARCH}.deb
     dpkg -i pandoc-${ARCH}.deb
