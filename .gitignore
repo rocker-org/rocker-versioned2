@@ -4,6 +4,7 @@
 .Ruserdata
 *.Rproj
 .*.swp
+tests/gpu/misc/hosts
 
 tmp
 
