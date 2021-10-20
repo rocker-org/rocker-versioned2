@@ -29,6 +29,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "tidyverse": {
@@ -47,6 +50,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "verse": {
@@ -64,6 +70,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     }

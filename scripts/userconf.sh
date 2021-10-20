@@ -103,7 +103,7 @@ if [ "$TZ" !=  "Etc/UTC" ]
 fi
 
 ## Set our dynamic variables in Renviron.site to be reflected by RStudio
-exclude_vars="HOME PASSWORD"
+exclude_vars="HOME PASSWORD RSTUDIO_VERSION"
 for file in /var/run/s6/container_environment/*
 do
   sed -i "/^${file##*/}=/d" ${R_HOME}/etc/Renviron.site

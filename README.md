@@ -51,7 +51,7 @@ These Dockerfiles serve as examples of how to build your own custom images.
 Importantly, we have moved as much of the detailed install logic out of Dockerfiles and into standalone scripts, or "modules", under the `scripts` directory.  These files are available in all Docker images, under a top-level `/rocker_scripts` directory.  This allows users to extend images by selecting additional modules to install on top of any pre-built images.  For instance, if one wishes to install Shiny Server on top of a base of `rstudio:4.0.0`, one could write a simple Dockerfile as follows:
 
 ```Dockerfile
-FROM rstudio/rstudio:4.0.0
+FROM rocker/rstudio:4.0.0
 
 RUN /rocker_scripts/install_shiny_server.sh
 ```
