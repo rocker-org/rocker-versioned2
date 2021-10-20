@@ -1,4 +1,4 @@
-$LOG_LOC#!/bin/bash
+#!/bin/bash
 set -e
 
 # set log location from command invokation
