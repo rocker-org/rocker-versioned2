@@ -2,7 +2,7 @@
 set -e
 
 # set log location from command invokation
-LOG_LOC=$2
+LOG_LOC=$1
 TEST_FAIL=false
 
 # driver
