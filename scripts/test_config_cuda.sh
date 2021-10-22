@@ -2,7 +2,7 @@
 set -e
 
 # set log location from command invokation
-LOG_LOC=$1
+LOG_LOC=${1:-/var/log/nvblas.log}
 TEST_FAIL=false
 
 # driver
@@ -21,13 +21,13 @@ then
   TEST_FAIL=true
 fi
 # nvblas
-if ! NVBLAS_OUTPUT=$(Rscript ../tests/gpu/misc/nvblas.R 2>&1);
+if ! NVBLAS_OUTPUT=$(Rscript /rocker_scripts/tests/nvblas.R 2>&1);
 then
   echo "Failed nvBLAS test with error $NVBLAS_OUTPUT" | tee -a $LOG_LOC
   TEST_FAIL=true
 fi
 # tensorflow
-if ! TF_OUTPUT=$(Rscript ../tests/gpu/misc/examples_tf.R 2>&1);
+if ! TF_OUTPUT=$(Rscript /rocker_scripts/tests/examples_tf.R 2>&1);
 then
   echo "Failed tensorflow test with error $TF_OUTPUT" | tee -a $LOG_LOC
   TEST_FAIL=true
