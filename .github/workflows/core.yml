@@ -5,7 +5,7 @@ on:
     branches:
       - "master"
     paths:
-      - "scripts/**"
+      - "scripts/*"
       - "dockerfiles/*_devel.Dockerfile"
   workflow_run:
     workflows:
