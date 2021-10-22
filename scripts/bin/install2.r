@@ -12,13 +12,14 @@
 library(docopt)
 
 ## configuration for docopt
-doc <- "Usage: install2.r [-l LIBLOC] [-h] [-x] [-s] [-d DEPS] [-n NCPUS] [-r REPOS...] [-m METHOD] [--error] [--] [PACKAGES ...]
+doc <- "Usage: install2.r [-l LIBLOC] [-h] [-x] [-s] [-d DEPS] [-n NCPUS] [-r REPOS...] [-m METHOD] [--error] [--skipmissing] [--] [PACKAGES ...]
 
 -l --libloc LIBLOC  location in which to install [default: /usr/local/lib/R/site-library]
 -d --deps DEPS      install suggested dependencies as well [default: NA]
 -n --ncpus NCPUS    number of processes to use for parallel install [default: getOption]
 -r --repos REPOS    repositor(y|ies) to use, or NULL for file [default: getOption]
 -e --error          throw error and halt instead of a warning [default: FALSE]
+--skipmissing       use with the --error option, skip the packages missing error [default: FALSE]
 -s --skipinstalled  skip installing already installed packages [default: FALSE]
 -m --method METHOD  method to be used for downloading files [default: auto]
 -h --help           show this help text
@@ -72,13 +73,13 @@ if (opt$ncpus == "getOption") {
 ## ensure installation is stripped
 Sys.setenv("_R_SHLIB_STRIP_"="true")
 
-install_packages2 <- function(pkgs, ..., error = FALSE, skipinstalled = FALSE) {
+install_packages2 <- function(pkgs, ..., error = FALSE, skipmissing = FALSE, skipinstalled = FALSE) {
     e <- NULL
     capture <- function(e) {
         if (error) {
             catch <-
                 grepl("download of package .* failed", e$message) ||
-                grepl("(dependenc|package).*(is|are) not available", e$message) ||
+                (grepl("(dependenc|package).*(is|are) not available", e$message) && !skipmissing) ||
                 grepl("installation of package.*had non-zero exit status", e$message)
             if (catch) {
                 e <<- e
@@ -100,7 +101,7 @@ install_packages2 <- function(pkgs, ..., error = FALSE, skipinstalled = FALSE) {
 isMatchingFile <- function(f) (file.exists(f) && grepl("(\\.tar\\.gz|\\.tgz|\\.zip)$", f)) || (f == ".")
 
 ## helper function which switches to local (ie NULL) repo if matching file is presented
-installArg <- function(f, lib, rep, dep, iopts, error, skipinstalled, ncpus, method) {
+installArg <- function(f, lib, rep, dep, iopts, error, skipmissing, skipinstalled, ncpus, method) {
     install_packages2(pkgs=f,
                       lib=lib,
                       repos=if (isMatchingFile(f)) NULL else rep,
@@ -109,6 +110,7 @@ installArg <- function(f, lib, rep, dep, iopts, error, skipinstalled, ncpus, met
                       Ncpus = ncpus,
                       method = method,
                       error = error,
+                      skipmissing = skipmissing,
                       skipinstalled = skipinstalled)
 }
 
@@ -136,7 +138,7 @@ isLocal <- sapply(opt$PACKAGES, isMatchingFile)
 ## possibly in parallel using up to ncpus)
 if (any(isLocal)) {
     sapply(opt$PACKAGES, installArg, opt$libloc, opt$repos, opt$deps,
-           installOpts, opt$error, opt$skipinstalled, opt$ncpus, opt$method)
+           installOpts, opt$error, opt$skipmissing, opt$skipinstalled, opt$ncpus, opt$method)
 } else {
     install_packages2(pkgs = opt$PACKAGES,
                       lib = opt$libloc,
@@ -146,6 +148,7 @@ if (any(isLocal)) {
                       Ncpus = opt$ncpus,
                       method = opt$method,
                       error = opt$error,
+                      skipmissing = opt$skipmissing,
                       skipinstalled = opt$skipinstalled)
 }
 
