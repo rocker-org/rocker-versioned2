@@ -32,7 +32,7 @@ NVBLAS_GPU_LIST ALL' > /etc/nvblas.conf
 
 echo "NVBLAS_CONFIG_FILE=$NVBLAS_CONFIG_FILE" >> ${R_HOME}/etc/Renviron.site
 
-test_config_cuda.sh /var/log/nvblas.log
+/rocker_scripts/test_config_cuda.sh /var/log/nvblas.log
 
 ## We don't want to set LD_PRELOAD globally
 ##ENV LD_PRELOAD=/usr/local/cuda/lib64/libnvblas.so
