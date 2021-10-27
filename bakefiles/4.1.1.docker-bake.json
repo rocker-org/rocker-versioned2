@@ -53,7 +53,7 @@
         "docker.io/rocker/r-ver:4.1.1"
       ],
       "cache-to": [
-        "inline"
+        "type=inline"
       ]
     },
     "rstudio": {
@@ -342,7 +342,7 @@
         "docker.io/rocker/cuda:4.1.1-cuda11.1"
       ],
       "cache-to": [
-        "inline"
+        "type=inline"
       ]
     },
     "ml-cuda11": {

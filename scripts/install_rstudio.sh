@@ -51,7 +51,7 @@ elif [ "$RSTUDIO_VERSION_ARG" = "preview" ]; then
       wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+%2B[0-9]+" -m 1)
     RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
 elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudioserver/oss/ubuntu/x86_64/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-daily%2B[0-9]+" -m 1)
+    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudio/latest/index.json | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-daily-[0-9]+(?=-amd64.deb)" -m 1)
     RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
 else
     DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG/"+"/"%2B"}
