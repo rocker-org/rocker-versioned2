@@ -2,7 +2,7 @@
 
 I'll just use this text file to store notes about build issues so I can create a PR and we can start discussing
 
-## Failed build combinations:
+## Failed build combinations
 
 * Driver 470, toolkit 11, tensorflow 2.2:
   * Tensorflow 2.2 seems to require toolkit 10.
