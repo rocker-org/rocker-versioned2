@@ -1,4 +1,4 @@
-I'll just use this text file to store notes about build issues so I can create a PR and we can start discussing.
+I'll just use this text file to store notes about build issues so I can create a PR and we can start discussing
 
 ## Failed build combinations:
 
@@ -12,4 +12,6 @@ I'll just use this text file to store notes about build issues so I can create a
   * Unfortunately, it also requires cudnn7 which isn't available from apt.
     * maybe a repo can be added that has cudnn7
     * other option is to build from download from NVIDIA, but I don't know how this would work within the build
-  * maybe this should just be marked as an unsupported combination
+  * mark as unsupported
+
+## Working build combinations
