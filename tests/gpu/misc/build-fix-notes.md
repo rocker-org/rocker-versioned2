@@ -14,7 +14,7 @@ I'll just use this text file to store notes about build issues so I can create a
   * Unfortunately, it also requires cudnn7 which isn't available from apt.
     * maybe a repo can be added that has cudnn7
     * other option is to build from download from NVIDIA, but I don't know how this would work within the build
-  * mark as unsupported
+  * unsupported; tensorflow 2.2 seems to require toolkit 10
 * Driver 470, toolkit 10, tensorflow 2.5:
   * fails on missing libraries:
     * libcudart11
@@ -31,5 +31,10 @@ I'll just use this text file to store notes about build issues so I can create a
     * libcusolver11
     * libcusparse11
   * unsupported; tensorflow 2.6 seems to require toolkit 11
+* Driver 460 results look the same as 470
+* Summary:
+  * tensorflow 1.15 works with both toolkit 10 & 11.
+  * tensorflow 2.2 only works with toolkit 10
+  * tensorflow 2.5 & 2.6 only work with toolkit 11
 
 ## Working build combinations
