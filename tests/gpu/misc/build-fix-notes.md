@@ -15,5 +15,21 @@ I'll just use this text file to store notes about build issues so I can create a
     * maybe a repo can be added that has cudnn7
     * other option is to build from download from NVIDIA, but I don't know how this would work within the build
   * mark as unsupported
+* Driver 470, toolkit 10, tensorflow 2.5:
+  * fails on missing libraries:
+    * libcudart11
+    * libcublas11
+    * libcublasLt11
+    * libcusolver11
+    * libcusparse11
+  * unsupported; tensorflow 2.5 seems to require toolkit 11
+* Driver 470, toolkit 10, tensorflow 2.6:
+  * fails on missing libraries:
+    * libcudart11
+    * libcublas11
+    * libcublasLt11
+    * libcusolver11
+    * libcusparse11
+  * unsupported; tensorflow 2.6 seems to require toolkit 11
 
 ## Working build combinations
