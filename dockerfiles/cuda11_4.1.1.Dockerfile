@@ -25,5 +25,6 @@ RUN /rocker_scripts/install_R.sh
 
 COPY scripts /rocker_scripts
 
+RUN /rocker_scripts/patch_install_command.sh
 RUN /rocker_scripts/config_R_cuda.sh
 RUN /rocker_scripts/install_python.sh

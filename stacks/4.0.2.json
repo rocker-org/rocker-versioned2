@@ -22,6 +22,7 @@
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
       "RUN_a_script": "/rocker_scripts/install_R.sh",
       "COPY": "scripts /rocker_scripts",
+      "RUN": "/rocker_scripts/patch_install_command.sh",
       "CMD": "[\"R\"]",
       "tags": [
         "docker.io/rocker/r-ver:4.0.2"

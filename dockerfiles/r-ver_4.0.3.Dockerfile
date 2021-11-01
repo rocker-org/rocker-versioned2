@@ -19,4 +19,6 @@ RUN /rocker_scripts/install_R.sh
 
 COPY scripts /rocker_scripts
 
+RUN /rocker_scripts/patch_install_command.sh
+
 CMD ["R"]
