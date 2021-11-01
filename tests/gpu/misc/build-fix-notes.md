@@ -6,12 +6,12 @@ I'll just use this text file to store notes about build issues so I can create a
 
 The following combinations of toolkit and tensorflow versions were tested for Nvidia driver versions 460 and 470 and had the same results.
 
-| tensorflow version/ toolkit version |    10    |    11    |
-| ----------------------------------- | -------- | -------- |
-|               **1.5**               | succeeds | succeeds |
-|               **2.2**               | succeeds |  fails   |
-|               **2.5**               |  fails   | succeeds |
-|               **2.6**               |  fails   | succeeds |
+| tensorflow version / toolkit version | 10 | 11 |
+| ----------------------------------- | -- | -- |
+| 1.5 | succeeds | succeeds |
+| 2.2 | succeeds | fails |
+| 2.5 | fails | succeeds |
+| 2.6 | fails | succeeds |
 
 ## Failed build combination notes
 
