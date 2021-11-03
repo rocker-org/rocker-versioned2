@@ -8,7 +8,7 @@ The following combinations of toolkit and tensorflow versions were tested for Nv
 
 | tensorflow version / toolkit version | 10 | 11 |
 | ----------------------------------- | -- | -- |
-| 1.5 | succeeds | succeeds |
+| 1.15 | succeeds | succeeds |
 | 2.2 | succeeds | fails |
 | 2.5 | fails | succeeds |
 | 2.6 | fails | succeeds |
