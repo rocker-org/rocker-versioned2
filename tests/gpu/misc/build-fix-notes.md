@@ -1,7 +1,5 @@
 # Build combination notes
 
-I'll just use this text file to store notes about build issues so I can create a PR and we can start discussing
-
 ## Build combination summary
 
 The following combinations of toolkit and tensorflow versions were tested for Nvidia driver versions 460 and 470 and had the same results.
