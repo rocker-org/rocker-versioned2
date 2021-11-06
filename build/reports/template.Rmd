@@ -71,6 +71,7 @@ df_inspect <- jsonlite::read_json(params$inspect_file) |>
     "RepoDigests",
     ImageSource = list("Config", "Labels", "org.opencontainers.image.source"),
     ImageRevision = list("Config", "Labels", "org.opencontainers.image.revision"),
+    BaseImage = list("Config", "Labels", "org.opencontainers.image.base.name"),
     CreatedTime = "Created",
     "Size",
     Env = list("Config", "Env")
@@ -81,6 +82,7 @@ df_inspect |>
     ImageID = paste0("`", ImageID, "`"),
     RepoTags = .unlist_and_enclose(RepoTags),
     RepoDigests = .unlist_and_enclose(RepoDigests),
+    BaseImage = paste0("`", BaseImage, "`"),
     Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
     Env = paste(unlist(Env), collapse = ", ")
   ) |>
