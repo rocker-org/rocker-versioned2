@@ -5,13 +5,6 @@ set -e
 LOG_LOC=$1
 TEST_FAIL=false
 
-#!/bin/bash
-set -e
-
-# set log location from command invokation
-LOG_LOC=$1
-TEST_FAIL=false
-
 # driver
 PROC_DRIVER_FILE=/proc/driver/nvidia/version
 if [ ! -f "$PROC_DRIVER_FILE" ]
