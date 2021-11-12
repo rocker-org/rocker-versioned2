@@ -51,7 +51,7 @@ df_definitions <- fs::dir_ls(
   )
 
 df_images <- fs::dir_ls(path = "reports/imagelist", glob = "*.tsv") |>
-  readr::read_tsv(col_names = FALSE) |>
+  readr::read_tsv(col_names = FALSE, lazy = FALSE) |>
   dplyr::filter(X3 != "<none>") |>
   dplyr::transmute(
     id = X1,
