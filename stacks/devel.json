@@ -76,7 +76,7 @@
       },
       "FROM": "rocker/tidyverse:devel",
       "ENV": {
-        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
+        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
         "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux",
         "QUARTO_VERSION": "latest"
       },
@@ -210,7 +210,7 @@
       },
       "FROM": "rocker/ml:devel",
       "ENV": {
-        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
+        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
         "QUARTO_VERSION": "latest"
       },
       "RUN": [
@@ -289,7 +289,7 @@
       },
       "FROM": "rocker/ml:devel-cuda11.1",
       "ENV": {
-        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
+        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
         "QUARTO_VERSION": "latest"
       },
       "RUN": [

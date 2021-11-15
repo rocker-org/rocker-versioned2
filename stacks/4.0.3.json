@@ -77,7 +77,7 @@
       },
       "FROM": "rocker/tidyverse:4.0.3",
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/02/14/tlnet",
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2021/02/14/tlnet",
         "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"
       },
       "RUN": "/rocker_scripts/install_verse.sh",
@@ -223,7 +223,7 @@
       },
       "FROM": "rocker/ml:4.0.3",
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/02/14/tlnet"
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2021/02/14/tlnet"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
@@ -305,7 +305,7 @@
         "/rocker_scripts/install_geospatial.sh"
       ],
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2021/02/14/tlnet"
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2021/02/14/tlnet"
       }
     }
   ]

@@ -96,8 +96,8 @@ library(gert)
 .latest_ctan_url <- function(date) {
   url <- dplyr::if_else(
     is.na(date),
-    "http://mirror.ctan.org/systems/texlive/tlnet",
-    stringr::str_c("http://www.texlive.info/tlnet-archive/", format(date, "%Y/%m/%d"), "/tlnet")
+    "https://mirror.ctan.org/systems/texlive/tlnet",
+    stringr::str_c("https://www.texlive.info/tlnet-archive/", format(date, "%Y/%m/%d"), "/tlnet")
   )
 
   return(url)
