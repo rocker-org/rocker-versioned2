@@ -85,7 +85,7 @@ library(gert)
   is_available <- glue::glue(
     "https://download2.rstudio.org/server/{os_ver}/amd64/rstudio-server-{rstudio_version}-amd64.deb"
   ) |>
-    stringr::str_replace_all("\\+", "%2B") |>
+    stringr::str_replace_all("\\+", "-") |>
     httr::HEAD() |>
     httr::http_status() |>
     (function(x) purrr::pluck(x, "category") == "Success")()
