@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 PROJ_VERSION=7.2.0
 GDAL_VERSION=3.2.0

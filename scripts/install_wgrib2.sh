@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ## https://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/
 

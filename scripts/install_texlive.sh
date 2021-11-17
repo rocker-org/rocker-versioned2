@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo 'selected_scheme scheme-infraonly
 TEXDIR /usr/local/texlive

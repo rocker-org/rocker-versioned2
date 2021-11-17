@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Tensorflow 1.x is required for numerous projects.  
 # Even the most recent of the 1.x, 1.15.5 is compatible only 
