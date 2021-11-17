@@ -19,7 +19,7 @@ apt-get update
 apt-get install -y --no-install-recommends \
     sudo \
     gdebi-core \
-    libcurl4-gnutls-dev \
+    libcurl4-openssl-dev \
     libcairo2-dev \
     libxt-dev \
     xtail \
