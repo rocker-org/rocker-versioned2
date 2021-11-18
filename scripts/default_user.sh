@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if id -u "${user}" >/dev/null 2>&1; then
     echo 'rstudio user already exists'

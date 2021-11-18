@@ -91,7 +91,7 @@
       },
       "FROM": "rocker/tidyverse:4.0.0",
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
         "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"
       },
       "RUN": "/rocker_scripts/install_verse.sh",
@@ -237,7 +237,7 @@
       },
       "FROM": "rocker/ml:4.0.0",
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2020/06/05/tlnet"
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2020/06/05/tlnet"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
@@ -318,7 +318,7 @@
       },
       "FROM": "rocker/tidyverse:4.0.0-ubuntu18.04",
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
         "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"
       },
       "RUN": "/rocker_scripts/install_verse.sh",
