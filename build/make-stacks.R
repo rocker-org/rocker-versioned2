@@ -26,13 +26,20 @@ library(gert)
     seq(as.Date(date), as.Date(date) - n_retry_max, by = -1)
   }
 
+  fallback_distro <- if (distro_version_name == "jammy") {
+    "focal"
+  } else {
+    NULL
+  }
+
   urls_try <- list(
     date = dates_try,
-    distro_version_name = distro_version_name,
+    distro_version_name = c(distro_version_name, fallback_distro),
     type = c("binary", "source")
   ) |>
     purrr::cross() |>
-    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux))
+    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux)) |>
+    unique()
 
   for (i in seq_len(length(urls_try))) {
     url <- urls_try[i]
