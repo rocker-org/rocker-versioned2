@@ -30,7 +30,7 @@
         "LC_ALL": "en_US.UTF-8",
         "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/latest",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
@@ -315,7 +315,7 @@
         "LC_ALL": "en_US.UTF-8",
         "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/latest",
         "TZ": "Etc/UTC",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
         "WORKON_HOME": "/opt/venv",

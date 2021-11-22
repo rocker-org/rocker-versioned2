@@ -26,13 +26,20 @@ library(gert)
     seq(as.Date(date), as.Date(date) - n_retry_max, by = -1)
   }
 
+  fallback_distro <- if (distro_version_name == "jammy") {
+    "focal"
+  } else {
+    NULL
+  }
+
   urls_try <- list(
     date = dates_try,
-    distro_version_name = distro_version_name,
+    distro_version_name = c(distro_version_name, fallback_distro),
     type = c("binary", "source")
   ) |>
     purrr::cross() |>
-    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux))
+    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux)) |>
+    unique()
 
   for (i in seq_len(length(urls_try))) {
     url <- urls_try[i]
@@ -44,12 +51,12 @@ library(gert)
 }
 
 .make_rspm_cran_url_linux <- function(date, distro_version_name, type = "source") {
-  base_url <- "https://packagemanager.rstudio.com"
+  base_url <- "https://packagemanager.rstudio.com/cran"
   url <- dplyr::case_when(
-    type == "source" & is.na(date) ~ glue::glue("{base_url}/all/latest"),
-    type == "binary" & is.na(date) ~ glue::glue("{base_url}/all/__linux__/{distro_version_name}/latest"),
-    type == "source" ~ glue::glue("{base_url}/cran/{date}"),
-    type == "binary" ~ glue::glue("{base_url}/cran/__linux__/{distro_version_name}/{date}")
+    type == "source" & is.na(date) ~ glue::glue("{base_url}/latest"),
+    type == "binary" & is.na(date) ~ glue::glue("{base_url}/__linux__/{distro_version_name}/latest"),
+    type == "source" ~ glue::glue("{base_url}/{date}"),
+    type == "binary" ~ glue::glue("{base_url}/__linux__/{distro_version_name}/{date}")
   )
 
   return(url)
