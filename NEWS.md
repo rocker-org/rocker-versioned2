@@ -1,5 +1,11 @@
 # News
 
+## 2021-12
+
+### Changes in pre-built images
+
+- In the newly built images, the default password for RStudio Server will be randomly generated when the server is started. ([#298](https://github.com/rocker-org/rocker-versioned2/pull/298))
+
 ## 2021-11
 
 ### Changes in rocker_scripts
