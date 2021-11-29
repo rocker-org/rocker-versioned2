@@ -19,6 +19,7 @@ apt-get install -y --no-install-recommends \
     psmisc \
     procps \
     python-setuptools \
+    pwgen \
     sudo \
     wget
 
