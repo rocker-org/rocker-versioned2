@@ -30,12 +30,15 @@ RUN /rocker_scripts/install_geospatial.sh
 
 COPY experimental/scripts /rocker_scripts/experimental
 RUN /rocker_scripts/experimental/install_vscode.sh
+COPY experimental/entrypoint.sh /usr/bin/entrypoint.sh
 
 EXPOSE 8080
+# This way, if someone sets $DOCKER_USER, docker-exec will still work as
+# the uid will remain the same. note: only relevant if -u isn't passed to
+# docker-run.
+USER 1000
+ENV USER=rocker
+WORKDIR /home/rocker
+ENTRYPOINT ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "."]
 
-USER rocker
-
-RUN /rocker_scripts/experimental/configure_vscode.sh
-
-CMD code-server --bind-addr 0.0.0.0:8080
 
