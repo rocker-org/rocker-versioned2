@@ -10,7 +10,7 @@ ENV TERM=xterm
 ENV LC_ALL=en_US.UTF-8
 ENV LANG=en_US.UTF-8
 ENV R_HOME=/usr/local/lib/R
-ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/focal/2021-10-29
+ENV CRAN=https://cloud.r-project.org
 ENV TZ=Etc/UTC
 
 COPY scripts/install_R.sh /rocker_scripts/install_R.sh
