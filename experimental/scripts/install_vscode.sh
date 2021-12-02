@@ -13,6 +13,7 @@ apt-get update \
     nano \
     git \
     procps \
+    pandoc \
     openssh-client \
     sudo \
     vim.tiny \
