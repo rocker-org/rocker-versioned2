@@ -1,5 +1,6 @@
 [![license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://opensource.org/licenses/GPL-2.0)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Update container definition files](https://github.com/rocker-org/rocker-versioned2/actions/workflows/dockerfiles.yml/badge.svg)](https://github.com/rocker-org/rocker-versioned2/actions/workflows/dockerfiles.yml)
 [![Build & Push Core images](https://github.com/rocker-org/rocker-versioned2/actions/workflows/core.yml/badge.svg)](https://github.com/rocker-org/rocker-versioned2/actions/workflows/core.yml)
 [![Build & Push R devel images and RStudio daily build images](https://github.com/rocker-org/rocker-versioned2/actions/workflows/devel.yml/badge.svg)](https://github.com/rocker-org/rocker-versioned2/actions/workflows/devel.yml)
 
