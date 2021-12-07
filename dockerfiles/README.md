@@ -9,5 +9,5 @@ Building container images with GitHub Actions is done via the [`Makefile`](../Ma
 To build a container image for your local use, a simple command like the one below should be fine.
 
 ```shell
-$ docker build . -f dockerfiles/rstudio_latest-daily.Dockerfile -t imagename
+docker build . -f dockerfiles/rstudio_latest-daily.Dockerfile -t imagename
 ```
