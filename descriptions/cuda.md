@@ -1,6 +1,8 @@
 # Rocker stack for Machine Learning in R 
 
-This repository contains images for machine learning and GPU-based computation in R.  **EDIT** Dockerfiles are now built in modular build system at https://github.com/rocker-org/rocker-versioned2 .  This repo remains for documentation around the ML part of the stack.  
+Docker images for machine learning and GPU-based computation in R.
+
+Dockerfiles are built in modular build system at https://github.com/rocker-org/rocker-versioned2.
 
 
 
@@ -15,6 +17,7 @@ The dependency stack looks like so:
 
 All three are CUDA compatible and will optionally take R version tags (`rocker/ml:4.0.5`) with the option of additional trailing CUDA version tag (e.g. `rocker/ml:4.0.5-cuda10.1`). 
 
+See https://github.com/rocker-org/rocker-versioned2/wiki for details of available tags and images.
 
 ## Quick start
 
