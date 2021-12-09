@@ -1,31 +1,28 @@
-# Rocker stack for Machine Learning in R 
+# Rocker stack for Machine Learning in R
 
-Docker images for machine learning and GPU-based computation in R.
+`rocker/cuda`, `rocker/ml`, and `rocker/ml-verse` are Docker images for machine learning and GPU-based computation in R.
 
-Dockerfiles are built in modular build system at https://github.com/rocker-org/rocker-versioned2.
+These images are built in modular build system at <https://github.com/rocker-org/rocker-versioned2>.
 
+The dependency stack looks like so:
 
-
-
-The dependency stack looks like so: 
-
-```
+```txt
 -| rocker/cuda
   -| rocker/ml
     -| rocker/ml-verse
 ```
 
-All three are CUDA compatible and will optionally take R version tags (`rocker/ml:4.0.5`) with the option of additional trailing CUDA version tag (e.g. `rocker/ml:4.0.5-cuda10.1`). 
+All three are CUDA compatible and will optionally take R version tags (`rocker/ml:4.0.5`) with the option of additional trailing CUDA version tag (e.g. `rocker/ml:4.0.5-cuda10.1`).
 
-See https://github.com/rocker-org/rocker-versioned2/wiki for details of available tags and images.
+See <https://github.com/rocker-org/rocker-versioned2/wiki> for details of available tags and images.
 
 ## Quick start
 
-**Note: GPU use requires [nvidia-docker](https://github.com/NVIDIA/nvidia-docker/)** runtime to run!  
+**Note: GPU use requires [nvidia-docker](https://github.com/NVIDIA/nvidia-docker/)** runtime to run!
 
 Run a bash shell or R command line:
 
-```
+```shell
 # CPU-only
 docker run --rm -ti rocker/ml R
 # Machines with nvidia-docker and GPU support
@@ -34,16 +31,14 @@ docker run --gpus all --rm -ti rocker/ml R
 
 Or run in RStudio instance:
 
-```
+```shell
 docker run --gpus all -e PASSWORD=mu -p 8787:8787 rocker/ml
 ```
-
 
 ## Tags
 
 See [current `ml` tags](https://hub.docker.com/r/rocker/ml/tags?page=1&ordering=last_updated)
 See [current `ml-verse` tags](https://hub.docker.com/r/rocker/ml-verse/tags?page=1&ordering=last_updated)
-
 
 ## Python versions and virtualenvs
 
@@ -69,10 +64,8 @@ install.packages("tensorflow")
 tensorflow::install_tensorflow(version="1.14.0-gpu", extra_packages="tensorflow-probability==0.7.0")
 ```
 
-
-
 ## Notes
 
 All images are based on the current Ubuntu LTS (ubuntu 20.04) and based on the official [NVIDIA CUDA docker build recipes](https://gitlab.com/nvidia/container-images/cuda/)
 
-**PLEASE NOTE**: older images, `rocker/ml-gpu`, `rocker/tensorflow` and `rocker/tensorflow-gpu`, built with cuda 9.0, are deprecated and no longer supported.  
+**PLEASE NOTE**: older images, `rocker/ml-gpu`, `rocker/tensorflow` and `rocker/tensorflow-gpu`, built with cuda 9.0, are deprecated and no longer supported.
