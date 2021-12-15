@@ -23,7 +23,7 @@ echo "export PATH=${PATH}" >> ${WORKDIR}/.profile
 su ${NB_USER}
 cd ${WORKDIR}
 python3 -m venv ${PYTHON_VENV_PATH}
-pip3 install --no-cache-dir jupyter-rsession-proxy
+pip3 install --no-cache-dir jupyter-rsession-proxy>=2.0
 
 R --quiet -e "devtools::install_github('IRkernel/IRkernel')"
 R --quiet -e "IRkernel::installspec(prefix='${PYTHON_VENV_PATH}')"
