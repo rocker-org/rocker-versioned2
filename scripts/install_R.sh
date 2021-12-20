@@ -1,11 +1,13 @@
 #!/bin/bash
 set -e
 
-apt-get update && apt-get -y install lsb-release
+apt-get update && apt-get -y install locales lsb-release
+
+## Configure default locale, see https://github.com/docker-library/docs/tree/master/ubuntu#locales
+localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+LANG=${LANG:-en_US.UTF-8}
 
 UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
-LANG=${LANG:-en_US.UTF-8}
-LC_ALL=${LC_ALL:-en_US.UTF-8}
 CRAN=${CRAN:-https://cran.r-project.org}
 
 ##  mechanism to force source installs if we're using RSPM
@@ -18,7 +20,7 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-# Set up and install R
+## Set up and install R
 R_HOME=${R_HOME:-/usr/local/lib/R}
 
 READLINE_VERSION=8
@@ -50,15 +52,10 @@ apt-get update \
     libreadline${READLINE_VERSION} \
     libtiff* \
     liblzma* \
-    locales \
     make \
     unzip \
     zip \
     zlib1g
-
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
-locale-gen en_US.utf8
-/usr/sbin/update-locale LANG=en_US.UTF-8
 
 BUILDDEPS="curl \
     default-jdk \
