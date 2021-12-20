@@ -6,7 +6,6 @@ all:
 
 setup:
 	./build/make-dockerfiles.R
-	./build/write-compose.R
 	./build/make-bakejson.R
 	./build/make-matrix.R
 
@@ -79,4 +78,4 @@ wiki-home:
 	-Rscript -e 'rmarkdown::render(input = "build/reports/wiki_home.Rmd", output_dir = "$(REPORT_DIR)", output_file = "Home.md")'
 
 clean:
-	rm -r -f dockerfiles/*.Dockerfile compose/*.yml bakefiles/*.json tmp/*
+	rm -r -f dockerfiles/*.Dockerfile bakefiles/*.json tmp/*
