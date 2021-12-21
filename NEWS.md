@@ -6,6 +6,10 @@
 
 - In the newly built images, the default password for RStudio Server will be randomly generated when the server is started. ([#298](https://github.com/rocker-org/rocker-versioned2/pull/298))
 
+### Changes in rocker_scripts
+
+- The default locale, `LANG=en_US.UTF-8`, is now set [as recommended](https://github.com/docker-library/docs/tree/master/ubuntu#locales) by the official ubuntu image. ([#302](https://github.com/rocker-org/rocker-versioned2/issues/302), [#313](https://github.com/rocker-org/rocker-versioned2/pull/313))
+
 ## 2021-11
 
 ### Changes in rocker_scripts
