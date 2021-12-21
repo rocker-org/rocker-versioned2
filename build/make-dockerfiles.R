@@ -33,7 +33,7 @@ write_dockerfiles <- function(stack, global){
       paste_if("ENV", image),
       paste_if("COPY_a_script", image),
       paste_if("RUN_a_script", image),
-      paste_if("ENV_LANG", image),
+      paste_if("ENV_after_a_script", image),
       paste_if("COPY", image),
       paste_if("RUN", image),
       paste_if("EXPOSE", image),
