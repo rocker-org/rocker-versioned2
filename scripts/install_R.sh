@@ -7,7 +7,7 @@ apt-get update && apt-get -y install locales lsb-release
 localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 LANG=${LANG:-en_US.UTF-8}
 
-UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
+UBUNTU_VERSION=${UBUNTU_VERSION:-$(lsb_release -sc)}
 CRAN=${CRAN:-https://cran.r-project.org}
 
 ##  mechanism to force source installs if we're using RSPM
