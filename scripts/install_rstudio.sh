@@ -119,7 +119,7 @@ fi
 # Log to stderr
 LOGGING="[*]
 log-level=warn
-logger-type=stderr
+logger-type=syslog
 "
 
 printf "%s" "$LOGGING" > /etc/rstudio/logging.conf
