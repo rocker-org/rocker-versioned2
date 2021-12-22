@@ -27,14 +27,15 @@
       "ENV": {
         "R_VERSION": "4.1.0",
         "TERM": "xterm",
-        "LC_ALL": "en_US.UTF-8",
-        "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
         "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2021-08-09",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
       "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "ENV_after_a_script": {
+        "LANG": "en_US.UTF-8"
+      },
       "COPY": "scripts /rocker_scripts",
       "RUN": "/rocker_scripts/patch_install_command.sh",
       "CMD": "[\"R\"]",
@@ -267,8 +268,6 @@
       "ENV": {
         "R_VERSION": "4.1.0",
         "TERM": "xterm",
-        "LC_ALL": "en_US.UTF-8",
-        "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
         "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2021-08-09",
         "TZ": "Etc/UTC",
@@ -281,6 +280,9 @@
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
       "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "ENV_after_a_script": {
+        "LANG": "en_US.UTF-8"
+      },
       "COPY": "scripts /rocker_scripts",
       "RUN": [
         "/rocker_scripts/patch_install_command.sh",
