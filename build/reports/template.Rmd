@@ -55,18 +55,15 @@ image_arch <- jsonlite::read_json(params$inspect_file) |>
 ## Image info
 
 ```{r docker_inspect}
-.unlist_and_enclose <- function(x) {
-  chr <- dplyr::if_else(
-    !is.null(unlist(x)),
-    paste0("`", paste(unlist(x), collapse = "`, `"), "`"),
-    ""
-  )
-
-  return(chr)
+.unlist_and_enclose <- function(.list) {
+  .list |>
+    unlist() |>
+    stringr::str_c(collapse = "`, `") |>
+    (\(x) stringr::str_c("`", x, "`"))()
 }
 
-.list_to_jsonarray <- function(list) {
-  list |>
+.list_to_jsonarray <- function(.list) {
+  .list |>
     unlist() |>
     stringr::str_c(collapse = "\", \"") |>
     (\(x) stringr::str_c("[\"", x, "\"]"))()
