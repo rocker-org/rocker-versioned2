@@ -101,7 +101,8 @@ df_inspect |>
     Cmd = .list_to_jsonarray(Cmd)
   ) |>
   dplyr::select(tidyselect:::where(is.character)) |>
-  tidyr::pivot_longer(cols = tidyselect::everything())
+  tidyr::pivot_longer(cols = tidyselect::everything()) |>
+  knitr::kable()
 ```
 
 You can install this image with a command with a RepoDigests, like the following:
@@ -117,7 +118,7 @@ df_digest <- tryCatch(
     dplyr::filter(!(name == "Name:" & dplyr::lead(name) != "Platform:")) |>
     dplyr::mutate(id = (row_number() + 1) %/% 2) |>
     tidyr::pivot_wider(id_cols = id) |>
-    dplyr::transmute(platform = `Platform:`, RepoDigests = `Name:`),
+    dplyr::select(platform = `Platform:`, RepoDigests = `Name:`),
   error = function(e) NULL
 )
 
@@ -134,20 +135,20 @@ if (!is.null(df_digest)) {
 
 ```{r package_data}
 df_apt <- readr::read_tsv(params$apt_file, col_names = FALSE) |>
-  dplyr::transmute(
+  dplyr::select(
     package = X1,
     version = X2
   )
 
 df_r <- readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
-  dplyr::transmute(
+  dplyr::select(
     package = X1,
     version = X2
   )
 
 df_pip <- tryCatch(
   readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
-    dplyr::transmute(
+    dplyr::select(
       package = X1,
       version = X2
     ),
