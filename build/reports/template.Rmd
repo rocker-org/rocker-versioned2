@@ -6,6 +6,7 @@ output:
     toc: true
     df_print: kable
     html_preview: false
+    md_extensions: -smart
 params:
   image_name: ""
   inspect_file: ""
@@ -16,6 +17,7 @@ params:
 ---
 
 ```{r setup, include=FALSE}
+options(knitr.kable.NA = "")
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot::is_git_root))
 ```
@@ -28,6 +30,7 @@ library(tibble)
 library(tidyr)
 library(tidyselect)
 library(purrr)
+library(stringr)
 ```
 
 ```{r prepare_texts}
@@ -62,6 +65,13 @@ image_arch <- jsonlite::read_json(params$inspect_file) |>
   return(chr)
 }
 
+.list_to_jsonarray <- function(list) {
+  list |>
+    unlist() |>
+    stringr::str_c(collapse = "\", \"") |>
+    (\(x) stringr::str_c("[\"", x, "\"]"))()
+}
+
 df_inspect <- jsonlite::read_json(params$inspect_file) |>
   tibble::enframe() |>
   tidyr::hoist(
@@ -74,7 +84,9 @@ df_inspect <- jsonlite::read_json(params$inspect_file) |>
     BaseImage = list("Config", "Labels", "org.opencontainers.image.base.name"),
     CreatedTime = "Created",
     "Size",
-    Env = list("Config", "Env")
+    Env = list("Config", "Env"),
+    Entrypoint = list("Config", "Entrypoint"),
+    Cmd = list("Config", "Cmd")
   )
 
 df_inspect |>
@@ -84,7 +96,9 @@ df_inspect |>
     RepoDigests = .unlist_and_enclose(RepoDigests),
     BaseImage = paste0("`", BaseImage, "`"),
     Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
-    Env = paste(unlist(Env), collapse = ", ")
+    Env = stringr::str_c(unlist(Env), collapse = ", "),
+    Entrypoint = .list_to_jsonarray(Entrypoint),
+    Cmd = .list_to_jsonarray(Cmd)
   ) |>
   dplyr::select(tidyselect:::where(is.character)) |>
   tidyr::pivot_longer(cols = tidyselect::everything())
