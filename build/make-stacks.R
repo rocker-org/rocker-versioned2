@@ -34,7 +34,7 @@ library(gert)
   urls_try <- list(
     date = dates_try,
     distro_version_name = c(distro_version_name, fallback_distro),
-    type = c("binary", "source")
+    type = c("binary")
   ) |>
     purrr::cross() |>
     purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux)) |>
@@ -43,8 +43,10 @@ library(gert)
   for (i in seq_len(length(urls_try))) {
     url <- urls_try[i]
     if (.is_cran_url_available(url, r_version)) break
-    url <- "https://cloud.r-project.org"
+    url <- NA_character_
   }
+
+  if (is.na(url)) stop("\nCRAN mirrors are not available!\n")
 
   return(url)
 }
