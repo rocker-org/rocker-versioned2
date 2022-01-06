@@ -6,6 +6,7 @@ output:
     toc: true
     df_print: kable
     html_preview: false
+    md_extensions: -smart
 params:
   image_name: ""
   inspect_file: ""
@@ -16,6 +17,7 @@ params:
 ---
 
 ```{r setup, include=FALSE}
+options(knitr.kable.NA = "")
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot::is_git_root))
 ```
@@ -28,6 +30,7 @@ library(tibble)
 library(tidyr)
 library(tidyselect)
 library(purrr)
+library(stringr)
 ```
 
 ```{r prepare_texts}
@@ -52,14 +55,18 @@ image_arch <- jsonlite::read_json(params$inspect_file) |>
 ## Image info
 
 ```{r docker_inspect}
-.unlist_and_enclose <- function(x) {
-  chr <- dplyr::if_else(
-    !is.null(unlist(x)),
-    paste0("`", paste(unlist(x), collapse = "`, `"), "`"),
-    ""
-  )
+.unlist_and_enclose <- function(.list) {
+  .list |>
+    unlist() |>
+    stringr::str_c(collapse = "`, `") |>
+    (\(x) stringr::str_c("`", x, "`"))()
+}
 
-  return(chr)
+.list_to_jsonarray <- function(.list) {
+  .list |>
+    unlist() |>
+    stringr::str_c(collapse = "\", \"") |>
+    (\(x) stringr::str_c("[\"", x, "\"]"))()
 }
 
 df_inspect <- jsonlite::read_json(params$inspect_file) |>
@@ -74,7 +81,9 @@ df_inspect <- jsonlite::read_json(params$inspect_file) |>
     BaseImage = list("Config", "Labels", "org.opencontainers.image.base.name"),
     CreatedTime = "Created",
     "Size",
-    Env = list("Config", "Env")
+    Env = list("Config", "Env"),
+    Entrypoint = list("Config", "Entrypoint"),
+    Cmd = list("Config", "Cmd")
   )
 
 df_inspect |>
@@ -84,10 +93,13 @@ df_inspect |>
     RepoDigests = .unlist_and_enclose(RepoDigests),
     BaseImage = paste0("`", BaseImage, "`"),
     Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
-    Env = paste(unlist(Env), collapse = ", ")
+    Env = stringr::str_c(unlist(Env), collapse = ", "),
+    Entrypoint = .list_to_jsonarray(Entrypoint),
+    Cmd = .list_to_jsonarray(Cmd)
   ) |>
   dplyr::select(tidyselect:::where(is.character)) |>
-  tidyr::pivot_longer(cols = tidyselect::everything())
+  tidyr::pivot_longer(cols = tidyselect::everything()) |>
+  knitr::kable()
 ```
 
 You can install this image with a command with a RepoDigests, like the following:
@@ -103,7 +115,7 @@ df_digest <- tryCatch(
     dplyr::filter(!(name == "Name:" & dplyr::lead(name) != "Platform:")) |>
     dplyr::mutate(id = (row_number() + 1) %/% 2) |>
     tidyr::pivot_wider(id_cols = id) |>
-    dplyr::transmute(platform = `Platform:`, RepoDigests = `Name:`),
+    dplyr::select(platform = `Platform:`, RepoDigests = `Name:`),
   error = function(e) NULL
 )
 
@@ -120,20 +132,20 @@ if (!is.null(df_digest)) {
 
 ```{r package_data}
 df_apt <- readr::read_tsv(params$apt_file, col_names = FALSE) |>
-  dplyr::transmute(
+  dplyr::select(
     package = X1,
     version = X2
   )
 
 df_r <- readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
-  dplyr::transmute(
+  dplyr::select(
     package = X1,
     version = X2
   )
 
 df_pip <- tryCatch(
   readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
-    dplyr::transmute(
+    dplyr::select(
       package = X1,
       version = X2
     ),
