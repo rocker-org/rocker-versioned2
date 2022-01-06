@@ -41,33 +41,33 @@ library(gert)
     unique()
 
   for (i in seq_len(length(urls_try))) {
-    url <- urls_try[i]
-    if (.is_cran_url_available(url, r_version)) break
-    url <- NA_character_
+    .url <- urls_try[i]
+    if (.is_cran_url_available(.url, r_version)) break
+    .url <- NA_character_
   }
 
-  if (is.na(url)) stop("\nCRAN mirrors are not available!\n")
+  if (is.na(.url)) stop("\nCRAN mirrors are not available!\n")
 
-  return(url)
+  return(.url)
 }
 
 .make_rspm_cran_url_linux <- function(date, distro_version_name, type = "source") {
   base_url <- "https://packagemanager.rstudio.com/cran"
-  url <- dplyr::case_when(
+  .url <- dplyr::case_when(
     type == "source" & is.na(date) ~ glue::glue("{base_url}/latest"),
     type == "binary" & is.na(date) ~ glue::glue("{base_url}/__linux__/{distro_version_name}/latest"),
     type == "source" ~ glue::glue("{base_url}/{date}"),
     type == "binary" ~ glue::glue("{base_url}/__linux__/{distro_version_name}/{date}")
   )
 
-  return(url)
+  return(.url)
 }
 
-.is_cran_url_available <- function(url, r_version) {
-  glue::glue("\n\nfor R {r_version}, repo_ping to {url}\n\n") |>
+.is_cran_url_available <- function(.url, r_version) {
+  glue::glue("\n\nfor R {r_version}, repo_ping to {.url}\n\n") |>
     cat()
 
-  is_available <- pak::repo_ping(cran_mirror = url, r_version = r_version, bioc = FALSE) |>
+  is_available <- pak::repo_ping(cran_mirror = .url, r_version = r_version, bioc = FALSE) |>
     dplyr::filter(name == "CRAN") |>
     dplyr::pull(ok)
 
@@ -102,13 +102,13 @@ library(gert)
 }
 
 .latest_ctan_url <- function(date) {
-  url <- dplyr::if_else(
+  .url <- dplyr::if_else(
     is.na(date),
     "https://mirror.ctan.org/systems/texlive/tlnet",
     stringr::str_c("https://www.texlive.info/tlnet-archive/", format(date, "%Y/%m/%d"), "/tlnet")
   )
 
-  return(url)
+  return(.url)
 }
 
 
