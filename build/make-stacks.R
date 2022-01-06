@@ -412,18 +412,19 @@ df_ubuntu_lts <- suppressWarnings(
 
 # RStudio versions data from the RStudio GitHub repository.
 df_rstudio <- gert::git_remote_ls(remote = "https://github.com/rstudio/rstudio.git") |>
-  dplyr::filter(stringr::str_detect(ref, "^refs/tags/")) |>
+  dplyr::filter(stringr::str_detect(ref, "^refs/tags/v")) |>
   dplyr::transmute(
     tag = stringr::str_remove(ref, "^refs/tags/"),
-    commit_url = glue::glue("https://api.github.com/repos/rstudio/rstudio/commits/{oid}")
+    commit_url = glue::glue("https://api.github.com/repos/rstudio/rstudio/commits/{oid}"),
+    rstudio_version = stringr::str_remove(tag, "^v")
   ) |>
-  dplyr::slice_max(readr::parse_number(tag), n = 5, with_ties = TRUE) |>
+  dplyr::slice_tail(n = 5) |>
   dplyr::rowwise() |>
-  dplyr::mutate(commit_date = .get_github_commit_date(commit_url)) |>
+  dplyr::mutate(rstudio_commit_date = .get_github_commit_date(commit_url)) |>
   dplyr::ungroup() |>
-  dplyr::transmute(
-    rstudio_version = stringr::str_remove(tag, "^v"),
-    rstudio_commit_date = commit_date
+  dplyr::select(
+    rstudio_version,
+    rstudio_commit_date
   ) |>
   dplyr::arrange(rstudio_commit_date)
 
