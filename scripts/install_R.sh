@@ -122,7 +122,6 @@ CXXFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdat
 		   --with-blas \
 		   --with-lapack \
 		   --with-tcltk \
-		   --disable-nls \
 		   --with-recommended-packages
 make
 make install
