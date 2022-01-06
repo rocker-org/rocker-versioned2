@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: install packages
         run: |
-          install2.r --error --skipinstalled -r https://r-lib.github.io/p/pak/dev/ -n -1 pak
+          install2.r --error --skipinstalled -n -1 pak
       - name: Make changes to pull request
         run: |
           ./build/make-stacks.R

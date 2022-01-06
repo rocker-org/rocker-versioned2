@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 
 # This script only works on Ubuntu.
-# This script needs development version of pak package (>=0.1.2.9001).
 
 library(rversions)
 library(jsonlite)
