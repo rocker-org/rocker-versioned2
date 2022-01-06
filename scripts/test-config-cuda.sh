@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+# require one command line argument
+if [ "$#" -ne 1 ]
+then
+  echo "Error: one argument for log location required (e.g. ./gpu-test.log)"
+  echo "Usage: $0 log-location"
+  exit 1
+fi
+
 # set log location from command invokation
 LOG_LOC=$1
 TEST_FAIL=false
@@ -13,16 +21,6 @@ then
   echo "WARNING: CUDA driver may not be correctly installed." | tee -a $LOG_LOC
   TEST_FAIL=true
 else
-  # 2 possible command line options
-  # 1) we could parse /proc/driver/nvidia/version, but output isn't easy to parse:
-  #      NVRM version: NVIDIA UNIX x86_64 Kernel Module  470.74  Mon Sep 13 23:09:15 UTC 2021
-  #      GCC version:  gcc version 9.3.0 (Ubuntu 9.3.0-17ubuntu1~20.04)
-  # 2) nvidia-smi --query-gpu=driver_version --format=csv
-  #    output is easy to parse:
-  #      driver_version
-  #      470.74
-  #    but nvidia-smi may require communication with the card that we won't have.
-  #    testing will be needed
   while read line; do
     IFS=' ' read -ra tmp_array <<< $line
     if [ ${tmp_array[0]} = "NVRM" ] && [ ${tmp_array[1]} = "version:" ]
@@ -32,7 +30,7 @@ else
   done < $PROC_DRIVER_FILE
 fi
 
-echo $VERSION_DRIVER
+echo $VERSION_DRIVER | tee -a $LOG_LOC
 
 # toolkit
 if ! TOOLKIT_CHECK_OUTPUT=$(nvcc -V 2>&1);
@@ -52,10 +50,10 @@ else
   done <<< $TOOLKIT_CHECK_OUTPUT
 fi
 
-echo $VERSION_TOOLKIT
+echo $VERSION_TOOLKIT | tee -a $LOG_LOC
 
 # tensorflow
-if ! VERSION_TF_OUTPUT=`python -c 'import tensorflow as tf; print(tf.__version__)' 2>&1`;
+if ! VERSION_TF_OUTPUT=$(python -c 'import tensorflow as tf; print(tf.__version__)' 2>&1);
 then
   echo "Error: trying to get tensorflow version: $TF_VERSION"
 else
@@ -65,7 +63,7 @@ else
   done <<< $VERSION_TF_OUTPUT
 fi
 
-echo $VERSION_TF
+echo $VERSION_TF | tee -a $LOG_LOC
 
 if [ "$TEST_FAIL" = true ]
 then
