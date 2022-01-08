@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bash
+# shellcheck shell=bash
 
 ## Set our dynamic variables in Renviron.site to be reflected by RStudio
 exclude_vars="HOME PASSWORD RSTUDIO_VERSION"

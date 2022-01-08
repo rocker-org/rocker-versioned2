@@ -1,4 +1,5 @@
 #!/usr/bin/with-contenv bash
+# shellcheck shell=bash
 
 ## Set defaults for environmental variables in case they are undefined
 DEFAULT_USER=${DEFAULT_USER:-rstudio}
