@@ -1,7 +1,7 @@
 #!/usr/bin/with-contenv bash
 # shellcheck shell=bash
 
-## Set our dynamic variables in Renviron.site to be reflected by RStudio
+## Set our dynamic variables in Renviron.site to be reflected by RStudio Server or Shiny Server
 exclude_vars="HOME PASSWORD RSTUDIO_VERSION"
 for file in /var/run/s6/container_environment/*
 do
