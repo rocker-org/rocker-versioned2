@@ -57,6 +57,9 @@ exec shiny-server 2>&1
 EOF
 chmod +x /etc/services.d/shiny-server/run
 
+# install init script
+cp /rocker_scripts/init_set_env.sh /etc/cont-init.d/01_set_env
+
 # Clean up
 rm -rf /var/lib/apt/lists/*
 rm -rf /tmp/downloaded_packages
