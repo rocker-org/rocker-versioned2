@@ -1,5 +1,15 @@
 # News
 
+## 2022-01
+
+### Changes in rocker_scripts
+
+- `userconf.sh`, which is executed when RStudio Server is launched, has been split into `init_set_env.sh` and `init_userconf.sh`. `init_set_env.sh` is also executed when Shiny Server is launched. ([#320](https://github.com/rocker-org/rocker-versioned2/pull/320))
+
+### Changes in pre-built images
+
+- Environment variables set in the container are now reflected in the sessions on Shiny Server. ([#320](https://github.com/rocker-org/rocker-versioned2/pull/320))
+
 ## 2021-12
 
 ### Changes in pre-built images
