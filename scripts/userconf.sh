@@ -102,23 +102,9 @@ if [ "$TZ" !=  "Etc/UTC" ]
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 fi
 
-## Set our dynamic variables in Renviron.site to be reflected by RStudio
-exclude_vars="HOME PASSWORD RSTUDIO_VERSION"
-for file in /var/run/s6/container_environment/*
-do
-  sed -i "/^${file##*/}=/d" ${R_HOME}/etc/Renviron.site
-  regex="(^| )${file##*/}($| )"
-  [[ ! $exclude_vars =~ $regex ]] && echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site || echo "skipping $file"
-done
-
 ## Update Locale if needed
 if [ "$LANG" !=  "en_US.UTF-8" ]
   then
     /usr/sbin/locale-gen --lang $LANG
     /usr/sbin/update-locale --reset LANG=$LANG
 fi
-
-## only file-owner (root) should read container_environment files:
-chmod 600 /var/run/s6/container_environment/*
-
-
