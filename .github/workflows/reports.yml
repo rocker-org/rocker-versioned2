@@ -73,7 +73,7 @@ jobs:
           path: tmp
       - name: Generate reports and update wiki home
         run: |
-          make --jobs report-all
+          make --jobs=2 report-all
           make wiki-home
       - name: Update wiki
         uses: stefanzweifel/git-auto-commit-action@v4
