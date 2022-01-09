@@ -20,6 +20,16 @@ then
 	echo "USER=$USER" >> /etc/environment
 fi
 
+
+if [[ ${NB_PREFIX,,} != "" ]]
+## Kubeflow configuration, https://github.com/rocker-org/rocker-versioned2/pull/91
+then
+	echo "www-root-path=${NB_PREFIX}" >> /etc/rstudio/kubeflow_rserver.conf
+  mv /etc/rstudio/kubeflow_rserver.conf /etc/rstudio/rserver.conf
+	echo "USER=$USER" >> /etc/environment
+fi
+
+
 if grep --quiet "auth-none=1" /etc/rstudio/rserver.conf
 then
 	echo "Skipping authentication as requested"
