@@ -136,7 +136,8 @@
       ],
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",
-      "CMD": "jupyter notebook --ip 0.0.0.0"
+      "CMD": "jupyter notebook --ip 0.0.0.0",
+      "EXPOSE": 8888
     },
     {
       "IMAGE": "cuda",
