@@ -128,7 +128,8 @@ printf "%s" "$LOGGING" > /etc/rstudio/logging.conf
 /rocker_scripts/default_user.sh
 
 # install user config initiation script
-cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
+cp /rocker_scripts/init_set_env.sh /etc/cont-init.d/01_set_env
+cp /rocker_scripts/init_userconf.sh /etc/cont-init.d/02_userconf
 cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 
 ## Rocker's default RStudio settings, for better reproducibility
