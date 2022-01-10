@@ -160,6 +160,7 @@
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",
       "CMD": "jupyter notebook --ip 0.0.0.0",
+      "EXPOSE": 8888,
       "tags": [
         "docker.io/rocker/binder:4.0.0"
       ]
