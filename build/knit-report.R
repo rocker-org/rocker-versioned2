@@ -35,6 +35,8 @@ apt_file <- arguments$apt_file
 r_file <- arguments$r_file
 pip_file <- arguments$pip_file
 
+intermediates_dir <- NULL
+
 if (arguments$directory == TRUE) {
   directory_name <- arguments$directory_name
   inspect_file <- paste0(directory_name, "/docker_inspect.json")
@@ -42,10 +44,12 @@ if (arguments$directory == TRUE) {
   apt_file <- paste0(directory_name, "/apt_packages.tsv")
   r_file <- paste0(directory_name, "/r_packages.ssv")
   pip_file <- paste0(directory_name, "/pip_packages.ssv")
+  intermediates_dir <- directory_name
 }
 
 rmarkdown::render(
   input = template,
+  intermediates_dir = intermediates_dir,
   output_dir = output_dir,
   output_file = paste0(arguments$image_name, ".md"),
   params = list(
