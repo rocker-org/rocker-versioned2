@@ -1,7 +1,17 @@
 #!/bin/bash
+
+## Download and install RStudio server & dependencies uses.
+## Also symlinks pandoc, pandoc-citeproc so they are available system-wide.
+##
+## In order of preference, first argument of the script, the RSTUDIO_VERSION variable.
+## ex. stable, preview, daily, 1.3.959, 2021.09.1+372, 2021.09.1-372, 2022.06.0-daily+11
+
 set -e
 
+RSTUDIO_VERSION=${1:-${RSTUDIO_VERSION:-"stable"}}
+
 DEFAULT_USER=${DEFAULT_USER:-rstudio}
+ARCH=$(dpkg --print-architecture)
 
 apt-get update
 apt-get install -y --no-install-recommends \
@@ -36,44 +46,23 @@ rm -rf /var/lib/apt/lists/*
 ## Also symlinks pandoc, pandoc-citeproc so they are available system-wide,
 export PATH=/usr/lib/rstudio-server/bin:$PATH
 
-# Get RStudio. Use version from environment variable, or take version from
-# first argument.
-if [ -z "$1" ];
-  then RSTUDIO_VERSION_ARG=$RSTUDIO_VERSION;
-  else RSTUDIO_VERSION_ARG=$1;
+
+## Download RStudio Server for Ubuntu 18+
+DOWNLOAD_FILE=rstudio-server.deb
+
+if [ "$RSTUDIO_VERSION" = "latest" ]; then
+  RSTUDIO_VERSION="stable"
 fi
 
-RSTUDIO_BASE_URL=https://download2.rstudio.org/server
-
-if [ -z "$RSTUDIO_VERSION_ARG" ] || [ "$RSTUDIO_VERSION_ARG" = "latest" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download-server/debian-ubuntu/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-[0-9]+" -m 1)
-elif [ "$RSTUDIO_VERSION_ARG" = "preview" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-preview%2B[0-9]+" -m 1 ||
-      wget -qO - https://rstudio.com/products/rstudio/download/preview/ | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+%2B[0-9]+" -m 1)
-    RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
-elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
-    DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudio/latest/index.json | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-daily-[0-9]+(?=-amd64.deb)" -m 1)
-    RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
+if [ "$RSTUDIO_VERSION" = "stable" ] || [ "$RSTUDIO_VERSION" = "preview" ] || [ "$RSTUDIO_VERSION" = "daily" ]; then
+  wget "https://rstudio.org/download/latest/${RSTUDIO_VERSION}/server/bionic/rstudio-server-latest-${ARCH}.deb" -O "$DOWNLOAD_FILE"
 else
-    DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG/"+"/"-"}
+  wget "https://download2.rstudio.org/server/bionic/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE" \
+  || wget "https://s3.amazonaws.com/rstudio-ide-build/server/bionic/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE"
 fi
 
-## UBUNTU_VERSION is not generally valid: only works for xenial and bionic, not other releases,
-## and does not understand numeric versions. (2020-04-15)
-#RSTUDIO_URL="${RSTUDIO_BASE_URL}/${UBUNTU_VERSION}/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
-## hardwire bionic for now...
-RSTUDIO_URL="${RSTUDIO_BASE_URL}/bionic/amd64/rstudio-server-${DOWNLOAD_VERSION}-amd64.deb"
-
-if [ "$UBUNTU_VERSION" = "xenial" ]; then
-  wget "${RSTUDIO_URL}" || \
-  wget "${RSTUDIO_URL//server-/server-xenial-/}" || \
-  wget "${RSTUDIO_URL//xenial/trusty/}"
-else
-  wget "${RSTUDIO_URL}"
-fi
-
-dpkg -i rstudio-server-*-amd64.deb
-rm rstudio-server-*-amd64.deb
+dpkg -i "$DOWNLOAD_FILE"
+rm "$DOWNLOAD_FILE"
 
 # https://github.com/rocker-org/rocker-versioned2/issues/137
 rm -f /var/lib/rstudio-server/secure-cookie-key
@@ -128,7 +117,8 @@ printf "%s" "$LOGGING" > /etc/rstudio/logging.conf
 /rocker_scripts/default_user.sh
 
 # install user config initiation script
-cp /rocker_scripts/userconf.sh /etc/cont-init.d/userconf
+cp /rocker_scripts/init_set_env.sh /etc/cont-init.d/01_set_env
+cp /rocker_scripts/init_userconf.sh /etc/cont-init.d/02_userconf
 cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 
 ## Rocker's default RStudio settings, for better reproducibility

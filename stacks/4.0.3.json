@@ -14,7 +14,7 @@
         "R_VERSION": "4.0.3",
         "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2021-02-17",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2021-02-11",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
@@ -146,6 +146,7 @@
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",
       "CMD": "jupyter notebook --ip 0.0.0.0",
+      "EXPOSE": 8888,
       "tags": [
         "docker.io/rocker/binder:4.0.3"
       ]

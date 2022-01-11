@@ -82,8 +82,12 @@ df_inspect <- jsonlite::read_json(params$inspect_file) |>
     CreatedTime = "Created",
     "Size",
     Env = list("Config", "Env"),
+    ExposedPorts = list("Config", "ExposedPorts"),
     Entrypoint = list("Config", "Entrypoint"),
-    Cmd = list("Config", "Cmd")
+    Cmd = list("Config", "Cmd"),
+    .transform = list(
+      ExposedPorts = names
+    )
   )
 
 df_inspect |>
@@ -94,6 +98,7 @@ df_inspect |>
     BaseImage = paste0("`", BaseImage, "`"),
     Size = paste0(format(round(Size / 10^6), big.mark = ","), "MB"),
     Env = stringr::str_c(unlist(Env), collapse = ", "),
+    ExposedPorts = stringr::str_c(unlist(ExposedPorts), collapse = ", "),
     Entrypoint = .list_to_jsonarray(Entrypoint),
     Cmd = .list_to_jsonarray(Cmd)
   ) |>
