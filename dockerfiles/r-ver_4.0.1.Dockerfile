@@ -8,7 +8,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 ENV R_VERSION=4.0.1
 ENV TERM=xterm
 ENV R_HOME=/usr/local/lib/R
-ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/focal/296
+ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/focal/2020-06-18
 ENV TZ=Etc/UTC
 
 COPY scripts/install_R.sh /rocker_scripts/install_R.sh

@@ -9,6 +9,11 @@
 ### Changes in pre-built images
 
 - Environment variables set in the container are now reflected in the sessions on Shiny Server. ([#320](https://github.com/rocker-org/rocker-versioned2/pull/320))
+- Change the date of the CRAN mirrors that were set for the R 4.0.0, R 4.0.1, R 4.0.2, and R 4.0.3 images. This reconfiguration was done mechanically, selecting the mirrors just before the release date of the next version of R. ([#328](https://github.com/rocker-org/rocker-versioned2/pull/328))
+  - R 4.0.0: 2020-06-08 to 2020-06-04 (The next version, R 4.0.1 was released on 2020-06-06)
+  - R 4.0.1: 2020-06-25 to 2020-06-18 (The next version, R 4.0.2 was released on 2020-06-22)
+  - R 4.0.2: 2020-10-07 to 2020-10-09 (The next version, R 4.0.3 was released on 2020-10-10)
+  - R 4.0.3: 2021-02-17 to 2021-02-11 (The next version, R 4.0.4 was released on 2021-02-15)
 
 ## 2021-12
 
