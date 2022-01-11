@@ -14,7 +14,7 @@
         "R_VERSION": "4.0.1",
         "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/296",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2020-06-18",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
