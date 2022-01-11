@@ -28,7 +28,7 @@
         "R_VERSION": "4.0.0",
         "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/291",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2020-06-04",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
@@ -257,7 +257,7 @@
         "R_VERSION": "4.0.0",
         "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/bionic/291",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/bionic/2020-06-04",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
