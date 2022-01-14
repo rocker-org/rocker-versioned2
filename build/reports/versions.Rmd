@@ -86,7 +86,7 @@ df_stacks |>
   dplyr::arrange(numeric_version(r_version)) |>
   dplyr::select(
     `R version` = r_version,
-    `Release date` = release_date,
+    `R release date` = release_date,
     `CRAN date` = cran_date,
     `RStudio version` = rstudio_version,
     `Ubuntu version` = version
