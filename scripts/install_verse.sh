@@ -75,7 +75,13 @@ wget "https://travis-bin.yihui.name/texlive-local.deb" \
 
 install2.r --error --skipinstalled -n $NCPUS tinytex
 install2.r --error --deps TRUE --skipinstalled -n $NCPUS \
-    blogdown bookdown rticles rmdshower rJava xaringan
+    blogdown \
+    bookdown \
+    distill \
+    rticles \
+    rmdshower \
+    rJava \
+    xaringan
 
 rm -rf /tmp/downloaded_packages
 rm -rf /var/lib/apt/lists/*
