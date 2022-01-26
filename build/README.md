@@ -20,3 +20,15 @@ Since 2021-08-10, the information of images built from this repository will be r
 Running `make inspect-image-all` (requires `docker`), then `make report-all` (requires R >= 4.1.0 and some packages) will generate reports about rocker images, in `reports/` directory (ignored by git). The template for the reports is `build/reports/template.Rmd` and the script for giving variables to the template is `./build/knit-report.R`.
 
 The wiki HOME(`Home.md`) is generated from `build/reports/wiki_home.Rmd`.
+
+## How to control which Docker images to build
+
+### Stop building a specific R version
+
+Variables described in the stack files that exist in each version may be referenced during document generation.
+
+So, if you no longer need to build a particular R version, please edit the `make-matrix.R` script and exclude that R version from the build matrix, instead of remove the stack file for that version.
+
+### Stop building a specific image of a specific R version
+
+Images that are not included in the `groups` defined in `docker-bake.json` files will not be built, so if you want to select images to build in each version of the stack file, edit the `make-stacks.R` script and adjust the contents of `groups`.
