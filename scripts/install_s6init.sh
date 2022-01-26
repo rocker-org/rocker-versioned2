@@ -3,7 +3,7 @@ set -e
 
 ### Sets up S6 supervisor.
 
-S6_VERSION=${1:-${S6_VERSION:-v1.21.7.0}}
+S6_VERSION=${1:-${S6_VERSION:-"v2.1.0.2"}}
 S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 ARCH=$(dpkg --print-architecture)
