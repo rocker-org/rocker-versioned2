@@ -38,12 +38,6 @@ rm -rf /var/lib/apt/lists/*
 # install s6 supervisor
 /rocker_scripts/install_s6init.sh
 
-## Download and install RStudio server & dependencies
-## Uses, in order of preference, first argument of the script, the
-## RSTUDIO_VERSION variable, or the latest RStudio version.  "latest", "preview",
-## or "daily" may be used.
-##
-## Also symlinks pandoc, pandoc-citeproc so they are available system-wide,
 export PATH=/usr/lib/rstudio-server/bin:$PATH
 
 

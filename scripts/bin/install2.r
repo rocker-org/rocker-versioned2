@@ -51,16 +51,14 @@ if (opt$deps == "TRUE" || opt$deps == "FALSE") {
     opt$deps <- NA
 }
 
-if (length(opt$repos) == 1) {
-    ## docopt results are characters, so if we meant NULL we have to set NULL
-    if (opt$repos == "NULL")  {
-        opt$repos <- NULL
-    } else {
-        if (opt$repos == "getOption") {
-            ## as littler can now read ~/.littler.r and/or /etc/littler.r we can preset elsewhere
-            opt$repos <- getOption("repos")
-        }
-    }
+## docopt results are characters, so if we meant NULL we have to set NULL
+if (length(opt$repos) == 1 && "NULL" %in% opt$repos) {
+    opt$repos <- NULL
+}
+
+if ("getOption" %in% opt$repos) {
+    ## as littler can now read ~/.littler.r and/or /etc/littler.r we can preset elsewhere
+    opt$repos <- c(opt$repos[which(opt$repos != "getOption")], getOption("repos"))
 }
 
 if (opt$ncpus == "getOption") {
@@ -144,7 +142,7 @@ if (any(isLocal)) {
     install_packages2(pkgs = opt$PACKAGES,
                       lib = opt$libloc,
                       repos = opt$repos,
-                      dependencies = opt$dep,
+                      dependencies = opt$deps,
                       INSTALL_opts = installOpts,
                       Ncpus = opt$ncpus,
                       method = opt$method,
