@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Xgboost
 
 set -e
