@@ -16,7 +16,6 @@ apt install -y --allow-change-held-packages libnccl2 \
                                             libnvidia-compute-470 \
                                             ocl-icd-opencl-dev \
                                             clinfo
-apt-mark hold libnccl2 libnccl-dev cuda-nvcc-11-3 libnvidia-compute-470 ocl-icd-opencl-dev
 ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 /usr/lib/libOpenCL.so
 
 # install cmake
