@@ -7,17 +7,17 @@ set -x
 
 apt update && apt install -y software-properties-common
 
-# apt-get update
-# apt-get install -y --allow-downgrades --allow-remove-essential --allow-change-held-packages --allow-unauthenticated --no-install-recommends --no-upgrade \
-#   gcc-8 \
-#   g++-8 \
-#   libnccl2 \
-#   libnccl-dev
-
 # install nvidia toolkit
 apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/7fa2af80.pub
 add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
-apt update && apt install -y nvidia-cuda-dev nvidia-cuda-toolkit
+apt install -y --allow-change-held-packages libnccl2 \
+                                            libnccl-dev \
+                                            cuda-nvcc-11-3 \
+                                            libnvidia-compute-470 \
+                                            ocl-icd-opencl-dev \
+                                            clinfo
+apt-mark hold libnccl2 libnccl-dev cuda-nvcc-11-3 libnvidia-compute-470 ocl-icd-opencl-dev
+ln -s /usr/lib/x86_64-linux-gnu/libOpenCL.so.1 /usr/lib/libOpenCL.so
 
 # install cmake
 apt update && apt install -y build-essential libssl-dev gcc-8 g++-8
