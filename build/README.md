@@ -31,4 +31,4 @@ So, if you no longer need to build a particular R version, please edit the `make
 
 ### Stop building a specific image of a specific R version
 
-Images that are not included in the `groups` defined in `docker-bake.json` files will not be built, so if you want to select images to build in each version of the stack file, edit the `make-stacks.R` script and adjust the contents of `groups`.
+Images that are not included in the `groups` defined in `docker-bake.json` files will not be built, so if you want to select images to build in each version of the stack file, edit the stack files and the `make-stacks.R` script to adjust the contents of `groups`.
