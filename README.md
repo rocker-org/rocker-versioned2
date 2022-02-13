@@ -19,13 +19,14 @@ Compared to `r-base`, this stack:
 - Builds on Ubuntu LTS rather than Debian and system libraries are tied to the Ubuntu version.
   Images will use the most recent LTS available at the time when the corresponding R version was released.
   Thus all 4.0 images are based on Ubuntu 20.04 (`ubuntu:focal`).
-- installs a fixed version of R itself from source, rather than whatever is already packaged for Debian
+- installs a fixed version of R itself from source, rather than whatever is already packaged for Ubuntu
   (the `r-base` stack gets the latest R version as a binary from Debian unstable).
 - The only platforms available are `linux/amd64` and `linux/arm64`
   (arm64 images are experimental and only available for `rocker/r-ver` 4.1.0 or later).
 - Set [the RStudio Public Package Manager (RSPM)](https://packagemanager.rstudio.com) as default CRAN mirror.
   For the amd64 platform, RSPM serves compiled Linux binaries of R packages and greatly speeds up package installs.
 - Non-latest R version images installs all R packages from a fixed snapshot of CRAN mirror at a given date.
+  This setting ensures that the same version of the R package is installed no matter when the installation is performed.
 - Provides images that are generally smaller than the `r-base` series.
 
 _Note: This repository is for R >= 4.0.0 images.
@@ -59,7 +60,8 @@ For more information about these container images, please see [the Wiki of this 
 
 Check [the Wiki](https://github.com/rocker-org/rocker-versioned2/wiki) for the list of tags.
 
-As tags not listed on the list, we build images daily with the `devel` tag, which installs the development version of R,
+There are also special tags that are not listed, `devel` and `latest-daily`.
+We build images daily with the `devel` tag, which installs the development version of R,
 and the `latest-daily` tag, which installs the RStudio daily build.
 
 - The `devel` tag is available for `rocker/r-ver`, `rocker/rstudio`, `rocker/tidyverse`, `rocker/verse`.
@@ -68,6 +70,15 @@ and the `latest-daily` tag, which installs the RStudio daily build.
 ## Modifying and extending images
 
 Check the website for common methods for Rocker images. <https://www.rocker-project.org/use/extending/>
+
+### Install R packages
+
+Please install R packages from source using the `install.packages()` R function or the `install2.r` script,
+and use `apt` only to install necessary system libraries (e.g. `libxml2`).
+Do not use `apt install r-cran-*` to install R packages.
+
+If you would prefer to install only the latest verions of packages from pre-built binaries using `apt`,
+consider using `r-base` or [`rocker/r-bspm`](https://github.com/rocker-org/bspm) instead.
 
 ### Rocker scripts
 
@@ -105,7 +116,7 @@ which is used for R <= 3.6.3 images._
 
 ## Build system
 
-### Definition files
+### Container definition files
 
 Dockerfiles and docker-bake.json files, which define the pre-built images, are in [the `dockerfiles` folder](./dockerfiles/) and [the `bakefiles` folder](./bakefiles/).
 And, these files are created from the JSON files under [the `stacks` folder](./stacks/) by the build scripts under [the `build` folder](./build/).
