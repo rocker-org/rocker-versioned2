@@ -94,5 +94,5 @@ df_stacks |>
   knitr::kable()
 ```
 
-Note: This table was generated from the latest definition files in the source repository, so the container images that were built and pushed may have different values set.
-Please check the individual reports on this wiki for the actual contents of the images.
+_Note: This table was generated from the latest definition files in the source repository, so the container images that were built and pushed may have different values set.
+Please check the individual reports on this wiki for the actual contents of the images._
