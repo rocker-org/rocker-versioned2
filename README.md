@@ -109,7 +109,7 @@ FROM rocker/rstudio:4.0.0
 RUN /rocker_scripts/install_shiny_server.sh 1.5.14.948
 ```
 
-RStudio Server and Shiny Server are managed by the [S6](https://github.com/just-containers/s6-overlay) supervisor system, which allows containers to manage multiple background processes gracefully.
+RStudio Server and Shiny Server are managed by [the S6 supervisor system](https://github.com/just-containers/s6-overlay), which allows containers to manage multiple background processes gracefully.
 
 _Note: No longer support `ADD=` runtime triggers for installing Shiny or similar modules,
 which is used for R <= 3.6.3 images._
