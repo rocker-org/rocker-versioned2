@@ -19,7 +19,7 @@ Compared to `r-base`, this stack:
 - Builds on Ubuntu LTS rather than Debian and system libraries are tied to the Ubuntu version.
   Images will use the most recent LTS available at the time when the corresponding R version was released.
   Thus all 4.0 images are based on Ubuntu 20.04 (`ubuntu:focal`).
-- installs a fixed version of R itself from source, rather than whatever is already packaged for Ubuntu
+- Installs a fixed version of R itself from source, rather than whatever is already packaged for Ubuntu
   (the `r-base` stack gets the latest R version as a binary from Debian unstable).
 - The only platforms available are `linux/amd64` and `linux/arm64`
   (arm64 images are experimental and only available for `rocker/r-ver` 4.1.0 or later).
@@ -32,7 +32,7 @@ Compared to `r-base`, this stack:
 _Note: This repository is for R >= 4.0.0 images.
 For images with R <= 3.6.3, please see the [`rocker-versioned`](https://github.com/rocker-org/rocker-versioned) repository,
 or the [`shiny`](https://github.com/rocker-org/shiny), [`geospatial`](https://github.com/rocker-org/geospatial),
-and [`binder`](https://github.com/rocker-org/binder) repositories for those images, now all consolidated here._
+and [`binder`](https://github.com/rocker-org/binder) repositories._
 
 ## Pre-built images
 
