@@ -40,7 +40,9 @@ if [ "$PANDOC_VERSION" != "$INSTALLED_PANDOC_VERSION" ]; then
 
   if [ "$PANDOC_VERSION" = "$BUNDLED_PANDOC_VERSION" ] || [ "$PANDOC_VERSION" = "default" ]; then
     ln -fs "$BUNDLED_PANDOC" /usr/local/bin
-    ln -fs "${BUNDLED_PANDOC}-citeproc" /usr/local/bin
+    if [ -f "${BUNDLED_PANDOC}-citeproc" ]; then
+      ln -fs "${BUNDLED_PANDOC}-citeproc" /usr/local/bin
+    fi
   else
     if [ -L "/usr/local/bin/pandoc" ]; then
       unlink /usr/local/bin/pandoc
