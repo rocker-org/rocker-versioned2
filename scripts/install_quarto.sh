@@ -23,7 +23,7 @@ if [ ! -x "$(command -v wget)" ]; then
 fi
 
 if [ -x "$(command -v quarto)" ]; then
-  INSTALLED_QUARTO_VERSION=$(quarto --version 2>/dev/null | head -n 1 | grep -oP '[\d\.]+$')
+  INSTALLED_QUARTO_VERSION=$(quarto --version)
 fi
 
 # Check RStudio bundled quarto cli
