@@ -1,7 +1,6 @@
 #!/bin/bash
 
 ## Download and install RStudio server & dependencies uses.
-## Also symlinks pandoc, pandoc-citeproc so they are available system-wide.
 ##
 ## In order of preference, first argument of the script, the RSTUDIO_VERSION variable.
 ## ex. stable, preview, daily, 1.3.959, 2021.09.1+372, 2021.09.1-372, 2022.06.0-daily+11

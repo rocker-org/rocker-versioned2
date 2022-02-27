@@ -1,10 +1,16 @@
 #!/bin/bash
+
+## Install pandoc or symlinks pandoc, pandoc-citeproc so they are available system-wide.
+##
+## In order of preference, first argument of the script, the PANDOC_VERSION variable.
+## ex. latest, default
+##
+## Note that 'default' pandoc version means the version bundled with RStudio If RStudio is installed,
+## but 'latest' otherwise
+
 set -e
 
-# Note that 'default' pandoc version means the version bundled with RStudio
-# if RStudio is installed , but latest otherwise
-
-PANDOC_VERSION=${1:-${PANDOC_VERSION:-default}}
+PANDOC_VERSION=${1:-${PANDOC_VERSION:-"default"}}
 ARCH=$(dpkg --print-architecture)
 
 if [ ! -x "$(command -v wget)" ]; then
@@ -19,8 +25,8 @@ fi
 if [ "$INSTALLED_PANDOC" != "$PANDOC_VERSION" ]; then
 
   if [ -f "/usr/lib/rstudio-server/bin/pandoc/pandoc" ] &&
-      { [ "$PANDOC_VERSION" = "$(/usr/lib/rstudio-server/bin/pandoc/pandoc --version | head -n 1 | grep -oP '[\d\.]+$')" ] ||
-        [ "$PANDOC_VERSION" = "default" ]; }; then
+    { [ "$PANDOC_VERSION" = "$(/usr/lib/rstudio-server/bin/pandoc/pandoc --version | head -n 1 | grep -oP '[\d\.]+$')" ] ||
+      [ "$PANDOC_VERSION" = "default" ]; }; then
     ln -fs /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/local/bin
     ln -fs /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/local/bin
   else
@@ -35,7 +41,7 @@ if [ "$INSTALLED_PANDOC" != "$PANDOC_VERSION" ]; then
   fi
 
   ## Symlink pandoc & standard pandoc templates for use system-wide
-  PANDOC_TEMPLATES_VERSION=`pandoc -v | grep -oP "(?<=pandoc\s)[0-9\.]+$"`
+  PANDOC_TEMPLATES_VERSION=$(pandoc -v | grep -oP "(?<=pandoc\s)[0-9\.]+$")
   wget https://github.com/jgm/pandoc-templates/archive/${PANDOC_TEMPLATES_VERSION}.tar.gz -O pandoc-templates.tar.gz
   rm -fr /opt/pandoc/templates
   mkdir -p /opt/pandoc/templates
