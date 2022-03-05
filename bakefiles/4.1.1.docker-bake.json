@@ -40,10 +40,7 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/r-ver:4.1.1",
-        "docker.io/rocker/r-ver:4.1",
-        "docker.io/rocker/r-ver:4",
-        "docker.io/rocker/r-ver:latest"
+        "docker.io/rocker/r-ver:4.1.1"
       ],
       "platforms": [
         "linux/amd64",
@@ -51,6 +48,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.1.1"
+      ],
+      "cache-to": [
+        "type=inline"
       ]
     },
     "rstudio": {
@@ -63,15 +63,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/rstudio:4.1.1",
-        "docker.io/rocker/rstudio:4.1",
-        "docker.io/rocker/rstudio:4",
-        "docker.io/rocker/rstudio:latest"
+        "docker.io/rocker/rstudio:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -85,15 +85,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/tidyverse:4.1.1",
-        "docker.io/rocker/tidyverse:4.1",
-        "docker.io/rocker/tidyverse:4",
-        "docker.io/rocker/tidyverse:latest"
+        "docker.io/rocker/tidyverse:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -107,15 +107,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/verse:4.1.1",
-        "docker.io/rocker/verse:4.1",
-        "docker.io/rocker/verse:4",
-        "docker.io/rocker/verse:latest"
+        "docker.io/rocker/verse:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -129,15 +129,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/geospatial:4.1.1",
-        "docker.io/rocker/geospatial:4.1",
-        "docker.io/rocker/geospatial:4",
-        "docker.io/rocker/geospatial:latest"
+        "docker.io/rocker/geospatial:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -151,15 +151,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/shiny:4.1.1",
-        "docker.io/rocker/shiny:4.1",
-        "docker.io/rocker/shiny:4",
-        "docker.io/rocker/shiny:latest"
+        "docker.io/rocker/shiny:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -173,15 +173,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/shiny-verse:4.1.1",
-        "docker.io/rocker/shiny-verse:4.1",
-        "docker.io/rocker/shiny-verse:4",
-        "docker.io/rocker/shiny-verse:latest"
+        "docker.io/rocker/shiny-verse:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -195,15 +195,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/binder:4.1.1",
-        "docker.io/rocker/binder:4.1",
-        "docker.io/rocker/binder:4",
-        "docker.io/rocker/binder:latest"
+        "docker.io/rocker/binder:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -218,19 +218,16 @@
       },
       "tags": [
         "docker.io/rocker/cuda:4.1.1-cuda10.1",
-        "docker.io/rocker/cuda:4.1-cuda10.1",
-        "docker.io/rocker/cuda:4-cuda10.1",
-        "docker.io/rocker/cuda:cuda10.1",
         "docker.io/rocker/cuda:4.1.1",
-        "docker.io/rocker/cuda:4.1",
-        "docker.io/rocker/cuda:4",
-        "docker.io/rocker/cuda:latest",
         "docker.io/rocker/r-ver:4.1.1-cuda10.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -245,18 +242,15 @@
       },
       "tags": [
         "docker.io/rocker/ml:4.1.1-cuda10.1",
-        "docker.io/rocker/ml:4.1-cuda10.1",
-        "docker.io/rocker/ml:4-cuda10.1",
-        "docker.io/rocker/ml:cuda10.1",
-        "docker.io/rocker/ml:4.1.1",
-        "docker.io/rocker/ml:4.1",
-        "docker.io/rocker/ml:4",
-        "docker.io/rocker/ml:latest"
+        "docker.io/rocker/ml:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -271,18 +265,15 @@
       },
       "tags": [
         "docker.io/rocker/ml-verse:4.1.1-cuda10.1",
-        "docker.io/rocker/ml-verse:4.1-cuda10.1",
-        "docker.io/rocker/ml-verse:4-cuda10.1",
-        "docker.io/rocker/ml-verse:cuda10.1",
-        "docker.io/rocker/ml-verse:4.1.1",
-        "docker.io/rocker/ml-verse:4.1",
-        "docker.io/rocker/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest"
+        "docker.io/rocker/ml-verse:4.1.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -297,9 +288,6 @@
       },
       "tags": [
         "docker.io/rocker/cuda:4.1.1-cuda11.1",
-        "docker.io/rocker/cuda:4.1-cuda11.1",
-        "docker.io/rocker/cuda:4-cuda11.1",
-        "docker.io/rocker/cuda:cuda11.1",
         "docker.io/rocker/r-ver:4.1.1-cuda11.1"
       ],
       "platforms": [
@@ -307,6 +295,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.1.1-cuda11.1"
+      ],
+      "cache-to": [
+        "type=inline"
       ]
     },
     "ml-cuda11": {
@@ -319,15 +310,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/ml:4.1.1-cuda11.1",
-        "docker.io/rocker/ml:4.1-cuda11.1",
-        "docker.io/rocker/ml:4-cuda11.1",
-        "docker.io/rocker/ml:cuda11.1"
+        "docker.io/rocker/ml:4.1.1-cuda11.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -341,15 +332,15 @@
         "org.opencontainers.image.version": "4.1.1"
       },
       "tags": [
-        "docker.io/rocker/ml-verse:4.1.1-cuda11.1",
-        "docker.io/rocker/ml-verse:4.1-cuda11.1",
-        "docker.io/rocker/ml-verse:4-cuda11.1",
-        "docker.io/rocker/ml-verse:cuda11.1"
+        "docker.io/rocker/ml-verse:4.1.1-cuda11.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     }

@@ -2,7 +2,7 @@
 set -e
 
 ## build ARGs
-NCPUS=${NCPUS:-1}
+NCPUS=${NCPUS:--1}
 
 TENSORFLOW_VERSION=${1:-${TENSORFLOW_VERSION:-default}}
 KERAS_VERSION=${2:-${KERAS_VERSION:-default}}

@@ -49,6 +49,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.0.0"
+      ],
+      "cache-to": [
+        "type=inline"
       ]
     },
     "rstudio": {
@@ -67,6 +70,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -87,6 +93,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "verse": {
@@ -105,6 +114,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -125,6 +137,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "shiny": {
@@ -143,6 +158,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -163,6 +181,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "binder": {
@@ -181,6 +202,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -203,6 +227,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "ml": {
@@ -222,6 +249,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -243,6 +273,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "r-ver-ubuntu18.04": {
@@ -262,6 +295,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.0.0-ubuntu18.04"
+      ],
+      "cache-to": [
+        "type=inline"
       ]
     },
     "rstudio-ubuntu18.04": {
@@ -280,6 +316,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     },
@@ -300,6 +339,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "verse-ubuntu18.04": {
@@ -319,6 +361,9 @@
       ],
       "cache-from": [
         ""
+      ],
+      "cache-to": [
+        ""
       ]
     },
     "geospatial-ubuntu18.04": {
@@ -337,6 +382,9 @@
         "linux/amd64"
       ],
       "cache-from": [
+        ""
+      ],
+      "cache-to": [
         ""
       ]
     }

@@ -1,39 +1,69 @@
 #!/bin/bash
+
+## Install pandoc or symlinks pandoc, pandoc-citeproc so they are available system-wide.
+##
+## In order of preference, first argument of the script, the PANDOC_VERSION variable.
+## ex. latest, default
+##
+## 'default' means the version bundled with RStudio if RStudio is installed, but 'latest' otherwise.
+## 'latest' means installing the latest release version.
+
 set -e
 
-# Note that 'default' pandoc version means the version bundled with RStudio
-# if RStudio is installed , but latest otherwise
-
-PANDOC_VERSION=${1:-${PANDOC_VERSION:-default}}
+PANDOC_VERSION=${1:-${PANDOC_VERSION:-"default"}}
 ARCH=$(dpkg --print-architecture)
 
-apt-get update && apt-get -y install wget
-
-if [ -x "$(command -v pandoc)" ]; then
-  INSTALLED_PANDOC=$(pandoc --version 2>/dev/null | head -n 1 | grep -oP '[\d\.]+$')
+if [ ! -x "$(command -v wget)" ]; then
+  apt-get update
+  apt-get -y install wget
 fi
 
-if [ "$INSTALLED_PANDOC" != "$PANDOC_VERSION" ]; then
+if [ -x "$(command -v pandoc)" ]; then
+  INSTALLED_PANDOC_VERSION=$(pandoc --version 2>/dev/null | head -n 1 | grep -oP '[\d\.]+$')
+fi
 
-  if [ -f "/usr/lib/rstudio-server/bin/pandoc/pandoc" ] &&
-      { [ "$PANDOC_VERSION" = "$(/usr/lib/rstudio-server/bin/pandoc/pandoc --version | head -n 1 | grep -oP '[\d\.]+$')" ] ||
-        [ "$PANDOC_VERSION" = "default" ]; }; then
-    ln -fs /usr/lib/rstudio-server/bin/pandoc/pandoc /usr/local/bin
-    ln -fs /usr/lib/rstudio-server/bin/pandoc/pandoc-citeproc /usr/local/bin
+if [ -f "/usr/lib/rstudio-server/bin/pandoc/pandoc" ]; then
+  BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/pandoc/pandoc"
+elif [ -f "/usr/lib/rstudio-server/bin/quarto/bin/pandoc" ]; then
+  BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/quarto/bin/pandoc"
+fi
+
+if [ -n "$BUNDLED_PANDOC" ]; then
+  BUNDLED_PANDOC_VERSION="$($BUNDLED_PANDOC --version | head -n 1 | grep -oP '[\d\.]+$')"
+fi
+
+if [ "$PANDOC_VERSION" != "$INSTALLED_PANDOC_VERSION" ]; then
+
+  if [ "$PANDOC_VERSION" = "default" ] && [ -z "$BUNDLED_PANDOC" ]; then
+    PANDOC_VERSION="latest"
+  fi
+
+  if [ "$PANDOC_VERSION" = "$BUNDLED_PANDOC_VERSION" ] || [ "$PANDOC_VERSION" = "default" ]; then
+    ln -fs "$BUNDLED_PANDOC" /usr/local/bin
+    if [ -f "${BUNDLED_PANDOC}-citeproc" ]; then
+      ln -fs "${BUNDLED_PANDOC}-citeproc" /usr/local/bin
+    fi
   else
-    if [ "$PANDOC_VERSION" = "default" ]; then
+    if [ -L "/usr/local/bin/pandoc" ]; then
+      unlink /usr/local/bin/pandoc
+    fi
+    if [ -L "/usr/local/bin/pandoc-citeproc" ]; then
+      unlink /usr/local/bin/pandoc-citeproc
+    fi
+
+    if [ "$PANDOC_VERSION" = "latest" ]; then
       PANDOC_DL_URL=$(wget -qO- https://api.github.com/repos/jgm/pandoc/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*${ARCH}\.deb")
     else
-      PANDOC_DL_URL=https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-${ARCH}.deb
+      PANDOC_DL_URL="https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-${ARCH}.deb"
     fi
-    wget ${PANDOC_DL_URL} -O pandoc-${ARCH}.deb
-    dpkg -i pandoc-${ARCH}.deb
-    rm pandoc-${ARCH}.deb
+    wget "$PANDOC_DL_URL" -O pandoc.deb
+    dpkg -i pandoc.deb
+    rm pandoc.deb
   fi
 
   ## Symlink pandoc & standard pandoc templates for use system-wide
-  PANDOC_TEMPLATES_VERSION=`pandoc -v | grep -oP "(?<=pandoc\s)[0-9\.]+$"`
-  wget https://github.com/jgm/pandoc-templates/archive/${PANDOC_TEMPLATES_VERSION}.tar.gz -O pandoc-templates.tar.gz
+  PANDOC_TEMPLATES_VERSION=$(pandoc -v | grep -oP "(?<=pandoc\s)[0-9\.]+$")
+  wget "https://github.com/jgm/pandoc-templates/archive/${PANDOC_TEMPLATES_VERSION}.tar.gz" -O pandoc-templates.tar.gz
   rm -fr /opt/pandoc/templates
   mkdir -p /opt/pandoc/templates
   tar xvf pandoc-templates.tar.gz

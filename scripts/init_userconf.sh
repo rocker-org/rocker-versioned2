@@ -1,9 +1,9 @@
 #!/usr/bin/with-contenv bash
+# shellcheck shell=bash
 
 ## Set defaults for environmental variables in case they are undefined
 DEFAULT_USER=${DEFAULT_USER:-rstudio}
 USER=${USER:=${DEFAULT_USER}}
-PASSWORD=${PASSWORD:=rstudio}
 USERID=${USERID:=1000}
 GROUPID=${GROUPID:=1000}
 ROOT=${ROOT:=FALSE}
@@ -24,15 +24,16 @@ fi
 if grep --quiet "auth-none=1" /etc/rstudio/rserver.conf
 then
 	echo "Skipping authentication as requested"
-elif [ "$PASSWORD" == "rstudio" ]
+elif [ -z "$PASSWORD" ]
 then
+    PASSWORD=$(pwgen 16 1)
     printf "\n\n"
     tput bold
-    printf "\e[31mERROR\e[39m: You must set a unique PASSWORD (not 'rstudio') first! e.g. run with:\n"
+    printf "The password is set to \e[31m%s\e[39m\n" "$PASSWORD"
+    printf "If you want to set your own password, set the PASSWORD environment variable. e.g. run with:\n"
     printf "docker run -e PASSWORD=\e[92m<YOUR_PASS>\e[39m -p 8787:8787 rocker/rstudio\n"
     tput sgr0
     printf "\n\n"
-    exit 1
 fi
 
 if [ "$USERID" -lt 1000 ]
@@ -102,23 +103,9 @@ if [ "$TZ" !=  "Etc/UTC" ]
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 fi
 
-## Set our dynamic variables in Renviron.site to be reflected by RStudio
-exclude_vars="HOME PASSWORD"
-for file in /var/run/s6/container_environment/*
-do
-  sed -i "/^${file##*/}=/d" ${R_HOME}/etc/Renviron.site
-  regex="(^| )${file##*/}($| )"
-  [[ ! $exclude_vars =~ $regex ]] && echo "${file##*/}=$(cat $file)" >> ${R_HOME}/etc/Renviron.site || echo "skipping $file"
-done
-
 ## Update Locale if needed
 if [ "$LANG" !=  "en_US.UTF-8" ]
   then
     /usr/sbin/locale-gen --lang $LANG
     /usr/sbin/update-locale --reset LANG=$LANG
 fi
-
-## only file-owner (root) should read container_environment files:
-chmod 600 /var/run/s6/container_environment/*
-
-

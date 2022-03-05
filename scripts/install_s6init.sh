@@ -3,7 +3,7 @@ set -e
 
 ### Sets up S6 supervisor.
 
-S6_VERSION=${1:-${S6_VERSION:-v1.21.7.0}}
+S6_VERSION=${1:-${S6_VERSION:-"v2.1.0.2"}}
 S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 ARCH=$(dpkg --print-architecture)
@@ -15,7 +15,10 @@ fi
 DOWNLOAD_FILE=s6-overlay-${ARCH}.tar.gz
 
 
-apt-get update && apt-get -y install wget
+if [ ! -x "$(command -v wget)" ]; then
+  apt-get update
+  apt-get -y install wget
+fi
 
 ## Set up S6 init system
 if [ -f "/rocker_scripts/.s6_version" ] && [ "$S6_VERSION" = "$(cat /rocker_scripts/.s6_version)" ]; then

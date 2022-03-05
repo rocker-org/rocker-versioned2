@@ -27,21 +27,20 @@
       "ENV": {
         "R_VERSION": "4.1.1",
         "TERM": "xterm",
-        "LC_ALL": "en_US.UTF-8",
-        "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2021-10-29",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
       "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "ENV_after_a_script": {
+        "LANG": "en_US.UTF-8"
+      },
       "COPY": "scripts /rocker_scripts",
+      "RUN": "/rocker_scripts/patch_install_command.sh",
       "CMD": "[\"R\"]",
       "tags": [
-        "docker.io/rocker/r-ver:4.1.1",
-        "docker.io/rocker/r-ver:4.1",
-        "docker.io/rocker/r-ver:4",
-        "docker.io/rocker/r-ver:latest"
+        "docker.io/rocker/r-ver:4.1.1"
       ],
       "platforms": [
         "linux/amd64",
@@ -49,6 +48,9 @@
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.1.1"
+      ],
+      "cache-to": [
+        "type=inline"
       ]
     },
     {
@@ -60,7 +62,7 @@
       "FROM": "rocker/r-ver:4.1.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "1.4.1717",
+        "RSTUDIO_VERSION": "2021.09.0+351",
         "DEFAULT_USER": "rstudio",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
@@ -71,10 +73,7 @@
       "CMD": "[\"/init\"]",
       "EXPOSE": 8787,
       "tags": [
-        "docker.io/rocker/rstudio:4.1.1",
-        "docker.io/rocker/rstudio:4.1",
-        "docker.io/rocker/rstudio:4",
-        "docker.io/rocker/rstudio:latest"
+        "docker.io/rocker/rstudio:4.1.1"
       ]
     },
     {
@@ -86,10 +85,7 @@
       "FROM": "rocker/rstudio:4.1.1",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
-        "docker.io/rocker/tidyverse:4.1.1",
-        "docker.io/rocker/tidyverse:4.1",
-        "docker.io/rocker/tidyverse:4",
-        "docker.io/rocker/tidyverse:latest"
+        "docker.io/rocker/tidyverse:4.1.1"
       ]
     },
     {
@@ -100,15 +96,16 @@
       },
       "FROM": "rocker/tidyverse:4.1.1",
       "ENV": {
-        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux"
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2021/10/31/tlnet",
+        "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux",
+        "QUARTO_VERSION": "latest"
       },
-      "RUN": "/rocker_scripts/install_verse.sh",
+      "RUN": [
+        "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_quarto.sh"
+      ],
       "tags": [
-        "docker.io/rocker/verse:4.1.1",
-        "docker.io/rocker/verse:4.1",
-        "docker.io/rocker/verse:4",
-        "docker.io/rocker/verse:latest"
+        "docker.io/rocker/verse:4.1.1"
       ]
     },
     {
@@ -120,10 +117,7 @@
       "FROM": "rocker/verse:4.1.1",
       "RUN": "/rocker_scripts/install_geospatial.sh",
       "tags": [
-        "docker.io/rocker/geospatial:4.1.1",
-        "docker.io/rocker/geospatial:4.1",
-        "docker.io/rocker/geospatial:4",
-        "docker.io/rocker/geospatial:latest"
+        "docker.io/rocker/geospatial:4.1.1"
       ]
     },
     {
@@ -142,10 +136,7 @@
       "CMD": "[\"/init\"]",
       "EXPOSE": 3838,
       "tags": [
-        "docker.io/rocker/shiny:4.1.1",
-        "docker.io/rocker/shiny:4.1",
-        "docker.io/rocker/shiny:4",
-        "docker.io/rocker/shiny:latest"
+        "docker.io/rocker/shiny:4.1.1"
       ]
     },
     {
@@ -157,10 +148,7 @@
       "FROM": "rocker/shiny:4.1.1",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
-        "docker.io/rocker/shiny-verse:4.1.1",
-        "docker.io/rocker/shiny-verse:4.1",
-        "docker.io/rocker/shiny-verse:4",
-        "docker.io/rocker/shiny-verse:latest"
+        "docker.io/rocker/shiny-verse:4.1.1"
       ]
     },
     {
@@ -180,24 +168,16 @@
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",
       "CMD": "jupyter notebook --ip 0.0.0.0",
+      "EXPOSE": 8888,
       "tags": [
-        "docker.io/rocker/binder:4.1.1",
-        "docker.io/rocker/binder:4.1",
-        "docker.io/rocker/binder:4",
-        "docker.io/rocker/binder:latest"
+        "docker.io/rocker/binder:4.1.1"
       ]
     },
     {
       "IMAGE": "cuda",
       "tags": [
         "docker.io/rocker/cuda:4.1.1-cuda10.1",
-        "docker.io/rocker/cuda:4.1-cuda10.1",
-        "docker.io/rocker/cuda:4-cuda10.1",
-        "docker.io/rocker/cuda:cuda10.1",
         "docker.io/rocker/cuda:4.1.1",
-        "docker.io/rocker/cuda:4.1",
-        "docker.io/rocker/cuda:4",
-        "docker.io/rocker/cuda:latest",
         "docker.io/rocker/r-ver:4.1.1-cuda10.1"
       ],
       "labels": {
@@ -230,13 +210,7 @@
       "IMAGE": "ml",
       "tags": [
         "docker.io/rocker/ml:4.1.1-cuda10.1",
-        "docker.io/rocker/ml:4.1-cuda10.1",
-        "docker.io/rocker/ml:4-cuda10.1",
-        "docker.io/rocker/ml:cuda10.1",
-        "docker.io/rocker/ml:4.1.1",
-        "docker.io/rocker/ml:4.1",
-        "docker.io/rocker/ml:4",
-        "docker.io/rocker/ml:latest"
+        "docker.io/rocker/ml:4.1.1"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml",
@@ -245,7 +219,7 @@
       "FROM": "rocker/cuda:4.1.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "1.4.1717",
+        "RSTUDIO_VERSION": "2021.09.0+351",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "TENSORFLOW_VERSION": "gpu",
@@ -264,13 +238,7 @@
       "IMAGE": "ml-verse",
       "tags": [
         "docker.io/rocker/ml-verse:4.1.1-cuda10.1",
-        "docker.io/rocker/ml-verse:4.1-cuda10.1",
-        "docker.io/rocker/ml-verse:4-cuda10.1",
-        "docker.io/rocker/ml-verse:cuda10.1",
-        "docker.io/rocker/ml-verse:4.1.1",
-        "docker.io/rocker/ml-verse:4.1",
-        "docker.io/rocker/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest"
+        "docker.io/rocker/ml-verse:4.1.1"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml-verse",
@@ -278,10 +246,12 @@
       },
       "FROM": "rocker/ml:4.1.1",
       "ENV": {
-        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2021/10/31/tlnet",
+        "QUARTO_VERSION": "latest"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_quarto.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
     },
@@ -289,9 +259,6 @@
       "IMAGE": "cuda11",
       "tags": [
         "docker.io/rocker/cuda:4.1.1-cuda11.1",
-        "docker.io/rocker/cuda:4.1-cuda11.1",
-        "docker.io/rocker/cuda:4-cuda11.1",
-        "docker.io/rocker/cuda:cuda11.1",
         "docker.io/rocker/r-ver:4.1.1-cuda11.1"
       ],
       "labels": {
@@ -302,10 +269,8 @@
       "ENV": {
         "R_VERSION": "4.1.1",
         "TERM": "xterm",
-        "LC_ALL": "en_US.UTF-8",
-        "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2021-10-29",
         "TZ": "Etc/UTC",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
         "WORKON_HOME": "/opt/venv",
@@ -316,22 +281,26 @@
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
       "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "ENV_after_a_script": {
+        "LANG": "en_US.UTF-8"
+      },
       "COPY": "scripts /rocker_scripts",
       "RUN": [
+        "/rocker_scripts/patch_install_command.sh",
         "/rocker_scripts/config_R_cuda.sh",
         "/rocker_scripts/install_python.sh"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.1.1-cuda11.1"
+      ],
+      "cache-to": [
+        "type=inline"
       ]
     },
     {
       "IMAGE": "ml-cuda11",
       "tags": [
-        "docker.io/rocker/ml:4.1.1-cuda11.1",
-        "docker.io/rocker/ml:4.1-cuda11.1",
-        "docker.io/rocker/ml:4-cuda11.1",
-        "docker.io/rocker/ml:cuda11.1"
+        "docker.io/rocker/ml:4.1.1-cuda11.1"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml (CUDA 11)",
@@ -340,7 +309,7 @@
       "FROM": "rocker/cuda:4.1.1-cuda11.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "1.4.1717",
+        "RSTUDIO_VERSION": "2021.09.0+351",
         "DEFAULT_USER": "rstudio",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
@@ -355,23 +324,22 @@
     {
       "IMAGE": "ml-verse-cuda11",
       "tags": [
-        "docker.io/rocker/ml-verse:4.1.1-cuda11.1",
-        "docker.io/rocker/ml-verse:4.1-cuda11.1",
-        "docker.io/rocker/ml-verse:4-cuda11.1",
-        "docker.io/rocker/ml-verse:cuda11.1"
+        "docker.io/rocker/ml-verse:4.1.1-cuda11.1"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml-verse (CUDA 11)",
         "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages."
       },
       "FROM": "rocker/ml:4.1.1-cuda11.1",
+      "ENV": {
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2021/10/31/tlnet",
+        "QUARTO_VERSION": "latest"
+      },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
+        "/rocker_scripts/install_quarto.sh",
         "/rocker_scripts/install_geospatial.sh"
-      ],
-      "ENV": {
-        "CTAN_REPO": "http://mirror.ctan.org/systems/texlive/tlnet"
-      }
+      ]
     }
   ]
 }

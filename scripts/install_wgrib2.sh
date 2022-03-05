@@ -1,8 +1,13 @@
 #!/bin/bash
+set -e
 
 ## https://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/
 
-apt-get update && apt-get -y install wget
+if [ ! -x "$(command -v wget)" ]; then
+  apt-get update
+  apt-get -y install wget
+fi
+
 cd /opt
 wget https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz
 tar -xvf wgrib2.tgz

@@ -4,7 +4,7 @@ set -e
 SHINY_SERVER_VERSION=${1:-${SHINY_SERVER_VERSION:-latest}}
 
 ## build ARGs
-NCPUS=${NCPUS:-1}
+NCPUS=${NCPUS:--1}
 
 # Run dependency scripts
 . /rocker_scripts/install_s6init.sh
@@ -19,7 +19,7 @@ apt-get update
 apt-get install -y --no-install-recommends \
     sudo \
     gdebi-core \
-    libcurl4-gnutls-dev \
+    libcurl4-openssl-dev \
     libcairo2-dev \
     libxt-dev \
     xtail \
@@ -56,6 +56,9 @@ fi
 exec shiny-server 2>&1
 EOF
 chmod +x /etc/services.d/shiny-server/run
+
+# install init script
+cp /rocker_scripts/init_set_env.sh /etc/cont-init.d/01_set_env
 
 # Clean up
 rm -rf /var/lib/apt/lists/*

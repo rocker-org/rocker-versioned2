@@ -8,7 +8,6 @@ RSTUDIO_DEFAULT_R_VERSION=$R_VERSION
 PATH=$PATH:/usr/lib/rstudio-server/bin
 rsession --standalone=1 \
          --program-mode=server \
-         --log-stderr=1 \
          --session-timeout-minutes=0 \
          --user-identity=rstudio \
          --www-port=8787

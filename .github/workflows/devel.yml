@@ -10,14 +10,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        composefile: [core-devel.yml, core-latest-daily.yml]
+        bakefile: [devel.docker-bake.json, core-latest-daily.docker-bake.json]
     steps:
       - uses: actions/checkout@v2
       - uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build Docker images
-        run: docker-compose -f compose/${{ matrix.composefile }} build
-      - name: Push Docker images
-        run: docker-compose -f compose/${{ matrix.composefile }} push
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build and push Docker images
+        run: |
+          BAKE_JSON=bakefiles/${{ matrix.bakefile }} BAKE_OPTION=--push\ --no-cache make bake-json-group

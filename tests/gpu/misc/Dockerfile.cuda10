@@ -1,0 +1,27 @@
+FROM rocker/ml:cuda10.1
+
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  cuda-samples-10-0 \
+  python3-dev \
+  python3-pip \
+  gcc-7 \
+  g++-7 \
+  libcudnn8
+
+# install tensorflow 1.15.5
+RUN pip install nvidia-pyindex
+RUN pip install nvidia-tensorflow[horovod]
+
+RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 700 --slave /usr/bin/g++ g++ /usr/bin/g++-7
+
+WORKDIR /usr/local/cuda-10.0/samples
+RUN make
+
+COPY test-gpu.sh /
+COPY nvblas.R /
+COPY examples_tf.R /
+
+ENTRYPOINT ["tail"]
+CMD ["-f","/dev/null"]

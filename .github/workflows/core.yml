@@ -5,7 +5,7 @@ on:
     branches:
       - "master"
     paths:
-      - "scripts/**"
+      - "scripts/*"
       - "dockerfiles/*_devel.Dockerfile"
   workflow_run:
     workflows:
@@ -23,6 +23,10 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
       - id: set-json
         run: |
