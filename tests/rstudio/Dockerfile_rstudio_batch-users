@@ -1,0 +1,12 @@
+FROM rocker/rstudio:latest-daily
+
+LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
+      org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
+      org.opencontainers.image.vendor="Rocker Project" \
+      org.opencontainers.image.authors="Rodrigo Laiola Guimaraes <rodrigo@laiola.com.br>"
+
+# set up multiple users
+COPY scripts/batch_user_creation.sh /rocker_scripts/batch_user_creation.sh
+
+# https://stackoverflow.com/questions/46797348/docker-cmd-exec-form-for-multiple-command-execution
+CMD ["sh","-c","/rocker_scripts/batch_user_creation.sh && /init"]
