@@ -1,12 +1,16 @@
+# Version-stable Rocker images <img src="https://avatars0.githubusercontent.com/u/9100160?v=3&s=200" align="right">
+
+<!-- badges: start -->
+
 [![license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://opensource.org/licenses/GPL-2.0)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Update container definition files](https://github.com/rocker-org/rocker-versioned2/actions/workflows/dockerfiles.yml/badge.svg)](https://github.com/rocker-org/rocker-versioned2/actions/workflows/dockerfiles.yml)
 [![Build & Push Core images](https://github.com/rocker-org/rocker-versioned2/actions/workflows/core.yml/badge.svg)](https://github.com/rocker-org/rocker-versioned2/actions/workflows/core.yml)
 [![Build & Push R devel images and RStudio daily build images](https://github.com/rocker-org/rocker-versioned2/actions/workflows/devel.yml/badge.svg)](https://github.com/rocker-org/rocker-versioned2/actions/workflows/devel.yml)
 
-Visit [rocker-project.org](https://rocker-project.org) for more about available Rocker images, configuration, and use.
+<!-- badges: end -->
 
-# Version-stable Rocker images <img src="https://avatars0.githubusercontent.com/u/9100160?v=3&s=200" align="right">
+Visit [rocker-project.org](https://rocker-project.org) for more about available Rocker images, configuration, and use.
 
 ## Overview
 
@@ -82,7 +86,8 @@ consider using `r-base` or [`rocker/r-bspm`](https://github.com/rocker-org/bspm)
 
 ### Rocker scripts
 
-The Docker images built from this repository describe the software installation method in standalone scripts rather than directly in the Dockerfiles.
+The Docker images built from this repository describe the software installation method in standalone scripts
+rather than directly in the Dockerfiles.
 These files are under [the `scripts` directory](./scripts/), and these files are copied in all Docker images,
 under a top-level `/rocker_scripts` directory.
 This allows users to extend images by selecting additional modules to install on top of any pre-built images.
@@ -95,7 +100,8 @@ FROM rocker/rstudio:4.0.0
 RUN /rocker_scripts/install_shiny_server.sh
 ```
 
-Install scripts can generally take a version as a first argument or ingest an environment variable to specify the version to install.
+Install scripts can generally take a version as a first argument or ingest an environment variable
+to specify the version to install.
 So to install fixed versions, one can use either of the following syntaxes:
 
 ```Dockerfile
@@ -109,7 +115,8 @@ FROM rocker/rstudio:4.0.0
 RUN /rocker_scripts/install_shiny_server.sh 1.5.14.948
 ```
 
-RStudio Server and Shiny Server are managed by [the S6 supervisor system](https://github.com/just-containers/s6-overlay), which allows containers to manage multiple background processes gracefully.
+RStudio Server and Shiny Server are managed by [the S6 supervisor system](https://github.com/just-containers/s6-overlay),
+which allows containers to manage multiple background processes gracefully.
 
 _Note: No longer support `ADD=` runtime triggers for installing Shiny or similar modules,
 which is used for R <= 3.6.3 images._
@@ -118,8 +125,11 @@ which is used for R <= 3.6.3 images._
 
 ### Container definition files
 
-Dockerfiles and docker-bake.json files, which define the pre-built images, are in [the `dockerfiles` folder](./dockerfiles/) and [the `bakefiles` folder](./bakefiles/).
-And, these files are created from the JSON files under [the `stacks` folder](./stacks/) by the build scripts under [the `build` folder](./build/).
+Dockerfiles and docker-bake.json files, which define the pre-built images,
+are in [the `dockerfiles` folder](./dockerfiles/) and [the `bakefiles` folder](./bakefiles/).
+And,
+these files are created from the JSON files under [the `stacks` folder](./stacks/)
+by the build scripts under [the `build` folder](./build/).
 
 When a new version of R or RStudio is released, GitHub Actions will automatically create a Pull Request to update these files.
 
