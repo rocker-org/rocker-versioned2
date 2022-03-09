@@ -73,7 +73,7 @@ and the `latest-daily` tag, which installs the RStudio daily build.
 
 ## Modifying and extending images
 
-Check the website for common methods for Rocker images. <https://www.rocker-project.org/use/extending/>
+Check the Rocker project site for common methods for Rocker images. <https://www.rocker-project.org/use/extending/>
 
 ### Install R packages
 
@@ -121,7 +121,7 @@ which allows containers to manage multiple background processes gracefully.
 _Note: No longer support `ADD=` runtime triggers for installing Shiny or similar modules,
 which is used for R <= 3.6.3 images._
 
-## Build system
+## Build images
 
 ### Container definition files
 
