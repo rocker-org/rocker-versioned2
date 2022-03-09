@@ -22,7 +22,7 @@ library(stringr)
 
 .version_or_null <- function(tag) {
   if (stringr::str_detect(tag, "^\\d+\\.\\d+\\.\\d+$")) {
-    return(tag)
+    return(stringr::str_c("R-", tag))
   } else {
     return(NULL)
   }
