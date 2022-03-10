@@ -64,6 +64,7 @@
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "2021.09.0+351",
         "DEFAULT_USER": "rstudio",
+        "PANDOC_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -311,6 +312,7 @@
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "2021.09.0+351",
         "DEFAULT_USER": "rstudio",
+        "PANDOC_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [

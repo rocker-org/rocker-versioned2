@@ -1,12 +1,13 @@
-FROM rocker/verse:4.1.2
+FROM rocker/tidyverse:4.1.3
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV PROJ_VERSION=7.2.0
-ENV GDAL_VERSION=3.2.0
-ENV GEOS_VERSION=3.8.1
+ENV CTAN_REPO=https://mirror.ctan.org/systems/texlive/tlnet
+ENV PATH=$PATH:/usr/local/texlive/bin/x86_64-linux
+ENV QUARTO_VERSION=latest
 
-RUN /rocker_scripts/dev_osgeo.sh
+RUN /rocker_scripts/install_verse.sh
+RUN /rocker_scripts/install_quarto.sh
