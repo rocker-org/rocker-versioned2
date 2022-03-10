@@ -32,7 +32,10 @@ library(jsonlite)
       value,
       version = c("labels", "org.opencontainers.image.version"),
       image_title = c("labels", "org.opencontainers.image.title"),
-      tags = "tags"
+      tags = "tags",
+      .transform = list(
+        version = ~ stringr::str_extract(.x, pattern = r"(\d+\.\d+\.\d+)")
+      )
     ) |>
     tidyr::unnest_longer(tags) |>
     dplyr::select(name, version, image_title, tags)
