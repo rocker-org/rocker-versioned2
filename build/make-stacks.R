@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 
 # This script only works on Ubuntu.
-# This script needs development version of pak package (>=0.1.2.9001).
 
 library(rversions)
 library(jsonlite)
@@ -26,40 +25,49 @@ library(gert)
     seq(as.Date(date), as.Date(date) - n_retry_max, by = -1)
   }
 
-  urls_try <- list(
-    date = dates_try,
-    distro_version_name = distro_version_name,
-    type = c("binary", "source")
-  ) |>
-    purrr::cross() |>
-    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux))
-
-  for (i in seq_len(length(urls_try))) {
-    url <- urls_try[i]
-    if (.is_cran_url_available(url, r_version)) break
-    url <- "https://cloud.r-project.org"
+  fallback_distro <- if (distro_version_name == "jammy") {
+    "focal"
+  } else {
+    NULL
   }
 
-  return(url)
+  urls_try <- list(
+    date = dates_try,
+    distro_version_name = c(distro_version_name, fallback_distro),
+    type = c("binary")
+  ) |>
+    purrr::cross() |>
+    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux)) |>
+    unique()
+
+  for (i in seq_len(length(urls_try))) {
+    .url <- urls_try[i]
+    if (.is_cran_url_available(.url, r_version)) break
+    .url <- NA_character_
+  }
+
+  if (is.na(.url)) stop("\nCRAN mirrors are not available!\n")
+
+  return(.url)
 }
 
 .make_rspm_cran_url_linux <- function(date, distro_version_name, type = "source") {
-  base_url <- "https://packagemanager.rstudio.com"
-  url <- dplyr::case_when(
-    type == "source" & is.na(date) ~ glue::glue("{base_url}/all/latest"),
-    type == "binary" & is.na(date) ~ glue::glue("{base_url}/all/__linux__/{distro_version_name}/latest"),
-    type == "source" ~ glue::glue("{base_url}/cran/{date}"),
-    type == "binary" ~ glue::glue("{base_url}/cran/__linux__/{distro_version_name}/{date}")
+  base_url <- "https://packagemanager.rstudio.com/cran"
+  .url <- dplyr::case_when(
+    type == "source" & is.na(date) ~ glue::glue("{base_url}/latest"),
+    type == "binary" & is.na(date) ~ glue::glue("{base_url}/__linux__/{distro_version_name}/latest"),
+    type == "source" ~ glue::glue("{base_url}/{date}"),
+    type == "binary" ~ glue::glue("{base_url}/__linux__/{distro_version_name}/{date}")
   )
 
-  return(url)
+  return(.url)
 }
 
-.is_cran_url_available <- function(url, r_version) {
-  glue::glue("\n\nfor R {r_version}, repo_ping to {url}\n\n") |>
+.is_cran_url_available <- function(.url, r_version) {
+  glue::glue("\n\nfor R {r_version}, repo_ping to {.url}\n\n") |>
     cat()
 
-  is_available <- pak::repo_ping(cran_mirror = url, r_version = r_version, bioc = FALSE) |>
+  is_available <- pak::repo_ping(cran_mirror = .url, r_version = r_version, bioc = FALSE) |>
     dplyr::filter(name == "CRAN") |>
     dplyr::pull(ok)
 
@@ -85,7 +93,7 @@ library(gert)
   is_available <- glue::glue(
     "https://download2.rstudio.org/server/{os_ver}/amd64/rstudio-server-{rstudio_version}-amd64.deb"
   ) |>
-    stringr::str_replace_all("\\+", "%2B") |>
+    stringr::str_replace_all("\\+", "-") |>
     httr::HEAD() |>
     httr::http_status() |>
     (function(x) purrr::pluck(x, "category") == "Success")()
@@ -94,15 +102,25 @@ library(gert)
 }
 
 .latest_ctan_url <- function(date) {
-  url <- dplyr::if_else(
+  .url <- dplyr::if_else(
     is.na(date),
-    "http://mirror.ctan.org/systems/texlive/tlnet",
-    stringr::str_c("http://www.texlive.info/tlnet-archive/", format(date, "%Y/%m/%d"), "/tlnet")
+    "https://mirror.ctan.org/systems/texlive/tlnet",
+    stringr::str_c("https://www.texlive.info/tlnet-archive/", format(date, "%Y/%m/%d"), "/tlnet")
   )
 
-  return(url)
+  return(.url)
 }
 
+.cuda_baseimage_tag <- function(ubuntu_series, other_variants = "11.1.1-cudnn8-devel") {
+  ubuntu_version <- dplyr::case_when(
+    ubuntu_series == "focal" ~ "20.04",
+    ubuntu_series == "jammy" ~ "22.04"
+  )
+
+  image_tag <- glue::glue("nvidia/cuda:{other_variants}-ubuntu{ubuntu_version}", .na = NULL)
+
+  return(image_tag)
+}
 
 .generate_tags <- function(base_name,
                            r_version,
@@ -323,7 +341,7 @@ write_stack <- function(r_version,
   template$stack[[11]]$ENV$CTAN_REPO <- ctan_url
 
   # rocker/cuda:X.Y.Z-cuda11.1
-  # Not update the base image automatically, because we don't know if an NVIDIA CUDA images based on the new version of Ubuntu will be released soon.
+  template$stack[[12]]$FROM <- .cuda_baseimage_tag(ubuntu_series)
   template$stack[[12]]$tags <- c(
     .generate_tags(
       "docker.io/rocker/cuda",
@@ -404,18 +422,19 @@ df_ubuntu_lts <- suppressWarnings(
 
 # RStudio versions data from the RStudio GitHub repository.
 df_rstudio <- gert::git_remote_ls(remote = "https://github.com/rstudio/rstudio.git") |>
-  dplyr::filter(stringr::str_detect(ref, "^refs/tags/")) |>
+  dplyr::filter(stringr::str_detect(ref, "^refs/tags/v")) |>
   dplyr::transmute(
     tag = stringr::str_remove(ref, "^refs/tags/"),
-    commit_url = glue::glue("https://api.github.com/repos/rstudio/rstudio/commits/{oid}")
+    commit_url = glue::glue("https://api.github.com/repos/rstudio/rstudio/commits/{oid}"),
+    rstudio_version = stringr::str_remove(tag, "^v")
   ) |>
-  dplyr::slice_max(readr::parse_number(tag), n = 5, with_ties = TRUE) |>
+  dplyr::slice_tail(n = 5) |>
   dplyr::rowwise() |>
-  dplyr::mutate(commit_date = .get_github_commit_date(commit_url)) |>
+  dplyr::mutate(rstudio_commit_date = .get_github_commit_date(commit_url)) |>
   dplyr::ungroup() |>
-  dplyr::transmute(
-    rstudio_version = stringr::str_remove(tag, "^v"),
-    rstudio_commit_date = commit_date
+  dplyr::select(
+    rstudio_version,
+    rstudio_commit_date
   ) |>
   dplyr::arrange(rstudio_commit_date)
 

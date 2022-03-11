@@ -19,6 +19,7 @@ apt-get install -y --no-install-recommends \
     psmisc \
     procps \
     python-setuptools \
+    pwgen \
     sudo \
     wget
 
@@ -54,7 +55,7 @@ elif [ "$RSTUDIO_VERSION_ARG" = "daily" ]; then
     DOWNLOAD_VERSION=$(wget -qO - https://dailies.rstudio.com/rstudio/latest/index.json | grep -oP "(?<=rstudio-server-)[0-9]+\.[0-9]+\.[0-9]+-daily-[0-9]+(?=-amd64.deb)" -m 1)
     RSTUDIO_BASE_URL=https://s3.amazonaws.com/rstudio-ide-build/server
 else
-    DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG/"+"/"%2B"}
+    DOWNLOAD_VERSION=${RSTUDIO_VERSION_ARG/"+"/"-"}
 fi
 
 ## UBUNTU_VERSION is not generally valid: only works for xenial and bionic, not other releases,
@@ -118,7 +119,7 @@ fi
 # Log to stderr
 LOGGING="[*]
 log-level=warn
-logger-type=stderr
+logger-type=syslog
 "
 
 printf "%s" "$LOGGING" > /etc/rstudio/logging.conf

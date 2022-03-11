@@ -7,8 +7,6 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 
 ENV R_VERSION=4.0.3
 ENV TERM=xterm
-ENV LC_ALL=en_US.UTF-8
-ENV LANG=en_US.UTF-8
 ENV R_HOME=/usr/local/lib/R
 ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/focal/2021-02-17
 ENV TZ=Etc/UTC
@@ -16,6 +14,8 @@ ENV TZ=Etc/UTC
 COPY scripts/install_R.sh /rocker_scripts/install_R.sh
 
 RUN /rocker_scripts/install_R.sh
+
+ENV LANG=en_US.UTF-8
 
 COPY scripts /rocker_scripts
 

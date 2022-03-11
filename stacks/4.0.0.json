@@ -27,14 +27,15 @@
       "ENV": {
         "R_VERSION": "4.0.0",
         "TERM": "xterm",
-        "LC_ALL": "en_US.UTF-8",
-        "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
         "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/291",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
       "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "ENV_after_a_script": {
+        "LANG": "en_US.UTF-8"
+      },
       "COPY": "scripts /rocker_scripts",
       "RUN": "/rocker_scripts/patch_install_command.sh",
       "CMD": "[\"R\"]",
@@ -91,7 +92,7 @@
       },
       "FROM": "rocker/tidyverse:4.0.0",
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
         "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"
       },
       "RUN": "/rocker_scripts/install_verse.sh",
@@ -237,7 +238,7 @@
       },
       "FROM": "rocker/ml:4.0.0",
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2020/06/05/tlnet"
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2020/06/05/tlnet"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
@@ -254,14 +255,15 @@
       "ENV": {
         "R_VERSION": "4.0.0",
         "TERM": "xterm",
-        "LC_ALL": "en_US.UTF-8",
-        "LANG": "en_US.UTF-8",
         "R_HOME": "/usr/local/lib/R",
         "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/bionic/291",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
       "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "ENV_after_a_script": {
+        "LANG": "en_US.UTF-8"
+      },
       "COPY": "scripts /rocker_scripts",
       "RUN": "/rocker_scripts/patch_install_command.sh",
       "CMD": "[\"R\"]",
@@ -318,7 +320,7 @@
       },
       "FROM": "rocker/tidyverse:4.0.0-ubuntu18.04",
       "ENV": {
-        "CTAN_REPO": "http://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
         "PATH": "/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH"
       },
       "RUN": "/rocker_scripts/install_verse.sh",
