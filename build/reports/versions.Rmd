@@ -1,0 +1,100 @@
+---
+title: R, CRAN, RStudio Server versions correspondance
+output:
+  github_document:
+    toc: false
+    df_print: kable
+    html_preview: false
+---
+
+```{comment}
+The R code contained in this file only work on Ubuntu.
+```
+
+```{r setup, include=FALSE}
+options(knitr.kable.NA = "")
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+knitr::opts_knit$set(root.dir = rprojroot::find_root_file(criterion = rprojroot::is_git_root))
+
+library(dplyr)
+library(tibble)
+library(stringr)
+library(purrr)
+library(lubridate)
+library(jsonlite)
+library(fs)
+library(rversions)
+```
+
+In order to get coherent versioned Rocker containers, versions of R, R packages, RStudio Server, and TeX packages are match on a time scale by default.
+
+For information about old images with 3.X.X tags, please check [the `rocker-org/rocker-versioned` repository](https://github.com/rocker-org/rocker-versioned/blob/master/VERSIONS.md).
+
+## Rules
+
+- Ubuntu version is the latest Ubuntu LTS version when that R version was released.
+- CRAN date is the date of the last CRAN snapshot in the era when that R version was the latest.
+  - If that R version is the latest, the CRAN date will not be set and the latest packages will always be installed.
+- RStudio version is the latest stable RStudio version of the era when that R version was the latest.
+  - If a new RStudio is released when that R version is the latest, the configuration will be updated to install the new RStudio.
+- CTAN date is the day before the next R version release date.
+  - If that R version is the latest, the CTAN date will not be set and the latest packages will always be installed.
+
+## Versions
+
+```{r}
+.read_stacks <- function(path) {
+  jsonlite::read_json(path)$stack |>
+    tibble::enframe(name = NULL) |>
+    tidyr::hoist(
+      value,
+      image = "IMAGE",
+      r_version = c("ENV", "R_VERSION"),
+      cran_date = c("ENV", "CRAN"),
+      ubuntu_series = "FROM",
+      rstudio_version = c("ENV", "RSTUDIO_VERSION"),
+      .transform = list(
+        cran_date = ~ stringr::str_extract(.x, pattern = "\\d{4}-\\d{2}-\\d{2}$") |>
+          lubridate::as_date(),
+        ubuntu_series = ~ stringr::str_remove(.x, pattern = "^ubuntu:")
+      )
+    ) |>
+    tidyr::fill(rstudio_version, .direction = "up") |>
+    dplyr::filter(image == "r-ver") |>
+    dplyr::select(
+      r_version,
+      cran_date,
+      rstudio_version,
+      ubuntu_series
+    )
+}
+
+
+df_stacks <- fs::dir_ls(path = "stacks", regexp = "([0-9]+\\.){3}json$") |>
+  purrr::map_dfr(.read_stacks)
+
+df_rversions <- rversions::r_versions() |>
+  dplyr::transmute(
+    r_version = version,
+    release_date = lubridate::as_date(date)
+  )
+
+df_ubuntu <- readr::read_csv("/usr/share/distro-info/ubuntu.csv", col_select = c("version", "series"))
+
+df_stacks |>
+  dplyr::left_join(df_rversions, by = "r_version") |>
+  dplyr::left_join(df_ubuntu, by = c("ubuntu_series" = "series")) |>
+  dplyr::arrange(numeric_version(r_version)) |>
+  dplyr::select(
+    `R version` = r_version,
+    `R release date` = release_date,
+    `Ubuntu version` = version,
+    `CRAN date` = cran_date,
+    `RStudio version` = rstudio_version
+  ) |>
+  knitr::kable()
+```
+
+_Note: This table was generated from the latest definition files in the source repository, so the container images that were built and pushed may have different values set.
+Please check the individual reports on this wiki for the actual contents of the images._

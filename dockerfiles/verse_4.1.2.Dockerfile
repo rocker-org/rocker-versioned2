@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV CTAN_REPO=https://mirror.ctan.org/systems/texlive/tlnet
+ENV CTAN_REPO=https://www.texlive.info/tlnet-archive/2022/03/09/tlnet
 ENV PATH=$PATH:/usr/local/texlive/bin/x86_64-linux
 ENV QUARTO_VERSION=latest
 
