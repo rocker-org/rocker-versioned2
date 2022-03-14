@@ -87,7 +87,8 @@ apt-get install -y --no-install-recommends ${BUILDDEPS}
 if [[ "$R_VERSION" == "devel" ]] || [[ "$R_VERSION" == "patched" ]]; then
     wget "https://stat.ethz.ch/R/daily/R-${R_VERSION}.tar.gz"
 else
-    wget "https://cran.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz"
+    wget "https://cloud.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz" \
+    || wget "https://cran.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz"
 fi
 
 tar xzf "R-${R_VERSION}.tar.gz"
