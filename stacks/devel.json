@@ -31,8 +31,8 @@
         "CRAN": "https://cloud.r-project.org",
         "TZ": "Etc/UTC"
       },
-      "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
-      "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "COPY_a_script": "scripts/install_R_source.sh /rocker_scripts/install_R_source.sh",
+      "RUN_a_script": "/rocker_scripts/install_R_source.sh",
       "ENV_after_a_script": {
         "LANG": "en_US.UTF-8"
       },
@@ -246,8 +246,8 @@
         "RETICULATE_AUTOCONFIGURE": "0",
         "PATH": "${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin"
       },
-      "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
-      "RUN_a_script": "/rocker_scripts/install_R.sh",
+      "COPY_a_script": "scripts/install_R_source.sh /rocker_scripts/install_R_source.sh",
+      "RUN_a_script": "/rocker_scripts/install_R_source.sh",
       "ENV_after_a_script": {
         "LANG": "en_US.UTF-8"
       },
