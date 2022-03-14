@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-apt-get update && apt-get -y install locales lsb-release
+apt-get update
+apt-get -y install locales lsb-release
 
 ## Configure default locale, see https://github.com/docker-library/docs/tree/master/ubuntu#locales
 localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
@@ -11,7 +12,6 @@ UBUNTU_VERSION=$(lsb_release -sc)
 
 export DEBIAN_FRONTEND=noninteractive
 
-## Set up and install R
 R_HOME=${R_HOME:-"/usr/local/lib/R"}
 
 READLINE_VERSION=8
@@ -21,8 +21,7 @@ if [ "${UBUNTU_VERSION}" == "bionic" ]; then
   OPENBLAS=libopenblas-dev
 fi
 
-apt-get update \
-  && apt-get install -y --no-install-recommends \
+apt-get install -y --no-install-recommends \
     bash-completion \
     ca-certificates \
     devscripts \
