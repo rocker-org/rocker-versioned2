@@ -8,15 +8,6 @@ localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 LANG=${LANG:-en_US.UTF-8}
 
 UBUNTU_VERSION=${UBUNTU_VERSION:-$(lsb_release -sc)}
-CRAN=${CRAN:-https://cran.r-project.org}
-
-##  mechanism to force source installs if we're using RSPM
-CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
-
-## source install if using RSPM and arm64 image
-if [ "$(uname -m)" = "aarch64" ]; then
-    CRAN=$CRAN_SOURCE
-fi
 
 export DEBIAN_FRONTEND=noninteractive
 
@@ -127,14 +118,6 @@ make
 make install
 make clean
 
-## Add a default CRAN mirror
-echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
-
-## Set HTTPUserAgent for RSPM (https://github.com/rocker-org/rocker/issues/400)
-echo  'options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(),
-                 paste(getRversion(), R.version$platform,
-                       R.version$arch, R.version$os)))' >> ${R_HOME}/etc/Rprofile.site
-
 ## Add a library directory (for user-installed packages)
 mkdir -p ${R_HOME}/site-library
 chown root:staff ${R_HOME}/site-library
@@ -142,13 +125,6 @@ chmod g+ws ${R_HOME}/site-library
 
 ## Fix library path
 echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >> ${R_HOME}/etc/Renviron.site
-
-## Use littler installation scripts
-Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
-ln -s ${R_HOME}/site-library/littler/examples/install2.r /usr/local/bin/install2.r
-ln -s ${R_HOME}/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r
-ln -s ${R_HOME}/site-library/littler/bin/r /usr/local/bin/r
-
 
 ## Clean up from R source install
 cd /
