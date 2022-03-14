@@ -1,5 +1,16 @@
 #!/bin/bash
+
+## Install R from source.
+##
+## In order of preference, first argument of the script, the R_VERSION variable.
+## ex. latest, devel, patched, 4.0.0
+##
+## 'devel' means the latest daily snapshot of current development version.
+## 'pached' means the latest daily snapshot of current pached version.
+
 set -e
+
+R_VERSION=${1:-${R_VERSION:-"latest"}}
 
 apt-get update
 apt-get -y install locales lsb-release
@@ -85,6 +96,9 @@ apt-get install -y --no-install-recommends ${BUILDDEPS}
 
 if [[ "$R_VERSION" == "devel" ]] || [[ "$R_VERSION" == "patched" ]]; then
     wget "https://stat.ethz.ch/R/daily/R-${R_VERSION}.tar.gz"
+elif [[ "$R_VERSION" == "latest" ]]; then
+    wget "https://cloud.r-project.org/src/base/R-latest.tar.gz" \
+    || wget "https://cran.r-project.org/src/base/R-latest.tar.gz"
 else
     wget "https://cloud.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz" \
     || wget "https://cran.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz"
