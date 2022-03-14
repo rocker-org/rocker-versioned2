@@ -100,8 +100,8 @@ elif [[ "$R_VERSION" == "latest" ]]; then
     wget "https://cloud.r-project.org/src/base/R-latest.tar.gz" \
     || wget "https://cran.r-project.org/src/base/R-latest.tar.gz"
 else
-    wget "https://cloud.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz" \
-    || wget "https://cran.r-project.org/src/base/R-${R_VERSION:0:1}/R-${R_VERSION}.tar.gz"
+    wget "https://cloud.r-project.org/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz" \
+    || wget "https://cran.r-project.org/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz"
 fi
 
 tar xzf "R-${R_VERSION}.tar.gz"
