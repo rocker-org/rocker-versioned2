@@ -28,8 +28,8 @@ R_HOME=${R_HOME:-"/usr/local/lib/R"}
 READLINE_VERSION=8
 OPENBLAS=libopenblas-dev
 if [ "${UBUNTU_VERSION}" == "bionic" ]; then
-  READLINE_VERSION=7
-  OPENBLAS=libopenblas-dev
+    READLINE_VERSION=7
+    OPENBLAS=libopenblas-dev
 fi
 
 apt-get install -y --no-install-recommends \
@@ -97,35 +97,35 @@ apt-get install -y --no-install-recommends ${BUILDDEPS}
 if [[ "$R_VERSION" == "devel" ]] || [[ "$R_VERSION" == "patched" ]]; then
     wget "https://stat.ethz.ch/R/daily/R-${R_VERSION}.tar.gz"
 elif [[ "$R_VERSION" == "latest" ]]; then
-    wget "https://cloud.r-project.org/src/base/R-latest.tar.gz" \
-    || wget "https://cran.r-project.org/src/base/R-latest.tar.gz"
+    wget "https://cloud.r-project.org/src/base/R-latest.tar.gz" ||
+        wget "https://cran.r-project.org/src/base/R-latest.tar.gz"
 else
-    wget "https://cloud.r-project.org/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz" \
-    || wget "https://cran.r-project.org/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz"
+    wget "https://cloud.r-project.org/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz" ||
+        wget "https://cran.r-project.org/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz"
 fi
 
 tar xzf "R-${R_VERSION}.tar.gz"
 cd "R-${R_VERSION}"
 
 R_PAPERSIZE=letter \
-R_BATCHSAVE="--no-save --no-restore" \
-R_BROWSER=xdg-open \
-PAGER=/usr/bin/pager \
-PERL=/usr/bin/perl \
-R_UNZIPCMD=/usr/bin/unzip \
-R_ZIPCMD=/usr/bin/zip \
-R_PRINTCMD=/usr/bin/lpr \
-LIBnn=lib \
-AWK=/usr/bin/awk \
-CFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g" \
-CXXFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g" \
-./configure --enable-R-shlib \
-           --enable-memory-profiling \
-           --with-readline \
-           --with-blas \
-           --with-lapack \
-           --with-tcltk \
-           --with-recommended-packages
+    R_BATCHSAVE="--no-save --no-restore" \
+    R_BROWSER=xdg-open \
+    PAGER=/usr/bin/pager \
+    PERL=/usr/bin/perl \
+    R_UNZIPCMD=/usr/bin/unzip \
+    R_ZIPCMD=/usr/bin/zip \
+    R_PRINTCMD=/usr/bin/lpr \
+    LIBnn=lib \
+    AWK=/usr/bin/awk \
+    CFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g" \
+    CXXFLAGS="-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g" \
+    ./configure --enable-R-shlib \
+    --enable-memory-profiling \
+    --with-readline \
+    --with-blas \
+    --with-lapack \
+    --with-tcltk \
+    --with-recommended-packages
 
 make
 make install
@@ -137,7 +137,7 @@ chown root:staff "${R_HOME}/site-library"
 chmod g+ws "${R_HOME}/site-library"
 
 ## Fix library path
-echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >> "${R_HOME}/etc/Renviron.site"
+echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >>"${R_HOME}/etc/Renviron.site"
 
 ## Clean up from R source install
 cd /
