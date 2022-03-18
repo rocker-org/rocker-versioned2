@@ -53,6 +53,7 @@ REPORT_SOURCE_ROOT ?= tmp/inspects
 IMAGELIST_DIR ?= tmp/imagelist
 IMAGELIST_NAME ?= imagelist.tsv
 REPORT_DIR ?= reports
+STACK_FILES ?= $(wildcard stacks/*.json)
 IMAGE_FILTER ?= label=org.opencontainers.image.source=$(IMAGE_SOURCE)
 inspect-image/%:
 	mkdir -p $(REPORT_SOURCE_ROOT)/$*
@@ -73,9 +74,13 @@ report-all: $(foreach I, $(wildcard $(REPORT_SOURCE_ROOT)/*), report/$(I))
 
 
 # Move image list to wiki and update Home.md
-wiki-home:
+wiki-home: $(REPORT_DIR)/Versions.md $(REPORT_DIR)/_Sidebar.md
 	cp -r $(IMAGELIST_DIR) $(REPORT_DIR)
 	-Rscript -e 'rmarkdown::render(input = "build/reports/wiki_home.Rmd", output_dir = "$(REPORT_DIR)", output_file = "Home.md")'
+$(REPORT_DIR)/_Sidebar.md: build/reports/_Sidebar.md
+	cp $< $@
+$(REPORT_DIR)/Versions.md: build/reports/versions.Rmd $(STACK_FILES)
+	-Rscript -e 'rmarkdown::render(input = "$<", output_dir = "$(@D)", output_file = "$(@F)")'
 
 clean:
 	rm -r -f dockerfiles/*.Dockerfile bakefiles/*.json tmp/*

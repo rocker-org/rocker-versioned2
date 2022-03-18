@@ -20,15 +20,15 @@
   "target": {
     "geospatial-ubuntugis": {
       "context": "./",
-      "dockerfile": "dockerfiles/geospatial-ubuntugis_4.1.2.Dockerfile",
+      "dockerfile": "dockerfiles/geospatial-ubuntugis_4.1.3.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/geospatial (ubuntugis)",
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.1.2",
-        "org.opencontainers.image.version": "4.1.2"
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.1.3",
+        "org.opencontainers.image.version": "R-4.1.3"
       },
       "tags": [
-        "docker.io/rocker/geospatial:4.1.2-ubuntugis",
+        "docker.io/rocker/geospatial:4.1.3-ubuntugis",
         "docker.io/rocker/geospatial:ubuntugis"
       ],
       "platforms": [
@@ -43,12 +43,12 @@
     },
     "geospatial-dev-osgeo": {
       "context": "./",
-      "dockerfile": "dockerfiles/geospatial-dev-osgeo_4.1.2.Dockerfile",
+      "dockerfile": "dockerfiles/geospatial-dev-osgeo_4.1.3.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/geospatial (dev-osgeo)",
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.1.2",
-        "org.opencontainers.image.version": "4.1.2"
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.1.3",
+        "org.opencontainers.image.version": "R-4.1.3"
       },
       "tags": [
         "docker.io/rocker/geospatial:dev-osgeo"

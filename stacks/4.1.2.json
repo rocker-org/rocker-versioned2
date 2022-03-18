@@ -28,7 +28,7 @@
         "R_VERSION": "4.1.2",
         "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/latest",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2022-03-09",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R.sh /rocker_scripts/install_R.sh",
@@ -40,10 +40,7 @@
       "RUN": "/rocker_scripts/patch_install_command.sh",
       "CMD": "[\"R\"]",
       "tags": [
-        "docker.io/rocker/r-ver:4.1.2",
-        "docker.io/rocker/r-ver:4.1",
-        "docker.io/rocker/r-ver:4",
-        "docker.io/rocker/r-ver:latest"
+        "docker.io/rocker/r-ver:4.1.2"
       ],
       "platforms": [
         "linux/amd64",
@@ -67,6 +64,7 @@
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "2022.02.0+443",
         "DEFAULT_USER": "rstudio",
+        "PANDOC_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -76,10 +74,7 @@
       "CMD": "[\"/init\"]",
       "EXPOSE": 8787,
       "tags": [
-        "docker.io/rocker/rstudio:4.1.2",
-        "docker.io/rocker/rstudio:4.1",
-        "docker.io/rocker/rstudio:4",
-        "docker.io/rocker/rstudio:latest"
+        "docker.io/rocker/rstudio:4.1.2"
       ]
     },
     {
@@ -91,10 +86,7 @@
       "FROM": "rocker/rstudio:4.1.2",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
-        "docker.io/rocker/tidyverse:4.1.2",
-        "docker.io/rocker/tidyverse:4.1",
-        "docker.io/rocker/tidyverse:4",
-        "docker.io/rocker/tidyverse:latest"
+        "docker.io/rocker/tidyverse:4.1.2"
       ]
     },
     {
@@ -105,7 +97,7 @@
       },
       "FROM": "rocker/tidyverse:4.1.2",
       "ENV": {
-        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2022/03/09/tlnet",
         "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux",
         "QUARTO_VERSION": "latest"
       },
@@ -114,10 +106,7 @@
         "/rocker_scripts/install_quarto.sh"
       ],
       "tags": [
-        "docker.io/rocker/verse:4.1.2",
-        "docker.io/rocker/verse:4.1",
-        "docker.io/rocker/verse:4",
-        "docker.io/rocker/verse:latest"
+        "docker.io/rocker/verse:4.1.2"
       ]
     },
     {
@@ -129,10 +118,7 @@
       "FROM": "rocker/verse:4.1.2",
       "RUN": "/rocker_scripts/install_geospatial.sh",
       "tags": [
-        "docker.io/rocker/geospatial:4.1.2",
-        "docker.io/rocker/geospatial:4.1",
-        "docker.io/rocker/geospatial:4",
-        "docker.io/rocker/geospatial:latest"
+        "docker.io/rocker/geospatial:4.1.2"
       ]
     },
     {
@@ -151,10 +137,7 @@
       "CMD": "[\"/init\"]",
       "EXPOSE": 3838,
       "tags": [
-        "docker.io/rocker/shiny:4.1.2",
-        "docker.io/rocker/shiny:4.1",
-        "docker.io/rocker/shiny:4",
-        "docker.io/rocker/shiny:latest"
+        "docker.io/rocker/shiny:4.1.2"
       ]
     },
     {
@@ -166,10 +149,7 @@
       "FROM": "rocker/shiny:4.1.2",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
-        "docker.io/rocker/shiny-verse:4.1.2",
-        "docker.io/rocker/shiny-verse:4.1",
-        "docker.io/rocker/shiny-verse:4",
-        "docker.io/rocker/shiny-verse:latest"
+        "docker.io/rocker/shiny-verse:4.1.2"
       ]
     },
     {
@@ -191,23 +171,14 @@
       "CMD": "jupyter notebook --ip 0.0.0.0",
       "EXPOSE": 8888,
       "tags": [
-        "docker.io/rocker/binder:4.1.2",
-        "docker.io/rocker/binder:4.1",
-        "docker.io/rocker/binder:4",
-        "docker.io/rocker/binder:latest"
+        "docker.io/rocker/binder:4.1.2"
       ]
     },
     {
       "IMAGE": "cuda",
       "tags": [
         "docker.io/rocker/cuda:4.1.2-cuda10.1",
-        "docker.io/rocker/cuda:4.1-cuda10.1",
-        "docker.io/rocker/cuda:4-cuda10.1",
-        "docker.io/rocker/cuda:cuda10.1",
         "docker.io/rocker/cuda:4.1.2",
-        "docker.io/rocker/cuda:4.1",
-        "docker.io/rocker/cuda:4",
-        "docker.io/rocker/cuda:latest",
         "docker.io/rocker/r-ver:4.1.2-cuda10.1"
       ],
       "labels": {
@@ -240,13 +211,7 @@
       "IMAGE": "ml",
       "tags": [
         "docker.io/rocker/ml:4.1.2-cuda10.1",
-        "docker.io/rocker/ml:4.1-cuda10.1",
-        "docker.io/rocker/ml:4-cuda10.1",
-        "docker.io/rocker/ml:cuda10.1",
-        "docker.io/rocker/ml:4.1.2",
-        "docker.io/rocker/ml:4.1",
-        "docker.io/rocker/ml:4",
-        "docker.io/rocker/ml:latest"
+        "docker.io/rocker/ml:4.1.2"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml",
@@ -274,13 +239,7 @@
       "IMAGE": "ml-verse",
       "tags": [
         "docker.io/rocker/ml-verse:4.1.2-cuda10.1",
-        "docker.io/rocker/ml-verse:4.1-cuda10.1",
-        "docker.io/rocker/ml-verse:4-cuda10.1",
-        "docker.io/rocker/ml-verse:cuda10.1",
-        "docker.io/rocker/ml-verse:4.1.2",
-        "docker.io/rocker/ml-verse:4.1",
-        "docker.io/rocker/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest"
+        "docker.io/rocker/ml-verse:4.1.2"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml-verse",
@@ -288,7 +247,7 @@
       },
       "FROM": "rocker/ml:4.1.2",
       "ENV": {
-        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2022/03/09/tlnet",
         "QUARTO_VERSION": "latest"
       },
       "RUN": [
@@ -301,9 +260,6 @@
       "IMAGE": "cuda11",
       "tags": [
         "docker.io/rocker/cuda:4.1.2-cuda11.1",
-        "docker.io/rocker/cuda:4.1-cuda11.1",
-        "docker.io/rocker/cuda:4-cuda11.1",
-        "docker.io/rocker/cuda:cuda11.1",
         "docker.io/rocker/r-ver:4.1.2-cuda11.1"
       ],
       "labels": {
@@ -315,7 +271,7 @@
         "R_VERSION": "4.1.2",
         "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/latest",
+        "CRAN": "https://packagemanager.rstudio.com/cran/__linux__/focal/2022-03-09",
         "TZ": "Etc/UTC",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
         "WORKON_HOME": "/opt/venv",
@@ -345,10 +301,7 @@
     {
       "IMAGE": "ml-cuda11",
       "tags": [
-        "docker.io/rocker/ml:4.1.2-cuda11.1",
-        "docker.io/rocker/ml:4.1-cuda11.1",
-        "docker.io/rocker/ml:4-cuda11.1",
-        "docker.io/rocker/ml:cuda11.1"
+        "docker.io/rocker/ml:4.1.2-cuda11.1"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml (CUDA 11)",
@@ -359,6 +312,7 @@
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "2022.02.0+443",
         "DEFAULT_USER": "rstudio",
+        "PANDOC_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
@@ -372,10 +326,7 @@
     {
       "IMAGE": "ml-verse-cuda11",
       "tags": [
-        "docker.io/rocker/ml-verse:4.1.2-cuda11.1",
-        "docker.io/rocker/ml-verse:4.1-cuda11.1",
-        "docker.io/rocker/ml-verse:4-cuda11.1",
-        "docker.io/rocker/ml-verse:cuda11.1"
+        "docker.io/rocker/ml-verse:4.1.2-cuda11.1"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml-verse (CUDA 11)",
@@ -383,7 +334,7 @@
       },
       "FROM": "rocker/ml:4.1.2-cuda11.1",
       "ENV": {
-        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
+        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2022/03/09/tlnet",
         "QUARTO_VERSION": "latest"
       },
       "RUN": [

@@ -47,6 +47,7 @@
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1106",
         "DEFAULT_USER": "rstudio",
+        "PANDOC_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
