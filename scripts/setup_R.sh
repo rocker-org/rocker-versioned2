@@ -23,6 +23,12 @@ EOF
 
 ## Use littler installation scripts
 Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
-ln -s "${R_HOME}/site-library/littler/examples/install2.r" /usr/local/bin/install2.r
-ln -s "${R_HOME}/site-library/littler/examples/installGithub.r" /usr/local/bin/installGithub.r
 ln -s "${R_HOME}/site-library/littler/bin/r" /usr/local/bin/r
+ln -s "${R_HOME}/site-library/littler/examples/installGithub.r" /usr/local/bin/installGithub.r
+
+## Use rocker scripts version install2.r if it exists
+if [ -f "/rocker_scripts/bin/install2.r" ]; then
+    ln -sf /rocker_scripts/bin/install2.r /usr/local/bin/install2.r
+else
+    ln -s "${R_HOME}/site-library/littler/examples/install2.r" /usr/local/bin/install2.r
+fi
