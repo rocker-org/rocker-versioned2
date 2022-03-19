@@ -1,7 +1,15 @@
 #!/bin/bash
+
+## Update configuration files for R and install some libraries.
+##
+## The URL of the default repository for R packages written to Rprofile.site,
+## refers to the CRAN environment variable or to the first argument of this script.
+## In order of preference, first argument of the script, the CRAN variable.
+## ex. https://cloud.r-project.org, https://cran.r-project.org
+
 set -e
 
-CRAN=${CRAN:-"https://cran.r-project.org"}
+CRAN=${1:-${CRAN:-"https://cran.r-project.org"}}
 
 ##  mechanism to force source installs if we're using RSPM
 UBUNTU_VERSION=$(lsb_release -sc)
