@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-CRAN=${CRAN:-https://cran.r-project.org}
+CRAN=${CRAN:-"https://cran.r-project.org"}
 
 ##  mechanism to force source installs if we're using RSPM
 UBUNTU_VERSION=$(lsb_release -sc)
@@ -13,7 +13,7 @@ if [ "$(uname -m)" = "aarch64" ]; then
 fi
 
 ## Add a default CRAN mirror
-echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >> ${R_HOME}/etc/Rprofile.site
+echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >>"${R_HOME}/etc/Rprofile.site"
 
 ## Set HTTPUserAgent for RSPM (https://github.com/rocker-org/rocker/issues/400)
 cat <<EOF >>"${R_HOME}/etc/Rprofile.site"
@@ -23,6 +23,6 @@ EOF
 
 ## Use littler installation scripts
 Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
-ln -s ${R_HOME}/site-library/littler/examples/install2.r /usr/local/bin/install2.r
-ln -s ${R_HOME}/site-library/littler/examples/installGithub.r /usr/local/bin/installGithub.r
-ln -s ${R_HOME}/site-library/littler/bin/r /usr/local/bin/r
+ln -s "${R_HOME}/site-library/littler/examples/install2.r" /usr/local/bin/install2.r
+ln -s "${R_HOME}/site-library/littler/examples/installGithub.r" /usr/local/bin/installGithub.r
+ln -s "${R_HOME}/site-library/littler/bin/r" /usr/local/bin/r
