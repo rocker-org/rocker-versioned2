@@ -29,8 +29,19 @@ cat <<EOF >>"${R_HOME}/etc/Rprofile.site"
 options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))
 EOF
 
-## Use littler installation scripts
+## Install littler
+BUILDDEPS="libpcre2-dev \
+    liblzma-dev \
+    libbz2-dev \
+    zlib1g-dev \
+    libicu-dev"
+
+apt-get update
+# shellcheck disable=SC2086
+apt-get install -y --no-install-recommends ${BUILDDEPS}
 Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
+
+## Symlink littler and littler's installation scripts
 ln -s "${R_HOME}/site-library/littler/bin/r" /usr/local/bin/r
 ln -s "${R_HOME}/site-library/littler/examples/installGithub.r" /usr/local/bin/installGithub.r
 
@@ -40,3 +51,12 @@ if [ -f "/rocker_scripts/bin/install2.r" ]; then
 else
     ln -s "${R_HOME}/site-library/littler/examples/install2.r" /usr/local/bin/install2.r
 fi
+
+r --version
+
+# Clean up
+# shellcheck disable=SC2086
+apt-get remove --purge -y ${BUILDDEPS}
+apt-get autoremove -y
+apt-get autoclean -y
+rm -rf /var/lib/apt/lists/*
