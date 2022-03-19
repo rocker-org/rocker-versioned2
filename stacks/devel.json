@@ -28,16 +28,16 @@
         "R_VERSION": "devel",
         "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://cloud.r-project.org",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R_source.sh /rocker_scripts/install_R_source.sh",
       "RUN_a_script": "/rocker_scripts/install_R_source.sh",
       "ENV_after_a_script": {
+        "CRAN": "https://cloud.r-project.org",
         "LANG": "en_US.UTF-8"
       },
       "COPY": "scripts /rocker_scripts",
-      "RUN": "/rocker_scripts/patch_install_command.sh",
+      "RUN": "/rocker_scripts/setup_R.sh",
       "CMD": "[\"R\"]"
     },
     {
@@ -237,7 +237,6 @@
         "R_VERSION": "devel",
         "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
-        "CRAN": "https://packagemanager.rstudio.com/all/__linux__/focal/latest",
         "TZ": "Etc/UTC",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
         "WORKON_HOME": "/opt/venv",
@@ -249,11 +248,12 @@
       "COPY_a_script": "scripts/install_R_source.sh /rocker_scripts/install_R_source.sh",
       "RUN_a_script": "/rocker_scripts/install_R_source.sh",
       "ENV_after_a_script": {
+        "CRAN": "https://cloud.r-project.org",
         "LANG": "en_US.UTF-8"
       },
       "COPY": "scripts /rocker_scripts",
       "RUN": [
-        "/rocker_scripts/patch_install_command.sh",
+        "/rocker_scripts/setup_R.sh",
         "/rocker_scripts/config_R_cuda.sh",
         "/rocker_scripts/install_python.sh"
       ]
