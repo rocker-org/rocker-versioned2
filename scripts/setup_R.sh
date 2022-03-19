@@ -30,33 +30,35 @@ options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(
 EOF
 
 ## Install littler
-BUILDDEPS="libpcre2-dev \
-    liblzma-dev \
-    libbz2-dev \
-    zlib1g-dev \
-    libicu-dev"
+if [ ! -x "$(command -v r)" ]; then
+    BUILDDEPS="libpcre2-dev \
+        liblzma-dev \
+        libbz2-dev \
+        zlib1g-dev \
+        libicu-dev"
 
-apt-get update
-# shellcheck disable=SC2086
-apt-get install -y --no-install-recommends ${BUILDDEPS}
-Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
+    apt-get update
+    # shellcheck disable=SC2086
+    apt-get install -y --no-install-recommends ${BUILDDEPS}
+    Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
+
+    # Clean up
+    # shellcheck disable=SC2086
+    apt-get remove --purge -y ${BUILDDEPS}
+    apt-get autoremove -y
+    apt-get autoclean -y
+    rm -rf /var/lib/apt/lists/*
+fi
 
 ## Symlink littler and littler's installation scripts
-ln -s "${R_HOME}/site-library/littler/bin/r" /usr/local/bin/r
-ln -s "${R_HOME}/site-library/littler/examples/installGithub.r" /usr/local/bin/installGithub.r
+ln -sf "${R_HOME}/site-library/littler/bin/r" /usr/local/bin/r
+ln -sf "${R_HOME}/site-library/littler/examples/installGithub.r" /usr/local/bin/installGithub.r
 
 ## Use rocker scripts version install2.r if it exists
 if [ -f "/rocker_scripts/bin/install2.r" ]; then
     ln -sf /rocker_scripts/bin/install2.r /usr/local/bin/install2.r
 else
-    ln -s "${R_HOME}/site-library/littler/examples/install2.r" /usr/local/bin/install2.r
+    ln -sf "${R_HOME}/site-library/littler/examples/install2.r" /usr/local/bin/install2.r
 fi
 
 r --version
-
-# Clean up
-# shellcheck disable=SC2086
-apt-get remove --purge -y ${BUILDDEPS}
-apt-get autoremove -y
-apt-get autoclean -y
-rm -rf /var/lib/apt/lists/*
