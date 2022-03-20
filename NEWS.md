@@ -7,6 +7,11 @@
 - `install_R.sh` was split into two scripts, `install_R_source.sh` and `setup_R.sh`. ([#386](https://github.com/rocker-org/rocker-versioned2/pull/386))
 - `patch_install_command.sh` was merged into `setup_R.sh`. ([#386](https://github.com/rocker-org/rocker-versioned2/pull/386))
 
+### Changes in pre-built images
+
+- Fixed the BLAS hot-switching mechanism.
+  ([#386](https://github.com/rocker-org/rocker-versioned2/pull/386), [#390](https://github.com/rocker-org/rocker-versioned2/issues/390))
+
 ## 2022-01
 
 ### Changes in rocker_scripts
