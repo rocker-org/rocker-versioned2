@@ -26,10 +26,8 @@ export DEBIAN_FRONTEND=noninteractive
 R_HOME=${R_HOME:-"/usr/local/lib/R"}
 
 READLINE_VERSION=8
-OPENBLAS=libopenblas-dev
 if [ "${UBUNTU_VERSION}" == "bionic" ]; then
     READLINE_VERSION=7
-    OPENBLAS=libopenblas-dev
 fi
 
 apt-get install -y --no-install-recommends \
@@ -134,7 +132,7 @@ make clean
 ## Install OpenBLAS after R is compiled
 ## https://github.com/rocker-org/rocker-versioned2/issues/390
 ARCH=$(uname -m)
-apt-get install -y --no-install-recommends "${OPENBLAS}"
+apt-get install -y --no-install-recommends libopenblas-dev
 update-alternatives --set "libblas.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/openblas-pthread/libblas.so.3"
 
 ## Add a library directory (for user-installed packages)
