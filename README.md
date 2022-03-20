@@ -31,6 +31,9 @@ Compared to `r-base`, this stack:
   For the amd64 platform, RSPM serves compiled Linux binaries of R packages and greatly speeds up package installs.
 - Non-latest R version images installs all R packages from a fixed snapshot of CRAN mirror at a given date.
   This setting ensures that the same version of the R package is installed no matter when the installation is performed.
+  - In addition to CRAN mirror, the version of RStudio Server installed in `rocker/rstudio` and
+    the date of CTAN mirror set in `rocker/verse` are also fixed.
+    Please check [the document about versions](https://github.com/rocker-org/rocker-versioned2/wiki/Versions) for details.
 - Provides images that are generally smaller than the `r-base` series.
 
 _Note: This repository is for R >= 4.0.0 images.
