@@ -11,12 +11,14 @@ set -e
 
 CRAN=${1:-${CRAN:-"https://cran.r-project.org"}}
 
+ARCH=$(uname -m)
+
 ##  mechanism to force source installs if we're using RSPM
 UBUNTU_VERSION=$(lsb_release -sc)
 CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
 
 ## source install if using RSPM and arm64 image
-if [ "$(uname -m)" = "aarch64" ]; then
+if [ "$ARCH" = "aarch64" ]; then
     CRAN=$CRAN_SOURCE
 fi
 
@@ -29,6 +31,14 @@ cat <<EOF >>"${R_HOME}/etc/Rprofile.site"
 options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))
 EOF
 
+## Install OpenBLAS and hot-switching to it
+## https://github.com/rocker-org/rocker-versioned2/issues/390
+if ! dpkg -l | grep -q libopenblas-dev; then
+    apt-get update
+    apt-get install -y --no-install-recommends libopenblas-dev
+    update-alternatives --set "libblas.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/openblas-pthread/libblas.so.3"
+fi
+
 ## Install littler
 if [ ! -x "$(command -v r)" ]; then
     BUILDDEPS="libpcre2-dev \
@@ -37,7 +47,9 @@ if [ ! -x "$(command -v r)" ]; then
         zlib1g-dev \
         libicu-dev"
 
-    apt-get update
+    if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+        apt-get update
+    fi
     # shellcheck disable=SC2086
     apt-get install -y --no-install-recommends ${BUILDDEPS}
     Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
@@ -47,7 +59,6 @@ if [ ! -x "$(command -v r)" ]; then
     apt-get remove --purge -y ${BUILDDEPS}
     apt-get autoremove -y
     apt-get autoclean -y
-    rm -rf /var/lib/apt/lists/*
 fi
 
 ## Symlink littler and littler's installation scripts
@@ -62,3 +73,6 @@ else
 fi
 
 r --version
+
+# Clean up
+rm -rf /var/lib/apt/lists/*

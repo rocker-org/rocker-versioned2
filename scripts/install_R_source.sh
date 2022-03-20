@@ -129,12 +129,6 @@ make
 make install
 make clean
 
-## Install OpenBLAS after R is compiled
-## https://github.com/rocker-org/rocker-versioned2/issues/390
-ARCH=$(uname -m)
-apt-get install -y --no-install-recommends libopenblas-dev
-update-alternatives --set "libblas.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/openblas-pthread/libblas.so.3"
-
 ## Add a library directory (for user-installed packages)
 mkdir -p "${R_HOME}/site-library"
 chown root:staff "${R_HOME}/site-library"
