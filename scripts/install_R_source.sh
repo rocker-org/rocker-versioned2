@@ -45,9 +45,9 @@ apt-get install -y --no-install-recommends \
     libbz2-* \
     libcurl4 \
     libicu* \
+    liblapack-dev \
     libpcre2* \
     libjpeg-turbo* \
-    "${OPENBLAS}" \
     libpangocairo-* \
     libpng16* \
     "libreadline${READLINE_VERSION}" \
@@ -130,6 +130,12 @@ R_PAPERSIZE=letter \
 make
 make install
 make clean
+
+## Install OpenBLAS after R is compiled
+## https://github.com/rocker-org/rocker-versioned2/issues/390
+ARCH=$(uname -m)
+apt-get install -y --no-install-recommends "${OPENBLAS}"
+update-alternatives --set "libblas.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/openblas-pthread/libblas.so.3"
 
 ## Add a library directory (for user-installed packages)
 mkdir -p "${R_HOME}/site-library"
