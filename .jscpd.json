@@ -1,0 +1,10 @@
+{
+  "threshold": 0,
+  "reporters": [
+    "consoleFull"
+  ],
+  "ignore": [
+    "**/stacks/*.json"
+  ],
+  "absolute": true
+}
