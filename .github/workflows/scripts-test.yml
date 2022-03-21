@@ -1,0 +1,46 @@
+name: test for rocker scripts
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - tests/rocker_scripts/Dockerfile
+      - tests/rocker_scripts/matrix.json
+      - tests/rocker_scripts/test.sh
+      - scripts/install_rstudio.sh
+      - scripts/install_pandoc.sh
+      - scripts/install_tidyverse.sh
+      - scripts/install_verse.sh
+  workflow_dispatch:
+
+jobs:
+  generate_matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v3
+      - id: set-matrix
+        run: |
+          CONTENT=$(jq 'tostring' -r tests/rocker_scripts/matrix.json)
+          echo ::set-output name=matrix::"${CONTENT}"
+          echo "${CONTENT}"
+
+  build:
+    needs: generate_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v3
+      - name: test build
+        run: |
+          docker build . -f tests/rocker_scripts/Dockerfile \
+          -t rocker-script-test \
+          --build-arg tag=${{ matrix.tag }} \
+          --build-arg rstudio=${{ matrix.rstudio }} \
+          --build-arg pandoc=${{ matrix.pandoc }} \
+          --build-arg tidyverse=${{ matrix.tidyverse }} \
+          --build-arg verse=${{ matrix.verse }}

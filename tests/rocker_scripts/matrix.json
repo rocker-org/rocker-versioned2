@@ -1,0 +1,22 @@
+{
+  "tag": [
+    "4.0.0",
+    "latest"
+  ],
+  "rstudio": [
+    "skip",
+    "latest"
+  ],
+  "pandoc": [
+    "skip",
+    "default"
+  ],
+  "tidyverse": [
+    "skip",
+    "none"
+  ],
+  "verse": [
+    "skip",
+    "none"
+  ]
+}
