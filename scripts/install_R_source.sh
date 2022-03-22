@@ -148,3 +148,10 @@ apt-get remove --purge -y ${BUILDDEPS}
 apt-get autoremove -y
 apt-get autoclean -y
 rm -rf /var/lib/apt/lists/*
+
+# Check the R info
+echo -e "Check the R info...\n"
+
+R -q -e "sessionInfo()"
+
+echo -e "\nInstall R from source, done!"
