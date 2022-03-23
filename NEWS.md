@@ -10,6 +10,7 @@
 ### Changes in pre-built images
 
 - Fixed the BLAS hot-switching mechanism.
+  The image size has increased by approximately 30 MB with the new `liblapack-dev` installation.
   ([#386](https://github.com/rocker-org/rocker-versioned2/pull/386), [#390](https://github.com/rocker-org/rocker-versioned2/issues/390))
 
 ## 2022-01
