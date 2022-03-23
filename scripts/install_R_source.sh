@@ -5,8 +5,8 @@
 ## In order of preference, first argument of the script, the R_VERSION variable.
 ## ex. latest, devel, patched, 4.0.0
 ##
-## 'devel' means the latest daily snapshot of current development version.
-## 'pached' means the latest daily snapshot of current pached version.
+## 'devel' means the prerelease development version (Latest daily snapshot of development version).
+## 'pached' means the prerelease patched version (Latest daily snapshot of pached version).
 
 set -e
 
@@ -92,18 +92,24 @@ BUILDDEPS="curl \
 # shellcheck disable=SC2086
 apt-get install -y --no-install-recommends ${BUILDDEPS}
 
-if [[ "$R_VERSION" == "devel" ]] || [[ "$R_VERSION" == "patched" ]]; then
-    wget "https://stat.ethz.ch/R/daily/R-${R_VERSION}.tar.gz"
-elif [[ "$R_VERSION" == "latest" ]]; then
-    wget "https://cloud.r-project.org/src/base/R-latest.tar.gz" ||
-        wget "https://cran.r-project.org/src/base/R-latest.tar.gz"
+## Download R from 0-Cloud CRAN mirror or CRAN
+function download_r_src() {
+    wget "https://cloud.r-project.org/src/$1" -O "R.tar.gz" ||
+        wget "https://cran.r-project.org/src/$1" -O "R.tar.gz"
+}
+
+if [ "$R_VERSION" == "devel" ]; then
+    download_r_src "base-prerelease/R-devel.tar.gz"
+elif [ "$R_VERSION" == "patched" ]; then
+    download_r_src "base-prerelease/R-latest.tar.gz"
+elif [ "$R_VERSION" == "latest" ]; then
+    download_r_src "base/R-latest.tar.gz"
 else
-    wget "https://cloud.r-project.org/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz" ||
-        wget "https://cran.r-project.org/src/base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz"
+    download_r_src "base/R-${R_VERSION%%.*}/R-${R_VERSION}.tar.gz"
 fi
 
-tar xzf "R-${R_VERSION}.tar.gz"
-cd "R-${R_VERSION}"
+tar xzf "R.tar.gz"
+cd R-*/
 
 R_PAPERSIZE=letter \
     R_BATCHSAVE="--no-save --no-restore" \
@@ -138,10 +144,10 @@ chmod g+ws "${R_HOME}/site-library"
 echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >>"${R_HOME}/etc/Renviron.site"
 
 ## Clean up from R source install
-cd /
+cd ..
 rm -rf /tmp/*
-rm -rf "R-${R_VERSION}"
-rm -rf "R-${R_VERSION}.tar.gz"
+rm -rf R-*/
+rm -rf "R.tar.gz"
 
 # shellcheck disable=SC2086
 apt-get remove --purge -y ${BUILDDEPS}
