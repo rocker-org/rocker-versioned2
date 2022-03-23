@@ -2,7 +2,7 @@
 # shellcheck shell=bash
 
 ## Set our dynamic variables in Renviron.site to be reflected by RStudio Server or Shiny Server
-exclude_vars="HOME PASSWORD RSTUDIO_VERSION"
+exclude_vars="HOME PASSWORD RSTUDIO_VERSION BATCH_USER_CREATION"
 for file in /var/run/s6/container_environment/*
 do
   sed -i "/^${file##*/}=/d" ${R_HOME}/etc/Renviron.site
