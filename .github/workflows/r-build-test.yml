@@ -30,11 +30,15 @@ jobs:
           docker buildx bake \
           -f bakefiles/"${{ matrix.tag }}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
+          --set=*.cache-from=type=rocker/r-ver:"${{ matrix.tag }}" \
+          --set=*.cache-from=type=gha \
+          --set=*.cache-to=type=gha \
+          --set=r-ver.tags=r-ver-test-"${{ matrix.tag }}" \
           --load \
           r-ver
       - name: inspect image
         run: |
-            make inspect-image/rocker/r-ver:"${{ matrix.tag }}"
+          make inspect-image/r-ver-test-"${{ matrix.tag }}"
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
