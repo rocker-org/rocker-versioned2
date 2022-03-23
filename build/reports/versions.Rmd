@@ -51,7 +51,7 @@ For information about old images with 3.X.X tags, please check [the `rocker-org/
       value,
       image = "IMAGE",
       r_version = c("ENV", "R_VERSION"),
-      cran_date = c("ENV", "CRAN"),
+      cran_date = c("ENV_after_a_script", "CRAN"),
       ubuntu_series = "FROM",
       rstudio_version = c("ENV", "RSTUDIO_VERSION"),
       .transform = list(
@@ -71,7 +71,7 @@ For information about old images with 3.X.X tags, please check [the `rocker-org/
 }
 
 
-df_stacks <- fs::dir_ls(path = "stacks", regexp = "([0-9]+\\.){3}json$") |>
+df_stacks <- fs::dir_ls(path = "stacks", regexp = "([0-9]+\\.){3}json$") |> # nolint
   purrr::map_dfr(.read_stacks)
 
 df_rversions <- rversions::r_versions() |>

@@ -8,7 +8,6 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 ENV R_VERSION=4.1.0
 ENV TERM=xterm
 ENV R_HOME=/usr/local/lib/R
-ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/focal/2021-08-09
 ENV TZ=Etc/UTC
 ENV NVBLAS_CONFIG_FILE=/etc/nvblas.conf
 ENV WORKON_HOME=/opt/venv
@@ -17,14 +16,15 @@ ENV PYTHON_CONFIGURE_OPTS=--enable-shared
 ENV RETICULATE_AUTOCONFIGURE=0
 ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin
 
-COPY scripts/install_R.sh /rocker_scripts/install_R.sh
+COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 
-RUN /rocker_scripts/install_R.sh
+RUN /rocker_scripts/install_R_source.sh
 
+ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/focal/2021-08-09
 ENV LANG=en_US.UTF-8
 
 COPY scripts /rocker_scripts
 
-RUN /rocker_scripts/patch_install_command.sh
+RUN /rocker_scripts/setup_R.sh
 RUN /rocker_scripts/config_R_cuda.sh
 RUN /rocker_scripts/install_python.sh

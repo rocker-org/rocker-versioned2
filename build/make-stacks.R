@@ -194,7 +194,7 @@ write_stack <- function(r_version,
     r_latest
   )
   template$stack[[1]]$ENV$R_VERSION <- r_version
-  template$stack[[1]]$ENV$CRAN <- cran
+  template$stack[[1]]$ENV_after_a_script$CRAN <- cran
   template$stack[[1]]$platforms <- list("linux/amd64", "linux/arm64")
   template$stack[[1]]$`cache-from` <- list(stringr::str_c("docker.io/rocker/r-ver:", r_version))
   template$stack[[1]]$`cache-to` <- list("type=inline")
@@ -356,7 +356,7 @@ write_stack <- function(r_version,
     list(stringr::str_c("docker.io/rocker/r-ver:", r_version, "-cuda11.1"))
   )
   template$stack[[12]]$ENV$R_VERSION <- r_version
-  template$stack[[12]]$ENV$CRAN <- cran
+  template$stack[[12]]$ENV_after_a_script$CRAN <- cran
   template$stack[[12]]$`cache-from` <- list(stringr::str_c("docker.io/rocker/cuda:", r_version, "-cuda11.1"))
   template$stack[[12]]$`cache-to` <- list("type=inline")
 
