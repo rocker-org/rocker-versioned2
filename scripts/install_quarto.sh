@@ -18,51 +18,51 @@ QUARTO_VERSION=${1:-${QUARTO_VERSION:-"latest"}}
 ARCH=$(dpkg --print-architecture)
 
 if [ ! -x "$(command -v wget)" ]; then
-  apt-get update
-  apt-get -y install wget
+    apt-get update
+    apt-get -y install wget
 fi
 
 if [ -x "$(command -v quarto)" ]; then
-  INSTALLED_QUARTO_VERSION=$(quarto --version)
+    INSTALLED_QUARTO_VERSION=$(quarto --version)
 fi
 
 # Check RStudio bundled quarto cli
 if [ -f "/usr/lib/rstudio-server/bin/quarto/bin/quarto" ]; then
-  BUNDLED_QUARTO="/usr/lib/rstudio-server/bin/quarto/bin/quarto"
+    BUNDLED_QUARTO="/usr/lib/rstudio-server/bin/quarto/bin/quarto"
 fi
 
 if [ -n "$BUNDLED_QUARTO" ]; then
-  BUNDLED_QUARTO_VERSION="$($BUNDLED_QUARTO --version)"
+    BUNDLED_QUARTO_VERSION="$($BUNDLED_QUARTO --version)"
 fi
 
 # Install quarto cli
 if [ "$QUARTO_VERSION" != "$INSTALLED_QUARTO_VERSION" ]; then
 
-  # Check RStudio bundled quarto cli
-  if [ "$QUARTO_VERSION" = "default" ] && [ -z "$BUNDLED_QUARTO" ]; then
-    QUARTO_VERSION="latest"
-  fi
-
-  if [ "$QUARTO_VERSION" = "$BUNDLED_QUARTO_VERSION" ] || [ "$QUARTO_VERSION" = "default" ]; then
-    ln -fs "$BUNDLED_QUARTO" /usr/local/bin
-  else
-    if [ "$QUARTO_VERSION" = "latest" ]; then
-      QUARTO_DL_URL=$(wget -qO- https://api.github.com/repos/quarto-dev/quarto-cli/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*${ARCH}\.deb")
-    else
-      QUARTO_DL_URL="https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-${ARCH}.deb"
+    # Check RStudio bundled quarto cli
+    if [ "$QUARTO_VERSION" = "default" ] && [ -z "$BUNDLED_QUARTO" ]; then
+        QUARTO_VERSION="latest"
     fi
-    wget "$QUARTO_DL_URL" -O quarto.deb
-    dpkg -i quarto.deb
-    rm quarto.deb
-  fi
 
-  quarto check install
+    if [ "$QUARTO_VERSION" = "$BUNDLED_QUARTO_VERSION" ] || [ "$QUARTO_VERSION" = "default" ]; then
+        ln -fs "$BUNDLED_QUARTO" /usr/local/bin
+    else
+        if [ "$QUARTO_VERSION" = "latest" ]; then
+            QUARTO_DL_URL=$(wget -qO- https://api.github.com/repos/quarto-dev/quarto-cli/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*${ARCH}\.deb")
+        else
+            QUARTO_DL_URL="https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-${ARCH}.deb"
+        fi
+        wget "$QUARTO_DL_URL" -O quarto.deb
+        dpkg -i quarto.deb
+        rm quarto.deb
+    fi
+
+    quarto check install
 
 fi
 
 # Install the quarto R package
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
-  quarto
+    quarto
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
