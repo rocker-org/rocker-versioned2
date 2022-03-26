@@ -7,11 +7,11 @@ SHINY_SERVER_VERSION=${1:-${SHINY_SERVER_VERSION:-latest}}
 NCPUS=${NCPUS:--1}
 
 # Run dependency scripts
-. /rocker_scripts/install_s6init.sh
-. /rocker_scripts/install_pandoc.sh
+/rocker_scripts/install_s6init.sh
+/rocker_scripts/install_pandoc.sh
 
 if [ "$SHINY_SERVER_VERSION" = "latest" ]; then
-  SHINY_SERVER_VERSION=$(wget -qO- https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION)
+    SHINY_SERVER_VERSION=$(wget -qO- https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION)
 fi
 
 # Get apt packages
@@ -31,12 +31,12 @@ gdebi -n ss-latest.deb
 rm ss-latest.deb
 
 # Get R packages
-install2.r --error --skipinstalled -n $NCPUS shiny rmarkdown
+install2.r --error --skipinstalled -n "$NCPUS" shiny rmarkdown
 
 # Set up directories and permissions
 if [ -x "$(command -v rstudio-server)" ]; then
-  DEFAULT_USER=${DEFAULT_USER:-rstudio}
-  adduser ${DEFAULT_USER} shiny
+    DEFAULT_USER=${DEFAULT_USER:-rstudio}
+    adduser "${DEFAULT_USER}" shiny
 fi
 
 cp -R /usr/local/lib/R/site-library/shiny/examples/* /srv/shiny-server/
@@ -46,7 +46,7 @@ chown shiny:shiny /var/log/shiny-server
 
 # create init scripts
 mkdir -p /etc/services.d/shiny-server
-cat > /etc/services.d/shiny-server/run << 'EOF'
+cat <<"EOF" >/etc/services.d/shiny-server/run
 #!/usr/bin/with-contenv bash
 ## load /etc/environment vars first:
 for line in $( cat /etc/environment ) ; do export $line > /dev/null; done

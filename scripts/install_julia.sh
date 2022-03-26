@@ -10,22 +10,23 @@ ARCH_LONG=$(uname -p)
 ARCH_SHORT=$ARCH_LONG
 
 if [ "$ARCH_LONG" = "x86_64" ]; then
-  ARCH_SHORT="x64"
+    ARCH_SHORT="x64"
 fi
 
 if [ ! -x "$(command -v wget)" ]; then
-  apt-get update
-  apt-get -y install wget
+    apt-get update
+    apt-get -y install wget
 fi
 
 install2.r --error --skipinstalled -n "$NCPUS" \
-  yaml \
-  JuliaCall \
-  JuliaConnectoR
+    yaml \
+    JuliaCall \
+    JuliaConnectoR
 
 # Get the latest Julia version by using R and the R yaml package.
 if [ "$JULIA_VERSION" = "latest" ]; then
-  JULIA_VERSION=$(Rscript -e '
+    # shellcheck disable=SC2016
+    JULIA_VERSION=$(Rscript -e '
 js <- yaml::read_yaml("https://julialang-s3.julialang.org/bin/versions.json")
 versions <- names(js)
 is_stable <- unlist(Map(function(x) x$stable, js))
@@ -34,7 +35,7 @@ cat(latest_version)
 ')
 fi
 
-JULIA_MINOR_VERSION=${JULIA_VERSION:0:3}
+JULIA_MINOR_VERSION=${JULIA_VERSION%.*}
 
 # Download Julia and create a symbolic link.
 wget "https://julialang-s3.julialang.org/bin/linux/${ARCH_SHORT}/${JULIA_MINOR_VERSION}/julia-${JULIA_VERSION}-linux-${ARCH_LONG}.tar.gz"
