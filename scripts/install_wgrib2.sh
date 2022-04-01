@@ -4,8 +4,8 @@ set -e
 ## https://www.cpc.ncep.noaa.gov/products/wesley/wgrib2/
 
 if [ ! -x "$(command -v wget)" ]; then
-  apt-get update
-  apt-get -y install wget
+    apt-get update
+    apt-get -y install wget
 fi
 
 cd /opt

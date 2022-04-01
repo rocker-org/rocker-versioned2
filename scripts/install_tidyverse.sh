@@ -1,10 +1,12 @@
 #!/bin/bash
 
+set -e
+
 ## build ARGs
 NCPUS=${NCPUS:--1}
 
-set -e
-apt-get update -qq && apt-get -y --no-install-recommends install \
+apt-get update
+apt-get -y --no-install-recommends install \
     libxml2-dev \
     libcairo2-dev \
     libgit2-dev \
@@ -15,10 +17,10 @@ apt-get update -qq && apt-get -y --no-install-recommends install \
     libssh2-1-dev \
     libxtst6 \
     libcurl4-openssl-dev \
-    unixodbc-dev && \
-  rm -rf /var/lib/apt/lists/*
+    unixodbc-dev
+rm -rf /var/lib/apt/lists/*
 
-install2.r --error --skipinstalled -n $NCPUS \
+install2.r --error --skipinstalled -n "$NCPUS" \
     tidyverse \
     devtools \
     rmarkdown \
@@ -27,7 +29,7 @@ install2.r --error --skipinstalled -n $NCPUS \
     gert
 
 ## dplyr database backends
-install2.r --error --skipmissing --skipinstalled -n $NCPUS \
+install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     arrow \
     dbplyr \
     DBI \
@@ -41,6 +43,13 @@ install2.r --error --skipmissing --skipinstalled -n $NCPUS \
     fst
 
 ## a bridge to far? -- brings in another 60 packages
-# install2.r --error --skipinstalled -n $NCPUS tidymodels
+# install2.r --error --skipinstalled -n "$NCPUS" tidymodels
 
- rm -rf /tmp/downloaded_packages
+rm -rf /tmp/downloaded_packages
+
+# Check the tidyverse core packages' version
+echo -e "Check the tidyverse package...\n"
+
+R -q -e "library(tidyverse)"
+
+echo -e "\nInstall tidyverse package, done!"

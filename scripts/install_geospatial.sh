@@ -7,8 +7,8 @@ export DEBIAN_FRONTEND=noninteractive
 ## build ARGs
 NCPUS=${NCPUS:--1}
 
-apt-get update -qq \
-  && apt-get install -y --no-install-recommends \
+apt-get update
+apt-get install -y --no-install-recommends \
     gdal-bin \
     lbzip2 \
     libfftw3-dev \
@@ -37,16 +37,15 @@ apt-get update -qq \
 
 # lwgeom 0.2-2 and 0.2-3 have a regression which prevents install on ubuntu:bionic
 ## permissionless PAT for builds
-UBUNTU_VERSION=${UBUNTU_VERSION:-`lsb_release -sc`}
-if [ ${UBUNTU_VERSION} == "bionic" ]; then
-  R -e "remotes::install_version('lwgeom', '0.2-4')"
+UBUNTU_VERSION=$(lsb_release -sc)
+if [ "${UBUNTU_VERSION}" == "bionic" ]; then
+    R -e "remotes::install_version('lwgeom', '0.2-4')"
 fi
-
 
 ## Somehow foreign is messed up on CRAN between 2020-04-25 -- 2020-05-0?
 ##install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 -n $NCPUS foreign
 
-install2.r --error --skipinstalled -n $NCPUS \
+install2.r --error --skipinstalled -n "$NCPUS" \
     RColorBrewer \
     RandomFields \
     RNetCDF \

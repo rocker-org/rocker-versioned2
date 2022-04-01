@@ -14,63 +14,68 @@ PANDOC_VERSION=${1:-${PANDOC_VERSION:-"default"}}
 ARCH=$(dpkg --print-architecture)
 
 if [ ! -x "$(command -v wget)" ]; then
-  apt-get update
-  apt-get -y install wget
+    apt-get update
+    apt-get -y install wget
 fi
 
 if [ -x "$(command -v pandoc)" ]; then
-  INSTALLED_PANDOC_VERSION=$(pandoc --version 2>/dev/null | head -n 1 | grep -oP '[\d\.]+$')
+    INSTALLED_PANDOC_VERSION=$(pandoc --version 2>/dev/null | head -n 1 | grep -oP '[\d\.]+$')
 fi
 
 if [ -f "/usr/lib/rstudio-server/bin/pandoc/pandoc" ]; then
-  BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/pandoc/pandoc"
+    BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/pandoc/pandoc"
 elif [ -f "/usr/lib/rstudio-server/bin/quarto/bin/pandoc" ]; then
-  BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/quarto/bin/pandoc"
+    BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/quarto/bin/pandoc"
 fi
 
 if [ -n "$BUNDLED_PANDOC" ]; then
-  BUNDLED_PANDOC_VERSION="$($BUNDLED_PANDOC --version | head -n 1 | grep -oP '[\d\.]+$')"
+    BUNDLED_PANDOC_VERSION="$($BUNDLED_PANDOC --version | head -n 1 | grep -oP '[\d\.]+$')"
 fi
 
 if [ "$PANDOC_VERSION" != "$INSTALLED_PANDOC_VERSION" ]; then
 
-  if [ "$PANDOC_VERSION" = "default" ] && [ -z "$BUNDLED_PANDOC" ]; then
-    PANDOC_VERSION="latest"
-  fi
-
-  if [ "$PANDOC_VERSION" = "$BUNDLED_PANDOC_VERSION" ] || [ "$PANDOC_VERSION" = "default" ]; then
-    ln -fs "$BUNDLED_PANDOC" /usr/local/bin
-    if [ -f "${BUNDLED_PANDOC}-citeproc" ]; then
-      ln -fs "${BUNDLED_PANDOC}-citeproc" /usr/local/bin
-    fi
-  else
-    if [ -L "/usr/local/bin/pandoc" ]; then
-      unlink /usr/local/bin/pandoc
-    fi
-    if [ -L "/usr/local/bin/pandoc-citeproc" ]; then
-      unlink /usr/local/bin/pandoc-citeproc
+    if [ "$PANDOC_VERSION" = "default" ] && [ -z "$BUNDLED_PANDOC" ]; then
+        PANDOC_VERSION="latest"
     fi
 
-    if [ "$PANDOC_VERSION" = "latest" ]; then
-      PANDOC_DL_URL=$(wget -qO- https://api.github.com/repos/jgm/pandoc/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*${ARCH}\.deb")
+    if [ "$PANDOC_VERSION" = "$BUNDLED_PANDOC_VERSION" ] || [ "$PANDOC_VERSION" = "default" ]; then
+        ln -fs "$BUNDLED_PANDOC" /usr/local/bin
+        if [ -f "${BUNDLED_PANDOC}-citeproc" ]; then
+            ln -fs "${BUNDLED_PANDOC}-citeproc" /usr/local/bin
+        fi
     else
-      PANDOC_DL_URL="https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-${ARCH}.deb"
-    fi
-    wget "$PANDOC_DL_URL" -O pandoc.deb
-    dpkg -i pandoc.deb
-    rm pandoc.deb
-  fi
+        if [ -L "/usr/local/bin/pandoc" ]; then
+            unlink /usr/local/bin/pandoc
+        fi
+        if [ -L "/usr/local/bin/pandoc-citeproc" ]; then
+            unlink /usr/local/bin/pandoc-citeproc
+        fi
 
-  ## Symlink pandoc & standard pandoc templates for use system-wide
-  PANDOC_TEMPLATES_VERSION=$(pandoc -v | grep -oP "(?<=pandoc\s)[0-9\.]+$")
-  wget "https://github.com/jgm/pandoc-templates/archive/${PANDOC_TEMPLATES_VERSION}.tar.gz" -O pandoc-templates.tar.gz
-  rm -fr /opt/pandoc/templates
-  mkdir -p /opt/pandoc/templates
-  tar xvf pandoc-templates.tar.gz
-  cp -r pandoc-templates*/* /opt/pandoc/templates && rm -rf pandoc-templates*
-  rm -fr /root/.pandoc
-  mkdir /root/.pandoc && ln -s /opt/pandoc/templates /root/.pandoc/templates
+        if [ "$PANDOC_VERSION" = "latest" ]; then
+            PANDOC_DL_URL=$(wget -qO- https://api.github.com/repos/jgm/pandoc/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*${ARCH}\.deb")
+        else
+            PANDOC_DL_URL="https://github.com/jgm/pandoc/releases/download/${PANDOC_VERSION}/pandoc-${PANDOC_VERSION}-1-${ARCH}.deb"
+        fi
+        wget "$PANDOC_DL_URL" -O pandoc.deb
+        dpkg -i pandoc.deb
+        rm pandoc.deb
+    fi
+
+    ## Symlink pandoc & standard pandoc templates for use system-wide
+    PANDOC_TEMPLATES_VERSION=$(pandoc -v | grep -oP "(?<=pandoc\s)[0-9\.]+$")
+    wget "https://github.com/jgm/pandoc-templates/archive/${PANDOC_TEMPLATES_VERSION}.tar.gz" -O pandoc-templates.tar.gz
+    rm -fr /opt/pandoc/templates
+    mkdir -p /opt/pandoc/templates
+    tar xvf pandoc-templates.tar.gz
+    cp -r pandoc-templates*/* /opt/pandoc/templates && rm -rf pandoc-templates*
+    rm -fr /root/.pandoc
+    mkdir /root/.pandoc && ln -s /opt/pandoc/templates /root/.pandoc/templates
 fi
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
+
+# Check the pandoc version
+echo -e "Check the pandoc version...\n"
+pandoc --version
+echo -e "\nInstall pandoc, done!"
