@@ -23,11 +23,3 @@ jobs:
           DEFAULT_BRANCH: master
           LINTER_RULES_PATH: .
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  make_test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Run make test
-        run: make test
