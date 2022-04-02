@@ -35,20 +35,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Build Changelog
-        id: build_changelog
-        uses: mikepenz/release-changelog-builder-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          configuration: "build/changelog_configuration.json"
-          toTag: ${{ needs.create_tag.outputs.tag }}
-
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
           tag: ${{ needs.create_tag.outputs.tag }}
-          body: ${{steps.build_changelog.outputs.changelog}}
+          generateReleaseNotes: true
           allowUpdates: false
           token: ${{ secrets.GITHUB_TOKEN }}
