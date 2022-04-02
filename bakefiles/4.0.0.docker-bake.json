@@ -21,11 +21,11 @@
       "bionicimages": [
         {
           "targets": [
-            "r-ver-ubuntu18.04",
-            "rstudio-ubuntu18.04",
-            "tidyverse-ubuntu18.04",
-            "verse-ubuntu18.04",
-            "geospatial-ubuntu18.04"
+            "r-ver-bionic",
+            "rstudio-bionic",
+            "tidyverse-bionic",
+            "verse-bionic",
+            "geospatial-bionic"
           ]
         }
       ]
@@ -278,9 +278,9 @@
         ""
       ]
     },
-    "r-ver-ubuntu18.04": {
+    "r-ver-bionic": {
       "context": "./",
-      "dockerfile": "dockerfiles/r-ver-ubuntu18.04_4.0.0.Dockerfile",
+      "dockerfile": "dockerfiles/r-ver-bionic_4.0.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/r-ver",
         "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
@@ -300,9 +300,9 @@
         "type=inline"
       ]
     },
-    "rstudio-ubuntu18.04": {
+    "rstudio-bionic": {
       "context": "./",
-      "dockerfile": "dockerfiles/rstudio-ubuntu18.04_4.0.0.Dockerfile",
+      "dockerfile": "dockerfiles/rstudio-bionic_4.0.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/rstudio",
         "org.opencontainers.image.description": "RStudio Server with fixed version of R",
@@ -322,9 +322,9 @@
         ""
       ]
     },
-    "tidyverse-ubuntu18.04": {
+    "tidyverse-bionic": {
       "context": "./",
-      "dockerfile": "dockerfiles/tidyverse-ubuntu18.04_4.0.0.Dockerfile",
+      "dockerfile": "dockerfiles/tidyverse-bionic_4.0.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
@@ -344,9 +344,9 @@
         ""
       ]
     },
-    "verse-ubuntu18.04": {
+    "verse-bionic": {
       "context": "./",
-      "dockerfile": "dockerfiles/verse-ubuntu18.04_4.0.0.Dockerfile",
+      "dockerfile": "dockerfiles/verse-bionic_4.0.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/verse",
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
@@ -366,9 +366,9 @@
         ""
       ]
     },
-    "geospatial-ubuntu18.04": {
+    "geospatial-bionic": {
       "context": "./",
-      "dockerfile": "dockerfiles/geospatial-ubuntu18.04_4.0.0.Dockerfile",
+      "dockerfile": "dockerfiles/geospatial-bionic_4.0.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/geospatial",
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
