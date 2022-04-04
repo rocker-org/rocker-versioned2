@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-UBUNTUGIS_VERSION=${1:-${UBUNTUGIS_VERSION:-stable}}
+# experimental, testing, unstable
+UBUNTUGIS_VERSION=${1:-${UBUNTUGIS_VERSION:-unstable}}
 
 ## Force installs from SOURCE if using RStudio Package Manager Repository
 CRAN=${CRAN/"__linux__/focal"/""}
