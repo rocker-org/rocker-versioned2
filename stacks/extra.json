@@ -4,6 +4,14 @@
   "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "group": [
     {
+      "default": [
+        {
+          "targets": [
+            "geospatial-ubuntugis",
+            "geospatial-dev-osgeo"
+          ]
+        }
+      ],
       "ubuntugis": [
         {
           "targets": [
