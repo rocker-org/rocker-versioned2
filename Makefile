@@ -32,9 +32,12 @@ print-%:
 # Set docker-bake.json file path to BAKE_JSON before running `make pull-image-all` or `make bake-json-all`, `make bake-json-group`.
 # ex. $ BAKE_JSONbakefiles/core-latest-daily.docker-bake.json make pull-image-all
 BAKE_JSON ?= ""
+BAKE_GROUP ?= default
+
 pull-image/%:
 	-docker pull $*
 pull-image-all: $(foreach I, $(shell jq '.target[].tags[]' -r $(BAKE_JSON) | sed -e 's/:/\\:/g'), pull-image/$(I))
+pull-image-group: $(foreach I, $(shell docker buildx bake --print -f $(BAKE_JSON) $(BAKE_GROUP) | jq '.target[].tags[]' | sed -e 's/:/\\:/g'), pull-image/$(I))
 
 # docker buildx bake options. When specifying multiple options, please escape spaces with "\".
 # ex. $ BAKE_JSON=bakefiles/core-latest-daily.docker-bake.json BAKE_OPTION=--load make bake-json-all
@@ -43,8 +46,6 @@ BAKE_OPTION ?= --print
 bake-json/%:
 	docker buildx bake -f $(BAKE_JSON) --set=*.labels.org.opencontainers.image.revision=$(IMAGE_REVISION) $(BAKE_OPTION) $*
 bake-json-all: $(foreach I, $(shell jq '.target | keys_unsorted | .[]' -r $(BAKE_JSON)), bake-json/$(I))
-
-BAKE_GROUP ?= default
 bake-json-group: $(foreach I, $(shell jq '.group[].$(BAKE_GROUP)[].targets[]' -r $(BAKE_JSON)), bake-json/$(I))
 
 
