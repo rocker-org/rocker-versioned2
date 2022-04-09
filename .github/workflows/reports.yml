@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v2
       - id: set-matrix
         run: |
-          CONTENT=$(jq -r '.r_version += ["extra"]' build/matrix/all.json)
+          CONTENT=$(jq -r '.r_version += ["extra"] | tostring' build/matrix/all.json)
           echo ::set-output name=matrix::"${CONTENT}"
           echo "${CONTENT}"
 
