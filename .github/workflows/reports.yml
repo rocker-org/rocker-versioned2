@@ -26,8 +26,8 @@ jobs:
       - id: set-matrix
         run: |
           CONTENT=$(jq -r '.r_version += ["extra"]' build/matrix/all.json)
-          echo ::set-output name=matrix::${CONTENT}
-          echo ${CONTENT}
+          echo ::set-output name=matrix::"${CONTENT}"
+          echo "${CONTENT}"
 
   inspect:
     needs: generate_matrix
@@ -42,13 +42,12 @@ jobs:
           docker image prune --all --force
       - name: Pull images
         run: |
-          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json \
-          BAKE_GROUP=${{ matrix.group }} \
+          BAKE_JSON="bakefiles/${{ matrix.r_version }}.docker-bake.json" \
+          BAKE_GROUP="${{ matrix.group }}" \
           make pull-image-group
       - name: Inspect built image
         run: |
-          IMAGELIST_NAME=${{ matrix.r_version }}-${{ matrix.group }}.tsv \
-          IMAGE_FILTER= \
+          IMAGELIST_NAME="${{ matrix.r_version }}-${{ matrix.group }}.tsv" \
           make inspect-image-all
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
