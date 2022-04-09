@@ -14,9 +14,9 @@ jobs:
       - uses: actions/checkout@v2
       - id: set-matrix
         run: |
-          CONTENT=$(jq '{ group: [.group[] | keys[] | select(. != "default")] }' -r bakefiles/extra.docker-bake.json)
-          echo ::set-output name=matrix::${CONTENT}
-          echo ${CONTENT}
+          CONTENT=$(jq '{ group: [.group[] | keys[] | select(. != "default")] } | tostring' -r bakefiles/extra.docker-bake.json)
+          echo ::set-output name=matrix::"${CONTENT}"
+          echo "${CONTENT}"
 
   build:
     needs: generate_matrix
