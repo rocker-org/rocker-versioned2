@@ -1,6 +1,14 @@
 {
   "group": [
     {
+      "default": [
+        {
+          "targets": [
+            "geospatial-ubuntugis",
+            "geospatial-dev-osgeo"
+          ]
+        }
+      ],
       "ubuntugis": [
         {
           "targets": [

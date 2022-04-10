@@ -25,9 +25,9 @@ jobs:
       - uses: actions/checkout@v2
       - id: set-matrix
         run: |
-          CONTENT=$(jq -r 'with_entries(select(.key == "r_version")) | .r_version += ["extra"]' build/matrix/all.json)
-          echo ::set-output name=matrix::${CONTENT}
-          echo ${CONTENT}
+          CONTENT=$(jq -r '.r_version += ["extra"] | tostring' build/matrix/all.json)
+          echo ::set-output name=matrix::"${CONTENT}"
+          echo "${CONTENT}"
 
   inspect:
     needs: generate_matrix
@@ -42,10 +42,13 @@ jobs:
           docker image prune --all --force
       - name: Pull images
         run: |
-          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json make pull-image-all
+          BAKE_JSON="bakefiles/${{ matrix.r_version }}.docker-bake.json" \
+          BAKE_GROUP="${{ matrix.group }}" \
+          make pull-image-group
       - name: Inspect built image
         run: |
-          IMAGELIST_NAME=${{ matrix.r_version }}.tsv IMAGE_FILTER= make inspect-image-all
+          IMAGELIST_NAME="${{ matrix.r_version }}-${{ matrix.group }}.tsv" \
+          make inspect-image-all
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -66,6 +69,9 @@ jobs:
         with:
           repository: "${{ github.repository }}.wiki"
           path: reports
+      - name: clean up image list
+        run:
+          rm -rf reports/imagelist
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
