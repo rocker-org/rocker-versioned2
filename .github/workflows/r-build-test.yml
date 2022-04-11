@@ -30,7 +30,7 @@ jobs:
           docker buildx bake \
           -f bakefiles/"${{ matrix.tag }}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
-          --set=*.cache-from=type=rocker/r-ver:"${{ matrix.tag }}" \
+          --set=*.cache-from=docker.io/rocker/r-ver:"${{ matrix.tag }}" \
           --set=*.cache-from=type=gha \
           --set=*.cache-to=type=gha \
           --set=r-ver.tags=r-ver-test-"${{ matrix.tag }}" \
