@@ -3,26 +3,22 @@
     "4.0.0",
     "latest"
   ],
-  "rstudio": [
-    "skip",
-    "latest"
+  "script_name": [
+    "install_rstudio.sh",
+    "install_pandoc.sh",
+    "install_tidyverse.sh",
+    "install_verse.sh",
+    "install_shiny_server.sh",
+    "install_geospatial.sh"
   ],
-  "pandoc": [
-    "skip",
-    "default"
-  ],
-  "tidyverse": [
-    "skip",
-    "none"
-  ],
-  "verse": [
+  "script_arg": [
     "none"
   ],
   "include": [
     {
       "tag": "4.0.0",
-      "rstudio": "1.3.959",
-      "pandoc": "default"
+      "script_name": "install_rstudio.sh",
+      "script_arg": "1.3.959"
     }
   ]
 }

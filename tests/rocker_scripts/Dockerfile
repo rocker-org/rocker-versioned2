@@ -1,17 +1,9 @@
 ARG tag=latest
 FROM rocker/r-ver:${tag}
 
-COPY scripts /rocker_scripts
 COPY tests/rocker_scripts/test.sh /test.sh
+COPY scripts /rocker_scripts
 
-ARG rstudio=skip
-RUN /test.sh install_rstudio.sh $rstudio
-
-ARG pandoc=skip
-RUN /test.sh install_pandoc.sh $pandoc
-
-ARG tidyverse=skip
-RUN /test.sh install_tidyverse.sh $tidyverse
-
-ARG verse=skip
-RUN /test.sh install_verse.sh $verse
+ARG script_name=install_rstudio.sh
+ARG script_arg=skip
+RUN /test.sh ${script_name} ${script_arg}
