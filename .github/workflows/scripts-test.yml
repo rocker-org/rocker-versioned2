@@ -8,10 +8,14 @@ on:
       - tests/rocker_scripts/Dockerfile
       - tests/rocker_scripts/matrix.json
       - tests/rocker_scripts/test.sh
+      - scripts/install_s6init.sh
       - scripts/install_rstudio.sh
       - scripts/install_pandoc.sh
+      - scripts/install_shiny_server.sh
       - scripts/install_tidyverse.sh
       - scripts/install_verse.sh
+      - scripts/install_geospatial.sh
+      - scripts/install_wgrib2.sh
   workflow_dispatch:
 
 jobs:
@@ -35,12 +39,12 @@ jobs:
       matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
       - name: test build
         run: |
-          docker build . -f tests/rocker_scripts/Dockerfile \
-          -t rocker-script-test \
+          docker buildx build . -f tests/rocker_scripts/Dockerfile \
+          --output=type=docker \
           --build-arg tag=${{ matrix.tag }} \
-          --build-arg rstudio=${{ matrix.rstudio }} \
-          --build-arg pandoc=${{ matrix.pandoc }} \
-          --build-arg tidyverse=${{ matrix.tidyverse }} \
-          --build-arg verse=${{ matrix.verse }}
+          --build-arg script_name=${{ matrix.script_name }} \
+          --build-arg script_arg=${{ matrix.script_arg }}
