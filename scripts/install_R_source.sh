@@ -43,7 +43,6 @@ apt-get install -y --no-install-recommends \
     libbz2-* \
     libcurl4 \
     libicu* \
-    liblapack-dev \
     libpcre2* \
     libjpeg-turbo* \
     libpangocairo-* \
@@ -71,6 +70,7 @@ BUILDDEPS="curl \
     liblzma-dev \
     libx11-dev \
     libxt-dev \
+    liblapack-dev \
     perl \
     rsync \
     subversion \
