@@ -6,7 +6,7 @@
 ## ex. latest, devel, patched, 4.0.0
 ##
 ## 'devel' means the prerelease development version (Latest daily snapshot of development version).
-## 'pached' means the prerelease patched version (Latest daily snapshot of pached version).
+## 'patched' means the prerelease patched version (Latest daily snapshot of patched version).
 
 set -e
 
