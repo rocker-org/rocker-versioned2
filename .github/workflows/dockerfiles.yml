@@ -12,7 +12,7 @@ jobs:
     container:
       image: rocker/tidyverse:latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: install packages
         run: |
           install2.r --error --skipinstalled -n -1 pak

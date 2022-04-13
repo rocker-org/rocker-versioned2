@@ -18,7 +18,7 @@ jobs:
           - image: cuda
             short-description: NVIDIA CUDA libraries added to Rocker image.
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Docker Hub Description
         uses: peter-evans/dockerhub-description@v3
         with:
