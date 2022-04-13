@@ -72,7 +72,16 @@ else
     ln -sf "${R_HOME}/site-library/littler/examples/install2.r" /usr/local/bin/install2.r
 fi
 
-r --version
-
 # Clean up
 rm -rf /var/lib/apt/lists/*
+
+# Check the R info
+echo -e "Check the littler info...\n"
+
+r --version
+
+echo -e "Check the R info...\n"
+
+R -q -e "sessionInfo()"
+
+echo -e "Setup R, done!"

@@ -6,7 +6,7 @@
 ## ex. latest, devel, patched, 4.0.0
 ##
 ## 'devel' means the prerelease development version (Latest daily snapshot of development version).
-## 'pached' means the prerelease patched version (Latest daily snapshot of pached version).
+## 'patched' means the prerelease patched version (Latest daily snapshot of patched version).
 
 set -e
 
@@ -15,9 +15,10 @@ R_VERSION=${1:-${R_VERSION:-"latest"}}
 apt-get update
 apt-get -y install locales lsb-release
 
-## Configure default locale, see https://github.com/docker-library/docs/tree/master/ubuntu#locales
-localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+## Configure default locale
 LANG=${LANG:-"en_US.UTF-8"}
+/usr/sbin/locale-gen --lang "${LANG}"
+/usr/sbin/update-locale --reset LANG="${LANG}"
 
 UBUNTU_VERSION=$(lsb_release -sc)
 
