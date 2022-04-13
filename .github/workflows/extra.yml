@@ -35,4 +35,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Build and push Docker images
         run: |
-          BAKE_JSON=bakefiles/extra.docker-bake.json BAKE_GROUP=${{ matrix.group }} BAKE_OPTION=--push make bake-json-group
+          BAKE_JSON=bakefiles/extra.docker-bake.json \
+          BAKE_GROUP=${{ matrix.group }} \
+          BAKE_OPTION=--push \
+          make bake-json-group
