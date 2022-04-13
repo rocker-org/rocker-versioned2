@@ -26,6 +26,8 @@ if [ -f "/usr/lib/rstudio-server/bin/pandoc/pandoc" ]; then
     BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/pandoc/pandoc"
 elif [ -f "/usr/lib/rstudio-server/bin/quarto/bin/pandoc" ]; then
     BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/quarto/bin/pandoc"
+elif [ -f "/usr/lib/rstudio-server/bin/quarto/bin/tools/pandoc" ]; then
+    BUNDLED_PANDOC="/usr/lib/rstudio-server/bin/quarto/bin/tools/pandoc"
 fi
 
 if [ -n "$BUNDLED_PANDOC" ]; then
