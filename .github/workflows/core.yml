@@ -39,8 +39,8 @@ jobs:
       - id: set-matrix
         run: |
           CONTENT=$(jq -r 'tostring' ${{ steps.set-json.outputs.json }})
-          echo ::set-output name=matrix::${CONTENT}
-          echo ${CONTENT}
+          echo ::set-output name=matrix::"${CONTENT}"
+          echo "${CONTENT}"
 
   build:
     needs: generate_matrix
@@ -60,4 +60,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Build and push Docker images
         run: |
-          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json BAKE_GROUP=${{ matrix.group }} BAKE_OPTION=--push make bake-json-group
+          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json \
+          BAKE_GROUP=${{ matrix.group }} \
+          BAKE_OPTION=--push \
+          make bake-json-group
