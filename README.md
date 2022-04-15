@@ -22,7 +22,10 @@ Compared to `r-base`, this stack:
 
 - Builds on Ubuntu LTS rather than Debian and system libraries are tied to the Ubuntu version.
   Images will use the most recent LTS available at the time when the corresponding R version was released.
-  Thus all 4.0 images are based on Ubuntu 20.04 (`ubuntu:focal`).
+  - Since compatibility problems are likely to occur immediately after the release of a new Ubuntu LTS,
+    the version to be used is the one that is at least 90 days past release.
+    - `rocker/r-ver:4.0.0` is based on Ubuntu 20.04 (`ubuntu:focal`)
+      because no interval was set at the time of the Ubuntu 20.04 release.
 - Installs a fixed version of R itself from source, rather than whatever is already packaged for Ubuntu
   (the `r-base` stack gets the latest R version as a binary from Debian unstable).
 - The only platforms available are `linux/amd64` and `linux/arm64`
