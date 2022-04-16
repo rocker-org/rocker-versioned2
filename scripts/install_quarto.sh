@@ -62,6 +62,7 @@ fi
 
 # Install the quarto R package
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
+    knitr \
     quarto
 
 # Clean up
