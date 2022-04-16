@@ -8,14 +8,7 @@ on:
       - tests/rocker_scripts/Dockerfile
       - tests/rocker_scripts/matrix.json
       - tests/rocker_scripts/test.sh
-      - scripts/install_s6init.sh
-      - scripts/install_rstudio.sh
-      - scripts/install_pandoc.sh
-      - scripts/install_shiny_server.sh
-      - scripts/install_tidyverse.sh
-      - scripts/install_verse.sh
-      - scripts/install_geospatial.sh
-      - scripts/install_wgrib2.sh
+      - scripts/*.sh
   workflow_dispatch:
 
 jobs:
