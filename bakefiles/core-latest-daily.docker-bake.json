@@ -31,7 +31,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "tidyverse": {
@@ -52,7 +52,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "verse": {
@@ -73,7 +73,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     }
   }

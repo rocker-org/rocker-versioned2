@@ -47,7 +47,7 @@ library(stringr)
       ),
       platforms = purrr::map(value, "platforms", .default = list("linux/amd64")),
       `cache-from` = purrr::map(value, "cache-from", .default = list("")),
-      `cache-to` = purrr::map(value, "cache-to", .default = list("")),
+      `cache-to` = purrr::map(value, "cache-to", .default = list("type=inline")),
       base_image = map_chr(value, "FROM")
     ) |>
     dplyr::rowwise() |>

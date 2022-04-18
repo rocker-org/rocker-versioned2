@@ -46,7 +46,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "geospatial-dev-osgeo": {
@@ -68,7 +68,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     }
   }
