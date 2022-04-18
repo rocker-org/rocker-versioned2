@@ -52,7 +52,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "tidyverse": {
@@ -75,7 +75,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "verse": {
@@ -98,7 +98,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "geospatial": {
@@ -121,7 +121,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "shiny": {
@@ -144,7 +144,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "shiny-verse": {
@@ -167,7 +167,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "binder": {
@@ -190,7 +190,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "cuda": {
@@ -216,7 +216,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "ml": {
@@ -241,7 +241,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "ml-verse": {
@@ -266,7 +266,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "cuda11": {
@@ -290,7 +290,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "ml-cuda11": {
@@ -313,7 +313,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     },
     "ml-verse-cuda11": {
@@ -336,7 +336,7 @@
         ""
       ],
       "cache-to": [
-        ""
+        "type=inline"
       ]
     }
   }
