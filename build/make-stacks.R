@@ -441,7 +441,7 @@ df_rstudio <- gert::git_remote_ls(remote = "https://github.com/rstudio/rstudio.g
 
 df_args <- df_r |>
   tidyr::expand_grid(df_ubuntu_lts) |>
-  dplyr::filter(r_release_date >= ubuntu_release_date) |>
+  dplyr::filter(r_release_date >= ubuntu_release_date + 90) |>
   dplyr::group_by(r_version) |>
   dplyr::slice_max(ubuntu_release_date, with_ties = FALSE) |>
   dplyr::ungroup() |>
