@@ -9,6 +9,8 @@ on:
       - tests/rocker_scripts/matrix.json
       - tests/rocker_scripts/test.sh
       - scripts/*.sh
+      - "!scripts/install_R_*.sh"
+      - "!scripts/setup_R.sh"
   workflow_dispatch:
 
 jobs:
