@@ -3,9 +3,6 @@ set -e
 
 ## build ARGs
 NCPUS=${NCPUS:-1}
-
-WORKON_HOME=${WORKON_HOME:-/opt/venv}
-PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-${WORKON_HOME}/reticulate}
 RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED:-FALSE}
 
 apt-get update && apt-get install -y --no-install-recommends \
@@ -29,16 +26,13 @@ if [ ! -e /usr/local/bin/python ]; then
   ln -s $(which python3) /usr/local/bin/python
 fi
 
-mkdir -p ${WORKON_HOME}
-python3 -m venv ${PYTHON_VENV_PATH}
-
-install2.r --error --skipinstalled -n $NCPUS reticulate
-
+## Create a system-wide venv, but do not make it the default
+VENV_PATH="/opt/venv"
+mkdir -p ${VENV_PATH} 
+python3 -m venv ${VENV_PATH}/reticulate
 ## Ensure RStudio inherits this env var
 echo "" >> ${R_HOME}/etc/Renviron.site
-echo "WORKON_HOME=${WORKON_HOME}" >> ${R_HOME}/etc/Renviron.site
 echo "RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED}" >> ${R_HOME}/etc/Renviron.site
-
 
 ## symlink these so that these are available when switching to a new venv
 ## -f check for file, -L for link, -e for either
@@ -47,17 +41,15 @@ if [ ! -e /usr/local/bin/python ]; then
 fi
 
 if [ ! -e /usr/local/bin/pip ]; then
-  ln -s ${PYTHON_VENV_PATH}/bin/pip /usr/local/bin/pip
+  ln -s ${VENV_PATH}/bin/pip /usr/local/bin/pip
 fi
 
 if [ ! -e /usr/local/bin/virtualenv ]; then
-  ln -s ${PYTHON_VENV_PATH}/bin/virtualenv /usr/local/bin/virtualenv
+  ln -s ${VENV_PATH}/bin/virtualenv /usr/local/bin/virtualenv
 fi
 
-## Allow staff-level users to modify the shared environment
-chown -R :staff ${WORKON_HOME}
-chmod g+wx ${WORKON_HOME}
-chown :staff ${PYTHON_VENV_PATH}
+ 
+install2.r --error --skipinstalled -n $NCPUS reticulate
 
 
 ## Enable pyenv
