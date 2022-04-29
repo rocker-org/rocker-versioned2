@@ -1,5 +1,14 @@
 # News
 
+## 2022-04
+
+### Changes in pre-built images
+
+- R 4.0.0 images built on Ubuntu 18.04 (`rocker/r-ver:4.0.0-ubuntu18.04`, `rocker/rstudio:4.0.0-ubuntu18.04`,
+  `rocker/tidyverse:4.0.0-ubuntu18.04`, `rocker/verse:4.0.0-ubuntu18.04`, `rocker/geospatial:4.0.0-ubuntu18.04`)
+  are no longer built. The last builds of these images were created on 2022-03-10.
+  ([#432](https://github.com/rocker-org/rocker-versioned2/issues/432))
+
 ## 2022-03
 
 ### Changes in rocker_scripts
