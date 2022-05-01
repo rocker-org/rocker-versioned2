@@ -10,7 +10,10 @@
     "install_verse.sh",
     "install_quarto.sh",
     "install_shiny_server.sh",
-    "install_geospatial.sh"
+    "install_geospatial.sh",
+    "install_python.sh",
+    "install_binder.sh",
+    "install_julia.sh"
   ],
   "script_arg": [
     "none"
