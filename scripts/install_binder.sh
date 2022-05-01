@@ -33,10 +33,9 @@ WORKDIR=${WORKDIR:-/home/${NB_USER}}
 mkdir -p "${PYTHON_VENV_PATH}"
 chown -R "${NB_USER}" "${PYTHON_VENV_PATH}"
 
+# to use pyenv in a RStudio session, we need to include the PATH in the .profile file
+# https://github.com/rocker-org/rocker-versioned2/issues/428
 PATH=/opt/pyenv/bin:${PATH}
-
-# And set ENV for R! It doesn't read from the environment...
-echo "PATH=${PATH}" >>"${R_HOME}/etc/Renviron.site"
 echo "export PATH=${PATH}" >>"${WORKDIR}/.profile"
 
 cd "${WORKDIR}"
