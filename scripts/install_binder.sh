@@ -20,6 +20,9 @@ if ! id -u "${NB_USER}" >/dev/null 2>&1; then
     /rocker_scripts/default_user.sh "${NB_USER}"
 fi
 
+# install python
+/rocker_scripts/install_python.sh
+
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-/opt/venv/reticulate}
 WORKDIR=${WORKDIR:-/home/${NB_USER}}
 # Create a venv dir owned by unprivileged user & set up notebook in it
