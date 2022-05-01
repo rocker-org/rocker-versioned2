@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+## build ARGs
+NCPUS=${NCPUS:-"-1"}
+
 NB_USER=${NB_USER:-${DEFAULT_USER:-"rstudio"}}
 
 # a function to install apt packages only if they are not installed
@@ -41,8 +44,11 @@ cd "${WORKDIR}"
 sudo -u "${NB_USER}" python3 -m venv "${PYTHON_VENV_PATH}"
 pip3 install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab >=2.0
 
-R --quiet -e "devtools::install_github('IRkernel/IRkernel')"
+install2.r --error --skipinstalled -n "$NCPUS" remotes
+
+R --quiet -e "remotes::install_github('IRkernel/IRkernel')"
 R --quiet -e "IRkernel::installspec(prefix='${PYTHON_VENV_PATH}')"
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
+rm -rf /tmp/downloaded_packages
