@@ -41,7 +41,8 @@ echo "export PATH=${PATH}" >>"${WORKDIR}/.profile"
 cd "${WORKDIR}"
 ## This gets run as user
 sudo -u "${NB_USER}" python3 -m venv "${PYTHON_VENV_PATH}"
-pip3 install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab >=2.0
+
+python3 -m pip install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab
 
 install2.r --error --skipinstalled -n "$NCPUS" remotes
 
