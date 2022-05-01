@@ -1,16 +1,15 @@
 #!/bin/bash
 set -e
 
-## force install of last working version of rstudio, if necessary
-# RSTUDIO_VERSION=1.3.959 /rocker_scripts/install_rstudio.sh
+NB_USER=${NB_USER:-${DEFAULT_USER:-"rstudio"}}
 
-## NOTE: this runs as user NB_USER!
+# set up the default user if it does not exist
+if ! id -u "${NB_USER}" >/dev/null 2>&1; then
+    /rocker_scripts/default_user.sh "${NB_USER}"
+fi
+
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-/opt/venv/reticulate}
-DEFAULT_USER=${DEFAULT_USER:-rstudio}
-NB_USER=${NB_USER:-${DEFAULT_USER}}
-NB_UID=${NB_UID:-1000}
 WORKDIR=${WORKDIR:-/home/${NB_USER}}
-usermod -l "${NB_USER}" "${DEFAULT_USER}"
 # Create a venv dir owned by unprivileged user & set up notebook in it
 # This allows non-root to install python libraries if required
 mkdir -p "${PYTHON_VENV_PATH}"
