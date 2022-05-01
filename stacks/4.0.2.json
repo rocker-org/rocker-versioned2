@@ -12,7 +12,6 @@
       "FROM": "ubuntu:focal",
       "ENV": {
         "R_VERSION": "4.0.2",
-        "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
         "TZ": "Etc/UTC"
       },

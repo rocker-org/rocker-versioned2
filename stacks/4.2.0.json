@@ -26,7 +26,6 @@
       "FROM": "ubuntu:focal",
       "ENV": {
         "R_VERSION": "4.2.0",
-        "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
         "TZ": "Etc/UTC"
       },
@@ -314,7 +313,6 @@
       "FROM": "nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04",
       "ENV": {
         "R_VERSION": "4.2.0",
-        "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
         "TZ": "Etc/UTC",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
