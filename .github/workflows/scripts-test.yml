@@ -36,6 +36,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+      - name: Prepare build
+        id: prep
+        run: |
+          test_name="${{ matrix.base_image }}-${{ matrix.tag }}-${{ matrix.script_name }}-${{ matrix.script_arg }}"
+          echo ::set-output name=output_tag::"${test_name/"/"/"-"}"
       - name: test build
         run: |
           docker buildx build . -f tests/rocker_scripts/Dockerfile \
@@ -43,4 +48,13 @@ jobs:
           --build-arg base_image=${{ matrix.base_image }} \
           --build-arg tag=${{ matrix.tag }} \
           --build-arg script_name=${{ matrix.script_name }} \
-          --build-arg script_arg=${{ matrix.script_arg }}
+          --build-arg script_arg=${{ matrix.script_arg }} \
+          --tag ${{ steps.prep.outputs.output_tag }}
+      - name: inspect image
+        run: |
+          make inspect-image/"${{ steps.prep.outputs.output_tag }}"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: tmp
+          path: tmp
