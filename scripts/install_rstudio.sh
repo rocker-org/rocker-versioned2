@@ -10,11 +10,18 @@ set -e
 RSTUDIO_VERSION=${1:-${RSTUDIO_VERSION:-"stable"}}
 DEFAULT_USER=${DEFAULT_USER:-"rstudio"}
 
-ARCH=$(dpkg --print-architecture)
-UBUNTU_VERSION=$(lsb_release -sc)
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
 
-apt-get update
-apt-get install -y --no-install-recommends \
+apt_install \
+    lsb-release \
     file \
     git \
     libapparmor1 \
@@ -31,6 +38,9 @@ apt-get install -y --no-install-recommends \
     pwgen \
     sudo \
     wget
+
+ARCH=$(dpkg --print-architecture)
+UBUNTU_VERSION=$(lsb_release -sc)
 
 # install s6 supervisor
 /rocker_scripts/install_s6init.sh
