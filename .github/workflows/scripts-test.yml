@@ -30,7 +30,7 @@ jobs:
     needs: generate_matrix
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v3
