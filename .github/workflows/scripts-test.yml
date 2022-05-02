@@ -40,6 +40,7 @@ jobs:
         run: |
           docker buildx build . -f tests/rocker_scripts/Dockerfile \
           --output=type=docker \
+          --build-arg base_image=${{ matrix.base_image }} \
           --build-arg tag=${{ matrix.tag }} \
           --build-arg script_name=${{ matrix.script_name }} \
           --build-arg script_arg=${{ matrix.script_arg }}
