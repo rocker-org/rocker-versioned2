@@ -16,7 +16,9 @@ function apt_install() {
     fi
 }
 
-apt_install git sudo libzmq3-dev
+apt_install \
+    sudo \
+    libzmq3-dev
 
 # set up the default user if it does not exist
 if ! id -u "${NB_USER}" >/dev/null 2>&1; then
