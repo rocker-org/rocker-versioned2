@@ -30,16 +30,31 @@ jobs:
     needs: generate_matrix
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+      - name: Prepare build
+        id: prep
+        run: |
+          test_name="${{ matrix.base_image }}-${{ matrix.tag }}-${{ matrix.script_name }}-${{ matrix.script_arg }}"
+          echo ::set-output name=output_tag::"${test_name/"/"/"-"}"
       - name: test build
         run: |
           docker buildx build . -f tests/rocker_scripts/Dockerfile \
           --output=type=docker \
+          --build-arg base_image=${{ matrix.base_image }} \
           --build-arg tag=${{ matrix.tag }} \
           --build-arg script_name=${{ matrix.script_name }} \
-          --build-arg script_arg=${{ matrix.script_arg }}
+          --build-arg script_arg=${{ matrix.script_arg }} \
+          --tag ${{ steps.prep.outputs.output_tag }}
+      - name: inspect image
+        run: |
+          make inspect-image/"${{ steps.prep.outputs.output_tag }}"
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: tmp
+          path: tmp
