@@ -13,7 +13,8 @@
     "install_verse.sh",
     "install_quarto.sh",
     "install_shiny_server.sh",
-    "install_geospatial.sh"
+    "install_geospatial.sh",
+    "install_cuda-10.1.sh"
   ],
   "script_arg": [
     "none"
@@ -42,6 +43,12 @@
       "tag": "latest",
       "script_name": "install_quarto.sh",
       "script_arg": "0.9.260"
+    },
+    {
+      "base_image": "rocker/r-ver",
+      "tag": "4.0.5",
+      "script_name": "install_cuda-11.1.sh",
+      "script_arg": "none"
     }
   ]
 }
