@@ -20,6 +20,7 @@ apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repo
 apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
 echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" >/etc/apt/sources.list.d/cuda.list
 echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" >/etc/apt/sources.list.d/nvidia-ml.list
+apt-get update
 
 CUDA_VERSION=${CUDA_VERSION:-10.1.243}
 CUDA_PKG_VERSION=${CUDA_PKG_VERSION:-10-1=$CUDA_VERSION-1}
