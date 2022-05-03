@@ -5,6 +5,16 @@ set -e
 
 S6_VERSION=${1:-${S6_VERSION:-"v2.1.0.2"}}
 
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
+
 ARCH=$(dpkg --print-architecture)
 
 if [ "$ARCH" = "arm64" ]; then
@@ -13,10 +23,7 @@ fi
 
 DOWNLOAD_FILE=s6-overlay-${ARCH}.tar.gz
 
-if [ ! -x "$(command -v wget)" ]; then
-    apt-get update
-    apt-get -y install wget
-fi
+apt_install wget
 
 ## Set up S6 init system
 if [ -f "/rocker_scripts/.s6_version" ] && [ "$S6_VERSION" = "$(cat /rocker_scripts/.s6_version)" ]; then

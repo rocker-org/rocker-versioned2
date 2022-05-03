@@ -1,26 +1,35 @@
 #!/bin/bash
 set -e
 
-apt-get update
-apt-get install -y --no-install-recommends \
-    gnupg2 curl ca-certificates
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
+
+apt_install \
+    gnupg2 \
+    curl \
+    ca-certificates
+
 apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/7fa2af80.pub
 apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub
 echo "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64 /" >/etc/apt/sources.list.d/cuda.list
 echo "deb https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64 /" >/etc/apt/sources.list.d/nvidia-ml.list
-apt-get purge --autoremove -y curl
-rm -rf /var/lib/apt/lists/*
 
 CUDA_VERSION=${CUDA_VERSION:-10.1.243}
 CUDA_PKG_VERSION=${CUDA_PKG_VERSION:-10-1=$CUDA_VERSION-1}
 
 # For libraries in the cuda-compat-* package: https://docs.nvidia.com/cuda/eula/index.html#attachment-a
-apt-get update
-apt-get install -y --no-install-recommends \
+apt_install \
     "cuda-cudart-${CUDA_PKG_VERSION}" \
-    cuda-compat-10-1 &&
-    ln -s cuda-10.1 /usr/local/cuda &&
-    rm -rf /var/lib/apt/lists/*
+    cuda-compat-10-1
+
+ln -s cuda-10.1 /usr/local/cuda
 
 # Required for nvidia-docker v1
 echo "/usr/local/nvidia/lib" >>/etc/ld.so.conf.d/nvidia.conf &&
@@ -48,8 +57,7 @@ LIBNVINFER_MAJOR_VERSION=6
 # There appears to be a regression in libcublas10=10.2.2.89-1 which
 # prevents cublas from initializing in TF. See
 # https://github.com/tensorflow/tensorflow/issues/9489#issuecomment-562394257
-apt-get update
-apt-get install -y --no-install-recommends --allow-downgrades \
+apt_install \
     build-essential \
     cuda-command-line-tools-10-1 \
     libcublas10=10.2.1.243-1 \
@@ -68,11 +76,10 @@ apt-get install -y --no-install-recommends --allow-downgrades \
     unzip
 
 # Install TensorRT if not building for PowerPC
-apt-get update
-apt-get install -y --no-install-recommends libnvinfer${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} \
+apt_install \
+    libnvinfer${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA} \
     libnvinfer-plugin${LIBNVINFER_MAJOR_VERSION}=${LIBNVINFER}+cuda${CUDA}
 apt-get clean
-rm -rf /var/lib/apt/lists/*
 
 # For CUDA profiling, TensorFlow requires CUPTI.
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH:-/usr/local/cuda/extras/CUPTI/lib64:/usr/local/cuda/lib64:$LD_LIBRARY_PATH}
@@ -88,3 +95,6 @@ ldconfig
 
 ## Add tensorflow-gpu==1.15 dependencies on the CUDA 10.0 libraries:
 /rocker_scripts/install_tf1_cuda_10_0.sh
+
+# Clean up
+rm -rf /var/lib/apt/lists/*

@@ -7,8 +7,17 @@ NCPUS=${NCPUS:--1}
 # always set this for scripts but don't declare as ENV..
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get update
-apt-get install -y --no-install-recommends \
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
+
+apt_install \
     cmake \
     curl \
     default-jdk \
@@ -49,19 +58,19 @@ fi
 # librdf0-dev depends on libcurl4-gnutils-dev instead of libcurl4-openssl-dev...
 # So: we can build the redland package bindings and then swap back to libcurl-openssl-dev... (ick)
 # explicitly install runtime library sub-deps of librdf0-dev so they are not auto-removed.
-apt-get install -y librdf0-dev
+apt_install librdf0-dev
 install2.r --error --skipinstalled -n "$NCPUS" redland
-apt-get install -y \
+apt_install \
     libcurl4-openssl-dev \
+    libgit2-dev \
     libxslt-dev \
     librdf0 \
     redland-utils \
     rasqal-utils \
-    raptor2-utils &&
-    apt-get remove -y systemd &&
-    apt-get -y autoremove
+    raptor2-utils
 
-apt-get install -y libgit2-dev libcurl4-openssl-dev
+apt-get remove -y systemd
+apt-get -y autoremove
 
 ## Add LaTeX, rticles and bookdown support
 wget "https://travis-bin.yihui.name/texlive-local.deb"
@@ -81,5 +90,6 @@ install2.r --error --deps TRUE --skipinstalled -n "$NCPUS" \
     rJava \
     xaringan
 
+# Clean up
 rm -rf /tmp/downloaded_packages
 rm -rf /var/lib/apt/lists/*
