@@ -5,6 +5,16 @@ CTAN_REPO=${1:-${CTAN_REPO:-"https://mirror.ctan.org/systems/texlive/tlnet"}}
 
 ARCH=$(uname -m)
 
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
+
 cat <<EOF >/tmp/texlive-profile.txt
 selected_scheme scheme-infraonly
 TEXDIR /usr/local/texlive
@@ -22,10 +32,10 @@ export PATH="${PATH}:/usr/local/texlive/bin/${ARCH}-linux/"
 
 mkdir -p /opt/texlive
 # set up packages
-if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
-    apt-get update
-fi
-apt-get -y install wget perl xzdec
+apt_install \
+    wget \
+    perl \
+    xzdec
 
 wget "${CTAN_REPO}/install-tl-unx.tar.gz"
 tar -xzf install-tl-unx.tar.gz
@@ -52,6 +62,9 @@ if [ -n "$NON_ROOT_USER" ]; then
 fi
 chmod -R 777 /opt/texlive
 chmod -R 777 /usr/local/texlive
+
+# Clean up
+rm -rf /var/lib/apt/lists/*
 
 # Check the tlmgr version
 echo -e "Check the tlmgr version...\n"
