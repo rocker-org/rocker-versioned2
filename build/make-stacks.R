@@ -85,9 +85,8 @@ library(gert)
 
 .is_rstudio_deb_available <- function(rstudio_version, ubuntu_series) {
   os_ver <- dplyr::case_when(
-    ubuntu_series %in% c("xenial") ~ "xenial",
-    ubuntu_series %in% c("bionic", "focal") ~ "bionic",
-    TRUE ~ "bionic"
+    ubuntu_series %in% c("focal") ~ "bionic",
+    TRUE ~ ubuntu_series
   )
 
   is_available <- glue::glue(
