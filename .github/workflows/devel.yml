@@ -13,7 +13,7 @@ jobs:
         bakefile: [devel.docker-bake.json, core-latest-daily.docker-bake.json]
     steps:
       - uses: actions/checkout@v3
-      - uses: docker/login-action@v1
+      - uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
