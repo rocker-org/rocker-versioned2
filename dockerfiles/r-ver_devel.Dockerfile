@@ -6,7 +6,6 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
 ENV R_VERSION=devel
-ENV TERM=xterm
 ENV R_HOME=/usr/local/lib/R
 ENV TZ=Etc/UTC
 
