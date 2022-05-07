@@ -39,7 +39,8 @@ jobs:
       - name: Prepare build
         id: prep
         run: |
-          test_name="${{ matrix.base_image }}-${{ matrix.tag }}-${{ matrix.script_name }}-${{ matrix.script_arg }}"
+          lower_script_name=$(echo ${{ matrix.script_name }} | tr '[:upper:]' '[:lower:]')
+          test_name="${{ matrix.base_image }}-${{ matrix.tag }}-${lower_script_name}-${{ matrix.script_arg }}"
           echo ::set-output name=output_tag::"${test_name/"/"/"-"}"
       - name: test build
         run: |
