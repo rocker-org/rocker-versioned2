@@ -41,7 +41,7 @@ fi
 mkdir -p "${WORKON_HOME}"
 python3 -m venv "${PYTHON_VENV_PATH}"
 
-install2.r --error --skipinstalled -n "$NCPUS" reticulate
+install2.r --error --skipmissing --skipinstalled -n "$NCPUS" reticulate
 
 ## Ensure RStudio inherits this env var
 cat <<EOF >>"${R_HOME}/etc/Renviron.site"

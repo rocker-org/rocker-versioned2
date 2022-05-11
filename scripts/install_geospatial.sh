@@ -54,7 +54,7 @@ fi
 ## Somehow foreign is messed up on CRAN between 2020-04-25 -- 2020-05-0?
 ##install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 -n $NCPUS foreign
 
-install2.r --error --skipinstalled -n "$NCPUS" \
+install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     RColorBrewer \
     RandomFields \
     RNetCDF \

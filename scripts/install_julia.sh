@@ -25,7 +25,7 @@ fi
 
 apt_install wget
 
-install2.r --error --skipinstalled -n "$NCPUS" \
+install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     yaml \
     JuliaCall \
     JuliaConnectoR
