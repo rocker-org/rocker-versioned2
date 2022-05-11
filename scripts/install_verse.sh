@@ -81,7 +81,7 @@ rm texlive-local.deb
 /rocker_scripts/install_texlive.sh
 
 install2.r --error --skipinstalled -n "$NCPUS" tinytex
-install2.r --error --deps TRUE --skipinstalled -n "$NCPUS" \
+install2.r --error --skipmissing --deps TRUE --skipinstalled -n "$NCPUS" \
     blogdown \
     bookdown \
     distill \

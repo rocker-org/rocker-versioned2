@@ -46,7 +46,7 @@ sudo -u "${NB_USER}" python3 -m venv "${PYTHON_VENV_PATH}"
 
 python3 -m pip install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab
 
-install2.r --error --skipinstalled -n "$NCPUS" remotes
+install2.r --error --skipmissing --skipinstalled -n "$NCPUS" remotes
 
 R --quiet -e "remotes::install_github('IRkernel/IRkernel')"
 R --quiet -e "IRkernel::installspec(prefix='${PYTHON_VENV_PATH}')"
