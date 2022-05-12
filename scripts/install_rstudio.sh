@@ -10,10 +10,18 @@ set -e
 RSTUDIO_VERSION=${1:-${RSTUDIO_VERSION:-"stable"}}
 DEFAULT_USER=${DEFAULT_USER:-"rstudio"}
 
-ARCH=$(dpkg --print-architecture)
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
 
-apt-get update
-apt-get install -y --no-install-recommends \
+apt_install \
+    lsb-release \
     file \
     git \
     libapparmor1 \
@@ -31,7 +39,8 @@ apt-get install -y --no-install-recommends \
     sudo \
     wget
 
-rm -rf /var/lib/apt/lists/*
+ARCH=$(dpkg --print-architecture)
+UBUNTU_VERSION=$(lsb_release -sc)
 
 # install s6 supervisor
 /rocker_scripts/install_s6init.sh
@@ -43,11 +52,15 @@ if [ "$RSTUDIO_VERSION" = "latest" ]; then
     RSTUDIO_VERSION="stable"
 fi
 
+if [ "$UBUNTU_VERSION" = "focal" ]; then
+    UBUNTU_VERSION="bionic"
+fi
+
 if [ "$RSTUDIO_VERSION" = "stable" ] || [ "$RSTUDIO_VERSION" = "preview" ] || [ "$RSTUDIO_VERSION" = "daily" ]; then
-    wget "https://rstudio.org/download/latest/${RSTUDIO_VERSION}/server/bionic/rstudio-server-latest-${ARCH}.deb" -O "$DOWNLOAD_FILE"
+    wget "https://rstudio.org/download/latest/${RSTUDIO_VERSION}/server/${UBUNTU_VERSION}/rstudio-server-latest-${ARCH}.deb" -O "$DOWNLOAD_FILE"
 else
-    wget "https://download2.rstudio.org/server/bionic/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE" ||
-        wget "https://s3.amazonaws.com/rstudio-ide-build/server/bionic/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE"
+    wget "https://download2.rstudio.org/server/${UBUNTU_VERSION}/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE" ||
+        wget "https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_VERSION}/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE"
 fi
 
 dpkg -i "$DOWNLOAD_FILE"
@@ -108,6 +121,9 @@ EOF
 cp /rocker_scripts/init_set_env.sh /etc/cont-init.d/01_set_env
 cp /rocker_scripts/init_userconf.sh /etc/cont-init.d/02_userconf
 cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
+
+# Clean up
+rm -rf /var/lib/apt/lists/*
 
 # Check the RStudio Server version
 echo -e "Check the RStudio Server version...\n"

@@ -6,6 +6,16 @@ NCPUS=${NCPUS:--1}
 
 JULIA_VERSION=${1:-${JULIA_VERSION:-latest}}
 
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
+
 ARCH_LONG=$(uname -p)
 ARCH_SHORT=$ARCH_LONG
 
@@ -13,12 +23,9 @@ if [ "$ARCH_LONG" = "x86_64" ]; then
     ARCH_SHORT="x64"
 fi
 
-if [ ! -x "$(command -v wget)" ]; then
-    apt-get update
-    apt-get -y install wget
-fi
+apt_install wget
 
-install2.r --error --skipinstalled -n "$NCPUS" \
+install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     yaml \
     JuliaCall \
     JuliaConnectoR

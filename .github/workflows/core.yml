@@ -50,14 +50,14 @@ jobs:
       matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     steps:
       - uses: actions/checkout@v3
-      - uses: docker/login-action@v1
+      - uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
       - name: Build and push Docker images
         run: |
           BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json \

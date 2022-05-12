@@ -6,17 +6,17 @@ SHINY_SERVER_VERSION=${1:-${SHINY_SERVER_VERSION:-latest}}
 ## build ARGs
 NCPUS=${NCPUS:--1}
 
-# Run dependency scripts
-/rocker_scripts/install_s6init.sh
-/rocker_scripts/install_pandoc.sh
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
 
-if [ "$SHINY_SERVER_VERSION" = "latest" ]; then
-    SHINY_SERVER_VERSION=$(wget -qO- https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION)
-fi
-
-# Get apt packages
-apt-get update
-apt-get install -y --no-install-recommends \
+apt_install \
     sudo \
     gdebi-core \
     libcurl4-openssl-dev \
@@ -25,7 +25,16 @@ apt-get install -y --no-install-recommends \
     xtail \
     wget
 
+# Run dependency scripts
+/rocker_scripts/install_s6init.sh
+/rocker_scripts/install_pandoc.sh
+
 # Install Shiny server
+
+if [ "$SHINY_SERVER_VERSION" = "latest" ]; then
+    SHINY_SERVER_VERSION=$(wget -qO- https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION)
+fi
+
 wget --no-verbose "https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-${SHINY_SERVER_VERSION}-amd64.deb" -O ss-latest.deb
 gdebi -n ss-latest.deb
 rm ss-latest.deb

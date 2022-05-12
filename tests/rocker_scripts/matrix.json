@@ -1,4 +1,7 @@
 {
+  "base_image": [
+    "rocker/r-ver"
+  ],
   "tag": [
     "4.0.0",
     "latest"
@@ -10,26 +13,51 @@
     "install_verse.sh",
     "install_quarto.sh",
     "install_shiny_server.sh",
-    "install_geospatial.sh"
+    "install_geospatial.sh",
+    "install_python.sh",
+    "install_binder.sh",
+    "install_julia.sh",
+    "install_cuda-10.1.sh"
   ],
   "script_arg": [
     "none"
   ],
   "include": [
     {
+      "base_image": "rocker/r-ver",
       "tag": "4.0.0",
       "script_name": "install_rstudio.sh",
       "script_arg": "1.3.959"
     },
     {
+      "base_image": "rocker/r-ver",
+      "tag": "devel",
+      "script_name": "install_rstudio.sh",
+      "script_arg": "daily"
+    },
+    {
+      "base_image": "rocker/r-ver",
       "tag": "latest",
       "script_name": "install_pandoc.sh",
       "script_arg": "2.18"
     },
     {
+      "base_image": "rocker/r-ver",
       "tag": "latest",
       "script_name": "install_quarto.sh",
       "script_arg": "0.9.260"
+    },
+    {
+      "base_image": "rocker/r-ver",
+      "tag": "4.0.5",
+      "script_name": "install_cuda-11.1.sh",
+      "script_arg": "none"
+    },
+    {
+      "base_image": "rocker/cuda",
+      "tag": "cuda11.1",
+      "script_name": "config_R_cuda.sh",
+      "script_arg": "none"
     }
   ]
 }
