@@ -15,21 +15,20 @@ R_HOME=${R_HOME:-/usr/lib/R}
 apt-get update
 
 apt-get -y install --no-install-recommends \
-      ca-certificates \
-      less \
-      libopenblas-base \
-      locales \
-      vim-tiny \
-      wget \
-      dirmngr \
-      gpg \
-      gpg-agent
+    ca-certificates \
+    less \
+    libopenblas-base \
+    locales \
+    vim-tiny \
+    wget \
+    dirmngr \
+    gpg \
+    gpg-agent
 
-echo "deb http://cloud.r-project.org/bin/linux/ubuntu ${UBUNTU_VERSION}-${CRAN_LINUX_VERSION}/" >> /etc/apt/sources.list
+echo "deb http://cloud.r-project.org/bin/linux/ubuntu ${UBUNTU_VERSION}-${CRAN_LINUX_VERSION}/" >>/etc/apt/sources.list
 
 gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
 gpg -a --export E298A3A825C0D65DFD57CBB651716619E084DAB9 | apt-key add -
-
 
 # Wildcard * at end of version will grab (latest) patch of requested version
 apt-get update && apt-get -y install --no-install-recommends r-base-dev=${R_VERSION}*
@@ -40,7 +39,7 @@ rm -rf /var/lib/apt/lists/*
 ##
 ## These are required at least for bionic-based images since 3.4 r binaries are
 
-echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >>/etc/locale.gen
 locale-gen en_US.utf8
 /usr/sbin/update-locale LANG=${LANG}
 
