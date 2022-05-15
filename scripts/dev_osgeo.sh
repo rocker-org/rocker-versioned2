@@ -54,7 +54,7 @@ apt-get -y update &&
 #git clone --depth 1 https://github.com/OSGeo/PROJ.git
 wget http://download.osgeo.org/proj/proj-"${PROJ_VERSION}".tar.gz
 tar zxvf proj-"${PROJ_VERSION}".tar.gz
-cd proj-${PROJ_VERSION} &&
+cd proj-"${PROJ_VERSION}" &&
     ls -l &&
     mkdir build &&
     cd build &&
@@ -102,7 +102,7 @@ GEOS_VERSION=${GEOS_VERSION:-3.10.2}
 wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2 &&
     bzip2 -d geos-*bz2 &&
     tar xf geos*tar &&
-    rm *.tar &&
+    rm ./*.tar &&
     cd geos* &&
     ./configure &&
     make &&
