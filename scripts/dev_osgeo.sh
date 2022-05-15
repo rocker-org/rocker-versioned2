@@ -52,8 +52,8 @@ apt-get -y update &&
         libtiff5-dev
 
 #git clone --depth 1 https://github.com/OSGeo/PROJ.git
-wget http://download.osgeo.org/proj/proj-$PROJ_VERSION.tar.gz
-tar zxvf proj-${PROJ_VERSION}.tar.gz
+wget http://download.osgeo.org/proj/proj-"${PROJ_VERSION}".tar.gz
+tar zxvf proj-"${PROJ_VERSION}".tar.gz
 cd proj-${PROJ_VERSION} &&
     ls -l &&
     mkdir build &&
@@ -74,11 +74,11 @@ cd proj-${PROJ_VERSION} &&
 # GDAL:
 
 # https://download.osgeo.org/gdal/
-GDAL_VERSION=${GDAL_VERSION:-3.4.2}
+GDAL_VERSION=${GDAL_VERSION:-3.5.0}
 GDAL_VERSION_NAME=${GDAL_VERSION}
 
-wget http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION_NAME}.tar.gz &&
-    tar -xf gdal-${GDAL_VERSION_NAME}.tar.gz &&
+wget http://download.osgeo.org/gdal/"${GDAL_VERSION}"/gdal-"${GDAL_VERSION_NAME}".tar.gz &&
+    tar -xf gdal-"${GDAL_VERSION_NAME}".tar.gz &&
     rm *.tar.gz &&
     cd gdal* &&
     ./configure &&
@@ -99,7 +99,7 @@ wget http://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION_NAME}.ta
 # GEOS:
 GEOS_VERSION=${GEOS_VERSION:-3.10.2}
 
-wget http://download.osgeo.org/geos/geos-${GEOS_VERSION}.tar.bz2 &&
+wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2 &&
     bzip2 -d geos-*bz2 &&
     tar xf geos*tar &&
     rm *.tar &&
