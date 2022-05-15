@@ -69,9 +69,9 @@ jobs:
         with:
           repository: "${{ github.repository }}.wiki"
           path: reports
-      # - name: clean up image list
-      #   run:
-      #     rm -rf reports/imagelist
+      - name: clean up image list
+        run:
+          rm -rf reports/imagelist
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:

@@ -5,17 +5,8 @@ set -e
 ## build ARGs
 NCPUS=${NCPUS:--1}
 
-# a function to install apt packages only if they are not installed
-function apt_install() {
-    if ! dpkg -s "$@" >/dev/null 2>&1; then
-        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
-            apt-get update
-        fi
-        apt-get install -y --no-install-recommends "$@"
-    fi
-}
-
-apt_install \
+apt-get update
+apt-get -y --no-install-recommends install \
     libxml2-dev \
     libcairo2-dev \
     libgit2-dev \
@@ -27,6 +18,7 @@ apt_install \
     libxtst6 \
     libcurl4-openssl-dev \
     unixodbc-dev
+rm -rf /var/lib/apt/lists/*
 
 install2.r --error --skipinstalled -n "$NCPUS" \
     tidyverse \
@@ -53,8 +45,6 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
 ## a bridge to far? -- brings in another 60 packages
 # install2.r --error --skipinstalled -n "$NCPUS" tidymodels
 
-# Clean up
-rm -rf /var/lib/apt/lists/*
 rm -rf /tmp/downloaded_packages
 
 # Check the tidyverse core packages' version

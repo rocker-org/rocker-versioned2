@@ -7,17 +7,8 @@ export DEBIAN_FRONTEND=noninteractive
 ## build ARGs
 NCPUS=${NCPUS:--1}
 
-# a function to install apt packages only if they are not installed
-function apt_install() {
-    if ! dpkg -s "$@" >/dev/null 2>&1; then
-        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
-            apt-get update
-        fi
-        apt-get install -y --no-install-recommends "$@"
-    fi
-}
-
-apt_install \
+apt-get update
+apt-get install -y --no-install-recommends \
     gdal-bin \
     lbzip2 \
     libfftw3-dev \
@@ -54,7 +45,7 @@ fi
 ## Somehow foreign is messed up on CRAN between 2020-04-25 -- 2020-05-0?
 ##install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 -n $NCPUS foreign
 
-install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
+install2.r --error --skipinstalled -n "$NCPUS" \
     RColorBrewer \
     RandomFields \
     RNetCDF \

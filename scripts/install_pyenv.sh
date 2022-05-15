@@ -9,23 +9,12 @@
 set -e
 
 PYTHON_CONFIGURE_OPTS=${PYTHON_CONFIGURE_OPTS:-"--enable-shared"}
-
-# a function to install apt packages only if they are not installed
-function apt_install() {
-    if ! dpkg -s "$@" >/dev/null 2>&1; then
-        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
-            apt-get update
-        fi
-        apt-get install -y --no-install-recommends "$@"
-    fi
-}
-
 echo "PYTHON_CONFIGURE_OPTS=${PYTHON_CONFIGURE_OPTS}" >>"${R_HOME}/etc/R_environ"
 
-apt_install \
-    curl \
-    python3-pip
-
+if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+    apt-get update
+fi
+apt-get -y install curl python3-pip
 python3 -m pip --no-cache-dir install --upgrade --ignore-installed pipenv
 
 # consider a version-stable alternative for the installer?

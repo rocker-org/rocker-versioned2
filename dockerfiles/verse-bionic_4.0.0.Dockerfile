@@ -1,19 +1,11 @@
-FROM rocker/geospatial:4.0.2
+FROM rocker/tidyverse:4.0.0-ubuntu18.04
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV NB_USER=rstudio
+ENV CTAN_REPO=https://www.texlive.info/tlnet-archive/2020/06/05/tlnet
+ENV PATH=/opt/texlive/bin/x86_64-linux:/usr/local/texlive/bin/x86_64-linux:$PATH
 
-RUN /rocker_scripts/install_python.sh
-RUN /rocker_scripts/install_binder.sh
-
-EXPOSE 8888
-
-CMD jupyter notebook --ip 0.0.0.0
-
-USER ${NB_USER}
-
-WORKDIR /home/${NB_USER}
+RUN /rocker_scripts/install_verse.sh

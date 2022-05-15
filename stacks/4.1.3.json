@@ -26,6 +26,7 @@
       "FROM": "ubuntu:focal",
       "ENV": {
         "R_VERSION": "4.1.3",
+        "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
         "TZ": "Etc/UTC"
       },
@@ -169,11 +170,12 @@
         "NB_USER": "rstudio"
       },
       "RUN": [
+        "/rocker_scripts/install_python.sh",
         "/rocker_scripts/install_binder.sh"
       ],
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",
-      "CMD": "[\"/bin/sh\", \"-c\", \"jupyter notebook --ip 0.0.0.0\"]",
+      "CMD": "jupyter notebook --ip 0.0.0.0",
       "EXPOSE": 8888,
       "tags": [
         "docker.io/rocker/binder:4.1.3",
@@ -282,6 +284,7 @@
       "FROM": "nvidia/cuda:11.1.1-cudnn8-devel-ubuntu20.04",
       "ENV": {
         "R_VERSION": "4.1.3",
+        "TERM": "xterm",
         "R_HOME": "/usr/local/lib/R",
         "TZ": "Etc/UTC",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",

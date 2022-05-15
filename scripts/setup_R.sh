@@ -13,18 +13,6 @@ CRAN=${1:-${CRAN:-"https://cran.r-project.org"}}
 
 ARCH=$(uname -m)
 
-# a function to install apt packages only if they are not installed
-function apt_install() {
-    if ! dpkg -s "$@" >/dev/null 2>&1; then
-        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
-            apt-get update
-        fi
-        apt-get install -y --no-install-recommends "$@"
-    fi
-}
-
-apt_install lsb-release
-
 ##  mechanism to force source installs if we're using RSPM
 UBUNTU_VERSION=$(lsb_release -sc)
 CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
@@ -46,7 +34,8 @@ EOF
 ## Install OpenBLAS and hot-switching to it
 ## https://github.com/rocker-org/rocker-versioned2/issues/390
 if ! dpkg -l | grep -q libopenblas-dev; then
-    apt_install libopenblas-dev
+    apt-get update
+    apt-get install -y --no-install-recommends libopenblas-dev
     update-alternatives --set "libblas.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/openblas-pthread/libblas.so.3"
 fi
 
@@ -62,7 +51,7 @@ if [ ! -x "$(command -v r)" ]; then
         apt-get update
     fi
     # shellcheck disable=SC2086
-    apt_install ${BUILDDEPS}
+    apt-get install -y --no-install-recommends ${BUILDDEPS}
     Rscript -e "install.packages(c('littler', 'docopt'), repos='${CRAN_SOURCE}')"
 
     # Clean up

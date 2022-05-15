@@ -17,6 +17,17 @@
             "ml-verse"
           ]
         }
+      ],
+      "bionicimages": [
+        {
+          "targets": [
+            "r-ver-bionic",
+            "rstudio-bionic",
+            "tidyverse-bionic",
+            "verse-bionic",
+            "geospatial-bionic"
+          ]
+        }
       ]
     }
   ],
@@ -256,6 +267,116 @@
       "tags": [
         "docker.io/rocker/ml-verse:4.0.0-cuda10.1",
         "docker.io/rocker/ml-verse:4.0.0"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ],
+      "cache-to": [
+        "type=inline"
+      ]
+    },
+    "r-ver-bionic": {
+      "context": "./",
+      "dockerfile": "dockerfiles/r-ver-bionic_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/r-ver",
+        "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:bionic",
+        "org.opencontainers.image.version": "R-4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/r-ver:4.0.0-ubuntu18.04"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        "docker.io/rocker/r-ver:4.0.0-ubuntu18.04"
+      ],
+      "cache-to": [
+        "type=inline"
+      ]
+    },
+    "rstudio-bionic": {
+      "context": "./",
+      "dockerfile": "dockerfiles/rstudio-bionic_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.description": "RStudio Server with fixed version of R",
+        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.0.0-ubuntu18.04",
+        "org.opencontainers.image.version": "R-4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/rstudio:4.0.0-ubuntu18.04"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ],
+      "cache-to": [
+        "type=inline"
+      ]
+    },
+    "tidyverse-bionic": {
+      "context": "./",
+      "dockerfile": "dockerfiles/tidyverse-bionic_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:4.0.0-ubuntu18.04",
+        "org.opencontainers.image.version": "R-4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/tidyverse:4.0.0-ubuntu18.04"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ],
+      "cache-to": [
+        "type=inline"
+      ]
+    },
+    "verse-bionic": {
+      "context": "./",
+      "dockerfile": "dockerfiles/verse-bionic_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:4.0.0-ubuntu18.04",
+        "org.opencontainers.image.version": "R-4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/verse:4.0.0-ubuntu18.04"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        ""
+      ],
+      "cache-to": [
+        "type=inline"
+      ]
+    },
+    "geospatial-bionic": {
+      "context": "./",
+      "dockerfile": "dockerfiles/geospatial-bionic_4.0.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.0.0-ubuntu18.04",
+        "org.opencontainers.image.version": "R-4.0.0"
+      },
+      "tags": [
+        "docker.io/rocker/geospatial:4.0.0-ubuntu18.04"
       ],
       "platforms": [
         "linux/amd64"

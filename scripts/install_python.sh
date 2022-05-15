@@ -8,17 +8,8 @@ WORKON_HOME=${WORKON_HOME:-/opt/venv}
 PYTHON_VENV_PATH=${PYTHON_VENV_PATH:-${WORKON_HOME}/reticulate}
 RETICULATE_MINICONDA_ENABLED=${RETICULATE_MINICONDA_ENABLED:-FALSE}
 
-# a function to install apt packages only if they are not installed
-function apt_install() {
-    if ! dpkg -s "$@" >/dev/null 2>&1; then
-        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
-            apt-get update
-        fi
-        apt-get install -y --no-install-recommends "$@"
-    fi
-}
-
-apt_install \
+apt-get update
+apt-get install -y --no-install-recommends \
     git \
     libpng-dev \
     libpython3-dev \
@@ -26,7 +17,8 @@ apt_install \
     python3-pip \
     python3-virtualenv \
     python3-venv \
-    swig
+    swig &&
+    rm -rf /var/lib/apt/lists/*
 
 python3 -m pip --no-cache-dir install --upgrade \
     pip \
@@ -41,7 +33,7 @@ fi
 mkdir -p "${WORKON_HOME}"
 python3 -m venv "${PYTHON_VENV_PATH}"
 
-install2.r --error --skipmissing --skipinstalled -n "$NCPUS" reticulate
+install2.r --error --skipinstalled -n "$NCPUS" reticulate
 
 ## Ensure RStudio inherits this env var
 cat <<EOF >>"${R_HOME}/etc/Renviron.site"
