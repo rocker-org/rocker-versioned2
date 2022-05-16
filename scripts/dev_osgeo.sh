@@ -79,7 +79,7 @@ GDAL_VERSION_NAME=${GDAL_VERSION}
 
 wget http://download.osgeo.org/gdal/"${GDAL_VERSION}"/gdal-"${GDAL_VERSION_NAME}".tar.gz &&
     tar -xf gdal-"${GDAL_VERSION_NAME}".tar.gz &&
-    rm *.tar.gz &&
+    rm ./*.tar.gz &&
     cd gdal* &&
     ./configure &&
     make &&
