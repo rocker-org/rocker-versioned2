@@ -9,6 +9,7 @@ apt-get -y update &&
     apt-get install -y \
         gdb \
         git \
+	cmake \
         libcairo2-dev \
         libcurl4-openssl-dev \
         libexpat1-dev \
