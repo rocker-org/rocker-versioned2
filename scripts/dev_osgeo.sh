@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-CRAN=${CRAN_SOURCE:-https://cran.r-project.org}
-echo "options(repos = c(CRAN = '${CRAN}'), download.file.method = 'libcurl')" >>"${R_HOME}/etc/Rprofile.site"
+CRAN=${CRAN_SOURCE:-"https://cloud.r-project.org"}
+echo "options(repos = c(CRAN = '${CRAN}'))" >>"${R_HOME}/etc/Rprofile.site"
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y update &&
