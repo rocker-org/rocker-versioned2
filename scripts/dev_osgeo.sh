@@ -76,15 +76,15 @@ fi
 
 wget "$PROJ_DL_URL" -O proj.tar.gz
 tar zxvf proj.tar.gz
-cd proj-* &&
-    ls -l &&
-    mkdir build &&
-    cd build &&
-    cmake .. &&
-    make &&
-    make install &&
-    cd ../.. &&
-    ldconfig
+rm proj.tar.gz
+cd proj-*
+mkdir build
+cd build
+cmake ..
+make
+make install
+cd ../..
+ldconfig
 
 # install gdal
 # https://download.osgeo.org/gdal/
@@ -94,15 +94,15 @@ else
     GDAL_DL_URL="https://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz"
 fi
 
-wget "$GDAL_DL_URL" -O gdal.tar.gz &&
-    tar -xf gdal.tar.gz &&
-    rm ./*.tar.gz &&
-    cd gdal* &&
-    ./configure &&
-    make &&
-    make install &&
-    cd .. &&
-    ldconfig
+wget "$GDAL_DL_URL" -O gdal.tar.gz
+tar -xf gdal.tar.gz
+rm  gdal.tar.gz
+cd gdal*
+./configure
+make
+make install
+cd ..
+ldconfig
 
 # install geos
 # https://libgeos.org/usage/download/
@@ -110,16 +110,16 @@ if [ "$GEOS_VERSION" = "latest" ]; then
     GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
 fi
 
-wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2 &&
-    bzip2 -d geos-*bz2 &&
-    tar xf geos*tar &&
-    rm ./*.tar &&
-    cd geos* &&
-    ./configure &&
-    make &&
-    make install &&
-    cd .. &&
-    ldconfig
+wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
+bzip2 -d geos-*bz2
+tar xf geos*tar
+rm geos*tar
+cd geos*
+./configure
+make
+make install
+cd ..
+ldconfig
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     sp \
