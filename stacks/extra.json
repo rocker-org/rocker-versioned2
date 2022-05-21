@@ -60,7 +60,7 @@
         "GEOS_VERSION": "3.10.2"
       },
       "RUN": [
-        "/rocker_scripts/dev_osgeo.sh"
+        "/rocker_scripts/install_dev_osgeo.sh"
       ]
     }
   ]
