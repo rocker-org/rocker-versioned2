@@ -5,6 +5,9 @@ set -e
 ##
 ## 'latest' means installing the latest release version.
 
+## build ARGs
+NCPUS=${NCPUS:-"-1"}
+
 PROJ_VERSION=${PROJ_VERSION:-"latest"}
 GDAL_VERSION=${GDAL_VERSION:-"latest"}
 GEOS_VERSION=${GEOS_VERSION:-"latest"}
@@ -118,7 +121,34 @@ wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2 &&
     cd .. &&
     ldconfig
 
-Rscript -e 'install.packages(c("sp", "rgeos", "rgdal", "RPostgreSQL", "RSQLite", "testthat", "knitr", "tidyr", "geosphere", "maptools", "maps", "microbenchmark", "raster", "dplyr", "tibble", "units", "DBI",  "covr", "protolite", "tmap", "mapview", "odbc", "pool", "rmarkdown", "RPostgres","spatstat", "stars"))'
+install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
+    sp \
+    rgeos \
+    rgdal \
+    RPostgreSQL \
+    RSQLite \
+    testthat \
+    knitr \
+    tidyr \
+    geosphere \
+    maptools \
+    maps \
+    microbenchmark \
+    raster \
+    dplyr \
+    tibble \
+    units \
+    DBI \
+    covr \
+    protolite \
+    tmap \
+    mapview \
+    odbc \
+    pool \
+    rmarkdown \
+    RPostgres \
+    spatstat \
+    stars
 
 git clone --depth 10 https://github.com/r-spatial/sf.git
 git clone --depth 10 https://github.com/r-spatial/lwgeom.git
