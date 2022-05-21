@@ -150,9 +150,9 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     spatstat \
     stars
 
-git clone --depth 10 https://github.com/r-spatial/sf.git
-git clone --depth 10 https://github.com/r-spatial/lwgeom.git
-git clone --depth 10 https://github.com/r-spatial/stars.git
+git clone --depth 1 https://github.com/r-spatial/sf.git
+git clone --depth 1 https://github.com/r-spatial/lwgeom.git
+git clone --depth 1 https://github.com/r-spatial/stars.git
 
 R CMD build --no-build-vignettes --no-manual lwgeom
 R CMD build --no-build-vignettes --no-manual sf
