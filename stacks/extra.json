@@ -41,8 +41,7 @@
       },
       "FROM": "rocker/verse:4.2.0",
       "RUN": [
-        "/rocker_scripts/install_geospatial_unstable.sh",
-        "/rocker_scripts/install_geospatial.sh"
+        "/rocker_scripts/install_geospatial_unstable.sh"
       ]
     },
     {

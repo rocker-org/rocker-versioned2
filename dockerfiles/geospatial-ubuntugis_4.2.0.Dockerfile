@@ -6,4 +6,3 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
 RUN /rocker_scripts/install_geospatial_unstable.sh
-RUN /rocker_scripts/install_geospatial.sh
