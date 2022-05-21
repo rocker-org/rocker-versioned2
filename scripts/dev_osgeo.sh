@@ -96,7 +96,7 @@ fi
 
 wget "$GDAL_DL_URL" -O gdal.tar.gz
 tar -xf gdal.tar.gz
-rm  gdal.tar.gz
+rm gdal.tar.gz
 cd gdal*
 ./configure
 make

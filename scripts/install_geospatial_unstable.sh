@@ -16,10 +16,10 @@ function apt_install() {
 # always set this for scripts but don't declare as ENV..
 export DEBIAN_FRONTEND=noninteractive
 apt_install \
-  software-properties-common \
-  gnupg2 \
-  curl \
-  ca-certificates
+    software-properties-common \
+    gnupg2 \
+    curl \
+    ca-certificates
 
 # Adding the ubuntugis-unstable PPA
 add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable
