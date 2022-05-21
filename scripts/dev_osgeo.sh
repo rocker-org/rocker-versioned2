@@ -1,8 +1,20 @@
 #!/bin/bash
 set -e
 
+## Install PROJ, GDAL, GEOS from source.
+##
+## 'latest' means installing the latest release version.
+
+PROJ_VERSION=${PROJ_VERSION:-"latest"}
+GDAL_VERSION=${GDAL_VERSION:-"latest"}
+GEOS_VERSION=${GEOS_VERSION:-"latest"}
+
 CRAN=${CRAN_SOURCE:-"https://cloud.r-project.org"}
 echo "options(repos = c(CRAN = '${CRAN}'))" >>"${R_HOME}/etc/Rprofile.site"
+
+function url_latest_gh_released_asset() {
+    wget -qO- "https://api.github.com/repos/$1/releases/latest" | grep -oP "(?<=\"browser_download_url\":\s\")https.*\.tar.gz(?=\")"
+}
 
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y update &&
@@ -42,7 +54,6 @@ apt-get install -y \
 
 locale-gen en_US.UTF-8
 
-PROJ_VERSION=${PROJ_VERSION:-9.0.0}
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 export DEBIAN_FRONTEND=noninteractive
@@ -51,10 +62,17 @@ apt-get -y update &&
         cmake \
         libtiff5-dev
 
-#git clone --depth 1 https://github.com/OSGeo/PROJ.git
-wget http://download.osgeo.org/proj/proj-"${PROJ_VERSION}".tar.gz
-tar zxvf proj-"${PROJ_VERSION}".tar.gz
-cd proj-"${PROJ_VERSION}" &&
+# install proj
+# https://download.osgeo.org/proj/
+if [ "$PROJ_VERSION" = "latest" ]; then
+    PROJ_DL_URL=$(url_latest_gh_released_asset "OSGeo/PROJ")
+else
+    PROJ_DL_URL="http://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz"
+fi
+
+wget "$PROJ_DL_URL" -O proj.tar.gz
+tar zxvf proj.tar.gz
+cd proj-* &&
     ls -l &&
     mkdir build &&
     cd build &&
@@ -73,12 +91,16 @@ cd proj-"${PROJ_VERSION}" &&
 
 # GDAL:
 
+# install gdal
 # https://download.osgeo.org/gdal/
-GDAL_VERSION=${GDAL_VERSION:-3.5.0}
-GDAL_VERSION_NAME=${GDAL_VERSION}
+if [ "$GDAL_VERSION" = "latest" ]; then
+    GDAL_DL_URL=$(url_latest_gh_released_asset "OSGeo/gdal")
+else
+    GDAL_DL_URL="https://download.osgeo.org/gdal/${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz"
+fi
 
-wget http://download.osgeo.org/gdal/"${GDAL_VERSION}"/gdal-"${GDAL_VERSION_NAME}".tar.gz &&
-    tar -xf gdal-"${GDAL_VERSION_NAME}".tar.gz &&
+wget "$GDAL_DL_URL" -O gdal.tar.gz &&
+    tar -xf gdal.tar.gz &&
     rm ./*.tar.gz &&
     cd gdal* &&
     ./configure &&
@@ -96,8 +118,11 @@ wget http://download.osgeo.org/gdal/"${GDAL_VERSION}"/gdal-"${GDAL_VERSION_NAME}
 #  && cd .. \
 #  && ldconfig
 
-# GEOS:
-GEOS_VERSION=${GEOS_VERSION:-3.10.2}
+# install geos
+# https://libgeos.org/usage/download/
+if [ "$GEOS_VERSION" = "latest" ]; then
+    GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
+fi
 
 wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2 &&
     bzip2 -d geos-*bz2 &&
