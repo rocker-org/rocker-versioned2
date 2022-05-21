@@ -163,3 +163,4 @@ R CMD INSTALL stars
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
+rm -r /tmp/downloaded_packages
