@@ -12,32 +12,39 @@ GEOS_VERSION=${GEOS_VERSION:-"latest"}
 CRAN=${CRAN_SOURCE:-"https://cloud.r-project.org"}
 echo "options(repos = c(CRAN = '${CRAN}'))" >>"${R_HOME}/etc/Rprofile.site"
 
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
+
 function url_latest_gh_released_asset() {
     wget -qO- "https://api.github.com/repos/$1/releases/latest" | grep -oP "(?<=\"browser_download_url\":\s\")https.*\.tar.gz(?=\")"
 }
 
 export DEBIAN_FRONTEND=noninteractive
-apt-get -y update &&
-    apt-get install -y \
-        gdb \
-        git \
-        libcairo2-dev \
-        libcurl4-openssl-dev \
-        libexpat1-dev \
-        libpq-dev \
-        libsqlite3-dev \
-        libudunits2-dev \
-        make \
-        pandoc \
-        qpdf \
-        sqlite3 \
-        subversion \
-        valgrind \
-        vim \
-        tk-dev \
-        wget
-
-apt-get install -y \
+apt_install \
+    gdb \
+    git \
+    libcairo2-dev \
+    libcurl4-openssl-dev \
+    libexpat1-dev \
+    libpq-dev \
+    libsqlite3-dev \
+    libudunits2-dev \
+    make \
+    pandoc \
+    qpdf \
+    sqlite3 \
+    subversion \
+    valgrind \
+    vim \
+    tk-dev \
+    wget \
     libv8-dev \
     libjq-dev \
     libprotobuf-dev \
@@ -50,14 +57,11 @@ apt-get install -y \
     libnetcdf-dev \
     locales \
     libssl-dev \
-    libtiff-dev
+    libtiff-dev \
+    cmake \
+    libtiff5-dev
 
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-
-apt-get -y update &&
-    apt-get install -y \
-        cmake \
-        libtiff5-dev
 
 # install proj
 # https://download.osgeo.org/proj/
