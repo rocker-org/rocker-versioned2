@@ -27,3 +27,6 @@ rm -rf /var/lib/apt/lists/*
 
 ## in UNSTABLE, we will install everything from source by default:
 echo "options(repos = c(CRAN = '${CRAN}'))" >>"${R_HOME}/etc/Rprofile.site"
+
+## install geospatial pakages
+/rocker_scripts/install_geospatial.sh
