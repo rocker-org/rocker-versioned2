@@ -52,11 +52,8 @@ apt-get install -y \
     libssl-dev \
     libtiff-dev
 
-locale-gen en_US.UTF-8
-
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
-export DEBIAN_FRONTEND=noninteractive
 apt-get -y update &&
     apt-get install -y \
         cmake \
@@ -82,15 +79,6 @@ cd proj-* &&
     cd ../.. &&
     ldconfig
 
-# install proj-data:
-#cd /usr/local/share/proj \
-#  && wget http://download.osgeo.org/proj/proj-data-1.1RC1.zip \
-#  && unzip -o proj-data*zip \
-#  && rm proj-data*zip \
-#  && cd -
-
-# GDAL:
-
 # install gdal
 # https://download.osgeo.org/gdal/
 if [ "$GDAL_VERSION" = "latest" ]; then
@@ -109,15 +97,6 @@ wget "$GDAL_DL_URL" -O gdal.tar.gz &&
     cd .. &&
     ldconfig
 
-#git clone --depth 1 https://github.com/OSGeo/gdal.git
-#cd gdal/gdal \
-#  && ls -l \
-#  && ./configure \
-#  && make \
-#  && make install \
-#  && cd .. \
-#  && ldconfig
-
 # install geos
 # https://libgeos.org/usage/download/
 if [ "$GEOS_VERSION" = "latest" ]; then
@@ -135,24 +114,14 @@ wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2 &&
     cd .. &&
     ldconfig
 
-# svn  checkout svn://scm.r-forge.r-project.org/svnroot/rgdal/
-# R CMD build rgdal/pkg --no-build-vignettes
-# R CMD INSTALL rgdal_*.tar.gz
-
 Rscript -e 'install.packages(c("sp", "rgeos", "rgdal", "RPostgreSQL", "RSQLite", "testthat", "knitr", "tidyr", "geosphere", "maptools", "maps", "microbenchmark", "raster", "dplyr", "tibble", "units", "DBI",  "covr", "protolite", "tmap", "mapview", "odbc", "pool", "rmarkdown", "RPostgres","spatstat", "stars"))'
 
 git clone --depth 10 https://github.com/r-spatial/sf.git
 git clone --depth 10 https://github.com/r-spatial/lwgeom.git
 git clone --depth 10 https://github.com/r-spatial/stars.git
-#git config --global user.email "edzer.pebesma@uni-muenster.de"
 
 R CMD build --no-build-vignettes --no-manual lwgeom
-(
-    cd sf
-    git pull
-)
 R CMD build --no-build-vignettes --no-manual sf
-# pkg-config proj --modversion
 R CMD INSTALL sf
 R CMD INSTALL lwgeom
 R CMD build --no-build-vignettes --no-manual stars
