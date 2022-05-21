@@ -121,6 +121,17 @@ library(gert)
   return(image_tag)
 }
 
+.latest_version_of_git_repo <- function(remote_repo) {
+  gert::git_remote_ls(remote = remote_repo) |>
+    dplyr::pull(ref) |>
+    stringr::str_subset(r"(^refs/tags/v?(\d+\.)*\d+$)") |>
+    stringr::str_extract(r"((\d+\.)*\d+$)") |>
+    package_version() |>
+    sort() |>
+    utils::tail(1) |>
+    as.character()
+}
+
 .generate_tags <- function(base_name,
                            r_version,
                            r_minor_latest = FALSE,
@@ -538,6 +549,9 @@ extra$stack[[1]]$tags <- c(
 )
 ## geospatial-dev-osgeo
 extra$stack[[2]]$FROM <- stringr::str_c("rocker/verse:", r_latest_version)
+extra$stack[[2]]$ENV$PROJ_VERSION <- .latest_version_of_git_repo("https://github.com/OSGeo/PROJ.git")
+extra$stack[[2]]$ENV$GDAL_VERSION <- .latest_version_of_git_repo("https://github.com/OSGeo/gdal.git")
+extra$stack[[2]]$ENV$GEOS_VERSION <- .latest_version_of_git_repo("https://github.com/libgeos/geos.git")
 
 jsonlite::write_json(extra, "stacks/extra.json", pretty = TRUE, auto_unbox = TRUE)
 message("stacks/extra.json")
