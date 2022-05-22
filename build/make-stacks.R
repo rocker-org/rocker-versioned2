@@ -423,7 +423,7 @@ df_r <- rversions::r_versions() |>
     r_release_date = as.Date(date),
     r_freeze_date = dplyr::lead(r_release_date, 1) - 1
   ) |>
-  dplyr::filter(readr::parse_number(r_version) >= 4.0) |>
+  dplyr::filter(package_version(r_version) >= package_version("4.0.0")) |>
   dplyr::arrange(r_release_date)
 
 # Ubuntu versions data from the Ubuntu local csv file.
@@ -492,9 +492,10 @@ df_args <- df_r |>
   )
 
 
-r_latest_version <- df_args |>
-  dplyr::slice_max(r_release_date, with_ties = FALSE) |>
-  dplyr::pull(r_version)
+r_latest_version <- df_args$r_version |>
+  package_version() |>
+  max() |>
+  as.character()
 rstudio_latest_version <- df_args |>
   dplyr::slice_max(rstudio_commit_date, with_ties = FALSE) |>
   dplyr::pull(rstudio_version)
