@@ -132,6 +132,14 @@ library(gert)
     as.character()
 }
 
+.outer_paste <- function(.list) {
+  .paste <- function(x, y) outer(x, y, stringr::str_c) |> c()
+  out <- .list |>
+    purrr::reduce(.paste)
+
+  return(out)
+}
+
 .generate_tags <- function(base_name,
                            r_version,
                            r_minor_latest = FALSE,
@@ -140,19 +148,19 @@ library(gert)
                            use_latest_tag = TRUE,
                            tag_suffix = "",
                            latest_tag = "latest") {
-  .tags <- stringr::str_c(base_name, ":", r_version, tag_suffix)
+  .tags <- .outer_paste(list(base_name, ":", r_version, tag_suffix))
 
   r_minor_version <- stringr::str_extract(r_version, "^\\d+\\.\\d+")
   r_major_version <- stringr::str_extract(r_version, "^\\d+")
 
   if (r_minor_latest == TRUE) {
-    .tags <- c(.tags, stringr::str_c(base_name, ":", r_minor_version, tag_suffix))
+    .tags <- c(.tags, .outer_paste(list(base_name, ":", r_minor_version, tag_suffix)))
   }
   if (r_major_latest == TRUE) {
-    .tags <- c(.tags, stringr::str_c(base_name, ":", r_major_version, tag_suffix))
+    .tags <- c(.tags, .outer_paste(list(base_name, ":", r_major_version, tag_suffix)))
   }
   if (r_latest == TRUE && use_latest_tag == TRUE) {
-    .tags <- c(.tags, stringr::str_c(base_name, ":", latest_tag))
+    .tags <- c(.tags, .outer_paste(list(base_name, ":", latest_tag)))
   }
 
   return(as.list(.tags))
