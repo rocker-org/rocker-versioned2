@@ -299,15 +299,8 @@ write_stack <- function(r_version,
       r_major_latest,
       r_latest,
       use_latest_tag = TRUE,
-      latest_tag = "cuda10.1",
-      tag_suffix = "-cuda10.1"
-    ),
-    .generate_tags(
-      c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda"),
-      r_version,
-      r_minor_latest,
-      r_major_latest,
-      r_latest
+      latest_tag = c("cuda10.1", "latest"),
+      tag_suffix = c("-cuda10.1", "")
     ),
     list(stringr::str_c("docker.io/rocker/r-ver:", r_version, "-cuda10.1"))
   )
@@ -322,15 +315,8 @@ write_stack <- function(r_version,
       r_major_latest,
       r_latest,
       use_latest_tag = TRUE,
-      latest_tag = "cuda10.1",
-      tag_suffix = "-cuda10.1"
-    ),
-    .generate_tags(
-      c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml"),
-      r_version,
-      r_minor_latest,
-      r_major_latest,
-      r_latest
+      latest_tag = c("cuda10.1", "latest"),
+      tag_suffix = c("-cuda10.1", "")
     )
   )
   template$stack[[10]]$ENV$RSTUDIO_VERSION <- rstudio_version
@@ -345,15 +331,8 @@ write_stack <- function(r_version,
       r_major_latest,
       r_latest,
       use_latest_tag = TRUE,
-      latest_tag = "cuda10.1",
-      tag_suffix = "-cuda10.1"
-    ),
-    .generate_tags(
-      c("docker.io/rocker/ml-verse", "ghcr.io/rocker-org/ml-verse"),
-      r_version,
-      r_minor_latest,
-      r_major_latest,
-      r_latest
+      latest_tag = c("cuda10.1", "latest"),
+      tag_suffix = c("-cuda10.1", "")
     )
   )
   template$stack[[11]]$ENV$CTAN_REPO <- ctan_url
