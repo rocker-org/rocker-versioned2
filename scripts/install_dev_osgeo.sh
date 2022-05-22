@@ -167,3 +167,11 @@ rm -rf stars*
 # Clean up
 rm -rf /var/lib/apt/lists/*
 rm -r /tmp/downloaded_packages
+
+# Check the geospatial packages
+
+echo -e "Check the packages...\n"
+
+R -q -e "library(lwgeom); library(sf); library(stars)"
+
+echo -e "\nInstall packages, done!"
