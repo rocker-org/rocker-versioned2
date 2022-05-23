@@ -66,6 +66,23 @@ apt_install \
 
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
+# install geos
+# https://libgeos.org/usage/download/
+if [ "$GEOS_VERSION" = "latest" ]; then
+    GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
+fi
+
+wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
+bzip2 -d geos-*bz2
+tar xf geos*tar
+rm geos*tar
+cd geos*
+./configure
+make
+make install
+cd ..
+ldconfig
+
 # install proj
 # https://download.osgeo.org/proj/
 if [ "$PROJ_VERSION" = "latest" ]; then
@@ -98,23 +115,6 @@ wget "$GDAL_DL_URL" -O gdal.tar.gz
 tar -xf gdal.tar.gz
 rm gdal.tar.gz
 cd gdal*
-./configure
-make
-make install
-cd ..
-ldconfig
-
-# install geos
-# https://libgeos.org/usage/download/
-if [ "$GEOS_VERSION" = "latest" ]; then
-    GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
-fi
-
-wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
-bzip2 -d geos-*bz2
-tar xf geos*tar
-rm geos*tar
-cd geos*
 ./configure
 make
 make install
