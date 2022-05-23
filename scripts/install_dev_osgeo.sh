@@ -154,13 +154,13 @@ git clone --depth 1 https://github.com/r-spatial/sf.git
 git clone --depth 1 https://github.com/r-spatial/lwgeom.git
 git clone --depth 1 https://github.com/r-spatial/stars.git
 
-R CMD build --no-build-vignettes --no-manual lwgeom
+R CMD build lwgeom
 R CMD INSTALL lwgeom
 rm -rf lwgeom*
-R CMD build --no-build-vignettes --no-manual sf
+R CMD build sf
 R CMD INSTALL sf
 rm -rf sf*
-R CMD build --no-build-vignettes --no-manual stars
+R CMD build stars
 R CMD INSTALL stars
 rm -rf stars*
 
