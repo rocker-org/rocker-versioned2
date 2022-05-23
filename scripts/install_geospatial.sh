@@ -44,16 +44,6 @@ apt_install \
     tk-dev \
     unixodbc-dev
 
-# lwgeom 0.2-2 and 0.2-3 have a regression which prevents install on ubuntu:bionic
-## permissionless PAT for builds
-UBUNTU_VERSION=$(lsb_release -sc)
-if [ "${UBUNTU_VERSION}" == "bionic" ]; then
-    R -e "remotes::install_version('lwgeom', '0.2-4')"
-fi
-
-## Somehow foreign is messed up on CRAN between 2020-04-25 -- 2020-05-0?
-##install2.r --error --skipinstalled --repo https://mran.microsoft.com/snapshot/2020-04-24 -n $NCPUS foreign
-
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     RColorBrewer \
     RandomFields \

@@ -40,10 +40,8 @@
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image."
       },
       "FROM": "rocker/verse:4.2.0",
-      "RUN": [
-        "/rocker_scripts/install_geospatial_unstable.sh",
-        "/rocker_scripts/install_geospatial.sh"
-      ]
+      "COPY": "scripts/experimental/install_geospatial_unstable.sh /rocker_scripts/experimental/install_geospatial_unstable.sh",
+      "RUN": "/rocker_scripts/experimental/install_geospatial_unstable.sh"
     },
     {
       "IMAGE": "geospatial-dev-osgeo",
@@ -57,12 +55,11 @@
       "FROM": "rocker/verse:4.2.0",
       "ENV": {
         "PROJ_VERSION": "9.0.0",
-        "GDAL_VERSION": "3.4.1",
+        "GDAL_VERSION": "3.5.0",
         "GEOS_VERSION": "3.10.2"
       },
-      "RUN": [
-        "/rocker_scripts/dev_osgeo.sh"
-      ]
+      "COPY": "scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh",
+      "RUN": "/rocker_scripts/experimental/install_dev_osgeo.sh"
     }
   ]
 }
