@@ -9,4 +9,6 @@ ENV PROJ_VERSION=9.0.0
 ENV GDAL_VERSION=3.5.0
 ENV GEOS_VERSION=3.10.2
 
-RUN /rocker_scripts/install_dev_osgeo.sh
+COPY scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh
+
+RUN /rocker_scripts/experimental/install_dev_osgeo.sh
