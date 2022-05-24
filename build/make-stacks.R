@@ -140,22 +140,22 @@ library(gert)
                            use_latest_tag = TRUE,
                            tag_suffix = "",
                            latest_tag = "latest") {
-  list_tags <- list(stringr::str_c(base_name, ":", r_version, tag_suffix))
+  .tags <- stringr::str_c(base_name, ":", r_version, tag_suffix)
 
   r_minor_version <- stringr::str_extract(r_version, "^\\d+\\.\\d+")
   r_major_version <- stringr::str_extract(r_version, "^\\d+")
 
   if (r_minor_latest == TRUE) {
-    list_tags <- c(list_tags, list(stringr::str_c(base_name, ":", r_minor_version, tag_suffix)))
+    .tags <- c(.tags, stringr::str_c(base_name, ":", r_minor_version, tag_suffix))
   }
   if (r_major_latest == TRUE) {
-    list_tags <- c(list_tags, list(stringr::str_c(base_name, ":", r_major_version, tag_suffix)))
+    .tags <- c(.tags, stringr::str_c(base_name, ":", r_major_version, tag_suffix))
   }
   if (r_latest == TRUE & use_latest_tag == TRUE) {
-    list_tags <- c(list_tags, list(stringr::str_c(base_name, ":", latest_tag)))
+    .tags <- c(.tags, stringr::str_c(base_name, ":", latest_tag))
   }
 
-  return(list_tags)
+  return(as.list(.tags))
 }
 
 
