@@ -147,8 +147,7 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     pool \
     rmarkdown \
     RPostgres \
-    spatstat \
-    stars
+    spatstat
 
 git clone --depth 1 https://github.com/r-spatial/sf.git
 git clone --depth 1 https://github.com/r-spatial/lwgeom.git
@@ -161,7 +160,7 @@ R CMD build sf
 R CMD INSTALL sf
 rm -rf sf*
 R CMD build stars
-R CMD INSTALL stars
+R CMD INSTALL stars --no-build-vignettes
 rm -rf stars*
 
 # Clean up
