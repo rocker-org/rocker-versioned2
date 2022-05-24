@@ -523,20 +523,21 @@ extra <- jsonlite::read_json("stacks/extra.json")
 extra$TAG <- r_latest_version
 ## geospatial-ubuntugis
 extra$stack[[1]]$FROM <- stringr::str_c("rocker/verse:", r_latest_version)
-extra$stack[[1]]$tags <- c(
-  .generate_tags(
-    c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial"),
-    r_latest_version,
-    r_minor_latest = FALSE,
-    r_major_latest = FALSE,
-    r_latest = TRUE,
-    use_latest_tag = TRUE,
-    latest_tag = "ubuntugis",
-    tag_suffix = "-ubuntugis"
-  )
+extra$stack[[1]]$tags <- .generate_tags(
+  c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial"),
+  r_latest_version,
+  r_minor_latest = FALSE,
+  r_major_latest = FALSE,
+  r_latest = TRUE,
+  use_latest_tag = TRUE,
+  latest_tag = "ubuntugis",
+  tag_suffix = "-ubuntugis"
 )
 ## geospatial-dev-osgeo
 extra$stack[[2]]$FROM <- stringr::str_c("rocker/verse:", r_latest_version)
+extra$stack[[2]]$tags <- .outer_paste(
+  list(c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial"), ":dev-osgeo")
+)
 extra$stack[[2]]$ENV$PROJ_VERSION <- .latest_version_of_git_repo("https://github.com/OSGeo/PROJ.git")
 extra$stack[[2]]$ENV$GDAL_VERSION <- .latest_version_of_git_repo("https://github.com/OSGeo/gdal.git")
 extra$stack[[2]]$ENV$GEOS_VERSION <- .latest_version_of_git_repo("https://github.com/libgeos/geos.git")
