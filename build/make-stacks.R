@@ -151,7 +151,7 @@ library(gert)
   if (r_major_latest == TRUE) {
     .tags <- c(.tags, stringr::str_c(base_name, ":", r_major_version, tag_suffix))
   }
-  if (r_latest == TRUE & use_latest_tag == TRUE) {
+  if (r_latest == TRUE && use_latest_tag == TRUE) {
     .tags <- c(.tags, stringr::str_c(base_name, ":", latest_tag))
   }
 
