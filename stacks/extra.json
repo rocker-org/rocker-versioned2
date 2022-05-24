@@ -41,7 +41,10 @@
       },
       "FROM": "rocker/verse:4.2.0",
       "COPY": "scripts/experimental/install_geospatial_unstable.sh /rocker_scripts/experimental/install_geospatial_unstable.sh",
-      "RUN": "/rocker_scripts/experimental/install_geospatial_unstable.sh"
+      "RUN": "/rocker_scripts/experimental/install_geospatial_unstable.sh",
+      "cache-from": [
+        "docker.io/rocker/geospatial:ubuntugis"
+      ]
     },
     {
       "IMAGE": "geospatial-dev-osgeo",
@@ -59,7 +62,10 @@
         "GEOS_VERSION": "3.10.2"
       },
       "COPY": "scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh",
-      "RUN": "/rocker_scripts/experimental/install_dev_osgeo.sh"
+      "RUN": "/rocker_scripts/experimental/install_dev_osgeo.sh",
+      "cache-from": [
+        "docker.io/rocker/geospatial:dev-osgeo"
+      ]
     }
   ]
 }
