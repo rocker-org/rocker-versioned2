@@ -41,9 +41,13 @@
       },
       "tags": [
         "docker.io/rocker/r-ver:4.2.0",
+        "ghcr.io/rocker-org/r-ver:4.2.0",
         "docker.io/rocker/r-ver:4.2",
+        "ghcr.io/rocker-org/r-ver:4.2",
         "docker.io/rocker/r-ver:4",
-        "docker.io/rocker/r-ver:latest"
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest"
       ],
       "platforms": [
         "linux/amd64",
@@ -67,9 +71,13 @@
       },
       "tags": [
         "docker.io/rocker/rstudio:4.2.0",
+        "ghcr.io/rocker-org/rstudio:4.2.0",
         "docker.io/rocker/rstudio:4.2",
+        "ghcr.io/rocker-org/rstudio:4.2",
         "docker.io/rocker/rstudio:4",
-        "docker.io/rocker/rstudio:latest"
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -92,9 +100,13 @@
       },
       "tags": [
         "docker.io/rocker/tidyverse:4.2.0",
+        "ghcr.io/rocker-org/tidyverse:4.2.0",
         "docker.io/rocker/tidyverse:4.2",
+        "ghcr.io/rocker-org/tidyverse:4.2",
         "docker.io/rocker/tidyverse:4",
-        "docker.io/rocker/tidyverse:latest"
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -117,9 +129,13 @@
       },
       "tags": [
         "docker.io/rocker/verse:4.2.0",
+        "ghcr.io/rocker-org/verse:4.2.0",
         "docker.io/rocker/verse:4.2",
+        "ghcr.io/rocker-org/verse:4.2",
         "docker.io/rocker/verse:4",
-        "docker.io/rocker/verse:latest"
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -142,9 +158,13 @@
       },
       "tags": [
         "docker.io/rocker/geospatial:4.2.0",
+        "ghcr.io/rocker-org/geospatial:4.2.0",
         "docker.io/rocker/geospatial:4.2",
+        "ghcr.io/rocker-org/geospatial:4.2",
         "docker.io/rocker/geospatial:4",
-        "docker.io/rocker/geospatial:latest"
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -167,9 +187,13 @@
       },
       "tags": [
         "docker.io/rocker/shiny:4.2.0",
+        "ghcr.io/rocker-org/shiny:4.2.0",
         "docker.io/rocker/shiny:4.2",
+        "ghcr.io/rocker-org/shiny:4.2",
         "docker.io/rocker/shiny:4",
-        "docker.io/rocker/shiny:latest"
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -192,9 +216,13 @@
       },
       "tags": [
         "docker.io/rocker/shiny-verse:4.2.0",
+        "ghcr.io/rocker-org/shiny-verse:4.2.0",
         "docker.io/rocker/shiny-verse:4.2",
+        "ghcr.io/rocker-org/shiny-verse:4.2",
         "docker.io/rocker/shiny-verse:4",
-        "docker.io/rocker/shiny-verse:latest"
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -217,9 +245,13 @@
       },
       "tags": [
         "docker.io/rocker/binder:4.2.0",
+        "ghcr.io/rocker-org/binder:4.2.0",
         "docker.io/rocker/binder:4.2",
+        "ghcr.io/rocker-org/binder:4.2",
         "docker.io/rocker/binder:4",
-        "docker.io/rocker/binder:latest"
+        "ghcr.io/rocker-org/binder:4",
+        "docker.io/rocker/binder:latest",
+        "ghcr.io/rocker-org/binder:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -242,13 +274,21 @@
       },
       "tags": [
         "docker.io/rocker/cuda:4.2.0-cuda10.1",
-        "docker.io/rocker/cuda:4.2-cuda10.1",
-        "docker.io/rocker/cuda:4-cuda10.1",
-        "docker.io/rocker/cuda:cuda10.1",
+        "ghcr.io/rocker-org/cuda:4.2.0-cuda10.1",
         "docker.io/rocker/cuda:4.2.0",
+        "ghcr.io/rocker-org/cuda:4.2.0",
+        "docker.io/rocker/cuda:4.2-cuda10.1",
+        "ghcr.io/rocker-org/cuda:4.2-cuda10.1",
         "docker.io/rocker/cuda:4.2",
+        "ghcr.io/rocker-org/cuda:4.2",
+        "docker.io/rocker/cuda:4-cuda10.1",
+        "ghcr.io/rocker-org/cuda:4-cuda10.1",
         "docker.io/rocker/cuda:4",
+        "ghcr.io/rocker-org/cuda:4",
+        "docker.io/rocker/cuda:cuda10.1",
+        "ghcr.io/rocker-org/cuda:cuda10.1",
         "docker.io/rocker/cuda:latest",
+        "ghcr.io/rocker-org/cuda:latest",
         "docker.io/rocker/r-ver:4.2.0-cuda10.1"
       ],
       "platforms": [
@@ -272,13 +312,21 @@
       },
       "tags": [
         "docker.io/rocker/ml:4.2.0-cuda10.1",
-        "docker.io/rocker/ml:4.2-cuda10.1",
-        "docker.io/rocker/ml:4-cuda10.1",
-        "docker.io/rocker/ml:cuda10.1",
+        "ghcr.io/rocker-org/ml:4.2.0-cuda10.1",
         "docker.io/rocker/ml:4.2.0",
+        "ghcr.io/rocker-org/ml:4.2.0",
+        "docker.io/rocker/ml:4.2-cuda10.1",
+        "ghcr.io/rocker-org/ml:4.2-cuda10.1",
         "docker.io/rocker/ml:4.2",
+        "ghcr.io/rocker-org/ml:4.2",
+        "docker.io/rocker/ml:4-cuda10.1",
+        "ghcr.io/rocker-org/ml:4-cuda10.1",
         "docker.io/rocker/ml:4",
-        "docker.io/rocker/ml:latest"
+        "ghcr.io/rocker-org/ml:4",
+        "docker.io/rocker/ml:cuda10.1",
+        "ghcr.io/rocker-org/ml:cuda10.1",
+        "docker.io/rocker/ml:latest",
+        "ghcr.io/rocker-org/ml:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -301,13 +349,21 @@
       },
       "tags": [
         "docker.io/rocker/ml-verse:4.2.0-cuda10.1",
-        "docker.io/rocker/ml-verse:4.2-cuda10.1",
-        "docker.io/rocker/ml-verse:4-cuda10.1",
-        "docker.io/rocker/ml-verse:cuda10.1",
+        "ghcr.io/rocker-org/ml-verse:4.2.0-cuda10.1",
         "docker.io/rocker/ml-verse:4.2.0",
+        "ghcr.io/rocker-org/ml-verse:4.2.0",
+        "docker.io/rocker/ml-verse:4.2-cuda10.1",
+        "ghcr.io/rocker-org/ml-verse:4.2-cuda10.1",
         "docker.io/rocker/ml-verse:4.2",
+        "ghcr.io/rocker-org/ml-verse:4.2",
+        "docker.io/rocker/ml-verse:4-cuda10.1",
+        "ghcr.io/rocker-org/ml-verse:4-cuda10.1",
         "docker.io/rocker/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest"
+        "ghcr.io/rocker-org/ml-verse:4",
+        "docker.io/rocker/ml-verse:cuda10.1",
+        "ghcr.io/rocker-org/ml-verse:cuda10.1",
+        "docker.io/rocker/ml-verse:latest",
+        "ghcr.io/rocker-org/ml-verse:latest"
       ],
       "platforms": [
         "linux/amd64"
@@ -330,9 +386,13 @@
       },
       "tags": [
         "docker.io/rocker/cuda:4.2.0-cuda11.1",
+        "ghcr.io/rocker-org/cuda:4.2.0-cuda11.1",
         "docker.io/rocker/cuda:4.2-cuda11.1",
+        "ghcr.io/rocker-org/cuda:4.2-cuda11.1",
         "docker.io/rocker/cuda:4-cuda11.1",
+        "ghcr.io/rocker-org/cuda:4-cuda11.1",
         "docker.io/rocker/cuda:cuda11.1",
+        "ghcr.io/rocker-org/cuda:cuda11.1",
         "docker.io/rocker/r-ver:4.2.0-cuda11.1"
       ],
       "platforms": [
@@ -356,9 +416,13 @@
       },
       "tags": [
         "docker.io/rocker/ml:4.2.0-cuda11.1",
+        "ghcr.io/rocker-org/ml:4.2.0-cuda11.1",
         "docker.io/rocker/ml:4.2-cuda11.1",
+        "ghcr.io/rocker-org/ml:4.2-cuda11.1",
         "docker.io/rocker/ml:4-cuda11.1",
-        "docker.io/rocker/ml:cuda11.1"
+        "ghcr.io/rocker-org/ml:4-cuda11.1",
+        "docker.io/rocker/ml:cuda11.1",
+        "ghcr.io/rocker-org/ml:cuda11.1"
       ],
       "platforms": [
         "linux/amd64"
@@ -381,9 +445,13 @@
       },
       "tags": [
         "docker.io/rocker/ml-verse:4.2.0-cuda11.1",
+        "ghcr.io/rocker-org/ml-verse:4.2.0-cuda11.1",
         "docker.io/rocker/ml-verse:4.2-cuda11.1",
+        "ghcr.io/rocker-org/ml-verse:4.2-cuda11.1",
         "docker.io/rocker/ml-verse:4-cuda11.1",
-        "docker.io/rocker/ml-verse:cuda11.1"
+        "ghcr.io/rocker-org/ml-verse:4-cuda11.1",
+        "docker.io/rocker/ml-verse:cuda11.1",
+        "ghcr.io/rocker-org/ml-verse:cuda11.1"
       ],
       "platforms": [
         "linux/amd64"
