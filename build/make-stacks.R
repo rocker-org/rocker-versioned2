@@ -197,7 +197,7 @@ write_stack <- function(r_version,
   # rocker/r-ver
   template$stack[[1]]$FROM <- stringr::str_c("ubuntu:", ubuntu_series)
   template$stack[[1]]$tags <- .generate_tags(
-    "docker.io/rocker/r-ver",
+    c("docker.io/rocker/r-ver", "ghcr.io/rocker-org/r-ver"),
     r_version,
     r_minor_latest,
     r_major_latest,
@@ -212,7 +212,7 @@ write_stack <- function(r_version,
   # rocker/rstudio
   template$stack[[2]]$FROM <- stringr::str_c("rocker/r-ver:", r_version)
   template$stack[[2]]$tags <- .generate_tags(
-    "docker.io/rocker/rstudio",
+    c("docker.io/rocker/rstudio", "ghcr.io/rocker-org/rstudio"),
     r_version,
     r_minor_latest,
     r_major_latest,
@@ -223,7 +223,7 @@ write_stack <- function(r_version,
   # rocker/tidyverse
   template$stack[[3]]$FROM <- stringr::str_c("rocker/rstudio:", r_version)
   template$stack[[3]]$tags <- .generate_tags(
-    "docker.io/rocker/tidyverse",
+    c("docker.io/rocker/tidyverse", "ghcr.io/rocker-org/tidyverse"),
     r_version,
     r_minor_latest,
     r_major_latest,
@@ -233,7 +233,7 @@ write_stack <- function(r_version,
   # rocker/verse
   template$stack[[4]]$FROM <- stringr::str_c("rocker/tidyverse:", r_version)
   template$stack[[4]]$tags <- .generate_tags(
-    "docker.io/rocker/verse",
+    c("docker.io/rocker/verse", "ghcr.io/rocker-org/verse"),
     r_version,
     r_minor_latest,
     r_major_latest,
@@ -244,7 +244,7 @@ write_stack <- function(r_version,
   # rocker/geospatial
   template$stack[[5]]$FROM <- stringr::str_c("rocker/verse:", r_version)
   template$stack[[5]]$tags <- .generate_tags(
-    "docker.io/rocker/geospatial",
+    c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial"),
     r_version,
     r_minor_latest,
     r_major_latest,
@@ -254,7 +254,7 @@ write_stack <- function(r_version,
   # rocker/shiny
   template$stack[[6]]$FROM <- stringr::str_c("rocker/r-ver:", r_version)
   template$stack[[6]]$tags <- .generate_tags(
-    "docker.io/rocker/shiny",
+    c("docker.io/rocker/shiny", "ghcr.io/rocker-org/shiny"),
     r_version,
     r_minor_latest,
     r_major_latest,
@@ -264,7 +264,7 @@ write_stack <- function(r_version,
   # rocker/shiny-verse
   template$stack[[7]]$FROM <- stringr::str_c("rocker/shiny:", r_version)
   template$stack[[7]]$tags <- .generate_tags(
-    "docker.io/rocker/shiny-verse",
+    c("docker.io/rocker/shiny-verse", "ghcr.io/rocker-org/shiny-verse"),
     r_version,
     r_minor_latest,
     r_major_latest,
@@ -274,7 +274,7 @@ write_stack <- function(r_version,
   # rocker/binder
   template$stack[[8]]$FROM <- stringr::str_c("rocker/geospatial:", r_version)
   template$stack[[8]]$tags <- .generate_tags(
-    "docker.io/rocker/binder",
+    c("docker.io/rocker/binder", "ghcr.io/rocker-org/binder"),
     r_version,
     r_minor_latest,
     r_major_latest,
@@ -285,7 +285,7 @@ write_stack <- function(r_version,
   template$stack[[9]]$FROM <- stringr::str_c("rocker/r-ver:", r_version)
   template$stack[[9]]$tags <- c(
     .generate_tags(
-      "docker.io/rocker/cuda",
+      c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -295,7 +295,7 @@ write_stack <- function(r_version,
       tag_suffix = "-cuda10.1"
     ),
     .generate_tags(
-      "docker.io/rocker/cuda",
+      c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -308,7 +308,7 @@ write_stack <- function(r_version,
   template$stack[[10]]$FROM <- stringr::str_c("rocker/cuda:", r_version)
   template$stack[[10]]$tags <- c(
     .generate_tags(
-      "docker.io/rocker/ml",
+      c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -318,7 +318,7 @@ write_stack <- function(r_version,
       tag_suffix = "-cuda10.1"
     ),
     .generate_tags(
-      "docker.io/rocker/ml",
+      c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -331,7 +331,7 @@ write_stack <- function(r_version,
   template$stack[[11]]$FROM <- stringr::str_c("rocker/ml:", r_version)
   template$stack[[11]]$tags <- c(
     .generate_tags(
-      "docker.io/rocker/ml-verse",
+      c("docker.io/rocker/ml-verse", "ghcr.io/rocker-org/ml-verse"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -341,7 +341,7 @@ write_stack <- function(r_version,
       tag_suffix = "-cuda10.1"
     ),
     .generate_tags(
-      "docker.io/rocker/ml-verse",
+      c("docker.io/rocker/ml-verse", "ghcr.io/rocker-org/ml-verse"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -354,7 +354,7 @@ write_stack <- function(r_version,
   template$stack[[12]]$FROM <- .cuda_baseimage_tag(ubuntu_series)
   template$stack[[12]]$tags <- c(
     .generate_tags(
-      "docker.io/rocker/cuda",
+      c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -374,7 +374,7 @@ write_stack <- function(r_version,
   template$stack[[13]]$FROM <- stringr::str_c("rocker/cuda:", r_version, "-cuda11.1")
   template$stack[[13]]$tags <- c(
     .generate_tags(
-      "docker.io/rocker/ml",
+      c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -390,7 +390,7 @@ write_stack <- function(r_version,
   template$stack[[14]]$FROM <- stringr::str_c("rocker/ml:", r_version, "-cuda11.1")
   template$stack[[14]]$tags <- c(
     .generate_tags(
-      "docker.io/rocker/ml-verse",
+      c("docker.io/rocker/ml-verse", "ghcr.io/rocker-org/ml-verse"),
       r_version,
       r_minor_latest,
       r_major_latest,
@@ -537,7 +537,7 @@ extra$TAG <- r_latest_version
 extra$stack[[1]]$FROM <- stringr::str_c("rocker/verse:", r_latest_version)
 extra$stack[[1]]$tags <- c(
   .generate_tags(
-    "docker.io/rocker/geospatial",
+    c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial"),
     r_latest_version,
     r_minor_latest = FALSE,
     r_major_latest = FALSE,
