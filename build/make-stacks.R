@@ -535,8 +535,8 @@ extra$stack[[1]]$tags <- .generate_tags(
 )
 ## geospatial-dev-osgeo
 extra$stack[[2]]$FROM <- stringr::str_c("rocker/verse:", r_latest_version)
-extra$stack[[2]]$tags <- .outer_paste(
-  list(c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial"), ":dev-osgeo")
+extra$stack[[2]]$tags <- stringr::str_c(
+  c("docker.io/rocker/", "ghcr.io/rocker-org/"), "geospatial:dev-osgeo"
 )
 extra$stack[[2]]$ENV$PROJ_VERSION <- .latest_version_of_git_repo("https://github.com/OSGeo/PROJ.git")
 extra$stack[[2]]$ENV$GDAL_VERSION <- .latest_version_of_git_repo("https://github.com/OSGeo/gdal.git")
