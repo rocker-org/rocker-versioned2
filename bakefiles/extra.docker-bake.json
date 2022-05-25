@@ -37,7 +37,9 @@
       },
       "tags": [
         "docker.io/rocker/geospatial:4.2.0-ubuntugis",
-        "docker.io/rocker/geospatial:ubuntugis"
+        "ghcr.io/rocker-org/geospatial:4.2.0-ubuntugis",
+        "docker.io/rocker/geospatial:ubuntugis",
+        "ghcr.io/rocker-org/geospatial:ubuntugis"
       ],
       "platforms": [
         "linux/amd64"
@@ -59,7 +61,8 @@
         "org.opencontainers.image.version": "R-4.2.0"
       },
       "tags": [
-        "docker.io/rocker/geospatial:dev-osgeo"
+        "docker.io/rocker/geospatial:dev-osgeo",
+        "ghcr.io/rocker-org/geospatial:dev-osgeo"
       ],
       "platforms": [
         "linux/amd64"

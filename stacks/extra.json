@@ -33,7 +33,9 @@
       "IMAGE": "geospatial-ubuntugis",
       "tags": [
         "docker.io/rocker/geospatial:4.2.0-ubuntugis",
-        "docker.io/rocker/geospatial:ubuntugis"
+        "ghcr.io/rocker-org/geospatial:4.2.0-ubuntugis",
+        "docker.io/rocker/geospatial:ubuntugis",
+        "ghcr.io/rocker-org/geospatial:ubuntugis"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/geospatial (ubuntugis)",
@@ -48,9 +50,7 @@
     },
     {
       "IMAGE": "geospatial-dev-osgeo",
-      "tags": [
-        "docker.io/rocker/geospatial:dev-osgeo"
-      ],
+      "tags": ["docker.io/rocker/geospatial:dev-osgeo", "ghcr.io/rocker-org/geospatial:dev-osgeo"],
       "labels": {
         "org.opencontainers.image.title": "rocker/geospatial (dev-osgeo)",
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image."
