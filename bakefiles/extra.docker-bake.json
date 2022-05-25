@@ -43,7 +43,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/geospatial:ubuntugis"
       ],
       "cache-to": [
         "type=inline"
@@ -65,7 +65,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/geospatial:dev-osgeo"
       ],
       "cache-to": [
         "type=inline"
