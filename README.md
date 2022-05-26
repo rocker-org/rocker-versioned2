@@ -70,12 +70,15 @@ For more information about these container images, please see [the Wiki of this 
 
 Check [the Wiki](https://github.com/rocker-org/rocker-versioned2/wiki) for the list of tags.
 
-There are also special tags that are not listed, `devel` and `latest-daily`.
-We build images daily with the `devel` tag, which installs the development version of R,
-and the `latest-daily` tag, which installs the RStudio daily build.
+#### Spacial tags for daily builds
 
-- The `devel` tag is available for `rocker/r-ver`, `rocker/rstudio`, `rocker/tidyverse`, `rocker/verse`.
-- The `latest-daily` tag is available for `rocker/rstudio`, `rocker/tidyverse`, `rocker/verse`.
+There are also special tags that are not listed in the wiki, `devel` and `latest-daily`.
+The GitHub Actions workflow build and push these images daily.
+
+- The `devel` images are based on `ubuntu:latest` (the latest Ubuntu LTS version) and install [the latest R-devel daily snapshot](https://cloud.r-project.org/src/base-prerelease/).
+  `devel` tag is vailable for `rocker/r-ver`, `rocker/rstudio`, `rocker/tidyverse`, `rocker/verse`.
+- The `latest-daily` tag images are based on `rocker/r-ver:latest` and install [the latest RStudio daily build](https://dailies.rstudio.com/).
+  `latest-daily` tag is available for `rocker/rstudio`, `rocker/tidyverse`, `rocker/verse`.
 
 ## Modifying and extending images
 
