@@ -160,7 +160,7 @@ R CMD build sf
 R CMD INSTALL sf
 rm -rf sf*
 R CMD build stars
-R CMD INSTALL stars --no-build-vignettes
+R CMD INSTALL stars --no-build-vignettes --no-manual
 rm -rf stars*
 
 # Clean up
