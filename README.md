@@ -80,6 +80,14 @@ The GitHub Actions workflow build and push these images daily.
 - The `latest-daily` tag images are based on `rocker/r-ver:latest` and install [the latest RStudio daily build](https://dailies.rstudio.com/).
   `latest-daily` tag is available for `rocker/rstudio`, `rocker/tidyverse`, `rocker/verse`.
 
+#### Spacial tags for geospatial toolkit
+
+`rocker/geospatial:ubuntugis` (`rocker/geospatial:X.Y.Z-ubuntugis`) and `rocker/geospatial:dev-osgeo` are special images
+that differ slightly from the regular `rocker/geospatial`.
+
+- `ubuntugis` is built on packages installed from [the ubuntugis-unstable PPA](https://launchpad.net/~ubuntugis/+archive/ubuntu/ubuntugis-unstable).
+- `dev-osgeo` is built on the latest release of [PROJ](https://proj.org/), [GDAL](https://gdal.org/), and [GEOS](https://libgeos.org/).
+
 ## Modifying and extending images
 
 Check the Rocker project site for common methods for Rocker images. <https://www.rocker-project.org/use/extending/>
