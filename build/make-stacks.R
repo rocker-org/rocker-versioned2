@@ -124,7 +124,7 @@ library(gert)
 .latest_version_of_git_repo <- function(remote_repo) {
   gert::git_remote_ls(remote = remote_repo) |>
     dplyr::pull(ref) |>
-    stringr::str_subset(r"(^refs/tags/v?(\d+\.)*\d+$)") |>
+    stringr::str_subset(r"(^refs/tags/v?(\d+\.){2}\d+$)") |>
     stringr::str_extract(r"((\d+\.)*\d+$)") |>
     package_version() |>
     sort() |>
