@@ -1,5 +1,18 @@
 # News
 
+## 2022-05
+
+### Changes in rocker_scripts
+
+- Installation scripts are now tested in GitHub Actions.
+  ([#411](https://github.com/rocker-org/rocker-versioned2/pull/441))
+
+### Changes in pre-built images
+
+- Newly built images are now pushed to the GitHub Container Registry as well as DockerHub.
+  They can be used by specifying the name as `ghcr.io/rocker-org/rocker/r-ver:4`.
+  ([#456](https://github.com/rocker-org/rocker-versioned2/pull/456))
+
 ## 2022-04
 
 ### Changes in pre-built images
