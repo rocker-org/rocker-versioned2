@@ -10,9 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     container:
-      image: rocker/tidyverse@sha256:84363da59e10b3bf14e2db6db9aaf213d281b15b00518e93be70661aaa98847e
+      image: rocker/tidyverse:latest
     steps:
       - uses: actions/checkout@v3
+      - name: Set as safe for following git commands
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: install packages
         run: |
           install2.r --error --skipinstalled -n -1 pak

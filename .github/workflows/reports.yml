@@ -60,10 +60,12 @@ jobs:
     needs: inspect
     runs-on: ubuntu-latest
     container:
-      image: rocker/tidyverse@sha256:84363da59e10b3bf14e2db6db9aaf213d281b15b00518e93be70661aaa98847e
+      image: rocker/tidyverse:latest
     steps:
       - name: Checkout main
         uses: actions/checkout@v3
+      - name: Set as safe for following git commands
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Checkout wiki
         uses: actions/checkout@v3
         with:
