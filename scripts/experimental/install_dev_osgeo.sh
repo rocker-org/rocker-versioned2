@@ -147,21 +147,10 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     pool \
     rmarkdown \
     RPostgres \
-    spatstat
-
-git clone --depth 1 https://github.com/r-spatial/sf.git
-git clone --depth 1 https://github.com/r-spatial/lwgeom.git
-git clone --depth 1 https://github.com/r-spatial/stars.git
-
-R CMD build lwgeom
-R CMD INSTALL lwgeom
-rm -rf lwgeom*
-R CMD build sf
-R CMD INSTALL sf
-rm -rf sf*
-R CMD build stars
-R CMD INSTALL stars --no-build-vignettes --no-manual
-rm -rf stars*
+    spatstat \
+    sf \
+    lwgeom \
+    stars
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
@@ -169,8 +158,8 @@ rm -r /tmp/downloaded_packages
 
 # Check the geospatial packages
 
-echo -e "Check the packages...\n"
+echo -e "Check the stars package...\n"
 
-R -q -e "library(lwgeom); library(sf); library(stars)"
+R -q -e "library(stars)"
 
-echo -e "\nInstall packages, done!"
+echo -e "\nInstall stars package, done!"
