@@ -68,7 +68,7 @@
       "FROM": "rocker/r-ver:4.2.0",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2022.02.2+485",
+        "RSTUDIO_VERSION": "2022.02.3+492",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
@@ -302,7 +302,7 @@
       "FROM": "rocker/cuda:4.2.0",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2022.02.2+485",
+        "RSTUDIO_VERSION": "2022.02.3+492",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "TENSORFLOW_VERSION": "gpu",
@@ -419,7 +419,7 @@
       "FROM": "rocker/cuda:4.2.0-cuda11.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2022.02.2+485",
+        "RSTUDIO_VERSION": "2022.02.3+492",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
