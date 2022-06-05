@@ -46,7 +46,7 @@ and [`binder`](https://github.com/rocker-org/binder) repositories._
 
 ## Pre-built images
 
-The following images have been built and are available on DockerHub.
+The following images have been built and are available on DockerHub or [GitHub Container Registry](https://github.com/orgs/rocker-org/packages?repo_name=rocker-versioned2).
 
 For more information about these container images, please see [the Wiki of this repository](https://github.com/rocker-org/rocker-versioned2/wiki).
 
