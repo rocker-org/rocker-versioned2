@@ -28,8 +28,6 @@ option_doc 0
 option_src 0
 EOF
 
-export PATH="${PATH}:/usr/local/texlive/bin/linux/"
-
 mkdir -p /opt/texlive
 # set up packages
 apt_install \

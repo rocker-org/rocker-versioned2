@@ -88,7 +88,7 @@
       "FROM": "rocker/tidyverse:4.0.0",
       "ENV": {
         "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2020/06/05/tlnet",
-        "PATH": "/usr/local/texlive/bin/x86_64-linux:$PATH"
+        "PATH": "/usr/local/texlive/bin/linux:$PATH"
       },
       "RUN": "/rocker_scripts/install_verse.sh",
       "tags": [

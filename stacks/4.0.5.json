@@ -82,7 +82,7 @@
       "FROM": "rocker/tidyverse:4.0.5",
       "ENV": {
         "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2021/05/17/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux"
+        "PATH": "$PATH:/usr/local/texlive/bin/linux"
       },
       "RUN": "/rocker_scripts/install_verse.sh",
       "tags": [
@@ -185,7 +185,7 @@
         "PYTHON_VENV_PATH": "/opt/venv/reticulate",
         "PYTHON_CONFIGURE_OPTS": "--enable-shared",
         "RETICULATE_AUTOCONFIGURE": "0",
-        "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/x86_64-linux"
+        "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/linux"
       },
       "RUN": [
         "/rocker_scripts/install_cuda-10.1.sh",
@@ -270,7 +270,7 @@
         "PYTHON_VENV_PATH": "/opt/venv/reticulate",
         "PYTHON_CONFIGURE_OPTS": "--enable-shared",
         "RETICULATE_MINICONDA_ENABLED": "FALSE",
-        "PATH": "${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/x86_64-linux"
+        "PATH": "${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/linux"
       },
       "RUN": [
         "/rocker_scripts/install_cuda-11.1.sh",
