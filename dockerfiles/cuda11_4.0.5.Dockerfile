@@ -18,7 +18,7 @@ ENV WORKON_HOME=/opt/venv
 ENV PYTHON_VENV_PATH=/opt/venv/reticulate
 ENV PYTHON_CONFIGURE_OPTS=--enable-shared
 ENV RETICULATE_MINICONDA_ENABLED=FALSE
-ENV PATH=${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/x86_64-linux
+ENV PATH=${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/linux
 
 RUN /rocker_scripts/install_cuda-11.1.sh
 RUN /rocker_scripts/config_R_cuda.sh
