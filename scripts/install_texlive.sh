@@ -43,7 +43,7 @@ cd ..
 rm -rf install-tl-*
 rm /tmp/texlive-profile.txt
 
-ln -rs /usr/local/texlive/bin/${ARCH}-linux /usr/local/texlive/bin/linux
+ln -rs /usr/local/texlive/bin/"${ARCH}"-linux /usr/local/texlive/bin/linux
 
 tlmgr update --self
 tlmgr install latex-bin luatex xetex
