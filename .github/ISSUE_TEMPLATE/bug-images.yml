@@ -1,0 +1,72 @@
+name: Bug of pre-built images
+description: Bug report for images built from this repository.
+labels: [bug]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: input
+    id: image-name
+    attributes:
+      label: Container image name
+      description: Please provide the image name related to this bug.
+      placeholder: "rocker/rstudio:4.0.0"
+    validations:
+      required: true
+  - type: input
+    id: image-digest
+    attributes:
+      label: Container image digest
+      description: |
+        Please provide the image digest (RepoDigests) related to this bug.
+        The image digest can be checked with the `docker image inspect <image tag>` command.
+        (ex. `docker image inspect rocker/rstudio:4.0.0`)
+      placeholder: rocker/rstudio@sha256:c7e5bcfa56b82b8aea24fde20c796ff4a52ad7bff6cc8e1c8d66a69e8dcaba98
+    validations:
+      required: false
+  - type: dropdown
+    id: os
+    attributes:
+      label: What operating system are you seeing the problem on?
+      multiple: true
+      options:
+        - Linux
+        - macOS
+        - Windows
+    validations:
+      required: true
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System information
+      description: |
+        More information of the system where you encountered this bug.
+        Docker version, OS version, docker compose version, etc.
+      placeholder: |
+        - Docker version 20.10.14, build a224086
+        - Linux 5.10.102.1-microsoft-standard-WSL2
+    validations:
+      required: false
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug description
+      description: |
+        Please describe the bug.
+      placeholder: |
+        ex. I cannot log in to RStudio after entering my password.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How to reproduce this bug?
+      description: |
+        Please enter the command to reproduce the problem
+      render: sh
+      placeholder: |
+        docker run --rm -ti -p 8787:8787 rocker/rstudio:4.0.0
+    validations:
+      required: false

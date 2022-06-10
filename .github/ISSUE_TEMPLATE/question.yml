@@ -1,0 +1,61 @@
+name: Question
+description: Question about this repository
+labels: [question]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For more general questions, such as Docker usage or Ubuntu questions,
+        we recommend asking questions in larger communities such as Stack Overflow.
+        And, please note that not all questions can necessarily be answered.
+  - type: input
+    id: image-name
+    attributes:
+      label: Container image name
+      description: Please provide the image name related to this question.
+      placeholder: "rocker/rstudio:4.0.0"
+    validations:
+      required: false
+  - type: input
+    id: image-digest
+    attributes:
+      label: Container image digest
+      description: |
+        Please provide the image digest (RepoDigests) related to this question.
+        The image digest can be checked with the `docker image inspect <image tag>` command.
+        (ex. `docker image inspect rocker/rstudio:4.0.0`)
+      placeholder: rocker/rstudio@sha256:c7e5bcfa56b82b8aea24fde20c796ff4a52ad7bff6cc8e1c8d66a69e8dcaba98
+    validations:
+      required: false
+  - type: dropdown
+    id: os
+    attributes:
+      label: What operating system related to this question?
+      multiple: true
+      options:
+        - Linux
+        - macOS
+        - Windows
+    validations:
+      required: false
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System information
+      description: |
+        More information of the system related to this question.
+        Docker version, OS version, docker compose version, etc.
+      placeholder: |
+        - Docker version 20.10.14, build a224086
+        - Linux 5.10.102.1-microsoft-standard-WSL2
+    validations:
+      required: false
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: |
+        Please describe your question.
+    validations:
+      required: true
