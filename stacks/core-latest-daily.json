@@ -55,7 +55,7 @@
       "FROM": "rocker/tidyverse:latest-daily",
       "ENV": {
         "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux",
+        "PATH": "$PATH:/usr/local/texlive/bin/linux",
         "QUARTO_VERSION": "latest"
       },
       "RUN": [

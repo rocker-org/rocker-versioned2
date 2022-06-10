@@ -28,7 +28,7 @@ option_doc 0
 option_src 0
 EOF
 
-export PATH="${PATH}:/usr/local/texlive/bin/${ARCH}-linux/"
+export PATH="${PATH}:/usr/local/texlive/bin/linux/"
 
 mkdir -p /opt/texlive
 # set up packages
@@ -44,6 +44,8 @@ cd ./install-tl-20*
 cd ..
 rm -rf install-tl-*
 rm /tmp/texlive-profile.txt
+
+ln -fsr /usr/local/texlive/bin/"${ARCH}"-linux /usr/local/texlive/bin/linux
 
 tlmgr update --self
 tlmgr install latex-bin luatex xetex

@@ -6,6 +6,6 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
 ENV CTAN_REPO=https://www.texlive.info/tlnet-archive/2020/06/05/tlnet
-ENV PATH=/usr/local/texlive/bin/x86_64-linux:$PATH
+ENV PATH=/usr/local/texlive/bin/linux:$PATH
 
 RUN /rocker_scripts/install_verse.sh

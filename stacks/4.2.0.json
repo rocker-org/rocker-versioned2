@@ -118,7 +118,7 @@
       "FROM": "rocker/tidyverse:4.2.0",
       "ENV": {
         "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/x86_64-linux",
+        "PATH": "$PATH:/usr/local/texlive/bin/linux",
         "QUARTO_VERSION": "latest"
       },
       "RUN": [
@@ -267,7 +267,7 @@
         "PYTHON_VENV_PATH": "/opt/venv/reticulate",
         "PYTHON_CONFIGURE_OPTS": "--enable-shared",
         "RETICULATE_AUTOCONFIGURE": "0",
-        "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/x86_64-linux"
+        "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/linux"
       },
       "RUN": [
         "/rocker_scripts/install_cuda-10.1.sh",
