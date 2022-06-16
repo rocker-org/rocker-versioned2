@@ -21,6 +21,7 @@ function apt_install() {
 }
 
 apt_install \
+    ca-certificates \
     lsb-release \
     file \
     git \

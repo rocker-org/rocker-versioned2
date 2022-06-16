@@ -23,7 +23,7 @@ function apt_install() {
     fi
 }
 
-apt_install wget
+apt_install wget ca-certificates
 
 if [ -x "$(command -v pandoc)" ]; then
     INSTALLED_PANDOC_VERSION=$(pandoc --version 2>/dev/null | head -n 1 | grep -oP '[\d\.]+$')

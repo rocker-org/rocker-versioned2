@@ -1,5 +1,17 @@
 # News
 
+## 2022-06
+
+### Changes in rocker_scripts
+
+- `install_quarto.sh` was changed to not install R packages and only install quarto cli.
+  ([#487](https://github.com/rocker-org/rocker-versioned2/pull/487))
+
+### Changes in pre-built images
+
+- New builds of `rocker/verse` and `rocker/ml-verse` for R >= 4.1.0 no longer install the quarto R package.
+  ([#487](https://github.com/rocker-org/rocker-versioned2/pull/487))
+
 ## 2022-05
 
 ### Changes in rocker_scripts

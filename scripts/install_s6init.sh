@@ -23,7 +23,7 @@ fi
 
 DOWNLOAD_FILE=s6-overlay-${ARCH}.tar.gz
 
-apt_install wget
+apt_install wget ca-certificates
 
 ## Set up S6 init system
 if [ -f "/rocker_scripts/.s6_version" ] && [ "$S6_VERSION" = "$(cat /rocker_scripts/.s6_version)" ]; then
