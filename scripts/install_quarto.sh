@@ -27,7 +27,7 @@ function apt_install() {
     fi
 }
 
-apt_install wget
+apt_install wget ca-certificates
 
 if [ -x "$(command -v quarto)" ]; then
     INSTALLED_QUARTO_VERSION=$(quarto --version)

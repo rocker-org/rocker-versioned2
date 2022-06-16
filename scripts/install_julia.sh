@@ -23,7 +23,7 @@ if [ "$ARCH_LONG" = "x86_64" ]; then
     ARCH_SHORT="x64"
 fi
 
-apt_install wget
+apt_install wget ca-certificates
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     yaml \
