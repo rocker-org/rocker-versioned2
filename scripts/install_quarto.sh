@@ -67,15 +67,5 @@ if [ "$QUARTO_VERSION" != "$INSTALLED_QUARTO_VERSION" ]; then
 
 fi
 
-# Install the quarto R package
-install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
-    knitr \
-    quarto
-
 # Clean up
 rm -rf /var/lib/apt/lists/*
-rm -rf /tmp/downloaded_packages
-
-## Strip binary installed lybraries from RSPM
-## https://github.com/rocker-org/rocker-versioned2/issues/340
-strip /usr/local/lib/R/site-library/*/libs/*.so
