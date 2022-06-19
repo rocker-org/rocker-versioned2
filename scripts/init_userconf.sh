@@ -40,6 +40,15 @@ if [ "$USERID" -lt 1000 ]; then # Probably a macOS user, https://github.com/rock
     fi
 fi
 
+if [ "$USER" != "$DEFAULT_USER" ]; then
+    printf "\n\n"
+    tput bold
+    printf "Settings by \e[31m\`-e USER=<new username>\`\e[39m is now deprecated and will be removed in the future.\n"
+    printf "Please do note use the USER environment variable.\n"
+    tput sgr0
+    printf "\n\n"
+fi
+
 if [ "$USERID" -ne 1000 ]; then ## Configure user with a different USERID if requested.
     echo "deleting the default user"
     userdel "$DEFAULT_USER"
