@@ -13,6 +13,10 @@ on:
       - "!scripts/setup_R.sh"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   generate_matrix:
     runs-on: ubuntu-latest

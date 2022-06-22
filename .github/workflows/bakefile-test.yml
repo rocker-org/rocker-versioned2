@@ -8,6 +8,10 @@ on:
       - bakefiles/*.json
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
 jobs:
   make_test:
     runs-on: ubuntu-latest
