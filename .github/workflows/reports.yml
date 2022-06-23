@@ -16,6 +16,10 @@ on:
       - completed
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   generate_matrix:
     runs-on: ubuntu-latest
