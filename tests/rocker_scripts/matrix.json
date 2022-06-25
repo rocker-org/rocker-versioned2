@@ -54,6 +54,12 @@
       "script_arg": "none"
     },
     {
+      "base_image": "rocker/r-ver",
+      "tag": "4.0.4",
+      "script_name": "install_tensorflow.sh",
+      "script_arg": "none"
+    },
+    {
       "base_image": "rocker/cuda",
       "tag": "cuda11.1",
       "script_name": "config_R_cuda.sh",
