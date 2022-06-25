@@ -7,7 +7,7 @@ NCPUS=${NCPUS:--1}
 ## Install python dependency
 /rocker_scripts/install_python.sh
 
-install2.r --error --skipinstalled -n $NCPUS keras
+install2.r --error --skipinstalled -n "$NCPUS" keras
 
 rm -r /tmp/downloaded_packages
 
