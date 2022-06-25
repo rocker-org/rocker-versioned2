@@ -133,7 +133,7 @@
       "IMAGE": "binder",
       "labels": {
         "org.opencontainers.image.title": "rocker/binder",
-        "org.opencontainers.image.description": "Adds binder to rocker/geospatial, providing JupyterHub access on rocker containers."
+        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter."
       },
       "FROM": "rocker/geospatial:4.0.2",
       "ENV": {
@@ -144,7 +144,7 @@
       ],
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",
-      "CMD": "[\"/bin/sh\", \"-c\", \"jupyter notebook --ip 0.0.0.0\"]",
+      "CMD": "[\"/bin/sh\", \"-c\", \"jupyter notebook --ip 0.0.0.0 --no-browser\"]",
       "EXPOSE": 8888,
       "tags": [
         "docker.io/rocker/binder:4.0.2"

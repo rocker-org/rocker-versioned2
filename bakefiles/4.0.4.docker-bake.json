@@ -168,7 +168,7 @@
       "dockerfile": "dockerfiles/binder_4.0.4.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/binder",
-        "org.opencontainers.image.description": "Adds binder to rocker/geospatial, providing JupyterHub access on rocker containers.",
+        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter.",
         "org.opencontainers.image.base.name": "docker.io/rocker/geospatial:4.0.4",
         "org.opencontainers.image.version": "R-4.0.4"
       },
