@@ -13,11 +13,9 @@ ENV NVIDIA_REQUIRE_CUDA=cuda>=10.1 brand=tesla,driver>=384,driver<385 brand=tesl
 ENV CUDA_HOME=/usr/local/cuda
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$CUDA_HOME/lib64/libnvblas.so:
 ENV NVBLAS_CONFIG_FILE=/etc/nvblas.conf
-ENV WORKON_HOME=/opt/venv
-ENV PYTHON_VENV_PATH=/opt/venv/reticulate
 ENV PYTHON_CONFIGURE_OPTS=--enable-shared
 ENV RETICULATE_AUTOCONFIGURE=0
-ENV PATH=${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/linux
+ENV PATH=$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/linux
 
 RUN /rocker_scripts/install_cuda-10.1.sh
 RUN /rocker_scripts/config_R_cuda.sh

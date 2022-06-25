@@ -171,11 +171,9 @@
         "CUDA_HOME": "/usr/local/cuda",
         "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$CUDA_HOME/lib64/libnvblas.so:",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
-        "WORKON_HOME": "/opt/venv",
-        "PYTHON_VENV_PATH": "/opt/venv/reticulate",
         "PYTHON_CONFIGURE_OPTS": "--enable-shared",
         "RETICULATE_AUTOCONFIGURE": "0",
-        "PATH": "${PYTHON_VENV_PATH}/bin:$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/linux"
+        "PATH": "$PATH:${CUDA_HOME}/bin:/usr/local/texlive/bin/linux"
       },
       "RUN": [
         "/rocker_scripts/install_cuda-10.1.sh",
@@ -252,11 +250,9 @@
         "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$CUDA_HOME/lib64/libnvblas.so:",
         "LIBRARY_PATH": "/usr/local/cuda/lib64/stubs",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
-        "WORKON_HOME": "/opt/venv",
-        "PYTHON_VENV_PATH": "/opt/venv/reticulate",
         "PYTHON_CONFIGURE_OPTS": "--enable-shared",
         "RETICULATE_MINICONDA_ENABLED": "FALSE",
-        "PATH": "${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/linux"
+        "PATH": "${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/linux"
       },
       "RUN": [
         "/rocker_scripts/install_cuda-11.1.sh",

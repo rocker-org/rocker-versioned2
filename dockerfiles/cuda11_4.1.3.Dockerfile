@@ -9,11 +9,9 @@ ENV R_VERSION=4.1.3
 ENV R_HOME=/usr/local/lib/R
 ENV TZ=Etc/UTC
 ENV NVBLAS_CONFIG_FILE=/etc/nvblas.conf
-ENV WORKON_HOME=/opt/venv
-ENV PYTHON_VENV_PATH=/opt/venv/reticulate
 ENV PYTHON_CONFIGURE_OPTS=--enable-shared
 ENV RETICULATE_AUTOCONFIGURE=0
-ENV PATH=${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin
+ENV PATH=${PATH}:${CUDA_HOME}/bin
 
 COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 
