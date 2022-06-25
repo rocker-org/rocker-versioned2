@@ -303,8 +303,6 @@
         "RSTUDIO_VERSION": "2022.02.3+492",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
-        "TENSORFLOW_VERSION": "gpu",
-        "KERAS_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [

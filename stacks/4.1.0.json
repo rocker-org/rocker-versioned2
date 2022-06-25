@@ -219,8 +219,6 @@
         "RSTUDIO_VERSION": "1.4.1717",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
-        "TENSORFLOW_VERSION": "gpu",
-        "KERAS_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
