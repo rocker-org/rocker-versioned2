@@ -43,3 +43,10 @@ rm -rf /tmp/downloaded_packages
 ## Strip binary installed lybraries from RSPM
 ## https://github.com/rocker-org/rocker-versioned2/issues/340
 strip /usr/local/lib/R/site-library/*/libs/*.so
+
+# Check jupyter
+echo -e "Check the avalable jupyter kernels...\n"
+
+jupyter kernelspec list
+
+echo -e "\nInstall jupyter, done!"
