@@ -32,7 +32,7 @@ python3 -m pip install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" remotes
 
-R --quiet -e "remotes::install_github('IRkernel/IRkernel')"
+R --quiet -e 'remotes::install_github("IRkernel/IRkernel@*release")'
 R --quiet -e 'IRkernel::installspec(user = FALSE)'
 
 # Clean up
