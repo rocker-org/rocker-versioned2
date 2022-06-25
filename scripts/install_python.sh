@@ -19,19 +19,15 @@ function apt_install() {
 }
 
 apt_install \
-    git \
     libpng-dev \
     libpython3-dev \
     python3-dev \
     python3-pip \
-    python3-virtualenv \
     python3-venv \
     swig
 
 python3 -m pip --no-cache-dir install --upgrade \
-    pip \
-    setuptools \
-    virtualenv
+    pip
 
 # Some TF tools expect a "python" binary
 if [ ! -e /usr/local/bin/python ]; then

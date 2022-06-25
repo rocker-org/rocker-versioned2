@@ -17,6 +17,7 @@ function apt_install() {
 }
 
 apt_install \
+    git \
     sudo \
     libzmq3-dev
 
