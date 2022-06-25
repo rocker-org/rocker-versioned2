@@ -13,3 +13,7 @@ KERAS_VERSION=${2:-${KERAS_VERSION:-default}}
 install2.r --error --skipinstalled -n $NCPUS keras
 
 rm -r /tmp/downloaded_packages
+
+## Strip binary installed lybraries from RSPM
+## https://github.com/rocker-org/rocker-versioned2/issues/340
+strip /usr/local/lib/R/site-library/*/libs/*.so
