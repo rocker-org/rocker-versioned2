@@ -15,7 +15,7 @@
     "install_shiny_server.sh",
     "install_geospatial.sh",
     "install_python.sh",
-    "install_binder.sh",
+    "install_jupyter.sh",
     "install_julia.sh",
     "install_cuda-10.1.sh"
   ],

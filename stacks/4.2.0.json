@@ -169,7 +169,7 @@
         "NB_USER": "rstudio"
       },
       "RUN": [
-        "/rocker_scripts/install_binder.sh"
+        "/rocker_scripts/install_jupyter.sh"
       ],
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",

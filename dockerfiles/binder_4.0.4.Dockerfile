@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 
 ENV NB_USER=rstudio
 
-RUN /rocker_scripts/install_binder.sh
+RUN /rocker_scripts/install_jupyter.sh
 
 EXPOSE 8888
 
