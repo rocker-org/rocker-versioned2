@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 
 ENV PROJ_VERSION=9.0.1
 ENV GDAL_VERSION=3.5.0
-ENV GEOS_VERSION=3.10.3
+ENV GEOS_VERSION=3.11.0
 
 COPY scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh
 
