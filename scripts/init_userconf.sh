@@ -44,7 +44,7 @@ if [ "$USER" != "$DEFAULT_USER" ]; then
     printf "\n\n"
     tput bold
     printf "Settings by \e[31m\`-e USER=<new username>\`\e[39m is now deprecated and will be removed in the future.\n"
-    printf "Please do note use the USER environment variable.\n"
+    printf "Please do not use the USER environment variable.\n"
     tput sgr0
     printf "\n\n"
 fi
