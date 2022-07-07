@@ -14,11 +14,9 @@ ENV CUDA_HOME=/usr/local/cuda
 ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$CUDA_HOME/lib64/libnvblas.so:
 ENV LIBRARY_PATH=/usr/local/cuda/lib64/stubs
 ENV NVBLAS_CONFIG_FILE=/etc/nvblas.conf
-ENV WORKON_HOME=/opt/venv
-ENV PYTHON_VENV_PATH=/opt/venv/reticulate
 ENV PYTHON_CONFIGURE_OPTS=--enable-shared
 ENV RETICULATE_MINICONDA_ENABLED=FALSE
-ENV PATH=${PYTHON_VENV_PATH}/bin:${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/linux
+ENV PATH=${CUDA_HOME}/bin:/usr/local/nviida/bin:${PATH}:/usr/local/texlive/bin/linux
 
 RUN /rocker_scripts/install_cuda-11.1.sh
 RUN /rocker_scripts/config_R_cuda.sh

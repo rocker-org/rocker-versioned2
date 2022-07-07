@@ -133,18 +133,18 @@
       "IMAGE": "binder",
       "labels": {
         "org.opencontainers.image.title": "rocker/binder",
-        "org.opencontainers.image.description": "Adds binder to rocker/geospatial, providing JupyterHub access on rocker containers."
+        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter."
       },
       "FROM": "rocker/geospatial:4.0.2",
       "ENV": {
         "NB_USER": "rstudio"
       },
       "RUN": [
-        "/rocker_scripts/install_binder.sh"
+        "/rocker_scripts/install_jupyter.sh"
       ],
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",
-      "CMD": "[\"/bin/sh\", \"-c\", \"jupyter notebook --ip 0.0.0.0\"]",
+      "CMD": "[\"/bin/sh\", \"-c\", \"jupyter notebook --ip 0.0.0.0 --no-browser\"]",
       "EXPOSE": 8888,
       "tags": [
         "docker.io/rocker/binder:4.0.2"
@@ -171,11 +171,9 @@
         "CUDA_HOME": "/usr/local/cuda",
         "LD_LIBRARY_PATH": "$LD_LIBRARY_PATH:$CUDA_HOME/lib64:$CUDA_HOME/extras/CUPTI/lib64:$CUDA_HOME/lib64/libnvblas.so:",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
-        "WORKON_HOME": "/opt/venv",
-        "PYTHON_VENV_PATH": "/opt/venv/reticulate",
         "PYTHON_CONFIGURE_OPTS": "--enable-shared",
         "RETICULATE_AUTOCONFIGURE": "0",
-        "PATH": "${PYTHON_VENV_PATH}/bin:${PATH}:${CUDA_HOME}/bin"
+        "PATH": "${PATH}:${CUDA_HOME}/bin"
       },
       "RUN": [
         "/rocker_scripts/install_cuda-10.1.sh",
@@ -199,8 +197,8 @@
         "RSTUDIO_VERSION": "1.3.1093",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
-        "TENSORFLOW_VERSION": "gpu",
-        "KERAS_VERSION": "default",
+
+
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [

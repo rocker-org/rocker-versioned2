@@ -1,5 +1,20 @@
 # News
 
+## 2022-07
+
+### Changes in rocker_scripts
+
+- `install_binder.sh` is renamed to `install_jupyter.sh`.
+  ([#494](https://github.com/rocker-org/rocker-versioned2/pull/494))
+- `install_python.sh` no longer installs pyenv.
+  ([#494](https://github.com/rocker-org/rocker-versioned2/pull/494))
+
+### Changes in pre-built images
+
+- `rocker/binder`, `rocker/cuda`, `rocker/ml` and `rocker/ml-verse` no longer configure a default python venv and
+  no longer installs pyenv.
+  ([#494](https://github.com/rocker-org/rocker-versioned2/pull/494))
+
 ## 2022-06
 
 ### Changes in rocker_scripts

@@ -15,7 +15,7 @@
     "install_shiny_server.sh",
     "install_geospatial.sh",
     "install_python.sh",
-    "install_binder.sh",
+    "install_jupyter.sh",
     "install_julia.sh",
     "install_cuda-10.1.sh"
   ],
@@ -51,6 +51,12 @@
       "base_image": "rocker/r-ver",
       "tag": "4.0.5",
       "script_name": "install_cuda-11.1.sh",
+      "script_arg": "none"
+    },
+    {
+      "base_image": "rocker/r-ver",
+      "tag": "4.0.4",
+      "script_name": "install_tensorflow.sh",
       "script_arg": "none"
     },
     {
