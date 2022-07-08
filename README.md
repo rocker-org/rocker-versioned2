@@ -153,7 +153,7 @@ When a new version of R or RStudio is released, GitHub Actions will automaticall
 ### Update pre-built images
 
 Latest R version images will be built on a rolling basis;
-when the definition files or Rocker scripts are updated, they are immediately built by GitHub Actions.
+when the Dockerfiles are updated, they are immediately built by GitHub Actions.
 
 Non-latest R version images will be built when a new R version is released.
 At this time, a tag and a GitHub release will also be created.
