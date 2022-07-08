@@ -29,7 +29,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/r-ver:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -50,7 +50,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/rstudio:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -71,7 +71,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/tidyverse:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -92,7 +92,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/verse:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -113,7 +113,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/geospatial:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -134,7 +134,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/shiny:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -155,7 +155,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/shiny-verse:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -176,7 +176,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/binder:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -199,7 +199,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/r-ver:devel-cuda10.1"
       ],
       "cache-to": [
         "type=inline"
@@ -221,7 +221,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml:devel-cuda10.1"
       ],
       "cache-to": [
         "type=inline"
@@ -243,7 +243,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml-verse:devel-cuda10.1"
       ],
       "cache-to": [
         "type=inline"
@@ -265,7 +265,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/r-ver:devel-cuda11.1"
       ],
       "cache-to": [
         "type=inline"
@@ -286,7 +286,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml:devel-cuda11.1"
       ],
       "cache-to": [
         "type=inline"
@@ -307,7 +307,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml-verse:devel-cuda11.1"
       ],
       "cache-to": [
         "type=inline"

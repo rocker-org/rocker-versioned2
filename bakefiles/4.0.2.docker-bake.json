@@ -47,7 +47,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/rstudio:4.0.2"
       ],
       "cache-to": [
         "type=inline"
@@ -69,7 +69,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/tidyverse:4.0.2"
       ],
       "cache-to": [
         "type=inline"
@@ -91,7 +91,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/verse:4.0.2"
       ],
       "cache-to": [
         "type=inline"
@@ -113,7 +113,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/geospatial:4.0.2"
       ],
       "cache-to": [
         "type=inline"
@@ -135,7 +135,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/shiny:4.0.2"
       ],
       "cache-to": [
         "type=inline"
@@ -157,7 +157,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/shiny-verse:4.0.2"
       ],
       "cache-to": [
         "type=inline"
@@ -179,7 +179,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/binder:4.0.2"
       ],
       "cache-to": [
         "type=inline"
@@ -203,7 +203,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/cuda:4.0.2-cuda10.1"
       ],
       "cache-to": [
         "type=inline"
@@ -226,7 +226,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml:4.0.2-cuda10.1"
       ],
       "cache-to": [
         "type=inline"
@@ -249,7 +249,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml-verse:4.0.2-cuda10.1"
       ],
       "cache-to": [
         "type=inline"

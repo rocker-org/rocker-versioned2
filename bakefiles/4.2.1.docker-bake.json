@@ -83,7 +83,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/rstudio:4.2.1"
       ],
       "cache-to": [
         "type=inline"
@@ -112,7 +112,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/tidyverse:4.2.1"
       ],
       "cache-to": [
         "type=inline"
@@ -141,7 +141,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/verse:4.2.1"
       ],
       "cache-to": [
         "type=inline"
@@ -170,7 +170,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/geospatial:4.2.1"
       ],
       "cache-to": [
         "type=inline"
@@ -199,7 +199,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/shiny:4.2.1"
       ],
       "cache-to": [
         "type=inline"
@@ -228,7 +228,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/shiny-verse:4.2.1"
       ],
       "cache-to": [
         "type=inline"
@@ -257,7 +257,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/binder:4.2.1"
       ],
       "cache-to": [
         "type=inline"
@@ -295,7 +295,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/cuda:4.2.1-cuda10.1"
       ],
       "cache-to": [
         "type=inline"
@@ -332,7 +332,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml:4.2.1-cuda10.1"
       ],
       "cache-to": [
         "type=inline"
@@ -369,7 +369,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml-verse:4.2.1-cuda10.1"
       ],
       "cache-to": [
         "type=inline"
@@ -428,7 +428,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml:4.2.1-cuda11.1"
       ],
       "cache-to": [
         "type=inline"
@@ -457,7 +457,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        ""
+        "docker.io/rocker/ml-verse:4.2.1-cuda11.1"
       ],
       "cache-to": [
         "type=inline"
