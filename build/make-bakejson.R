@@ -46,7 +46,7 @@ library(stringr)
         ~ if (!is.null(.x$tags)) .x$tags else list(stringr::str_c("docker.io/rocker/", .x$IMAGE, ":", stack_tag))
       ),
       platforms = purrr::map(value, "platforms", .default = list("linux/amd64")),
-      `cache-from` = purrr::map(value, "cache-from", .default = list("")),
+      `cache-from` = purrr::map(value, "cache-from", .default = NULL),
       `cache-to` = purrr::map(value, "cache-to", .default = list("type=inline")),
       base_image = map_chr(value, "FROM")
     ) |>
@@ -56,7 +56,8 @@ library(stringr)
         labels,
         org.opencontainers.image.base.name = .image_full_name(base_image),
         org.opencontainers.image.version = .version_or_null(stack_tag)
-      ))
+      )),
+      `cache-from` = list(if (is.null(`cache-from`)) tags[1] else `cache-from`)
     ) |>
     dplyr::ungroup() |>
     dplyr::select(
