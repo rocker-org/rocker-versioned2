@@ -13,7 +13,7 @@ set -e
 ## build ARGs
 NCPUS=${NCPUS:--1}
 
-QUARTO_VERSION=${1:-${QUARTO_VERSION:-"latest"}}
+QUARTO_VERSION=${1:-${QUARTO_VERSION:-"default"}}
 # Only amd64 build can be installed now
 ARCH=$(dpkg --print-architecture)
 
