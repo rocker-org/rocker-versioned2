@@ -52,19 +52,7 @@ For more information about these container images, please see [the Wiki of this 
 
 ### Image list
 
-| image                                                      | description                                                                                    | pulls                                                                   |
-| ---------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| [r-ver](https://hub.docker.com/r/rocker/r-ver)             | Version-stable base R & src build tools                                                        | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/r-ver)       |
-| [rstudio](https://hub.docker.com/r/rocker/rstudio)         | Adds rstudio server                                                                            | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/rstudio)     |
-| [tidyverse](https://hub.docker.com/r/rocker/tidyverse)     | Adds tidyverse & devtools                                                                      | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/tidyverse)   |
-| [verse](https://hub.docker.com/r/rocker/verse)             | Adds tex & publishing-related packages                                                         | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/verse)       |
-| [geospatial](https://hub.docker.com/r/rocker/geospatial)   | Adds geospatial packages on top of 'verse'                                                     | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/geospatial)  |
-| [shiny](https://hub.docker.com/r/rocker/shiny)             | Adds shiny server on top of 'r-ver'                                                            | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/shiny)       |
-| [shiny-verse](https://hub.docker.com/r/rocker/shiny-verse) | Adds tidyverse packages on top of 'shiny'                                                      | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/shiny-verse) |
-| [binder](https://hub.docker.com/r/rocker/binder)           | Adds requirements to 'geospatial' to run repositories on [mybinder.org](https://mybinder.org/) | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/binder)      |
-| [cuda](https://hub.docker.com/r/rocker/cuda)               | Adds cuda and Python to 'r-ver' (a.k.a `rocker/r-ver:X.Y.Z-cuda10.1`)                          | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/cuda)        |
-| [ml](https://hub.docker.com/r/rocker/ml)                   | Adds rstudio server, tidyverse, devtools to 'cuda'                                             | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/ml)          |
-| [ml-verse](https://hub.docker.com/r/rocker/ml-verse)       | Adds tex & publishing-related packages & geospatial packages to 'ml'                           | ![Docker Pulls](https://img.shields.io/docker/pulls/rocker/ml-verse)    |
+Check [the Rocker project site](https://rocker-project.org/images/#the-versioned-stack) for the list of images.
 
 ### Tags
 
@@ -90,7 +78,7 @@ that differ slightly from the regular `rocker/geospatial`.
 
 ## Modifying and extending images
 
-Check the Rocker project site for common methods for Rocker images. <https://www.rocker-project.org/use/extending/>
+Check [the Rocker project site](https://rocker-project.org/use/extending.html) for common methods for Rocker images.
 
 ### Install R packages
 
