@@ -49,6 +49,12 @@
     },
     {
       "base_image": "rocker/r-ver",
+      "tag": "latest",
+      "script_name": "install_quarto.sh",
+      "script_arg": "prerelease"
+    },
+    {
+      "base_image": "rocker/r-ver",
       "tag": "4.0.5",
       "script_name": "install_cuda-11.1.sh",
       "script_arg": "none"
