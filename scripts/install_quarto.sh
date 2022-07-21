@@ -6,7 +6,8 @@
 ## ex. latest, default, 0.9.16
 ##
 ## 'default' means the version bundled with RStudio if RStudio is installed, but 'latest' otherwise.
-## 'latest' means installing the latest release version.
+## 'latest', 'release' means installing the latest release version.
+## 'prerelease' means installing the latest prerelease version.
 
 set -e
 
@@ -53,8 +54,10 @@ if [ "$QUARTO_VERSION" != "$INSTALLED_QUARTO_VERSION" ]; then
     if [ "$QUARTO_VERSION" = "$BUNDLED_QUARTO_VERSION" ] || [ "$QUARTO_VERSION" = "default" ]; then
         ln -fs "$BUNDLED_QUARTO" /usr/local/bin
     else
-        if [ "$QUARTO_VERSION" = "latest" ]; then
-            QUARTO_DL_URL=$(wget -qO- https://api.github.com/repos/quarto-dev/quarto-cli/releases/latest | grep -oP "(?<=\"browser_download_url\":\s\")https.*${ARCH}\.deb")
+        if [ "$QUARTO_VERSION" = "latest" ] || [ "$RSTUDIO_VERSION" = "release" ]; then
+            QUARTO_DL_URL=$(wget -qO- https://quarto.org/docs/download/_download.json | grep -oP "(?<=\"download_url\":\s\")https.*${ARCH}\.deb")
+        elif [ "$QUARTO_VERSION" = "prerelease" ]; then
+            QUARTO_DL_URL=$(wget -qO- https://quarto.org/docs/download/_prerelease.json | grep -oP "(?<=\"download_url\":\s\")https.*${ARCH}\.deb")
         else
             QUARTO_DL_URL="https://github.com/quarto-dev/quarto-cli/releases/download/v${QUARTO_VERSION}/quarto-${QUARTO_VERSION}-linux-${ARCH}.deb"
         fi
