@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
 ENV CTAN_REPO=https://www.texlive.info/tlnet-archive/2022/06/22/tlnet
-ENV QUARTO_VERSION=latest
+ENV QUARTO_VERSION=1.0.36
 
 RUN /rocker_scripts/install_verse.sh
 RUN /rocker_scripts/install_quarto.sh

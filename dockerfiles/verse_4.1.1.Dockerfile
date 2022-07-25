@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 
 ENV CTAN_REPO=https://www.texlive.info/tlnet-archive/2021/10/31/tlnet
 ENV PATH=$PATH:/usr/local/texlive/bin/linux
-ENV QUARTO_VERSION=latest
+ENV QUARTO_VERSION=1.0.36
 
 RUN /rocker_scripts/install_verse.sh
 RUN /rocker_scripts/install_quarto.sh
