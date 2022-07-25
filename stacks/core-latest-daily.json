@@ -28,11 +28,13 @@
         "RSTUDIO_VERSION": "daily",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
+        "QUARTO_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
-        "/rocker_scripts/install_pandoc.sh"
+        "/rocker_scripts/install_pandoc.sh",
+        "/rocker_scripts/install_quarto.sh"
       ],
       "CMD": "[\"/init\"]",
       "EXPOSE": 8787
@@ -55,12 +57,10 @@
       "FROM": "rocker/tidyverse:latest-daily",
       "ENV": {
         "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/linux",
-        "QUARTO_VERSION": "latest"
+        "PATH": "$PATH:/usr/local/texlive/bin/linux"
       },
       "RUN": [
-        "/rocker_scripts/install_verse.sh",
-        "/rocker_scripts/install_quarto.sh"
+        "/rocker_scripts/install_verse.sh"
       ]
     }
   ]

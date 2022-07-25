@@ -68,14 +68,16 @@
       "FROM": "rocker/r-ver:4.2.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2022.07.0+548",
+        "RSTUDIO_VERSION": "2022.07.1+554",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
+        "QUARTO_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
-        "/rocker_scripts/install_pandoc.sh"
+        "/rocker_scripts/install_pandoc.sh",
+        "/rocker_scripts/install_quarto.sh"
       ],
       "CMD": "[\"/init\"]",
       "EXPOSE": 8787,
@@ -118,12 +120,10 @@
       "FROM": "rocker/tidyverse:4.2.1",
       "ENV": {
         "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/linux",
-        "QUARTO_VERSION": "latest"
+        "PATH": "$PATH:/usr/local/texlive/bin/linux"
       },
       "RUN": [
-        "/rocker_scripts/install_verse.sh",
-        "/rocker_scripts/install_quarto.sh"
+        "/rocker_scripts/install_verse.sh"
       ],
       "tags": [
         "docker.io/rocker/verse:4.2.1",
@@ -300,14 +300,16 @@
       "FROM": "rocker/cuda:4.2.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2022.07.0+548",
+        "RSTUDIO_VERSION": "2022.07.1+554",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
+        "QUARTO_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
         "/rocker_scripts/install_pandoc.sh",
+        "/rocker_scripts/install_quarto.sh",
         "/rocker_scripts/install_tidyverse.sh"
       ],
       "CMD": "[\"/init\"]",
@@ -339,12 +341,10 @@
       },
       "FROM": "rocker/ml:4.2.1",
       "ENV": {
-        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
-        "QUARTO_VERSION": "latest"
+        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
-        "/rocker_scripts/install_quarto.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
     },
@@ -413,14 +413,16 @@
       "FROM": "rocker/cuda:4.2.1-cuda11.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2022.07.0+548",
+        "RSTUDIO_VERSION": "2022.07.1+554",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
+        "QUARTO_VERSION": "default",
         "PATH": "/usr/lib/rstudio-server/bin:$PATH"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
         "/rocker_scripts/install_pandoc.sh",
+        "/rocker_scripts/install_quarto.sh",
         "/rocker_scripts/install_tidyverse.sh"
       ],
       "CMD": "[\"/init\"]",
@@ -444,12 +446,10 @@
       },
       "FROM": "rocker/ml:4.2.1-cuda11.1",
       "ENV": {
-        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
-        "QUARTO_VERSION": "latest"
+        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
-        "/rocker_scripts/install_quarto.sh",
         "/rocker_scripts/install_geospatial.sh"
       ]
     }
