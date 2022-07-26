@@ -8,12 +8,22 @@
   ([#494](https://github.com/rocker-org/rocker-versioned2/pull/494))
 - `install_python.sh` no longer installs pyenv.
   ([#494](https://github.com/rocker-org/rocker-versioned2/pull/494))
+- Update `install_quarto.sh` for the first stable release of quarto cli.
+  ([#506](https://github.com/rocker-org/rocker-versioned2/pull/506))
+  - The default behavior of `install_quarto.sh` has been changed so that if quarto bundled with RStudio is detected,
+    it will use the quarto cli bundled with RStudio instead of installing quarto cli.
+  - Specifying `./install_quarto.sh prerelease` now installs the latest prerelease version of quarto cli.
 
 ### Changes in pre-built images
 
 - `rocker/binder`, `rocker/cuda`, `rocker/ml` and `rocker/ml-verse` no longer configure a default python venv and
   no longer installs pyenv.
   ([#494](https://github.com/rocker-org/rocker-versioned2/pull/494))
+- Update to address RStudio Server now bundling stable release version of quarto cli.
+  ([#506](https://github.com/rocker-org/rocker-versioned2/pull/506))
+  - New builds of `rocker/verse` and `rocker/ml-verse` for 4.1.0 <= R <= 4.2.0 will install quarto cli version 1.0.36.
+  - New builds of `rocker/rstudio` and `rocker/ml` for R >= 4.2.1 (with RStudio Server v2022.07.1+554 or later)
+    will be configured to use the quarto cli bundled with RStudio Server system-wide.
 
 ## 2022-06
 

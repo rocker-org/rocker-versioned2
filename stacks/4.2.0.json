@@ -101,7 +101,7 @@
       "ENV": {
         "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2022/06/22/tlnet",
         "PATH": "$PATH:/usr/local/texlive/bin/linux",
-        "QUARTO_VERSION": "latest"
+        "QUARTO_VERSION": "1.0.36"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
@@ -256,7 +256,7 @@
       "FROM": "rocker/ml:4.2.0",
       "ENV": {
         "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2022/06/22/tlnet",
-        "QUARTO_VERSION": "latest"
+        "QUARTO_VERSION": "1.0.36"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
@@ -343,7 +343,7 @@
       "FROM": "rocker/ml:4.2.0-cuda11.1",
       "ENV": {
         "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2022/06/22/tlnet",
-        "QUARTO_VERSION": "latest"
+        "QUARTO_VERSION": "1.0.36"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
