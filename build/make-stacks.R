@@ -40,7 +40,7 @@ library(gert)
     purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux)) |>
     unique()
 
-  for (i in seq_len(length(urls_try))) {
+  for (i in seq_along(urls_try)) {
     .url <- urls_try[i]
     if (.is_cran_url_available(.url, r_version)) break
     .url <- NA_character_
