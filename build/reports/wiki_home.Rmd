@@ -22,6 +22,7 @@ library(forcats)
 library(stringr)
 library(lubridate)
 library(jsonlite)
+library(yaml)
 ```
 
 ```{r data_manipulation}
@@ -71,7 +72,7 @@ df_all <- df_definitions |>
   dplyr::inner_join(df_images, by = "tags") |>
   dplyr::group_by(id) |>
   dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE) |>
-  dplyr::mutate(tags = stringr::str_c("`", stringr::str_c(tags, collapse = "`<br/>`"), "`")) |>
+  dplyr::mutate(tags = stringr::str_c("`", stringr::str_c(tags, collapse = "`, `"), "`")) |>
   dplyr::filter(stringr::str_detect(tags, version) | stack == "extra") |>
   dplyr::slice_head(n = 1) |>
   dplyr::ungroup() |>
@@ -126,24 +127,28 @@ Click on the ID to see detailed information about each image.
 
 ### Versioned images
 
-```{r print_table}
+```{r print_table, results = 'asis'}
 df_all |>
   dplyr::arrange(order_number) |>
   dplyr::filter(stack != "extra") |>
   dplyr::transmute(
-    R = version,
-    ImageName = image_title,
+    ImageName = stringr::str_c(image_title, " for R-", version),
     RepoTags = tags,
     ID = stringr::str_c("[[", id, "|", report_name, "]]"),
-    CreatedTime
-  )
+    CreatedTime = as.character(CreatedTime)
+  ) |>
+  tidyr::nest(data = !ImageName) |>
+  purrr::transpose() |>
+  yaml::as.yaml(omap = TRUE) |>
+  stringr::str_remove_all("- !!omap\n|!!omap|'|(\n\\s\\s- data:\\s)|(ImageName:\\s)") |>
+  cat()
 ```
 
 ### Extra images
 
 The following images are experimental and may differ from other images in terms of the repositories used.
 
-```{r print_extra_table}
+```{r print_extra_table, results = 'asis'}
 df_all |>
   dplyr::arrange(order_number) |>
   dplyr::filter(stack == "extra") |>
@@ -151,6 +156,11 @@ df_all |>
     ImageName = image_title,
     RepoTags = tags,
     ID = stringr::str_c("[[", id, "|", report_name, "]]"),
-    CreatedTime
-  )
+    CreatedTime = as.character(CreatedTime)
+  ) |>
+  tidyr::nest(data = !ImageName) |>
+  purrr::transpose() |>
+  yaml::as.yaml(omap = TRUE) |>
+  stringr::str_remove_all("- !!omap\n|!!omap|'|(\n\\s\\s- data:\\s)|(ImageName:\\s)") |>
+  cat()
 ```
