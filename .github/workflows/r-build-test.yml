@@ -50,3 +50,38 @@ jobs:
         with:
           name: tmp
           path: tmp
+
+  regression-test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        tag:
+          - "4.0.0"
+        platforms:
+          - linux/amd64
+        script:
+          - install_rstudio.sh
+          - install_tidyverse.sh
+          - install_verse.sh
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Expose GitHub Runtime
+        uses: crazy-max/ghaction-github-runtime@v2
+      - name: test build
+        run: |
+          docker buildx bake \
+          -f bakefiles/"${{ matrix.tag }}".docker-bake.json \
+          --set=*.platform="${{ matrix.platforms }}" \
+          --set=*.cache-from=docker.io/rocker/r-ver:"${{ matrix.tag }}" \
+          --set=*.cache-from=type=gha,scope=r-ver-"${{ matrix.tag }}" \
+          --set=*.cache-to=type=gha,scope=r-ver-"${{ matrix.tag }}" \
+          --set=r-ver.tags=r-ver-test-"${{ matrix.tag }}" \
+          --load \
+          r-ver
+      - name: test run rocker scripts
+        run: |
+          docker run --rm r-ver-test-"${{ matrix.tag }}" "/rocker_scripts/${{ matrix.script }}"
