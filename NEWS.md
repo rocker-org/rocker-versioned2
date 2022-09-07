@@ -1,5 +1,12 @@
 # News
 
+## 2022-09
+
+### Changes in pre-built images
+
+- RStudio Server user settings are written to `~/.config/rstudio/rstudio-prefs.json`, not `~/.rstudio/monitored/user-settings/user-settings`.
+  ([#63](https://github.com/rocker-org/rocker-versioned2/issues/63))
+
 ## 2022-07
 
 ### Changes in rocker_scripts
