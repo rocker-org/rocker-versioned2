@@ -18,8 +18,7 @@ else
     "save_workspace": "never",
     "always_save_history": false,
     "reuse_sessions_for_project_links": true,
-    "posix_terminal_shell": "bash",
-    "initial_working_directory": "/home/${DEFAULT_USER}"
+    "posix_terminal_shell": "bash"
 }
 EOF
     chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}"
