@@ -12,11 +12,15 @@ else
     addgroup "${DEFAULT_USER}" staff
 
     ## Rocker's default RStudio settings, for better reproducibility
-    mkdir -p "/home/${DEFAULT_USER}/.rstudio/monitored/user-settings"
-    cat <<EOF >"/home/${DEFAULT_USER}/.rstudio/monitored/user-settings/user-settings"
-alwaysSaveHistory="0"
-loadRData="0"
-saveAction="0"
+    mkdir -p "/home/${DEFAULT_USER}/.config/rstudio/"
+    cat <<EOF >"/home/${DEFAULT_USER}/.config/rstudio/rstudio-prefs.json"
+{
+    "save_workspace": "never",
+    "always_save_history": false,
+    "reuse_sessions_for_project_links": true,
+    "posix_terminal_shell": "bash",
+    "initial_working_directory": "/home/${DEFAULT_USER}"
+}
 EOF
     chown -R "${DEFAULT_USER}:${DEFAULT_USER}" "/home/${DEFAULT_USER}"
 fi
