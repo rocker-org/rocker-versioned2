@@ -63,8 +63,7 @@
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
         "DEFAULT_USER": "rstudio",
-        "PANDOC_VERSION": "default",
-        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+        "PANDOC_VERSION": "default"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
@@ -218,8 +217,7 @@
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
         "DEFAULT_USER": "rstudio",
-        "PANDOC_VERSION": "default",
-        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+        "PANDOC_VERSION": "default"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
@@ -303,8 +301,7 @@
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "1.4.1717",
         "DEFAULT_USER": "rstudio",
-        "PANDOC_VERSION": "default",
-        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+        "PANDOC_VERSION": "default"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
