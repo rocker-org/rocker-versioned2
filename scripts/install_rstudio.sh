@@ -67,6 +67,8 @@ fi
 dpkg -i "$DOWNLOAD_FILE"
 rm "$DOWNLOAD_FILE"
 
+ln -fs /usr/lib/rstudio-server/bin/rstudio-server /usr/local/bin
+
 # https://github.com/rocker-org/rocker-versioned2/issues/137
 rm -f /var/lib/rstudio-server/secure-cookie-key
 
@@ -129,6 +131,6 @@ rm -rf /var/lib/apt/lists/*
 # Check the RStudio Server version
 echo -e "Check the RStudio Server version...\n"
 
-/usr/lib/rstudio-server/bin/rstudio-server version
+rstudio-server version
 
 echo -e "\nInstall RStudio Server, done!"

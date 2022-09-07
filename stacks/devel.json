@@ -51,8 +51,7 @@
         "RSTUDIO_VERSION": "2022.07.1+554",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
-        "QUARTO_VERSION": "default",
-        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+        "QUARTO_VERSION": "default"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
@@ -185,8 +184,7 @@
         "RSTUDIO_VERSION": "2022.07.1+554",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
-        "QUARTO_VERSION": "default",
-        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+        "QUARTO_VERSION": "default"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
@@ -264,8 +262,7 @@
         "RSTUDIO_VERSION": "2022.07.1+554",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
-        "QUARTO_VERSION": "default",
-        "PATH": "/usr/lib/rstudio-server/bin:$PATH"
+        "QUARTO_VERSION": "default"
       },
       "RUN": [
         "/rocker_scripts/install_rstudio.sh",
