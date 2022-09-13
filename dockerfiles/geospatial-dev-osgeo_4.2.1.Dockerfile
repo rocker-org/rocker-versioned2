@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
 ENV PROJ_VERSION=9.1.0
-ENV GDAL_VERSION=3.5.1
+ENV GDAL_VERSION=3.5.2
 ENV GEOS_VERSION=3.11.0
 
 COPY scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh
