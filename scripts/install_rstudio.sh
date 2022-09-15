@@ -68,6 +68,7 @@ dpkg -i "$DOWNLOAD_FILE"
 rm "$DOWNLOAD_FILE"
 
 ln -fs /usr/lib/rstudio-server/bin/rstudio-server /usr/local/bin
+ln -fs /usr/lib/rstudio-server/bin/rserver /usr/local/bin
 
 # https://github.com/rocker-org/rocker-versioned2/issues/137
 rm -f /var/lib/rstudio-server/secure-cookie-key
@@ -128,7 +129,7 @@ cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 # Clean up
 rm -rf /var/lib/apt/lists/*
 
-# Check the RStudio Server version
+# Check the RStudio Server
 echo -e "Check the RStudio Server version...\n"
 
 rstudio-server version
