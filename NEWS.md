@@ -7,10 +7,12 @@
 - RStudio Server user settings are written to `~/.config/rstudio/rstudio-prefs.json`, not `~/.rstudio/monitored/user-settings/user-settings`.
   ([#63](https://github.com/rocker-org/rocker-versioned2/issues/63))
 - In `rocker/rstudio` etc., `/usr/local/bin/rstudio-server` is no longer added to the PATH environment variable.
-  `rstudio-server` can still be called by the executable file name,
-  since a simlinks is now created, but the other files must be called by their full path,
+  `rstudio-server` and `rserver` can still be called by the executable file name,
+  since simlinks are now created, but the other files must be called by their full path,
   e.g. `/usr/lib/rstudio-server/bin/rsession`.
-  ([#535](https://github.com/rocker-org/rocker-versioned2/pull/535), [#538](https://github.com/rocker-org/rocker-versioned2/issues/538))
+  ([#535](https://github.com/rocker-org/rocker-versioned2/pull/535),
+  [#538](https://github.com/rocker-org/rocker-versioned2/issues/538),
+  [#541](https://github.com/rocker-org/rocker-versioned2/pull/541))
 
 ## 2022-07
 
