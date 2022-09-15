@@ -130,8 +130,8 @@ cp /rocker_scripts/pam-helper.sh /usr/lib/rstudio-server/bin/pam-helper
 rm -rf /var/lib/apt/lists/*
 
 # Check the RStudio Server
-echo -e "Check the RStudio Server installation...\n"
-rserver --verify-installation 1
 echo -e "Check the RStudio Server version...\n"
+
 rstudio-server version
+
 echo -e "\nInstall RStudio Server, done!"
