@@ -77,12 +77,8 @@ library(gert)
 .get_github_commit_date <- function(commit_url) {
   commit_date <- httr::GET(commit_url, httr::add_headers(accept = "application/vnd.github.v3+json")) |>
     httr::content() |>
-    purrr::pluck("commit", "committer", "date") |>
+    purrr::pluck("commit", "committer", "date", .default = NA) |>
     as.Date()
-
-  if (!length(commit_date)) {
-    commit_date <- NA
-  }
 
   commit_date
 }
