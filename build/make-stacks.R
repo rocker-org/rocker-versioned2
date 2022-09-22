@@ -80,7 +80,11 @@ library(gert)
     purrr::pluck("commit", "committer", "date") |>
     as.Date()
 
-  return(commit_date)
+  if (!length(commit_date)) {
+    commit_date <- NA
+  }
+
+  commit_date
 }
 
 .is_rstudio_deb_available <- function(rstudio_version, ubuntu_series) {
@@ -420,15 +424,16 @@ df_ubuntu_lts <- suppressWarnings(
 # RStudio versions data from the RStudio GitHub repository.
 df_rstudio <- gert::git_remote_ls(remote = "https://github.com/rstudio/rstudio.git") |>
   dplyr::filter(stringr::str_detect(ref, "^refs/tags/v")) |>
-  dplyr::transmute(
-    tag = stringr::str_remove(ref, "^refs/tags/"),
+  dplyr::mutate(
+    rstudio_version = stringr::str_extract(ref, r"(\d+\.\d+\.\d+.{0,1}\d*)"),
     commit_url = glue::glue("https://api.github.com/repos/rstudio/rstudio/commits/{oid}"),
-    rstudio_version = stringr::str_remove(tag, "^v")
+    .keep = "none"
   ) |>
-  dplyr::slice_tail(n = 5) |>
+  dplyr::slice_tail(n = 10) |>
   dplyr::rowwise() |>
   dplyr::mutate(rstudio_commit_date = .get_github_commit_date(commit_url)) |>
   dplyr::ungroup() |>
+  tidyr::drop_na() |>
   dplyr::select(
     rstudio_version,
     rstudio_commit_date
