@@ -110,7 +110,7 @@ library(gert)
   return(.url)
 }
 
-.cuda_baseimage_tag <- function(ubuntu_series, other_variants = "11.7.1-cudnn8-devel") {
+.cuda_baseimage_tag <- function(ubuntu_series, other_variants = "11.8.0-cudnn8-devel") {
   ubuntu_version <- dplyr::case_when(
     ubuntu_series == "focal" ~ "20.04",
     ubuntu_series == "jammy" ~ "22.04"
@@ -436,6 +436,9 @@ template$stack[[10]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
 template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
 ## rocker/ml
 template$stack[[10]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
+
+# Update the cuda base image
+template$stack[[9]]$FROM <- .cuda_baseimage_tag(dplyr::last(df_ubuntu_lts$ubuntu_series))
 
 jsonlite::write_json(template, "stacks/devel.json", pretty = TRUE, auto_unbox = TRUE)
 message("stacks/devel.json")

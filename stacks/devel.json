@@ -146,7 +146,7 @@
         "org.opencontainers.image.title": "rocker/cuda",
         "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image."
       },
-      "FROM": "nvidia/cuda:11.7.1-cudnn8-devel-ubuntu22.04",
+      "FROM": "nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04",
       "ENV": {
         "R_VERSION": "devel",
         "R_HOME": "/usr/local/lib/R",
