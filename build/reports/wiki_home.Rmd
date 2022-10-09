@@ -134,7 +134,7 @@ df_all |>
     R = version,
     ImageName = image_title,
     RepoTags = tags,
-    ID = stringr::str_c("[[", id, "|", report_name, "]]"),
+    ID = stringr::str_c("[", id, "](./", report_name, ")"),
     CreatedTime
   )
 ```
@@ -150,7 +150,7 @@ df_all |>
   dplyr::transmute(
     ImageName = image_title,
     RepoTags = tags,
-    ID = stringr::str_c("[[", id, "|", report_name, "]]"),
+    ID = stringr::str_c("[", id, "](./", report_name, ")"),
     CreatedTime
   )
 ```

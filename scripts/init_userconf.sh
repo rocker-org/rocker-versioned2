@@ -70,7 +70,7 @@ fi
 
 if [ "$GROUPID" -ne 1000 ]; then ## Configure the primary GID (whether rstudio or $USER) with a different GROUPID if requested.
     echo "Modifying primary group $(id "${USER}" -g -n)"
-    groupmod -g $GROUPID "$(id "${USER}" -g -n)"
+    groupmod -o -g $GROUPID "$(id "${USER}" -g -n)"
     echo "Primary group ID is now custom_group $GROUPID"
 fi
 

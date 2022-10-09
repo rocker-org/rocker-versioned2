@@ -26,6 +26,12 @@ apt_install \
     libssh2-1-dev \
     libxtst6 \
     libcurl4-openssl-dev \
+    libharfbuzz-dev \
+    libfribidi-dev \
+    libfreetype6-dev \
+    libpng-dev \
+    libtiff5-dev \
+    libjpeg-dev \
     unixodbc-dev
 
 install2.r --error --skipinstalled -n "$NCPUS" \

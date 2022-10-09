@@ -43,7 +43,7 @@ apt-get install -y --no-install-recommends \
     libblas-dev \
     libbz2-* \
     libcurl4 \
-    libicu* \
+    "libicu[0-9][0-9]" \
     liblapack-dev \
     libpcre2* \
     libjpeg-turbo* \
