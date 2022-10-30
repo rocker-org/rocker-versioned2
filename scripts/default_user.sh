@@ -9,7 +9,7 @@ else
     ## Need to configure non-root user for RStudio
     useradd -s /bin/bash -m "$DEFAULT_USER"
     echo "${DEFAULT_USER}:${DEFAULT_USER}" | chpasswd
-    addgroup "${DEFAULT_USER}" staff
+    usermod -a -G staff "${DEFAULT_USER}"
 
     ## Rocker's default RStudio settings, for better reproducibility
     mkdir -p "/home/${DEFAULT_USER}/.config/rstudio/"
