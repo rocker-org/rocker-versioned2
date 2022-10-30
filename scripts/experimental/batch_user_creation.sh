@@ -52,7 +52,7 @@ function create_user() {
         fi
         echo "${username}:${password}" | chpasswd
 
-        addgroup "${username}" staff
+        usermod -a -G staff "${username}"
 
         mkdir -p "/home/${username}/.rstudio/monitored/user-settings"
         printf "alwaysSaveHistory='0' \
