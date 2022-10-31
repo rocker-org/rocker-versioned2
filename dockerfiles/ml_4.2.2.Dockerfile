@@ -1,4 +1,4 @@
-FROM rocker/cuda:devel-cuda11.1
+FROM rocker/cuda:4.2.2
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \

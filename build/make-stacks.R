@@ -40,7 +40,7 @@ library(gert)
     purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux)) |>
     unique()
 
-  for (i in seq_len(length(urls_try))) {
+  for (i in seq_along(urls_try)) {
     .url <- urls_try[i]
     if (.is_cran_url_available(.url, r_version)) break
     .url <- NA_character_
@@ -110,7 +110,7 @@ library(gert)
   return(.url)
 }
 
-.cuda_baseimage_tag <- function(ubuntu_series, other_variants = "11.1.1-cudnn8-devel") {
+.cuda_baseimage_tag <- function(ubuntu_series, other_variants = "11.8.0-cudnn8-devel") {
   ubuntu_version <- dplyr::case_when(
     ubuntu_series == "focal" ~ "20.04",
     ubuntu_series == "jammy" ~ "22.04"
@@ -190,15 +190,12 @@ write_stack <- function(r_version,
       "geospatial",
       "shiny",
       "shiny-verse",
-      "binder",
+      "binder"
+    )))),
+    cuda11images = list(c(list(targets = c(
       "cuda",
       "ml",
       "ml-verse"
-    )))),
-    cuda11images = list(c(list(targets = c(
-      "cuda11",
-      "ml-cuda11",
-      "ml-verse-cuda11"
     ))))
   )))
 
@@ -289,23 +286,23 @@ write_stack <- function(r_version,
     r_latest
   )
 
-  # rocker/cuda:X.Y.Z-cuda10.1
-  template$stack[[9]]$FROM <- stringr::str_c("rocker/r-ver:", r_version)
+  # rocker/cuda:X.Y.Z
+  template$stack[[9]]$FROM <- .cuda_baseimage_tag(ubuntu_series)
   template$stack[[9]]$tags <- c(
     .generate_tags(
       c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda"),
       r_version,
       r_minor_latest,
       r_major_latest,
-      r_latest,
-      use_latest_tag = TRUE,
-      latest_tag = c("cuda10.1", "latest"),
-      tag_suffix = c("-cuda10.1", "")
-    ),
-    list(stringr::str_c("docker.io/rocker/r-ver:", r_version, "-cuda10.1"))
+      r_latest
+    )
   )
+  template$stack[[9]]$ENV$R_VERSION <- r_version
+  template$stack[[9]]$ENV_after_a_script$CRAN <- cran
+  template$stack[[9]]$`cache-from` <- list(stringr::str_c("docker.io/rocker/cuda:", r_version))
+  template$stack[[9]]$`cache-to` <- list("type=inline")
 
-  # rocker/ml:X.Y.Z-cuda10.1
+  # rocker/ml:X.Y.Z
   template$stack[[10]]$FROM <- stringr::str_c("rocker/cuda:", r_version)
   template$stack[[10]]$tags <- c(
     .generate_tags(
@@ -313,15 +310,12 @@ write_stack <- function(r_version,
       r_version,
       r_minor_latest,
       r_major_latest,
-      r_latest,
-      use_latest_tag = TRUE,
-      latest_tag = c("cuda10.1", "latest"),
-      tag_suffix = c("-cuda10.1", "")
+      r_latest
     )
   )
   template$stack[[10]]$ENV$RSTUDIO_VERSION <- rstudio_version
 
-  # rocker/ml-verse:X.Y.Z-cuda10.1
+  # rocker/ml-verse:X.Y.Z
   template$stack[[11]]$FROM <- stringr::str_c("rocker/ml:", r_version)
   template$stack[[11]]$tags <- c(
     .generate_tags(
@@ -329,65 +323,10 @@ write_stack <- function(r_version,
       r_version,
       r_minor_latest,
       r_major_latest,
-      r_latest,
-      use_latest_tag = TRUE,
-      latest_tag = c("cuda10.1", "latest"),
-      tag_suffix = c("-cuda10.1", "")
+      r_latest
     )
   )
   template$stack[[11]]$ENV$CTAN_REPO <- ctan_url
-
-  # rocker/cuda:X.Y.Z-cuda11.1
-  template$stack[[12]]$FROM <- .cuda_baseimage_tag(ubuntu_series)
-  template$stack[[12]]$tags <- c(
-    .generate_tags(
-      c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda"),
-      r_version,
-      r_minor_latest,
-      r_major_latest,
-      r_latest,
-      use_latest_tag = TRUE,
-      latest_tag = "cuda11.1",
-      tag_suffix = "-cuda11.1"
-    ),
-    list(stringr::str_c("docker.io/rocker/r-ver:", r_version, "-cuda11.1"))
-  )
-  template$stack[[12]]$ENV$R_VERSION <- r_version
-  template$stack[[12]]$ENV_after_a_script$CRAN <- cran
-  template$stack[[12]]$`cache-from` <- list(stringr::str_c("docker.io/rocker/cuda:", r_version, "-cuda11.1"))
-  template$stack[[12]]$`cache-to` <- list("type=inline")
-
-  # rocker/ml:X.Y.Z-cuda11.1
-  template$stack[[13]]$FROM <- stringr::str_c("rocker/cuda:", r_version, "-cuda11.1")
-  template$stack[[13]]$tags <- c(
-    .generate_tags(
-      c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml"),
-      r_version,
-      r_minor_latest,
-      r_major_latest,
-      r_latest,
-      use_latest_tag = TRUE,
-      latest_tag = "cuda11.1",
-      tag_suffix = "-cuda11.1"
-    )
-  )
-  template$stack[[13]]$ENV$RSTUDIO_VERSION <- rstudio_version
-
-  # rocker/ml-verse:X.Y.Z-cuda11.1
-  template$stack[[14]]$FROM <- stringr::str_c("rocker/ml:", r_version, "-cuda11.1")
-  template$stack[[14]]$tags <- c(
-    .generate_tags(
-      c("docker.io/rocker/ml-verse", "ghcr.io/rocker-org/ml-verse"),
-      r_version,
-      r_minor_latest,
-      r_major_latest,
-      r_latest,
-      use_latest_tag = TRUE,
-      latest_tag = "cuda11.1",
-      tag_suffix = "-cuda11.1"
-    )
-  )
-  template$stack[[14]]$ENV$CTAN_REPO <- ctan_url
 
   jsonlite::write_json(template, output_path, pretty = TRUE, auto_unbox = TRUE)
 
@@ -487,20 +426,19 @@ message("\nstart writing stack files.")
 
 # Update the template, devel.json
 template <- jsonlite::read_json("stacks/devel.json")
-# Copy S6_VERSION from rstudio to others.
-## shiny
+# Copy S6_VERSION from rocker/rstudio to others.
+## rocker/shiny
 template$stack[[6]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
-## ml
+## rocker/ml
 template$stack[[10]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
-## ml-cuda11
-template$stack[[13]]$ENV$S6_VERSION <- template$stack[[2]]$ENV$S6_VERSION
 # Update the RStudio Server Version.
-## rstudio
+## rocker/rstudio
 template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
-## ml
+## rocker/ml
 template$stack[[10]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
-## ml-cuda11
-template$stack[[13]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
+
+# Update the cuda base image
+template$stack[[9]]$FROM <- .cuda_baseimage_tag(dplyr::last(df_ubuntu_lts$ubuntu_series))
 
 jsonlite::write_json(template, "stacks/devel.json", pretty = TRUE, auto_unbox = TRUE)
 message("stacks/devel.json")
