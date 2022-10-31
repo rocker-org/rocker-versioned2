@@ -32,10 +32,10 @@ apt_install \
 # Install Shiny server
 
 if [ "$SHINY_SERVER_VERSION" = "latest" ]; then
-    SHINY_SERVER_VERSION=$(wget -qO- https://download3.rstudio.org/ubuntu-14.04/x86_64/VERSION)
+    SHINY_SERVER_VERSION=$(wget -qO- https://download3.rstudio.org/ubuntu-18.04/x86_64/VERSION)
 fi
 
-wget --no-verbose "https://download3.rstudio.org/ubuntu-14.04/x86_64/shiny-server-${SHINY_SERVER_VERSION}-amd64.deb" -O ss-latest.deb
+wget --no-verbose "https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-${SHINY_SERVER_VERSION}-amd64.deb" -O ss-latest.deb
 gdebi -n ss-latest.deb
 rm ss-latest.deb
 
