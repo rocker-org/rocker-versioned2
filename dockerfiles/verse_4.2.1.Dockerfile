@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV CTAN_REPO=https://mirror.ctan.org/systems/texlive/tlnet
+ENV CTAN_REPO=https://www.texlive.info/tlnet-archive/2022/10/30/tlnet
 ENV PATH=$PATH:/usr/local/texlive/bin/linux
 
 RUN /rocker_scripts/install_verse.sh
