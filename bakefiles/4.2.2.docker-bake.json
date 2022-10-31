@@ -11,19 +11,16 @@
             "geospatial",
             "shiny",
             "shiny-verse",
-            "binder",
-            "cuda",
-            "ml",
-            "ml-verse"
+            "binder"
           ]
         }
       ],
       "cuda11images": [
         {
           "targets": [
-            "cuda11",
-            "ml-cuda11",
-            "ml-verse-cuda11"
+            "cuda",
+            "ml",
+            "ml-verse"
           ]
         }
       ]
@@ -269,33 +266,24 @@
       "labels": {
         "org.opencontainers.image.title": "rocker/cuda",
         "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.2.2",
+        "org.opencontainers.image.base.name": "docker.io/nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04",
         "org.opencontainers.image.version": "R-4.2.2"
       },
       "tags": [
-        "docker.io/rocker/cuda:4.2.2-cuda10.1",
-        "ghcr.io/rocker-org/cuda:4.2.2-cuda10.1",
         "docker.io/rocker/cuda:4.2.2",
         "ghcr.io/rocker-org/cuda:4.2.2",
-        "docker.io/rocker/cuda:4.2-cuda10.1",
-        "ghcr.io/rocker-org/cuda:4.2-cuda10.1",
         "docker.io/rocker/cuda:4.2",
         "ghcr.io/rocker-org/cuda:4.2",
-        "docker.io/rocker/cuda:4-cuda10.1",
-        "ghcr.io/rocker-org/cuda:4-cuda10.1",
         "docker.io/rocker/cuda:4",
         "ghcr.io/rocker-org/cuda:4",
-        "docker.io/rocker/cuda:cuda10.1",
-        "ghcr.io/rocker-org/cuda:cuda10.1",
         "docker.io/rocker/cuda:latest",
-        "ghcr.io/rocker-org/cuda:latest",
-        "docker.io/rocker/r-ver:4.2.2-cuda10.1"
+        "ghcr.io/rocker-org/cuda:latest"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/cuda:4.2.2-cuda10.1"
+        "docker.io/rocker/cuda:4.2.2"
       ],
       "cache-to": [
         "type=inline"
@@ -311,20 +299,12 @@
         "org.opencontainers.image.version": "R-4.2.2"
       },
       "tags": [
-        "docker.io/rocker/ml:4.2.2-cuda10.1",
-        "ghcr.io/rocker-org/ml:4.2.2-cuda10.1",
         "docker.io/rocker/ml:4.2.2",
         "ghcr.io/rocker-org/ml:4.2.2",
-        "docker.io/rocker/ml:4.2-cuda10.1",
-        "ghcr.io/rocker-org/ml:4.2-cuda10.1",
         "docker.io/rocker/ml:4.2",
         "ghcr.io/rocker-org/ml:4.2",
-        "docker.io/rocker/ml:4-cuda10.1",
-        "ghcr.io/rocker-org/ml:4-cuda10.1",
         "docker.io/rocker/ml:4",
         "ghcr.io/rocker-org/ml:4",
-        "docker.io/rocker/ml:cuda10.1",
-        "ghcr.io/rocker-org/ml:cuda10.1",
         "docker.io/rocker/ml:latest",
         "ghcr.io/rocker-org/ml:latest"
       ],
@@ -332,7 +312,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/ml:4.2.2-cuda10.1"
+        "docker.io/rocker/ml:4.2.2"
       ],
       "cache-to": [
         "type=inline"
@@ -348,20 +328,12 @@
         "org.opencontainers.image.version": "R-4.2.2"
       },
       "tags": [
-        "docker.io/rocker/ml-verse:4.2.2-cuda10.1",
-        "ghcr.io/rocker-org/ml-verse:4.2.2-cuda10.1",
         "docker.io/rocker/ml-verse:4.2.2",
         "ghcr.io/rocker-org/ml-verse:4.2.2",
-        "docker.io/rocker/ml-verse:4.2-cuda10.1",
-        "ghcr.io/rocker-org/ml-verse:4.2-cuda10.1",
         "docker.io/rocker/ml-verse:4.2",
         "ghcr.io/rocker-org/ml-verse:4.2",
-        "docker.io/rocker/ml-verse:4-cuda10.1",
-        "ghcr.io/rocker-org/ml-verse:4-cuda10.1",
         "docker.io/rocker/ml-verse:4",
         "ghcr.io/rocker-org/ml-verse:4",
-        "docker.io/rocker/ml-verse:cuda10.1",
-        "ghcr.io/rocker-org/ml-verse:cuda10.1",
         "docker.io/rocker/ml-verse:latest",
         "ghcr.io/rocker-org/ml-verse:latest"
       ],
@@ -369,95 +341,7 @@
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/ml-verse:4.2.2-cuda10.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "cuda11": {
-      "context": "./",
-      "dockerfile": "dockerfiles/cuda11_4.2.2.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/cuda (CUDA 11)",
-        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/nvidia/cuda:11.1.1-cudnn8-devel-ubuntu22.04",
-        "org.opencontainers.image.version": "R-4.2.2"
-      },
-      "tags": [
-        "docker.io/rocker/cuda:4.2.2-cuda11.1",
-        "ghcr.io/rocker-org/cuda:4.2.2-cuda11.1",
-        "docker.io/rocker/cuda:4.2-cuda11.1",
-        "ghcr.io/rocker-org/cuda:4.2-cuda11.1",
-        "docker.io/rocker/cuda:4-cuda11.1",
-        "ghcr.io/rocker-org/cuda:4-cuda11.1",
-        "docker.io/rocker/cuda:cuda11.1",
-        "ghcr.io/rocker-org/cuda:cuda11.1",
-        "docker.io/rocker/r-ver:4.2.2-cuda11.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/cuda:4.2.2-cuda11.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "ml-cuda11": {
-      "context": "./",
-      "dockerfile": "dockerfiles/ml-cuda11_4.2.2.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml (CUDA 11)",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/cuda:4.2.2-cuda11.1",
-        "org.opencontainers.image.version": "R-4.2.2"
-      },
-      "tags": [
-        "docker.io/rocker/ml:4.2.2-cuda11.1",
-        "ghcr.io/rocker-org/ml:4.2.2-cuda11.1",
-        "docker.io/rocker/ml:4.2-cuda11.1",
-        "ghcr.io/rocker-org/ml:4.2-cuda11.1",
-        "docker.io/rocker/ml:4-cuda11.1",
-        "ghcr.io/rocker-org/ml:4-cuda11.1",
-        "docker.io/rocker/ml:cuda11.1",
-        "ghcr.io/rocker-org/ml:cuda11.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/ml:4.2.2-cuda11.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "ml-verse-cuda11": {
-      "context": "./",
-      "dockerfile": "dockerfiles/ml-verse-cuda11_4.2.2.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml-verse (CUDA 11)",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/ml:4.2.2-cuda11.1",
-        "org.opencontainers.image.version": "R-4.2.2"
-      },
-      "tags": [
-        "docker.io/rocker/ml-verse:4.2.2-cuda11.1",
-        "ghcr.io/rocker-org/ml-verse:4.2.2-cuda11.1",
-        "docker.io/rocker/ml-verse:4.2-cuda11.1",
-        "ghcr.io/rocker-org/ml-verse:4.2-cuda11.1",
-        "docker.io/rocker/ml-verse:4-cuda11.1",
-        "ghcr.io/rocker-org/ml-verse:4-cuda11.1",
-        "docker.io/rocker/ml-verse:cuda11.1",
-        "ghcr.io/rocker-org/ml-verse:cuda11.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/ml-verse:4.2.2-cuda11.1"
+        "docker.io/rocker/ml-verse:4.2.2"
       ],
       "cache-to": [
         "type=inline"
