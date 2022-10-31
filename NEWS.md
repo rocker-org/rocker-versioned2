@@ -1,5 +1,14 @@
 # News
 
+## 2022-10
+
+### Changes in pre-built images
+
+- cuda version tags, like `rocker/cuda:cuda10.1`, `rocker/cuda:4.2.1-cuda10.1` are obsolete for R 4.2.2 or later images.
+  Only the R version tags like `rocker/cuda:4.2.2`, `rocker/cuda:latest` will remain.
+- The aliases of `rocker/cuda` which was pushed to `rocker/r-ver`
+  (`rocker/r-ver:X.Y.Z-cuda10.1` and `rocker/r-ver:X.Y.Z-cuda11.1`) are obsolete.
+
 ## 2022-09
 
 ### Changes in pre-built images
