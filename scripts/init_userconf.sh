@@ -12,7 +12,7 @@ LANG=${LANG:=en_US.UTF-8}
 TZ=${TZ:=Etc/UTC}
 
 if [[ ${DISABLE_AUTH,,} == "true" ]]; then
-    mv /etc/rstudio/disable_auth_rserver.conf /etc/rstudio/rserver.conf
+    cp /etc/rstudio/disable_auth_rserver.conf /etc/rstudio/rserver.conf
     echo "USER=$USER" >>/etc/environment
 fi
 
