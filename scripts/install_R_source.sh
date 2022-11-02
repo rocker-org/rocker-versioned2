@@ -53,6 +53,7 @@ apt-get install -y --no-install-recommends \
     libtiff* \
     liblzma* \
     make \
+    tzdata \
     unzip \
     zip \
     zlib1g
