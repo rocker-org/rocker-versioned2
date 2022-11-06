@@ -34,7 +34,6 @@ fi
 apt-get install -y --no-install-recommends \
     bash-completion \
     ca-certificates \
-    devscripts \
     file \
     fonts-texgyre \
     g++ \
@@ -60,6 +59,7 @@ apt-get install -y --no-install-recommends \
 
 BUILDDEPS="curl \
     default-jdk \
+    devscripts \
     libbz2-dev \
     libcairo2-dev \
     libcurl4-openssl-dev \
@@ -150,6 +150,10 @@ cd ..
 rm -rf /tmp/*
 rm -rf R-*/
 rm -rf "R.tar.gz"
+
+## Copy the checkbashisms script to local before remove devscripts package.
+## https://github.com/rocker-org/rocker-versioned2/issues/510
+cp /usr/bin/checkbashisms /usr/local/bin/checkbashisms
 
 # shellcheck disable=SC2086
 apt-get remove --purge -y ${BUILDDEPS}
