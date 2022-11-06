@@ -10,6 +10,9 @@ set -e
 RSTUDIO_VERSION=${1:-${RSTUDIO_VERSION:-"stable"}}
 DEFAULT_USER=${DEFAULT_USER:-"rstudio"}
 
+# shellcheck source=/dev/null
+source /etc/os-release
+
 # a function to install apt packages only if they are not installed
 function apt_install() {
     if ! dpkg -s "$@" >/dev/null 2>&1; then
@@ -22,7 +25,6 @@ function apt_install() {
 
 apt_install \
     ca-certificates \
-    lsb-release \
     file \
     git \
     libapparmor1 \
@@ -32,7 +34,6 @@ apt_install \
     libobjc4 \
     libssl-dev \
     libpq5 \
-    lsb-release \
     psmisc \
     procps \
     python-setuptools \
@@ -41,7 +42,6 @@ apt_install \
     wget
 
 ARCH=$(dpkg --print-architecture)
-UBUNTU_VERSION=$(lsb_release -sc)
 
 # install s6 supervisor
 /rocker_scripts/install_s6init.sh
@@ -53,15 +53,15 @@ if [ "$RSTUDIO_VERSION" = "latest" ]; then
     RSTUDIO_VERSION="stable"
 fi
 
-if [ "$UBUNTU_VERSION" = "focal" ]; then
-    UBUNTU_VERSION="bionic"
+if [ "$UBUNTU_CODENAME" = "focal" ]; then
+    UBUNTU_CODENAME="bionic"
 fi
 
 if [ "$RSTUDIO_VERSION" = "stable" ] || [ "$RSTUDIO_VERSION" = "preview" ] || [ "$RSTUDIO_VERSION" = "daily" ]; then
-    wget "https://rstudio.org/download/latest/${RSTUDIO_VERSION}/server/${UBUNTU_VERSION}/rstudio-server-latest-${ARCH}.deb" -O "$DOWNLOAD_FILE"
+    wget "https://rstudio.org/download/latest/${RSTUDIO_VERSION}/server/${UBUNTU_CODENAME}/rstudio-server-latest-${ARCH}.deb" -O "$DOWNLOAD_FILE"
 else
-    wget "https://download2.rstudio.org/server/${UBUNTU_VERSION}/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE" ||
-        wget "https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_VERSION}/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE"
+    wget "https://download2.rstudio.org/server/${UBUNTU_CODENAME}/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE" ||
+        wget "https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_CODENAME}/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE"
 fi
 
 dpkg -i "$DOWNLOAD_FILE"

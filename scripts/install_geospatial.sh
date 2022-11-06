@@ -36,7 +36,6 @@ apt_install \
     libsqlite3-dev \
     libssl-dev \
     libudunits2-dev \
-    lsb-release \
     netcdf-bin \
     postgis \
     protobuf-compiler \

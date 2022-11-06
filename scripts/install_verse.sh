@@ -4,6 +4,9 @@ set -e
 ## build ARGs
 NCPUS=${NCPUS:--1}
 
+# shellcheck source=/dev/null
+source /etc/os-release
+
 # always set this for scripts but don't declare as ENV..
 export DEBIAN_FRONTEND=noninteractive
 
@@ -41,7 +44,6 @@ apt_install \
     libxml2-dev \
     libxslt1-dev \
     libzmq3-dev \
-    lsb-release \
     qpdf \
     texinfo \
     software-properties-common \
@@ -50,8 +52,7 @@ apt_install \
 
 # libgit2-dev also depends on the libcurl4-gnutils in bionic but not on focal
 # cran PPA is a super-stable solution to this
-UBUNTU_VERSION=$(lsb_release -sc)
-if [ "${UBUNTU_VERSION}" == "bionic" ]; then
+if [ "${UBUNTU_CODENAME}" == "bionic" ]; then
     add-apt-repository -y ppa:cran/travis
 fi
 

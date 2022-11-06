@@ -12,22 +12,23 @@ set -e
 
 R_VERSION=${1:-${R_VERSION:-"latest"}}
 
+# shellcheck source=/dev/null
+source /etc/os-release
+
 apt-get update
-apt-get -y install locales lsb-release
+apt-get -y install locales
 
 ## Configure default locale
 LANG=${LANG:-"en_US.UTF-8"}
 /usr/sbin/locale-gen --lang "${LANG}"
 /usr/sbin/update-locale --reset LANG="${LANG}"
 
-UBUNTU_VERSION=$(lsb_release -sc)
-
 export DEBIAN_FRONTEND=noninteractive
 
 R_HOME=${R_HOME:-"/usr/local/lib/R"}
 
 READLINE_VERSION=8
-if [ "${UBUNTU_VERSION}" == "bionic" ]; then
+if [ "${UBUNTU_CODENAME}" == "bionic" ]; then
     READLINE_VERSION=7
 fi
 
