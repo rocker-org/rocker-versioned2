@@ -1,5 +1,12 @@
 # News
 
+## 2022-11
+
+### Changes in pre-built images
+
+- `lsb-release` and `python3` (a dependency of `lsb-release`), are no longer included in `rocker/r-ver`.
+  ([#511](https://github.com/rocker-org/rocker-versioned2/pull/511))
+
 ## 2022-10
 
 ### Changes in pre-built images
