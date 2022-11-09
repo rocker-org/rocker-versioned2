@@ -13,6 +13,9 @@ CRAN=${1:-${CRAN:-"https://cran.r-project.org"}}
 
 ARCH=$(uname -m)
 
+# shellcheck source=/dev/null
+source /etc/os-release
+
 # a function to install apt packages only if they are not installed
 function apt_install() {
     if ! dpkg -s "$@" >/dev/null 2>&1; then
@@ -23,11 +26,8 @@ function apt_install() {
     fi
 }
 
-apt_install lsb-release
-
 ##  mechanism to force source installs if we're using RSPM
-UBUNTU_VERSION=$(lsb_release -sc)
-CRAN_SOURCE=${CRAN/"__linux__/$UBUNTU_VERSION/"/""}
+CRAN_SOURCE=${CRAN/"__linux__/${UBUNTU_CODENAME}/"/""}
 
 ## source install if using RSPM and arm64 image
 if [ "$ARCH" = "aarch64" ]; then
