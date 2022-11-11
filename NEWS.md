@@ -14,8 +14,8 @@
 - cuda version tags, like `rocker/cuda:cuda10.1`, `rocker/ml:4.2.1-cuda10.1` are obsolete for R 4.2.2 or later images.
   Only the R version tags like `rocker/cuda:4.2.2`, `rocker/ml-verse:latest` will remain.
   `rocker/cuda` R >= 4.2.2 corresponds to `rocker/cuda:cuda11.1` before R.4.2.1 and
-  uses `nvidia/cuda` as the base image.
-  Therefore, the image size is significantly different from `rocker/cuda` R <= 4.2.1,
+  uses `nvidia/cuda:X.Y.Z-cudnn8-devel-ubuntu22.04` as the base image.
+  Therefore, the image size is significantly larger (+6GB) from `rocker/cuda` R <= 4.2.1,
   which installed cuda on `rocker/r-ver` (based on `ubuntu:focal`).
   ([#516](https://github.com/rocker-org/rocker-versioned2/pull/516))
 - The aliases of `rocker/cuda` which was pushed to `rocker/r-ver`
