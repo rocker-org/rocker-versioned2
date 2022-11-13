@@ -71,7 +71,7 @@ LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 if [ "$GEOS_VERSION" = "latest" ]; then
     GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
 fi
-wget -q http://download.osgeo.org/geos/geos-${GEOS_VERSION}.tar.bz2
+wget -q http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
 bzip2 -d geos-*bz2
 tar xf geos*tar
 cd geos*
@@ -82,6 +82,7 @@ make
 make install
 cd ../..
 ldconfig
+rm geos*tar
 
 # install proj
 # https://download.osgeo.org/proj/
@@ -102,6 +103,7 @@ make
 make install
 cd ../..
 ldconfig
+rm proj*tar
 
 # install gdal
 # https://download.osgeo.org/gdal/
@@ -120,6 +122,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 make install
 ldconfig
+rm gdal*tar
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     sp \
