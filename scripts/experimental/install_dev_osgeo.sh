@@ -74,6 +74,7 @@ fi
 wget -q http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
 bzip2 -d geos-*bz2
 tar xf geos*tar
+rm geos*tar
 cd geos*
 mkdir build
 cd build
@@ -82,7 +83,6 @@ make
 make install
 cd ../..
 ldconfig
-rm geos*tar
 
 # install proj
 # https://download.osgeo.org/proj/
@@ -103,7 +103,6 @@ make
 make install
 cd ../..
 ldconfig
-rm proj*tar
 
 # install gdal
 # https://download.osgeo.org/gdal/
@@ -115,6 +114,7 @@ fi
 
 wget "$GDAL_DL_URL" -O gdal.tar.gz
 tar -xf gdal.tar.gz
+rm gdal*tar
 cd gdal*
 mkdir build
 cd ./build
@@ -122,7 +122,6 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 make install
 ldconfig
-rm gdal*tar
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     sp \
