@@ -15,4 +15,4 @@ jobs:
           fetch-depth: 0
       - name: build
         run: bash scripts/experimental/install_dev_osgeo.sh
-  
+
