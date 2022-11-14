@@ -26,7 +26,7 @@ function apt_install() {
 }
 
 function url_latest_gh_released_asset() {
-    wget -qO- "https://api.github.com/repos/$1/releases/latest" | grep -oP "(?<=\"browser_download_url\":\s\")https.*\.tar.gz(?=\")"
+    wget -qO- "https://api.github.com/repos/$1/releases/latest" | grep -oP "(?<=\"browser_download_url\":\s\")https.*\.tar.gz(?=\")" | grep -v "test"
 }
 
 export DEBIAN_FRONTEND=noninteractive
