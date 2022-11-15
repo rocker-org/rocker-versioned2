@@ -26,7 +26,7 @@ function apt_install() {
 }
 
 function url_latest_gh_released_asset() {
-    wget -qO- "https://api.github.com/repos/$1/releases/latest" | grep -oP "(?<=\"browser_download_url\":\s\")https.*\.tar.gz(?=\")"
+    wget -qO- "https://api.github.com/repos/$1/releases/latest" | grep -oP "(?<=\"browser_download_url\":\s\")https.*\.tar.gz(?=\")" | head -n 1
 }
 
 export DEBIAN_FRONTEND=noninteractive
@@ -72,15 +72,17 @@ if [ "$GEOS_VERSION" = "latest" ]; then
     GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
 fi
 
-wget http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
+wget https://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
 bzip2 -d geos-*bz2
 tar xf geos*tar
 rm geos*tar
 cd geos*
-./configure
+mkdir build
+cd build
+cmake ..
 make
 make install
-cd ..
+cd ../..
 ldconfig
 
 # install proj
@@ -88,7 +90,7 @@ ldconfig
 if [ "$PROJ_VERSION" = "latest" ]; then
     PROJ_DL_URL=$(url_latest_gh_released_asset "OSGeo/PROJ")
 else
-    PROJ_DL_URL="http://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz"
+    PROJ_DL_URL="https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz"
 fi
 
 wget "$PROJ_DL_URL" -O proj.tar.gz
@@ -113,12 +115,13 @@ fi
 
 wget "$GDAL_DL_URL" -O gdal.tar.gz
 tar -xf gdal.tar.gz
-rm gdal.tar.gz
+rm gdal*tar.gz
 cd gdal*
-./configure
+mkdir build
+cd ./build
+cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 make install
-cd ..
 ldconfig
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \

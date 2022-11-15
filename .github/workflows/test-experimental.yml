@@ -1,0 +1,24 @@
+name: test for experimental scripts
+
+on:
+  pull_request:
+    paths:
+      - scripts/experimental/install_dev_osgeo.sh
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: rocker/r-ver
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: build
+        run: ./scripts/experimental/install_dev_osgeo.sh
