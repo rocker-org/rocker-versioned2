@@ -71,7 +71,8 @@ LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 if [ "$GEOS_VERSION" = "latest" ]; then
     GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
 fi
-wget -q http://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
+
+wget https://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
 bzip2 -d geos-*bz2
 tar xf geos*tar
 rm geos*tar
@@ -89,7 +90,7 @@ ldconfig
 if [ "$PROJ_VERSION" = "latest" ]; then
     PROJ_DL_URL=$(url_latest_gh_released_asset "OSGeo/PROJ")
 else
-    PROJ_DL_URL="http://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz"
+    PROJ_DL_URL="https://download.osgeo.org/proj/proj-${PROJ_VERSION}.tar.gz"
 fi
 
 wget "$PROJ_DL_URL" -O proj.tar.gz
