@@ -37,7 +37,8 @@
       },
       "COPY": "scripts /rocker_scripts",
       "RUN": "/rocker_scripts/setup_R.sh",
-      "CMD": "[\"R\"]"
+      "CMD": "[\"R\"]",
+      "WORKDIR": "/home/rstudio"
     },
     {
       "IMAGE": "rstudio",
@@ -59,6 +60,7 @@
         "/rocker_scripts/install_quarto.sh"
       ],
       "CMD": "[\"/init\"]",
+      "WORKDIR": "/home/rstudio",
       "EXPOSE": 8787
     },
     {
@@ -68,7 +70,8 @@
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages."
       },
       "FROM": "rocker/rstudio:devel",
-      "RUN": "/rocker_scripts/install_tidyverse.sh"
+      "RUN": "/rocker_scripts/install_tidyverse.sh",
+      "WORKDIR": "/home/rstudio"
     },
     {
       "IMAGE": "verse",
@@ -83,7 +86,8 @@
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh"
-      ]
+      ],
+      "WORKDIR": "/home/rstudio"
     },
     {
       "IMAGE": "geospatial",
@@ -92,7 +96,8 @@
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image."
       },
       "FROM": "rocker/verse:devel",
-      "RUN": "/rocker_scripts/install_geospatial.sh"
+      "RUN": "/rocker_scripts/install_geospatial.sh",
+      "WORKDIR": "/home/rstudio"
     },
     {
       "IMAGE": "shiny",
@@ -108,7 +113,8 @@
       },
       "RUN": "/rocker_scripts/install_shiny_server.sh",
       "CMD": "[\"/init\"]",
-      "EXPOSE": 3838
+      "EXPOSE": 3838,
+      "WORKDIR": "/home/rstudio"
     },
     {
       "IMAGE": "shiny-verse",
@@ -117,7 +123,8 @@
         "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image."
       },
       "FROM": "rocker/shiny:devel",
-      "RUN": "/rocker_scripts/install_tidyverse.sh"
+      "RUN": "/rocker_scripts/install_tidyverse.sh",
+      "WORKDIR": "/home/rstudio"
     },
     {
       "IMAGE": "binder",
@@ -167,7 +174,8 @@
         "/rocker_scripts/setup_R.sh",
         "/rocker_scripts/config_R_cuda.sh",
         "/rocker_scripts/install_python.sh"
-      ]
+      ],
+      "WORKDIR": "/home/rstudio"
     },
     {
       "IMAGE": "ml",
@@ -193,6 +201,7 @@
         "/rocker_scripts/install_tidyverse.sh"
       ],
       "CMD": "[\"/init\"]",
+      "WORKDIR": "/home/rstudio",
       "EXPOSE": 8787
     },
     {
@@ -211,7 +220,8 @@
       "RUN": [
         "/rocker_scripts/install_verse.sh",
         "/rocker_scripts/install_geospatial.sh"
-      ]
+      ],
+      "WORKDIR": "/home/rstudio"
     }
   ]
 }
