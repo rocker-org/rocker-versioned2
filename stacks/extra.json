@@ -57,7 +57,7 @@
       },
       "FROM": "rocker/verse:4.2.2",
       "ENV": {
-        "PROJ_VERSION": "9.1.0",
+        "PROJ_VERSION": "9.1.1",
         "GDAL_VERSION": "3.6.0",
         "GEOS_VERSION": "3.11.1"
       },
