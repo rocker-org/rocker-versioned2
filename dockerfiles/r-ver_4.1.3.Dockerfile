@@ -13,7 +13,7 @@ COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 
 RUN /rocker_scripts/install_R_source.sh
 
-ENV CRAN=https://packagemanager.rstudio.com/cran/__linux__/focal/2022-04-21
+ENV CRAN=https://packagemanager.posit.co/cran/__linux__/focal/2022-04-21
 ENV LANG=en_US.UTF-8
 
 COPY scripts /rocker_scripts

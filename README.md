@@ -30,7 +30,8 @@ Compared to `r-base`, this stack:
   (the `r-base` stack gets the latest R version as a binary from Debian unstable).
 - The only platforms available are `linux/amd64` and `linux/arm64`
   (arm64 images are experimental and only available for `rocker/r-ver` 4.1.0 or later).
-- Set [the RStudio Public Package Manager (RSPM)](https://packagemanager.rstudio.com) as default CRAN mirror.
+- Set [the Posit Public Package Manager (RStudio Package Manager, RSPM)](https://packagemanager.posit.co)
+  as default CRAN mirror.
   For the amd64 platform, RSPM serves compiled Linux binaries of R packages and greatly speeds up package installs.
 - Non-latest R version images installs all R packages from a fixed snapshot of CRAN mirror at a given date.
   This setting ensures that the same version of the R package is installed no matter when the installation is performed.
