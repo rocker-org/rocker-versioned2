@@ -1,5 +1,12 @@
 # News
 
+## 2022-12
+
+### Changes in pre-built images
+
+- Switch the base URL of CRAN mirrors (RSPM) from `https://packagemanager.rstudio.com/cran`
+  to `https://packagemanager.posit.co/cran` ([#574](https://github.com/rocker-org/rocker-versioned2/pull/574))
+
 ## 2022-11
 
 ### Changes in pre-built images
