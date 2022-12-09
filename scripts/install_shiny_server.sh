@@ -19,6 +19,7 @@ function apt_install() {
 apt_install \
     sudo \
     gdebi-core \
+    lsb-release \
     libcurl4-openssl-dev \
     libcairo2-dev \
     libxt-dev \
