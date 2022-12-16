@@ -136,20 +136,30 @@ if (!is.null(df_digest)) {
 ## Installed packages
 
 ```{r package_data}
-df_apt <- readr::read_tsv(params$apt_file, col_names = FALSE) |>
+df_apt <- params$apt_file |>
+  readr::read_lines() |>
+  stringr::str_subset(r"(\t)") |>
+  I() |>
+  read_tsv(col_names = FALSE) |>
   dplyr::select(
     package = X1,
     version = X2
   )
 
-df_r <- readr::read_table(params$r_file, skip = 1, col_names = FALSE) |>
+df_r <- params$r_file |>
+  readr::read_lines() |>
+  I() |>
+  (\(x) readr::read_table(x, col_names = FALSE, skip = stringr::str_which(x, "installed.packages()")[1]))() |>
   dplyr::select(
     package = X1,
     version = X2
   )
 
 df_pip <- tryCatch(
-  readr::read_table(params$pip_file, skip = 2, col_names = FALSE) |>
+  params$pip_file |>
+    readr::read_lines() |>
+    I() |>
+    (\(x) readr::read_table(x, col_names = FALSE, skip = stringr::str_which(x, r"(Package\s+Version)")[1] + 1))() |>
     dplyr::select(
       package = X1,
       version = X2
