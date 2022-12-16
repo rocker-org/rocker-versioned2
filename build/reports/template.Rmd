@@ -125,7 +125,10 @@ df_digest <- tryCatch(
 )
 
 if (!is.null(df_digest)) {
-  cat("### Platforms \n\n This image was created by a multi-architecture build. The digests for each platform are as follows.")
+  cat(
+    "### Platforms\n\n",
+    "This image was created by a multi-architecture build. The digests for each platform are as follows."
+  )
 
   df_digest |>
     dplyr::mutate(RepoDigests = paste0("`", RepoDigests, "`")) |>
