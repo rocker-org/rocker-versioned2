@@ -32,10 +32,12 @@ cd grib2
 
 ## really someone needs to learn proper packaging conventions, but whatever
 CC=gcc FC=gfortran make
-ln -s /opt/grib2/wgrib2/wgrib2 /usr/local/bin/wgrib2
+cp /opt/grib2/wgrib2/wgrib2 /usr/local/bin/wgrib2
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
+rm -rf /opt/grib2 
+
 
 ## Strip binary installed lybraries from RSPM
 ## https://github.com/rocker-org/rocker-versioned2/issues/340
