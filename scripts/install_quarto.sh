@@ -18,6 +18,13 @@ QUARTO_VERSION=${1:-${QUARTO_VERSION:-"default"}}
 # Only amd64 build can be installed now
 ARCH=$(dpkg --print-architecture)
 
+# workaround for arm64 RStudio Daily build without quarto cli
+RSTUDIO_VERSION=${RSTUDIO_VERSION:-"stable"}
+if [ "${ARCH}" = "arm64" ] && [ "${RSTUDIO_VERSION}" = "daily" ]; then
+    echo "Skip installation of quarto cli..."
+    exit 0
+fi
+
 # a function to install apt packages only if they are not installed
 function apt_install() {
     if ! dpkg -s "$@" >/dev/null 2>&1; then
