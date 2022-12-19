@@ -32,7 +32,7 @@ cd grib2
 
 ## really someone needs to learn proper packaging conventions, but whatever
 CC=gcc FC=gfortran make
-cp /opt/grib2/wgrib2/wgrib2 /usr/local/bin/wgrib2
+mv /opt/grib2/wgrib2/wgrib2 /usr/local/bin/wgrib2
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
