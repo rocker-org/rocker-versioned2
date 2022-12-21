@@ -59,7 +59,7 @@ IMAGE_FILTER ?= label=org.opencontainers.image.source=$(IMAGE_SOURCE)
 inspect-image/%:
 	mkdir -p $(REPORT_SOURCE_ROOT)/$*
 	-docker image inspect $* > $(REPORT_SOURCE_ROOT)/$*/docker_inspect.json
-	-docker run --rm $* dpkg-query --show --showformat='$${Package}\t$${Version}\n' > $(REPORT_SOURCE_ROOT)/$*/apt_packages.tsv
+	-docker run --rm $* dpkg-query --show --showformat='$${Package}\t$${Version}\t$${Status}\n' > $(REPORT_SOURCE_ROOT)/$*/apt_packages.tsv
 	-docker run --rm $* Rscript -e 'as.data.frame(installed.packages()[, 3])' > $(REPORT_SOURCE_ROOT)/$*/r_packages.ssv
 	-docker run --rm $* python3 -m pip list --disable-pip-version-check > $(REPORT_SOURCE_ROOT)/$*/pip_packages.ssv
 inspect-manifest/%: inspect-image/%

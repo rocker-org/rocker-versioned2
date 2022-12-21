@@ -144,6 +144,7 @@ df_apt <- params$apt_file |>
   stringr::str_subset(r"(\t)") |>
   I() |>
   read_tsv(col_names = FALSE) |>
+  dplyr::filter(X3 == "install ok installed") |>
   dplyr::select(
     package = X1,
     version = X2
