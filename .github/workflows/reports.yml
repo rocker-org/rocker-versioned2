@@ -6,6 +6,11 @@ on:
       - "master"
     paths:
       - "build/reports/*.Rmd"
+  pull_request:
+    branches:
+      - "master"
+    paths:
+      - "build/reports/*.Rmd"
   workflow_run:
     workflows:
       - "Build & Push Core images"
@@ -30,7 +35,7 @@ jobs:
       - id: set-matrix
         run: |
           CONTENT=$(jq -r '.r_version += ["extra"] | tostring' build/matrix/all.json)
-          echo ::set-output name=matrix::"${CONTENT}"
+          echo "matrix=${CONTENT}" >> "$GITHUB_OUTPUT"
           echo "${CONTENT}"
 
   inspect:
@@ -71,6 +76,7 @@ jobs:
       - name: Set as safe for following git commands
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Checkout wiki
+        if: github.event_name != 'pull_request'
         uses: actions/checkout@v3
         with:
           repository: "${{ github.repository }}.wiki"
@@ -87,7 +93,14 @@ jobs:
         run: |
           make --jobs=2 report-all
           make --always-make wiki-home
+      - name: Upload artifacts
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v3
+        with:
+          name: reports
+          path: reports
       - name: Update wiki
+        if: github.event_name != 'pull_request'
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Automated update
