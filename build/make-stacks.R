@@ -450,6 +450,7 @@ latest_daily <- jsonlite::read_json("stacks/core-latest-daily.json")
 latest_daily$stack <- template$stack[2:4]
 latest_daily$stack[[1]]$FROM <- "rocker/r-ver:latest"
 latest_daily$stack[[1]]$ENV$RSTUDIO_VERSION <- "daily"
+latest_daily$stack[[1]]$platforms <- list("linux/amd64", "linux/arm64")
 latest_daily$stack[[2]]$FROM <- "rocker/rstudio:latest-daily"
 latest_daily$stack[[3]]$FROM <- "rocker/tidyverse:latest-daily"
 

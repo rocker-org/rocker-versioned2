@@ -36,7 +36,11 @@
         "/rocker_scripts/install_quarto.sh"
       ],
       "CMD": "[\"/init\"]",
-      "EXPOSE": 8787
+      "EXPOSE": 8787,
+      "platforms": [
+        "linux/amd64",
+        "linux/arm64"
+      ]
     },
     {
       "IMAGE": "tidyverse",
