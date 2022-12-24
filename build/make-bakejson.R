@@ -5,6 +5,7 @@ library(dplyr, warn.conflicts = FALSE)
 library(tibble)
 library(purrr, warn.conflicts = FALSE)
 library(stringr)
+library(rlang, warn.conflicts = FALSE)
 
 
 .image_full_name <- function(image_name) {
@@ -20,11 +21,11 @@ library(stringr)
 }
 
 
-.version_or_null <- function(tag) {
+.version_or_zap <- function(tag) {
   if (stringr::str_detect(tag, r"(^\d+\.\d+\.\d+$)")) {
-    return(stringr::str_c("R-", tag))
+    stringr::str_c("R-", tag)
   } else {
-    return(NULL)
+    rlang::zap()
   }
 }
 
@@ -55,7 +56,7 @@ library(stringr)
       labels = list(purrr::list_modify(
         labels,
         org.opencontainers.image.base.name = .image_full_name(base_image),
-        org.opencontainers.image.version = .version_or_null(stack_tag)
+        org.opencontainers.image.version = .version_or_zap(stack_tag)
       )),
       `cache-from` = list(if (is.null(`cache-from`)) tags[1] else `cache-from`)
     ) |>
