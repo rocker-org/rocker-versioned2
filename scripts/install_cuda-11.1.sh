@@ -72,5 +72,8 @@ apt_install \
     libcusparse-dev-11-1=11.3.0.10-1
 apt-mark hold libnccl-dev
 
+apt_install libnvinfer-dev libnvinfer-plugin-dev
+cd /usr/lib/x86_64-linux-gnu && ln -s libnvinfer_plugin.so.8 libnvinfer_plugin.so.7 && ln -s libnvinfer.so.8 libnvinfer.so.7
+
 # Clean up
 rm -rf /var/lib/apt/lists/*
