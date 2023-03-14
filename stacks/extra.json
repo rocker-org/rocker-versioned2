@@ -58,7 +58,7 @@
       "FROM": "rocker/verse:4.2.2",
       "ENV": {
         "PROJ_VERSION": "9.2.0",
-        "GDAL_VERSION": "3.6.2",
+        "GDAL_VERSION": "3.6.3",
         "GEOS_VERSION": "3.11.1"
       },
       "COPY": "scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh",
