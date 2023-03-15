@@ -1,9 +1,9 @@
 {
-  "r_version": ["4.2.2"],
+  "r_version": ["4.2.3"],
   "group": ["default"],
   "include": [
     {
-      "r_version": "4.2.2",
+      "r_version": "4.2.3",
       "group": "cuda11images"
     }
   ]
