@@ -1,11 +1,14 @@
-FROM rocker/ml:4.2.2
+FROM rocker/verse:4.2.3
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV CTAN_REPO=https://www.texlive.info/tlnet-archive/2023/03/14/tlnet
+ENV PROJ_VERSION=9.2.0
+ENV GDAL_VERSION=3.6.3
+ENV GEOS_VERSION=3.11.1
 
-RUN /rocker_scripts/install_verse.sh
-RUN /rocker_scripts/install_geospatial.sh
+COPY scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh
+
+RUN /rocker_scripts/experimental/install_dev_osgeo.sh
