@@ -491,7 +491,7 @@ df_args |>
   dplyr::group_by(r_version) |>
   dplyr::slice_tail(n = 1) |>
   dplyr::ungroup() |>
-  dplyr::slice_max(r_release_date, n = 1, with_ties = FALSE) |>
+  dplyr::slice_max(r_release_date, n = 2, with_ties = FALSE) |>
   dplyr::select(
     r_version,
     ubuntu_series,
