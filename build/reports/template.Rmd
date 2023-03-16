@@ -120,14 +120,15 @@ df_digest <- tryCatch(
     dplyr::filter(!(name == "Name:" & dplyr::lead(name) != "Platform:")) |>
     dplyr::mutate(id = (row_number() + 1) %/% 2) |>
     tidyr::pivot_wider(id_cols = id) |>
-    dplyr::select(platform = `Platform:`, RepoDigests = `Name:`),
+    dplyr::select(platform = `Platform:`, RepoDigests = `Name:`) |>
+    dplyr::filter(stringr::str_starts(platform, "linux/")),
   error = function(e) NULL
 )
 
-if (!is.null(df_digest)) {
+if (!is.null(df_digest) && nrow(df_digest) > 0) {
   cat(
     "### Platforms\n\n",
-    "This image was created by a multi-architecture build. The digests for each platform are as follows."
+    "The digests for each platform are as follows."
   )
 
   df_digest |>
