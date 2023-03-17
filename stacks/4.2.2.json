@@ -62,7 +62,7 @@
       "FROM": "rocker/r-ver:4.2.2",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2022.12.0+353",
+        "RSTUDIO_VERSION": "2023.03.0+386",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "QUARTO_VERSION": "default"
@@ -231,7 +231,7 @@
       "FROM": "rocker/cuda:4.2.2",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2022.12.0+353",
+        "RSTUDIO_VERSION": "2023.03.0+386",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "QUARTO_VERSION": "default"

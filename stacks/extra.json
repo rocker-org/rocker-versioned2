@@ -59,7 +59,7 @@
       "ENV": {
         "PROJ_VERSION": "9.2.0",
         "GDAL_VERSION": "3.6.3",
-        "GEOS_VERSION": "3.11.1"
+        "GEOS_VERSION": "3.11.2"
       },
       "COPY": "scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh",
       "RUN": "/rocker_scripts/experimental/install_dev_osgeo.sh",
