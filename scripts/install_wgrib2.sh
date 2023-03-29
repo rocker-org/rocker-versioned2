@@ -13,7 +13,10 @@ function apt_install() {
     fi
 }
 
-apt_install wget ca-certificates
+apt_install \
+    wget \
+    ca-certificates \
+    cmake
 
 cd /opt
 wget https://www.ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/wgrib2.tgz
