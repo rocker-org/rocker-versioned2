@@ -1,5 +1,13 @@
 # News
 
+## 2023-04
+
+### Changes in pre-built images
+
+- New standards for R versions of images for routine builds. ([#624](https://github.com/rocker-org/rocker-versioned2/pull/624))
+  - All patch versions associated with the last 2 minor versions (release and oldrel)
+  - All minor versions R >= 4.0
+
 ## 2022-12
 
 ### Changes in pre-built images
