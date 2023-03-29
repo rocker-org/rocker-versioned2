@@ -69,7 +69,7 @@ jobs:
     needs: inspect
     runs-on: ubuntu-latest
     container:
-      image: rocker/tidyverse@sha256:85f108b64aaac0280d8c9ca85831ae0ce351f7afc16d23fb9859f23ef4b1cc10
+      image: rocker/tidyverse:latest
     steps:
       - name: Checkout main
         uses: actions/checkout@v3
