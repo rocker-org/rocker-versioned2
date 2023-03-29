@@ -30,12 +30,9 @@ df_args <- fs::dir_ls(path = "bakefiles", regexp = "/\\d+\\.\\d+\\.\\d+\\.docker
   dplyr::rowwise() |>
   dplyr::reframe(
     r_version = stringr::str_extract(value, "\\d+\\.\\d+\\.\\d+"),
-    group = unlist(purrr::map(value, .get_group_names)),
-    r_major_minor_version = readr::parse_number(r_version),
-    r_patch_version = as.integer(stringr::str_extract(r_version, "\\d+$"))
+    group = unlist(purrr::map(value, .get_group_names))
   ) |>
-  dplyr::arrange(r_major_minor_version, r_patch_version) |>
-  dplyr::select(!tidyselect::matches("r_.+_version"))
+  dplyr::arrange(R_system_version(r_version))
 
 
 message("\nstart writing matrix files.")
