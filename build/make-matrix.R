@@ -28,12 +28,11 @@ library(tidyselect)
 df_args <- fs::dir_ls(path = "bakefiles", regexp = "/\\d+\\.\\d+\\.\\d+\\.docker-bake.json$") |>
   tibble::as_tibble() |>
   dplyr::rowwise() |>
-  dplyr::summarise(
+  dplyr::reframe(
     r_version = stringr::str_extract(value, "\\d+\\.\\d+\\.\\d+"),
     group = unlist(purrr::map(value, .get_group_names)),
     r_major_minor_version = readr::parse_number(r_version),
-    r_patch_version = as.integer(stringr::str_extract(r_version, "\\d+$")),
-    .groups = "drop"
+    r_patch_version = as.integer(stringr::str_extract(r_version, "\\d+$"))
   ) |>
   dplyr::arrange(r_major_minor_version, r_patch_version) |>
   dplyr::select(!tidyselect::matches("r_.+_version"))
