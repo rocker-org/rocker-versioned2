@@ -11,7 +11,7 @@ RUN /rocker_scripts/install_jupyter.sh
 
 EXPOSE 8888
 
-CMD ["/bin/sh", "-c", "jupyter notebook --ip 0.0.0.0 --no-browser"]
+CMD ["/bin/sh", "-c", "jupyter lab --ip 0.0.0.0 --no-browser"]
 
 USER ${NB_USER}
 
