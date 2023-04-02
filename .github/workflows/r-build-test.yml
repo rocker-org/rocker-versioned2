@@ -7,7 +7,9 @@ on:
     paths:
       - scripts/install_R_source.sh
       - scripts/setup_R.sh
+      - scripts/bin/**
       - dockerfiles/r-ver_devel.Dockerfile
+      - "!**.md"
   workflow_dispatch:
 
 concurrency:

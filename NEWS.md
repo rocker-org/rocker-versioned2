@@ -7,6 +7,8 @@
 - New standards for R versions of images for routine builds. ([#624](https://github.com/rocker-org/rocker-versioned2/pull/624))
   - All patch versions associated with the last 2 minor versions (release and oldrel)
   - All minor versions R >= 4.0
+- `rocker/binder`'s default command is changed from `jupyter notebook` to `jupyter lab`.
+  ([#628](https://github.com/rocker-org/rocker-versioned2/pull/628))
 
 ## 2022-12
 
