@@ -28,20 +28,36 @@ library(tidyselect)
 df_args <- fs::dir_ls(path = "bakefiles", regexp = "/\\d+\\.\\d+\\.\\d+\\.docker-bake.json$") |>
   tibble::as_tibble() |>
   dplyr::rowwise() |>
-  dplyr::summarise(
+  dplyr::reframe(
     r_version = stringr::str_extract(value, "\\d+\\.\\d+\\.\\d+"),
-    group = unlist(purrr::map(value, .get_group_names)),
-    r_major_minor_version = readr::parse_number(r_version),
-    r_patch_version = as.integer(stringr::str_extract(r_version, "\\d+$")),
-    .groups = "drop"
+    group = unlist(purrr::map(value, .get_group_names))
   ) |>
-  dplyr::arrange(r_major_minor_version, r_patch_version) |>
-  dplyr::select(!tidyselect::matches("r_.+_version"))
+  dplyr::arrange(R_system_version(r_version))
 
+supported_versions <- df_args |>
+  dplyr::select(r_version) |>
+  dplyr::distinct() |>
+  dplyr::mutate(
+    sys_ver = R_system_version(r_version),
+    major = sys_ver$major,
+    minor = sys_ver$minor,
+    patch = sys_ver$patch
+  ) |>
+  dplyr::mutate(
+    supported = (patch == dplyr::last(patch)),
+    .by = c(major, minor)
+  ) |>
+  dplyr::mutate(
+    major_minor = numeric_version(paste0(major, ".", minor)),
+    supported = supported | (major_minor >= nth(unique(major_minor), -2))
+  ) |>
+  dplyr::filter(supported) |>
+  dplyr::pull(r_version)
 
 message("\nstart writing matrix files.")
 
 df_args |>
+  dplyr::filter(r_version %in% supported_versions) |>
   .write_matrix("build/matrix/all.json")
 
 df_args |>
