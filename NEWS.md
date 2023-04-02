@@ -1,5 +1,12 @@
 # News
 
+## 2023-04
+
+### Changes in pre-built images
+
+- `rocker/binder`'s default command is changed from `jupyter notebook` to `jupyter lab`.
+  ([#628](https://github.com/rocker-org/rocker-versioned2/pull/628))
+
 ## 2022-12
 
 ### Changes in pre-built images
