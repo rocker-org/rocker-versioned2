@@ -64,6 +64,14 @@ apt_install \
     cmake \
     libtiff5-dev
 
+
+## geoparquet support
+wget https://apache.jfrog.io/artifactory/arrow/$(lsb_release --id --short | tr 'A-Z' 'a-z')/apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+apt_install -y -V ./apache-arrow-apt-source-latest-$(lsb_release --codename --short).deb
+apt-get update && apt-get install -y -V libarrow-dev  libparquet-dev libarrow-dataset-dev
+
+
+
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 # install geos
@@ -79,7 +87,7 @@ rm geos*tar
 cd geos*
 mkdir build
 cd build
-cmake ..
+cmake --parallel "$NCPUS" ..
 make
 make install
 cd ../..
@@ -99,7 +107,7 @@ rm proj.tar.gz
 cd proj-*
 mkdir build
 cd build
-cmake ..
+cmake --parallel "$NCPUS" ..
 make
 make install
 cd ../..
@@ -119,7 +127,7 @@ rm gdal*tar.gz
 cd gdal*
 mkdir build
 cd ./build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Release --parallel "$NCPUS" ..
 make
 make install
 ldconfig
