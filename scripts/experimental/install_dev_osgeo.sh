@@ -64,13 +64,10 @@ apt_install \
     cmake \
     libtiff5-dev
 
-
 ## geoparquet support
 wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr 'A-Z' 'a-z')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
 apt_install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
 apt-get update && apt-get install -y -V libarrow-dev  libparquet-dev libarrow-dataset-dev
-
-
 
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
@@ -129,7 +126,7 @@ mkdir build
 cd ./build
 # cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr   -DBUILD_JAVA_BINDINGS:BOOL=OFF -DBUILD_CSHARP_BINDINGS:BOOL=OFF
 cmake -DCMAKE_BUILD_TYPE=Release ..
-cmake --build . --parallel "$NCPUS" --target install 
+cmake --build . --parallel "$NCPUS" --target install
 ldconfig
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
