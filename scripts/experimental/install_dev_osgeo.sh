@@ -80,6 +80,9 @@ if [ "$GEOS_VERSION" = "latest" ]; then
     GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
 fi
 
+## purge existing directories to permit re-run of script with updated versions
+rm -rf geos* proj* gdal*
+
 wget https://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
 bzip2 -d geos-*bz2
 tar xf geos*tar
@@ -165,7 +168,7 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
-rm -r /tmp/downloaded_packages
+rm -rf /tmp/downloaded_packages
 
 # Check the geospatial packages
 
