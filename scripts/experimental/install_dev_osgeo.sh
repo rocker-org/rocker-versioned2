@@ -33,7 +33,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt_install \
     gdb \
     git \
-    lsb_release \
+    lsb-release \
     libcairo2-dev \
     libcurl4-openssl-dev \
     libexpat1-dev \
