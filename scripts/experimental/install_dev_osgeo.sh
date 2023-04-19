@@ -90,10 +90,8 @@ rm geos*tar
 cd geos*
 mkdir build
 cd build
-cmake --parallel "$NCPUS" ..
-make
-make install
-cd ../..
+cmake ..
+cmake --build . --parallel "$NCPUS" --target install
 ldconfig
 
 # install proj
@@ -110,9 +108,8 @@ rm proj.tar.gz
 cd proj-*
 mkdir build
 cd build
-cmake --parallel "$NCPUS" ..
-make
-make install
+cmake ..
+cmake --build . --parallel "$NCPUS" --target install
 cd ../..
 ldconfig
 
@@ -130,9 +127,9 @@ rm gdal*tar.gz
 cd gdal*
 mkdir build
 cd ./build
-cmake -DCMAKE_BUILD_TYPE=Release --parallel "$NCPUS" ..
-make
-make install
+# cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr   -DBUILD_JAVA_BINDINGS:BOOL=OFF -DBUILD_CSHARP_BINDINGS:BOOL=OFF
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build . --parallel "$NCPUS" --target install 
 ldconfig
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
