@@ -6,7 +6,7 @@ set -e
 ## 'latest' means installing the latest release version.
 
 ## build ARGs
-NCPUS=${NCPUS:-"-1"}
+NCPUS=${NCPUS:-"1"}
 
 PROJ_VERSION=${PROJ_VERSION:-"latest"}
 GDAL_VERSION=${GDAL_VERSION:-"latest"}
