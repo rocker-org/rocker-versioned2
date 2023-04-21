@@ -6,7 +6,7 @@ set -e
 ## 'latest' means installing the latest release version.
 
 ## build ARGs
-NCPUS=${NCPUS:-"1"}
+NCPUS=${NCPUS:-"-1"}
 
 PROJ_VERSION=${PROJ_VERSION:-"latest"}
 GDAL_VERSION=${GDAL_VERSION:-"latest"}
@@ -14,6 +14,12 @@ GEOS_VERSION=${GEOS_VERSION:-"latest"}
 
 CRAN=${CRAN_SOURCE:-"https://cloud.r-project.org"}
 echo "options(repos = c(CRAN = '${CRAN}'))" >>"${R_HOME}/etc/Rprofile.site"
+
+# cmake does not understand "-1" as "all cpus"
+CMAKE_CORES=${NCPUS}
+if [ "${CMAKE_CORES}" = "-1" ]; then
+  CMAKE_CORES=$(nproc --all)
+fi
 
 # a function to install apt packages only if they are not installed
 function apt_install() {
@@ -89,7 +95,7 @@ cd geos*
 mkdir build
 cd build
 cmake ..
-cmake --build . --parallel "$NCPUS" --target install
+cmake --build . --parallel "$CMAKE_CORES" --target install
 ldconfig
 
 # install proj
@@ -107,7 +113,7 @@ cd proj-*
 mkdir build
 cd build
 cmake ..
-cmake --build . --parallel "$NCPUS" --target install
+cmake --build . --parallel "$CMAKE_CORES" --target install
 cd ../..
 ldconfig
 
@@ -127,7 +133,7 @@ mkdir build
 cd ./build
 # cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr   -DBUILD_JAVA_BINDINGS:BOOL=OFF -DBUILD_CSHARP_BINDINGS:BOOL=OFF
 cmake -DCMAKE_BUILD_TYPE=Release ..
-cmake --build . --parallel "$NCPUS" --target install
+cmake --build . --parallel "$CMAKE_CORES" --target install
 ldconfig
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
