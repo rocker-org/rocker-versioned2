@@ -18,7 +18,7 @@ echo "options(repos = c(CRAN = '${CRAN}'))" >>"${R_HOME}/etc/Rprofile.site"
 # cmake does not understand "-1" as "all cpus"
 CMAKE_CORES=${NCPUS}
 if [ "${CMAKE_CORES}" = "-1" ]; then
-  CMAKE_CORES=$(nproc --all)
+    CMAKE_CORES=$(nproc --all)
 fi
 
 # a function to install apt packages only if they are not installed
