@@ -12,7 +12,6 @@ LANG=${LANG:=en_US.UTF-8}
 TZ=${TZ:=Etc/UTC}
 RUNROOTLESS=${RUNROOTLESS:=FALSE}
 
-
 USERHOME="/home/${USER}"
 
 if [ "${RUNROOTLESS}" = "true" ]; then
@@ -38,7 +37,7 @@ if [ "${RUNROOTLESS}" = "true" ]; then
     # So, the user can run apt-get as the root user inside the container. No
     # need for handling sudoers, since to the container the user is root.
     #
-    # Higher user ids in the container (e.g. 1000) get mapped to very high user 
+    # Higher user ids in the container (e.g. 1000) get mapped to very high user
     # ids at the host. We don't need that and it just confuses things
     USER="root"
     USERID=0
@@ -85,7 +84,7 @@ elif [ "$USERID" -lt 1000 ]; then # Probably a macOS user, https://github.com/ro
     fi
 fi
 
-if [ "${RUNROOTLESS}" != "true" -a "$USER" != "$DEFAULT_USER" ]; then
+if [ "${RUNROOTLESS}" != "true" ] && [ "$USER" != "$DEFAULT_USER" ]; then
     printf "\n\n"
     tput bold
     printf "Settings by \e[31m\`-e USER=<new username>\`\e[39m is now deprecated and will be removed in the future.\n"
@@ -101,7 +100,7 @@ elif [ "$USERID" -ne 1000 ]; then ## Configure user with a different USERID if r
     echo "deleting the default user"
     userdel "$DEFAULT_USER"
     echo "creating new $USER with UID $USERID"
-    useradd -m "$USER" -u $USERID
+    useradd -m "$USER" -u "$USERID"
     mkdir -p "${USERHOME}"
     chown -R "$USER" "${USERHOME}"
     usermod -a -G staff "$USER"
@@ -116,9 +115,9 @@ elif [ "$USER" != "$DEFAULT_USER" ]; then
     echo "USER is now $USER"
 fi
 
-if [ "${RUNROOTLESS}" != "true" -a "$GROUPID" -ne 1000 ]; then ## Configure the primary GID (whether rstudio or $USER) with a different GROUPID if requested.
+if [ "${RUNROOTLESS}" != "true" ] && [ "$GROUPID" -ne 1000 ]; then ## Configure the primary GID (whether rstudio or $USER) with a different GROUPID if requested.
     echo "Modifying primary group $(id "${USER}" -g -n)"
-    groupmod -o -g $GROUPID "$(id "${USER}" -g -n)"
+    groupmod -o -g "$GROUPID" "$(id "${USER}" -g -n)"
     echo "Primary group ID is now custom_group $GROUPID"
 fi
 
@@ -141,11 +140,11 @@ fi
 
 ## Next one for timezone setup
 if [ "$TZ" != "Etc/UTC" ]; then
-    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ >/etc/timezone
+    ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && echo "$TZ" >/etc/timezone
 fi
 
 ## Update Locale if needed
 if [ "$LANG" != "en_US.UTF-8" ]; then
-    /usr/sbin/locale-gen --lang $LANG
-    /usr/sbin/update-locale --reset LANG=$LANG
+    /usr/sbin/locale-gen --lang "$LANG"
+    /usr/sbin/update-locale --reset LANG="$LANG"
 fi
