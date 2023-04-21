@@ -15,6 +15,12 @@ GEOS_VERSION=${GEOS_VERSION:-"latest"}
 CRAN=${CRAN_SOURCE:-"https://cloud.r-project.org"}
 echo "options(repos = c(CRAN = '${CRAN}'))" >>"${R_HOME}/etc/Rprofile.site"
 
+# cmake does not understand "-1" as "all cpus"
+CMAKE_CORES=${NCPUS}
+if [ "${CMAKE_CORES}" = "-1" ]; then
+    CMAKE_CORES=$(nproc --all)
+fi
+
 # a function to install apt packages only if they are not installed
 function apt_install() {
     if ! dpkg -s "$@" >/dev/null 2>&1; then
@@ -33,6 +39,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt_install \
     gdb \
     git \
+    lsb-release \
     libcairo2-dev \
     libcurl4-openssl-dev \
     libexpat1-dev \
@@ -64,6 +71,11 @@ apt_install \
     cmake \
     libtiff5-dev
 
+## geoparquet support
+wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
+apt_install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
+apt-get update && apt-get install -y -V libarrow-dev libparquet-dev libarrow-dataset-dev
+
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 # install geos
@@ -71,6 +83,9 @@ LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 if [ "$GEOS_VERSION" = "latest" ]; then
     GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
 fi
+
+## purge existing directories to permit re-run of script with updated versions
+rm -rf geos* proj* gdal*
 
 wget https://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
 bzip2 -d geos-*bz2
@@ -80,9 +95,7 @@ cd geos*
 mkdir build
 cd build
 cmake ..
-make
-make install
-cd ../..
+cmake --build . --parallel "$CMAKE_CORES" --target install
 ldconfig
 
 # install proj
@@ -100,8 +113,7 @@ cd proj-*
 mkdir build
 cd build
 cmake ..
-make
-make install
+cmake --build . --parallel "$CMAKE_CORES" --target install
 cd ../..
 ldconfig
 
@@ -119,9 +131,9 @@ rm gdal*tar.gz
 cd gdal*
 mkdir build
 cd ./build
+# cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr   -DBUILD_JAVA_BINDINGS:BOOL=OFF -DBUILD_CSHARP_BINDINGS:BOOL=OFF
 cmake -DCMAKE_BUILD_TYPE=Release ..
-make
-make install
+cmake --build . --parallel "$CMAKE_CORES" --target install
 ldconfig
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
@@ -157,7 +169,7 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
-rm -r /tmp/downloaded_packages
+rm -rf /tmp/downloaded_packages
 
 # Check the geospatial packages
 
