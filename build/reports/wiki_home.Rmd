@@ -80,26 +80,15 @@ df_all <- df_definitions |>
 ```
 
 ```{r rename_reports}
-.remove_old_report <- function(id, path = "reports", filename_prefix = ".*_") {
-  old_reports <- fs::dir_ls(path) |>
-    stringr::str_subset(stringr::str_c(filename_prefix, id))
-
-  if (length(old_reports) >= 1) fs::file_delete(old_reports)
-
-  return(invisible())
-}
-
 .rename_report <- function(id, new_file, path = "reports") {
   report_path <- fs::path(path, id, ext = "md")
   report_new_path <- fs::path(path, new_file, ext = "md")
 
-  fs::file_move(report_path, report_new_path)
+  if (fs::file_exists(report_path)) fs::file_move(report_path, report_new_path)
 
   return(invisible())
 }
 
-
-purrr::walk(df_all$id, .remove_old_report)
 purrr::walk2(df_all$id, df_all$report_name, .rename_report)
 ```
 
