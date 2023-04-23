@@ -77,7 +77,7 @@ report-all: $(foreach I, $(wildcard $(REPORT_SOURCE_ROOT)/*), report/$(I))
 # Move image list to wiki and update Home.md
 wiki-home: $(REPORT_DIR)/Versions.md $(REPORT_DIR)/_Sidebar.md
 	cp -r $(IMAGELIST_DIR) $(REPORT_DIR)
-	-Rscript -e 'rmarkdown::render(input = "build/reports/wiki_home.Rmd", output_dir = "$(REPORT_DIR)", output_file = "Home.md")'
+	Rscript -e 'rmarkdown::render(input = "build/reports/wiki_home.Rmd", output_dir = "$(REPORT_DIR)", output_file = "Home.md")'
 $(REPORT_DIR)/_Sidebar.md: build/reports/_Sidebar.md
 	cp $< $@
 $(REPORT_DIR)/Versions.md: build/reports/versions.Rmd $(STACK_FILES)
