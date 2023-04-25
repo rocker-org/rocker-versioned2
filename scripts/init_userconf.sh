@@ -10,12 +10,16 @@ ROOT=${ROOT:=FALSE}
 UMASK=${UMASK:=022}
 LANG=${LANG:=en_US.UTF-8}
 TZ=${TZ:=Etc/UTC}
-RUNROOTLESS=${RUNROOTLESS:=FALSE}
+RUNROOTLESS=${RUNROOTLESS:=auto}
+
+if [ "${RUNROOTLESS}" = "auto" ]; then
+    RUNROOTLESS=$(grep 4294967295 /proc/self/uid_map > /dev/null && echo "false" || echo "true")
+fi
 
 USERHOME="/home/${USER}"
 
 if [ "${RUNROOTLESS}" = "true" ]; then
-    printf "Assuming the container runs under rootless mode as requested\n"
+    printf "Assuming the container runs under rootless mode\n"
     printf "Under rootless mode,\n"
     printf " - You will log in using 'root' as user\n"
     printf " - You will have root privileges within the container (e.g. apt)\n"
