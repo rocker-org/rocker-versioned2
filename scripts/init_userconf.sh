@@ -47,6 +47,59 @@ if [ "${RUNROOTLESS}" = "true" ]; then
     USERID=0
     GROUPID=0
     USERHOME="/root"
+
+    # Keep all groups that have been set:
+    # When running rootless podman, podman may set the groups of the host user
+    # to the process running in the container with the option
+    # podman run --group-add keep-groups
+    #
+    # This option has the caveat that the GIDs which have not been mapped to
+    # the container in the namespace will appear as the overflow_gid (65534).
+    #
+    # While this process has the GID assigned (and therefore it has the
+    # privileges granted by that GID, this process cannot internally refer
+    # to that GID, because it is not mapped, and it appears as nobody/nogroup.
+    #
+    # This lack of mapping becomes a problem when we need to be able
+    # to assign those same groups to the processes created when a user logs
+    # in through the web interface. There, we are not able to setgroups() as
+    # podman did when the initial process in the container was started.
+    #
+    # What can we do?
+    # A solution goes through a sysadmin in the host allowing users to
+    # impersonate the target GID in /etc/subgid.
+    #
+    # For instance, if you have a "university_data" group, that has GID 2000
+    # and you have PhD students "alice" and "bob" who are in that group, you will
+    # need to have an additional entry in /etc/subgid for each of them:
+    # alice:2000:1
+    # bob:2000:1
+    #
+    # That entry reads as
+    # > Grant {alice/bob} the ability to become GID 2000.
+    #
+    # Those entries should be **additional** to the already existing entries that
+    # grant a big number of unused GIDs.
+    #
+    # Then use `podman system migrate` to refresh podman configuration.
+    #
+    # Podman will then be able to see those groups, although unfortunately
+    # the group name in the container will not be "university_data" but it will
+    # instead look like "adm" or "sys" or "bin".
+    #
+    # I'm trying to suggest an improvement to podman to address this a bit better
+    # at:
+    # https://github.com/containers/podman/issues/18333
+    #
+    ROOT_IN_GROUPS="$(id -G)"
+    for g in ${ROOT_IN_GROUPS}; do
+        if [ "$g" -eq 0 ] || [ "$g" -eq 65534 ]; then
+            # 0 is already our GID
+            # 65534 is nogroup (the overflow_gid)
+            continue
+        fi
+        usermod -aG "$g" "${USER}"
+    done
 fi
 
 if [[ ${DISABLE_AUTH,,} == "true" ]]; then
