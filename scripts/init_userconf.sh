@@ -92,8 +92,9 @@ if [ "${RUNROOTLESS}" = "true" ]; then
     # https://github.com/containers/podman/issues/18333
     #
     ROOT_IN_GROUPS="$(id -G)"
+    OVERFLOWGID=$(cat "/proc/sys/kernel/overflowgid")
     for g in ${ROOT_IN_GROUPS}; do
-        if [ "$g" -eq 0 ] || [ "$g" -eq 65534 ]; then
+        if [ "$g" -eq 0 ] || [ "$g" -eq "${OVERFLOWGID}" ]; then
             # 0 is already our GID
             # 65534 is nogroup (the overflow_gid)
             continue
