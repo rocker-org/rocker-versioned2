@@ -13,7 +13,7 @@ TZ=${TZ:=Etc/UTC}
 RUNROOTLESS=${RUNROOTLESS:=auto}
 
 if [ "${RUNROOTLESS}" = "auto" ]; then
-    RUNROOTLESS=$(grep 4294967295 /proc/self/uid_map > /dev/null && echo "false" || echo "true")
+    RUNROOTLESS=$(grep 4294967295 /proc/self/uid_map >/dev/null && echo "false" || echo "true")
 fi
 
 USERHOME="/home/${USER}"
