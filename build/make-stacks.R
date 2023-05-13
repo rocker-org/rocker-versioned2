@@ -224,6 +224,10 @@ write_stack <- function(r_version,
     r_latest
   )
   template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_version
+  template$stack[[2]]$platforms <-
+    if (numeric_version(stringr::str_replace_all(rstudio_version, r"(\+)", ".")) > "2023.05.1") {
+      list("linux/amd64", "linux/arm64")
+    }
 
   # rocker/tidyverse
   template$stack[[3]]$FROM <- stringr::str_c("rocker/rstudio:", r_version)
