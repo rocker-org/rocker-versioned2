@@ -31,13 +31,12 @@ library(gert)
     NULL
   }
 
-  urls_try <- list(
+  urls_try <- tidyr::expand_grid(
     date = dates_try,
     distro_version_name = c(distro_version_name, fallback_distro),
     type = c("binary")
   ) |>
-    purrr::cross() |>
-    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux)) |>
+    purrr::pmap_chr(.make_rspm_cran_url_linux) |>
     unique()
 
   for (i in seq_along(urls_try)) {
