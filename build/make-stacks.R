@@ -224,6 +224,10 @@ write_stack <- function(r_version,
   )
   template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_version
   template$stack[[2]]$platforms <-
+    # linux/arm64 platform version of RStudio IDE will bundle Quarto CLI after version 2023.05.1
+    # (https://github.com/rstudio/rstudio/issues/12411)
+    # We are postponing the build of the linux/arm64 version of rocker/rstudio until this version
+    # because we want to fix the version of Quarto CLI included in rocker/rstudio
     if (numeric_version(stringr::str_replace_all(rstudio_version, r"(\+)", ".")) > "2023.05.1") {
       list("linux/amd64", "linux/arm64")
     }
