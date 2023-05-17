@@ -31,13 +31,12 @@ library(gert)
     NULL
   }
 
-  urls_try <- list(
+  urls_try <- tidyr::expand_grid(
     date = dates_try,
     distro_version_name = c(distro_version_name, fallback_distro),
     type = c("binary")
   ) |>
-    purrr::cross() |>
-    purrr::map_chr(purrr::lift(.make_rspm_cran_url_linux)) |>
+    purrr::pmap_chr(.make_rspm_cran_url_linux) |>
     unique()
 
   for (i in seq_along(urls_try)) {
@@ -224,6 +223,14 @@ write_stack <- function(r_version,
     r_latest
   )
   template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_version
+  template$stack[[2]]$platforms <-
+    # linux/arm64 platform version of RStudio IDE will bundle Quarto CLI after version 2023.05.0
+    # (https://github.com/rstudio/rstudio/issues/12411)
+    # We are postponing the build of the linux/arm64 version of rocker/rstudio until this version
+    # because we want to fix the version of Quarto CLI included in rocker/rstudio
+    if (numeric_version(stringr::str_replace_all(rstudio_version, r"(\+)", ".")) > "2023.05.0") {
+      list("linux/amd64", "linux/arm64")
+    }
 
   # rocker/tidyverse
   template$stack[[3]]$FROM <- stringr::str_c("rocker/rstudio:", r_version)
