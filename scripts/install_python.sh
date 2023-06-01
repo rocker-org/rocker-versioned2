@@ -40,13 +40,16 @@ rm -rf /tmp/downloaded_packages
 ## https://github.com/rocker-org/rocker-versioned2/issues/340
 strip /usr/local/lib/R/site-library/*/libs/*.so
 
-## Don't use OpenBLAS with reticulate
+## Don't use OpenBLAS with reticulate on Ubuntu 20.04
 ## https://github.com/rocker-org/rocker-versioned2/issues/471
-if R -q -e 'sessionInfo()' | grep -q openblas; then
-    ARCH=$(uname -m)
-    echo "Switching BLAS"
-    update-alternatives --set "libblas.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/blas/libblas.so.3"
-    update-alternatives --set "liblapack.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/lapack/liblapack.so.3"
+source /etc/os-release
+if [ "${UBUNTU_CODENAME}" == "focal" ]; then
+    if R -q -e 'sessionInfo()' | grep -q openblas; then
+        ARCH=$(uname -m)
+        echo "Switching BLAS (Details: https://github.com/rocker-org/rocker-versioned2/issues/471)"
+        update-alternatives --set "libblas.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/blas/libblas.so.3"
+        update-alternatives --set "liblapack.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/lapack/liblapack.so.3"
+    fi
 fi
 
 # Check Python version
