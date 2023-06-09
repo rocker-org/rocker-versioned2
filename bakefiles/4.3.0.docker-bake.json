@@ -77,7 +77,8 @@
         "ghcr.io/rocker-org/rstudio:latest"
       ],
       "platforms": [
-        "linux/amd64"
+        "linux/amd64",
+        "linux/arm64"
       ],
       "cache-from": [
         "docker.io/rocker/rstudio:4.3.0"
