@@ -68,7 +68,7 @@
       "FROM": "rocker/r-ver:4.3.0",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2023.06.0+421",
+        "RSTUDIO_VERSION": "2023.03.2+454",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "QUARTO_VERSION": "default"
@@ -89,10 +89,6 @@
         "ghcr.io/rocker-org/rstudio:4",
         "docker.io/rocker/rstudio:latest",
         "ghcr.io/rocker-org/rstudio:latest"
-      ],
-      "platforms": [
-        "linux/amd64",
-        "linux/arm64"
       ]
     },
     {
@@ -295,7 +291,7 @@
       "FROM": "rocker/cuda:4.3.0",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2023.06.0+421",
+        "RSTUDIO_VERSION": "2023.03.2+454",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "QUARTO_VERSION": "default"
