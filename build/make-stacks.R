@@ -404,7 +404,7 @@ df_args <- df_r |>
   dplyr::filter(.is_rstudio_deb_available(rstudio_version, ubuntu_series)) |>
   dplyr::ungroup() |>
   dplyr::group_by(r_version, ubuntu_series) |>
-  dplyr::slice_max(rstudio_commit_date, with_ties = FALSE) |>
+  dplyr::slice_max(rstudio_version, with_ties = FALSE) |>
   dplyr::ungroup() |>
   dplyr::group_by(r_minor_version = stringr::str_extract(r_version, "^\\d+\\.\\d+")) |>
   dplyr::mutate(r_minor_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)) |>
