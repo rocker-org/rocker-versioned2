@@ -1,6 +1,6 @@
 {
   "ordered": true,
-  "TAG": "4.3.0",
+  "TAG": "4.3.1",
   "LABEL": "org.opencontainers.image.licenses=\"GPL-2.0-or-later\" \\\n      org.opencontainers.image.source=\"https://github.com/rocker-org/rocker-versioned2\" \\\n      org.opencontainers.image.vendor=\"Rocker Project\" \\\n      org.opencontainers.image.authors=\"Carl Boettiger <cboettig@ropensci.org>\"",
   "group": [
     {
@@ -25,29 +25,35 @@
       },
       "FROM": "ubuntu:jammy",
       "ENV": {
-        "R_VERSION": "4.3.0",
+        "R_VERSION": "4.3.1",
         "R_HOME": "/usr/local/lib/R",
         "TZ": "Etc/UTC"
       },
       "COPY_a_script": "scripts/install_R_source.sh /rocker_scripts/install_R_source.sh",
       "RUN_a_script": "/rocker_scripts/install_R_source.sh",
       "ENV_after_a_script": {
-        "CRAN": "https://packagemanager.posit.co/cran/__linux__/jammy/2023-06-14",
+        "CRAN": "https://packagemanager.posit.co/cran/__linux__/jammy/latest",
         "LANG": "en_US.UTF-8"
       },
       "COPY": "scripts /rocker_scripts",
       "RUN": "/rocker_scripts/setup_R.sh",
       "CMD": "[\"R\"]",
       "tags": [
-        "docker.io/rocker/r-ver:4.3.0",
-        "ghcr.io/rocker-org/r-ver:4.3.0"
+        "docker.io/rocker/r-ver:4.3.1",
+        "ghcr.io/rocker-org/r-ver:4.3.1",
+        "docker.io/rocker/r-ver:4.3",
+        "ghcr.io/rocker-org/r-ver:4.3",
+        "docker.io/rocker/r-ver:4",
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest"
       ],
       "platforms": [
         "linux/amd64",
         "linux/arm64"
       ],
       "cache-from": [
-        "docker.io/rocker/r-ver:4.3.0"
+        "docker.io/rocker/r-ver:4.3.1"
       ],
       "cache-to": [
         "type=inline"
@@ -59,7 +65,7 @@
         "org.opencontainers.image.title": "rocker/rstudio",
         "org.opencontainers.image.description": "RStudio Server with fixed version of R"
       },
-      "FROM": "rocker/r-ver:4.3.0",
+      "FROM": "rocker/r-ver:4.3.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "2023.06.0+421",
@@ -75,8 +81,14 @@
       "CMD": "[\"/init\"]",
       "EXPOSE": 8787,
       "tags": [
-        "docker.io/rocker/rstudio:4.3.0",
-        "ghcr.io/rocker-org/rstudio:4.3.0"
+        "docker.io/rocker/rstudio:4.3.1",
+        "ghcr.io/rocker-org/rstudio:4.3.1",
+        "docker.io/rocker/rstudio:4.3",
+        "ghcr.io/rocker-org/rstudio:4.3",
+        "docker.io/rocker/rstudio:4",
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest"
       ],
       "platforms": [
         "linux/amd64",
@@ -89,11 +101,17 @@
         "org.opencontainers.image.title": "rocker/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages."
       },
-      "FROM": "rocker/rstudio:4.3.0",
+      "FROM": "rocker/rstudio:4.3.1",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
-        "docker.io/rocker/tidyverse:4.3.0",
-        "ghcr.io/rocker-org/tidyverse:4.3.0"
+        "docker.io/rocker/tidyverse:4.3.1",
+        "ghcr.io/rocker-org/tidyverse:4.3.1",
+        "docker.io/rocker/tidyverse:4.3",
+        "ghcr.io/rocker-org/tidyverse:4.3",
+        "docker.io/rocker/tidyverse:4",
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest"
       ]
     },
     {
@@ -102,17 +120,23 @@
         "org.opencontainers.image.title": "rocker/verse",
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image."
       },
-      "FROM": "rocker/tidyverse:4.3.0",
+      "FROM": "rocker/tidyverse:4.3.1",
       "ENV": {
-        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2023/06/15/tlnet",
+        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
         "PATH": "$PATH:/usr/local/texlive/bin/linux"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh"
       ],
       "tags": [
-        "docker.io/rocker/verse:4.3.0",
-        "ghcr.io/rocker-org/verse:4.3.0"
+        "docker.io/rocker/verse:4.3.1",
+        "ghcr.io/rocker-org/verse:4.3.1",
+        "docker.io/rocker/verse:4.3",
+        "ghcr.io/rocker-org/verse:4.3",
+        "docker.io/rocker/verse:4",
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest"
       ]
     },
     {
@@ -121,11 +145,17 @@
         "org.opencontainers.image.title": "rocker/geospatial",
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image."
       },
-      "FROM": "rocker/verse:4.3.0",
+      "FROM": "rocker/verse:4.3.1",
       "RUN": "/rocker_scripts/install_geospatial.sh",
       "tags": [
-        "docker.io/rocker/geospatial:4.3.0",
-        "ghcr.io/rocker-org/geospatial:4.3.0"
+        "docker.io/rocker/geospatial:4.3.1",
+        "ghcr.io/rocker-org/geospatial:4.3.1",
+        "docker.io/rocker/geospatial:4.3",
+        "ghcr.io/rocker-org/geospatial:4.3",
+        "docker.io/rocker/geospatial:4",
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest"
       ]
     },
     {
@@ -134,7 +164,7 @@
         "org.opencontainers.image.title": "rocker/shiny",
         "org.opencontainers.image.description": "Shiny Server on versioned Rocker image."
       },
-      "FROM": "rocker/r-ver:4.3.0",
+      "FROM": "rocker/r-ver:4.3.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "SHINY_SERVER_VERSION": "latest",
@@ -144,8 +174,14 @@
       "CMD": "[\"/init\"]",
       "EXPOSE": 3838,
       "tags": [
-        "docker.io/rocker/shiny:4.3.0",
-        "ghcr.io/rocker-org/shiny:4.3.0"
+        "docker.io/rocker/shiny:4.3.1",
+        "ghcr.io/rocker-org/shiny:4.3.1",
+        "docker.io/rocker/shiny:4.3",
+        "ghcr.io/rocker-org/shiny:4.3",
+        "docker.io/rocker/shiny:4",
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest"
       ]
     },
     {
@@ -154,11 +190,17 @@
         "org.opencontainers.image.title": "rocker/shiny-verse",
         "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image."
       },
-      "FROM": "rocker/shiny:4.3.0",
+      "FROM": "rocker/shiny:4.3.1",
       "RUN": "/rocker_scripts/install_tidyverse.sh",
       "tags": [
-        "docker.io/rocker/shiny-verse:4.3.0",
-        "ghcr.io/rocker-org/shiny-verse:4.3.0"
+        "docker.io/rocker/shiny-verse:4.3.1",
+        "ghcr.io/rocker-org/shiny-verse:4.3.1",
+        "docker.io/rocker/shiny-verse:4.3",
+        "ghcr.io/rocker-org/shiny-verse:4.3",
+        "docker.io/rocker/shiny-verse:4",
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ]
     },
     {
@@ -167,7 +209,7 @@
         "org.opencontainers.image.title": "rocker/binder",
         "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter."
       },
-      "FROM": "rocker/geospatial:4.3.0",
+      "FROM": "rocker/geospatial:4.3.1",
       "ENV": {
         "NB_USER": "rstudio"
       },
@@ -179,15 +221,27 @@
       "CMD": "[\"/bin/sh\", \"-c\", \"jupyter lab --ip 0.0.0.0 --no-browser\"]",
       "EXPOSE": 8888,
       "tags": [
-        "docker.io/rocker/binder:4.3.0",
-        "ghcr.io/rocker-org/binder:4.3.0"
+        "docker.io/rocker/binder:4.3.1",
+        "ghcr.io/rocker-org/binder:4.3.1",
+        "docker.io/rocker/binder:4.3",
+        "ghcr.io/rocker-org/binder:4.3",
+        "docker.io/rocker/binder:4",
+        "ghcr.io/rocker-org/binder:4",
+        "docker.io/rocker/binder:latest",
+        "ghcr.io/rocker-org/binder:latest"
       ]
     },
     {
       "IMAGE": "cuda",
       "tags": [
-        "docker.io/rocker/cuda:4.3.0",
-        "ghcr.io/rocker-org/cuda:4.3.0"
+        "docker.io/rocker/cuda:4.3.1",
+        "ghcr.io/rocker-org/cuda:4.3.1",
+        "docker.io/rocker/cuda:4.3",
+        "ghcr.io/rocker-org/cuda:4.3",
+        "docker.io/rocker/cuda:4",
+        "ghcr.io/rocker-org/cuda:4",
+        "docker.io/rocker/cuda:latest",
+        "ghcr.io/rocker-org/cuda:latest"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/cuda",
@@ -195,7 +249,7 @@
       },
       "FROM": "nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04",
       "ENV": {
-        "R_VERSION": "4.3.0",
+        "R_VERSION": "4.3.1",
         "R_HOME": "/usr/local/lib/R",
         "TZ": "Etc/UTC",
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
@@ -206,7 +260,7 @@
       "COPY_a_script": "scripts/install_R_source.sh /rocker_scripts/install_R_source.sh",
       "RUN_a_script": "/rocker_scripts/install_R_source.sh",
       "ENV_after_a_script": {
-        "CRAN": "https://packagemanager.posit.co/cran/__linux__/jammy/2023-06-14",
+        "CRAN": "https://packagemanager.posit.co/cran/__linux__/jammy/latest",
         "LANG": "en_US.UTF-8"
       },
       "COPY": "scripts /rocker_scripts",
@@ -216,7 +270,7 @@
         "/rocker_scripts/install_python.sh"
       ],
       "cache-from": [
-        "docker.io/rocker/cuda:4.3.0"
+        "docker.io/rocker/cuda:4.3.1"
       ],
       "cache-to": [
         "type=inline"
@@ -225,14 +279,20 @@
     {
       "IMAGE": "ml",
       "tags": [
-        "docker.io/rocker/ml:4.3.0",
-        "ghcr.io/rocker-org/ml:4.3.0"
+        "docker.io/rocker/ml:4.3.1",
+        "ghcr.io/rocker-org/ml:4.3.1",
+        "docker.io/rocker/ml:4.3",
+        "ghcr.io/rocker-org/ml:4.3",
+        "docker.io/rocker/ml:4",
+        "ghcr.io/rocker-org/ml:4",
+        "docker.io/rocker/ml:latest",
+        "ghcr.io/rocker-org/ml:latest"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml",
         "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries."
       },
-      "FROM": "rocker/cuda:4.3.0",
+      "FROM": "rocker/cuda:4.3.1",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "2023.06.0+421",
@@ -252,16 +312,22 @@
     {
       "IMAGE": "ml-verse",
       "tags": [
-        "docker.io/rocker/ml-verse:4.3.0",
-        "ghcr.io/rocker-org/ml-verse:4.3.0"
+        "docker.io/rocker/ml-verse:4.3.1",
+        "ghcr.io/rocker-org/ml-verse:4.3.1",
+        "docker.io/rocker/ml-verse:4.3",
+        "ghcr.io/rocker-org/ml-verse:4.3",
+        "docker.io/rocker/ml-verse:4",
+        "ghcr.io/rocker-org/ml-verse:4",
+        "docker.io/rocker/ml-verse:latest",
+        "ghcr.io/rocker-org/ml-verse:latest"
       ],
       "labels": {
         "org.opencontainers.image.title": "rocker/ml-verse",
         "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages."
       },
-      "FROM": "rocker/ml:4.3.0",
+      "FROM": "rocker/ml:4.3.1",
       "ENV": {
-        "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2023/06/15/tlnet"
+        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh",
