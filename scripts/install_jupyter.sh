@@ -29,7 +29,7 @@ fi
 # install python
 /rocker_scripts/install_python.sh
 
-python3 -m pip install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab
+python3 -m pip install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab jupyterhub
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" remotes
 
