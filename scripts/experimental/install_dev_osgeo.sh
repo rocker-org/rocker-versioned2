@@ -69,7 +69,9 @@ apt_install \
     libssl-dev \
     libtiff-dev \
     cmake \
-    libtiff5-dev
+    libtiff5-dev \
+    libhdf4-alt-dev \
+    libhdf5-dev
 
 ## geoparquet support
 wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
