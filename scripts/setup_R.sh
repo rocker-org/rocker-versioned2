@@ -53,6 +53,7 @@ fi
 ## Install littler
 if [ ! -x "$(command -v r)" ]; then
     BUILDDEPS="libpcre2-dev \
+        libdeflate-dev \
         liblzma-dev \
         libbz2-dev \
         zlib1g-dev \
