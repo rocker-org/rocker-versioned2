@@ -75,7 +75,7 @@ apt_install \
     liblzma-dev \
     libblosc-dev \
     libzstd-dev \
-    libz4-dev
+    liblz4-dev
     
 ## geoparquet support
 wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
