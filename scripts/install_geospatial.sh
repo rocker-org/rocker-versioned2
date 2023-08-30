@@ -62,6 +62,7 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     rgeos \
     rlas \
     sf \
+    sfarrow \
     sp \
     spacetime \
     spatstat \
@@ -71,7 +72,6 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     terra \
     tidync \
     tmap \
-    geoarrow \
     geoR \
     geosphere \
     BiocManager
