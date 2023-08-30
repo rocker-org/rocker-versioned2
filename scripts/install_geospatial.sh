@@ -71,6 +71,7 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     terra \
     tidync \
     tmap \
+    geoarrow \
     geoR \
     geosphere \
     BiocManager
