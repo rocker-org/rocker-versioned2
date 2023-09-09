@@ -62,6 +62,7 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     rgeos \
     rlas \
     sf \
+    sfarrow \
     sp \
     spacetime \
     spatstat \
