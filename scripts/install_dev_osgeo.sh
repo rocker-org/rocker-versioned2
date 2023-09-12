@@ -37,7 +37,7 @@ function url_latest_gh_released_asset() {
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get update && apt-get -y remove --purge gdalbin libgdal-dev libgeos-dev libproj-dev && apt-get autoremove -y
+apt-get update && apt-get -y remove --purge gdal-bin libgdal-dev libgeos-dev libproj-dev && apt-get autoremove -y
 
 ## Derived from osgeo/gdal
 apt-get update -y \
