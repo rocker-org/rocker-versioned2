@@ -37,53 +37,67 @@ function url_latest_gh_released_asset() {
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get update && apt-get -y remove --purge libgdal-dev libgeos-dev libproj-dev && apt-get autoremove -y
+apt-get update && apt-get -y remove --purge gdalbin libgdal-dev libgeos-dev libproj-dev && apt-get autoremove -y
 
-apt_install \
-    gdb \
-    git \
-    lsb-release \
-    libcairo2-dev \
-    libcurl4-openssl-dev \
-    libexpat1-dev \
-    libpq-dev \
-    libsqlite3-dev \
-    libudunits2-dev \
-    make \
-    pandoc \
-    qpdf \
-    sqlite3 \
-    subversion \
-    valgrind \
-    vim \
-    tk-dev \
-    wget \
-    libv8-dev \
-    libjq-dev \
-    libprotobuf-dev \
-    libxml2-dev \
-    libprotobuf-dev \
-    protobuf-compiler \
-    unixodbc-dev \
-    libssh2-1-dev \
-    libgit2-dev \
-    libnetcdf-dev \
-    locales \
-    libssl-dev \
-    libtiff-dev \
-    cmake \
-    libtiff5-dev \
-    libhdf4-alt-dev \
-    libhdf5-dev \
-    liblzma-dev \
-    libblosc-dev \
-    libzstd-dev \
-    liblz4-dev
+## Derived from osgeo/gdal
+apt-get update -y \
+    && apt-get install -y --fix-missing --no-install-recommends \
+            build-essential ca-certificates \
+            git make cmake wget unzip libtool automake \
+            zlib1g-dev libsqlite3-dev pkg-config sqlite3 libcurl4-openssl-dev \
+            libtiff5-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+JAVA_VERSION=17
+# Setup build env for GDAL
+apt-get update -y \
+    && apt-get install -y --fix-missing --no-install-recommends \
+       libopenjp2-7-dev libcairo2-dev \
+       python3-dev python3-numpy python3-setuptools \
+       libpng-dev libjpeg-dev libgif-dev liblzma-dev libgeos-dev \
+       curl libxml2-dev libexpat-dev libxerces-c-dev \
+       libnetcdf-dev libpoppler-dev libpoppler-private-dev \
+       libspatialite-dev librasterlite2-dev swig ant libhdf4-alt-dev libhdf5-serial-dev \
+       libfreexl-dev unixodbc-dev  mdbtools-dev libwebp-dev \
+       liblcms2-2 libpcre3-dev libcrypto++-dev libfyba-dev \
+       libkml-dev libmysqlclient-dev libogdi-dev \
+       libcfitsio-dev openjdk-"$JAVA_VERSION"-jdk libzstd-dev \
+       libpq-dev libssl-dev libboost-dev \
+       autoconf automake bash-completion libarmadillo-dev \
+       libopenexr-dev libheif-dev \
+       libdeflate-dev libblosc-dev liblz4-dev libbz2-dev \
+       libbrotli-dev \
+       libarchive-dev \
+       libaec-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 ## geoparquet support
 wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
 apt_install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
 apt-get update && apt-get install -y -V libarrow-dev libparquet-dev libarrow-dataset-dev
+
+
+## tiledb
+GCC_ARCH="$(uname -m)"
+export TILEDB_VERSION=2.16.3
+apt-get update -y \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        libspdlog-dev \
+    && mkdir tiledb \
+    && wget -q https://github.com/TileDB-Inc/TileDB/archive/${TILEDB_VERSION}.tar.gz -O - \
+        | tar xz -C tiledb --strip-components=1 \
+    && cd tiledb \
+    && mkdir build_cmake \
+    && cd build_cmake \
+    && ../bootstrap --prefix=/usr --disable-werror \
+    && make -j$(nproc) \
+    && make install-tiledb DESTDIR="/build_thirdparty" \
+    && make install-tiledb \
+    && cd ../.. \
+    && rm -rf tiledb \
+    && for i in /build_thirdparty/usr/lib/${GCC_ARCH}-linux-gnu/*; do strip -s $i 2>/dev/null || /bin/true; done \
+    && for i in /build_thirdparty/usr/bin/*; do strip -s $i 2>/dev/null || /bin/true; done
+
 
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
