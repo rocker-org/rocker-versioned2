@@ -36,6 +36,9 @@ function url_latest_gh_released_asset() {
 }
 
 export DEBIAN_FRONTEND=noninteractive
+
+apt-get update && apt-get -y remove --purge libgdal-dev libgeos-dev libproj-dev && apt-get autoremove -y
+
 apt_install \
     gdb \
     git \
