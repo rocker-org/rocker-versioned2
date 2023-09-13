@@ -24,9 +24,9 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Build and push Docker images
         run: |
           BAKE_JSON=bakefiles/${{ matrix.bakefile }} BAKE_OPTION=--push\ --no-cache make bake-json-group
