@@ -55,11 +55,10 @@ apt-get update -y \
             build-essential ca-certificates \
             git make cmake wget unzip libtool automake \
             zlib1g-dev libsqlite3-dev pkg-config sqlite3 libcurl4-openssl-dev \
-            libtiff5-dev \
+            libtiff5-dev lsb_release \
     && rm -rf /var/lib/apt/lists/*
 
 JAVA_VERSION=17
-# Setup build env for GDAL
 apt-get update -y \
     && apt-get install -y --fix-missing --no-install-recommends \
        libopenjp2-7-dev libcairo2-dev \
