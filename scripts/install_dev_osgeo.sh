@@ -50,35 +50,29 @@ apt_remove gdal-bin libgdal-dev libgeos-dev libproj-dev \
   && apt-get autoremove -y
 
 ## Derived from osgeo/gdal
-apt-get update -y \
-    && apt-get install -y --fix-missing --no-install-recommends \
-            build-essential ca-certificates \
-            git make cmake wget unzip libtool automake \
-            zlib1g-dev libsqlite3-dev pkg-config sqlite3 libcurl4-openssl-dev \
-            libtiff5-dev lsb-release \
-    && rm -rf /var/lib/apt/lists/*
-
-JAVA_VERSION=17
-apt-get update -y \
-    && apt-get install -y --fix-missing --no-install-recommends \
-       libopenjp2-7-dev libcairo2-dev \
-       python3-dev python3-numpy python3-setuptools \
-       libpng-dev libjpeg-dev libgif-dev liblzma-dev \
-       curl libxml2-dev libexpat-dev libxerces-c-dev \
-       libnetcdf-dev libpoppler-dev libpoppler-private-dev \
-       librasterlite2-dev swig ant libhdf4-alt-dev libhdf5-serial-dev \
-       libfreexl-dev unixodbc-dev  mdbtools-dev libwebp-dev \
-       liblcms2-2 libpcre3-dev libcrypto++-dev libfyba-dev \
-       libkml-dev libmysqlclient-dev libogdi-dev \
-       libcfitsio-dev openjdk-"$JAVA_VERSION"-jdk libzstd-dev \
-       libpq-dev libssl-dev libboost-dev \
-       autoconf automake bash-completion libarmadillo-dev \
-       libopenexr-dev libheif-dev \
-       libdeflate-dev libblosc-dev liblz4-dev libbz2-dev \
-       libbrotli-dev \
-       libarchive-dev \
-       libaec-dev \
-    && rm -rf /var/lib/apt/lists/*
+apt-get update
+apt-get install -y --fix-missing --no-install-recommends \
+  build-essential ca-certificates \
+  git make cmake wget unzip libtool automake \
+  zlib1g-dev libsqlite3-dev pkg-config sqlite3 libcurl4-openssl-dev \
+  libtiff5-dev lsb-release \
+  libopenjp2-7-dev libcairo2-dev \
+  python3-dev python3-numpy python3-setuptools \
+  libpng-dev libjpeg-dev libgif-dev liblzma-dev \
+  curl libxml2-dev libexpat-dev libxerces-c-dev \
+  libnetcdf-dev libpoppler-dev libpoppler-private-dev \
+  librasterlite2-dev swig ant libhdf4-alt-dev libhdf5-serial-dev \
+  libfreexl-dev unixodbc-dev  mdbtools-dev libwebp-dev \
+  liblcms2-2 libpcre3-dev libcrypto++-dev libfyba-dev \
+  libkml-dev libmysqlclient-dev libogdi-dev \
+  libcfitsio-dev openjdk-"$JAVA_VERSION"-jdk libzstd-dev \
+  libpq-dev libssl-dev libboost-dev \
+  autoconf automake bash-completion libarmadillo-dev \
+  libopenexr-dev libheif-dev \
+  libdeflate-dev libblosc-dev liblz4-dev libbz2-dev \
+  libbrotli-dev \
+  libarchive-dev \
+  libaec-dev
 
 ## geoparquet support
 wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
