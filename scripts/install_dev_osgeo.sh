@@ -31,13 +31,23 @@ function apt_install() {
     fi
 }
 
+# a function to remove apt packages only if they are installed
+function apt_remove() {
+    if dpkg -s "$@" >/dev/null 2>&1; then
+        apt-get remove -y "$@"
+    fi
+}
+
+
 function url_latest_gh_released_asset() {
     wget -qO- "https://api.github.com/repos/$1/releases/latest" | grep -oP "(?<=\"browser_download_url\":\s\")https.*\.tar.gz(?=\")" | head -n 1
 }
 
 export DEBIAN_FRONTEND=noninteractive
 
-apt-get update && apt-get -y remove --purge gdal-bin libgdal-dev libgeos-dev libproj-dev && apt-get autoremove -y
+
+apt_remove gdal-bin libgdal-dev libgeos-dev libproj-dev \
+  && apt-get autoremove -y
 
 ## Derived from osgeo/gdal
 apt-get update -y \
@@ -54,7 +64,7 @@ apt-get update -y \
     && apt-get install -y --fix-missing --no-install-recommends \
        libopenjp2-7-dev libcairo2-dev \
        python3-dev python3-numpy python3-setuptools \
-       libpng-dev libjpeg-dev libgif-dev liblzma-dev libgeos-dev \
+       libpng-dev libjpeg-dev libgif-dev liblzma-dev \
        curl libxml2-dev libexpat-dev libxerces-c-dev \
        libnetcdf-dev libpoppler-dev libpoppler-private-dev \
        libspatialite-dev librasterlite2-dev swig ant libhdf4-alt-dev libhdf5-serial-dev \
