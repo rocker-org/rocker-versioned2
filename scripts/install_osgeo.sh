@@ -61,9 +61,9 @@ apt-get update && apt-get -y install \
   valgrind \
   vim \
   wget \
-  libv8-dev \
+  libnode-dev \
   libjq-dev \
-  libssh2-dev \
+  libssh-dev \
   libgit2-dev \
   locales \
   libssl-dev \
@@ -71,7 +71,7 @@ apt-get update && apt-get -y install \
   libpng-dev libjpeg-dev libgif-dev liblzma-dev \
   curl libxml2-dev libexpat-dev libxerces-c-dev \
   libnetcdf-dev libpoppler-dev libpoppler-private-dev \
-  swig ant libhdf4-alt-dev libhdf5-serial-dev \
+  swig ant libhdf4-alt-dev libhdf5-dev \
   libfreexl-dev unixodbc-dev  mdbtools-dev libwebp-dev \
   liblcms2-2 libpcre3-dev libcrypto++-dev libfyba-dev \
   libkml-dev libmysqlclient-dev libogdi-dev \
