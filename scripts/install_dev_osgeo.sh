@@ -55,7 +55,7 @@ apt-get update -y \
             build-essential ca-certificates \
             git make cmake wget unzip libtool automake \
             zlib1g-dev libsqlite3-dev pkg-config sqlite3 libcurl4-openssl-dev \
-            libtiff5-dev lsb_release \
+            libtiff5-dev lsb-release \
     && rm -rf /var/lib/apt/lists/*
 
 JAVA_VERSION=17
