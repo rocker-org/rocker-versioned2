@@ -61,7 +61,7 @@ apt-get install -y --fix-missing --no-install-recommends \
   libpng-dev libjpeg-dev libgif-dev liblzma-dev \
   curl libxml2-dev libexpat-dev libxerces-c-dev \
   libnetcdf-dev libpoppler-dev libpoppler-private-dev \
-  librasterlite2-dev swig ant libhdf4-alt-dev libhdf5-serial-dev \
+  swig ant libhdf4-alt-dev libhdf5-serial-dev \
   libfreexl-dev unixodbc-dev  mdbtools-dev libwebp-dev \
   liblcms2-2 libpcre3-dev libcrypto++-dev libfyba-dev \
   libkml-dev libmysqlclient-dev libogdi-dev \
