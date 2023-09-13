@@ -171,7 +171,7 @@ ldconfig
 
 apt-get update && apt-get -y install cargo
 
-install2.r --error --skipmissing --skipinstalled -n "$NCPUS" -r ${CRAN_SOURCE} \
+install2.r --error --skipmissing -n "$NCPUS" -r ${CRAN_SOURCE} \
    sf \
    terra \
    lwgeom \
