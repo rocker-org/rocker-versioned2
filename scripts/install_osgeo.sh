@@ -7,11 +7,9 @@ set -e
 
 ## build ARGs
 NCPUS=${NCPUS:-"-1"}
-
 PROJ_VERSION=${PROJ_VERSION:-"latest"}
 GDAL_VERSION=${GDAL_VERSION:-"latest"}
 GEOS_VERSION=${GEOS_VERSION:-"latest"}
-
 CRAN=${CRAN_SOURCE:-"https://cloud.r-project.org"}
 echo "options(repos = c(CRAN = '${CRAN}'))" >>"${R_HOME}/etc/Rprofile.site"
 
@@ -44,51 +42,48 @@ function apt_remove() {
 
 
 export DEBIAN_FRONTEND=noninteractive
-
-
 apt_remove gdal-bin libgdal-dev libgeos-dev libproj-dev \
 && apt-get autoremove -y
 
 JAVA_VERSION=17
 
 apt-get update && apt-get -y install \
-gdb \
-git \
-lsb-release \
-libcairo2-dev \
-libcurl4-openssl-dev \
-libpq-dev \
-libsqlite3-dev \
-libudunits2-dev \
-make \
-pandoc \
-qpdf \
-sqlite3 \
-valgrind \
-vim \
-wget \
-libv8-dev \
-libjq-dev \
-libssh2-1-dev \
-libgit2-dev \
-locales \
-libssl-dev \
-python3-dev python3-numpy python3-setuptools \
-libpng-dev libjpeg-dev libgif-dev liblzma-dev \
-curl libxml2-dev libexpat1-dev libxerces-c-dev \
-libnetcdf-dev libpoppler-dev libpoppler-private-dev \
-swig ant libhdf4-alt-dev libhdf5-serial-dev \
-libfreexl-dev unixodbc-dev  mdbtools-dev libwebp-dev \
-liblcms2-2 libpcre3-dev libcrypto++-dev libfyba-dev \
-libkml-dev libmysqlclient-dev libogdi-dev \
-libcfitsio-dev openjdk-"$JAVA_VERSION"-jdk libzstd-dev \
-libpq-dev libssl-dev libboost-dev \
-autoconf automake bash-completion libarmadillo-dev \
-libopenexr-dev libheif-dev \
-libdeflate-dev libblosc-dev liblz4-dev libbz2-dev \
-libbrotli-dev \
-libarchive-dev \
-libaec-dev
+  git \
+  lsb-release \
+  libcairo2-dev \
+  libcurl4-openssl-dev \
+  libpq-dev \
+  libsqlite3-dev \
+  libudunits2-dev \
+  make \
+  pandoc \
+  qpdf \
+  sqlite3 \
+  valgrind \
+  vim \
+  wget \
+  libv8-dev \
+  libjq-dev \
+  libssh2-dev \
+  libgit2-dev \
+  locales \
+  libssl-dev \
+  python3-dev python3-numpy python3-setuptools \
+  libpng-dev libjpeg-dev libgif-dev liblzma-dev \
+  curl libxml2-dev libexpat-dev libxerces-c-dev \
+  libnetcdf-dev libpoppler-dev libpoppler-private-dev \
+  swig ant libhdf4-alt-dev libhdf5-serial-dev \
+  libfreexl-dev unixodbc-dev  mdbtools-dev libwebp-dev \
+  liblcms2-2 libpcre3-dev libcrypto++-dev libfyba-dev \
+  libkml-dev libmysqlclient-dev libogdi-dev \
+  libcfitsio-dev openjdk-"$JAVA_VERSION"-jdk libzstd-dev \
+  libpq-dev libssl-dev libboost-dev \
+  autoconf automake bash-completion libarmadillo-dev \
+  libopenexr-dev libheif-dev \
+  libdeflate-dev libblosc-dev liblz4-dev libbz2-dev \
+  libbrotli-dev \
+  libarchive-dev \
+  libaec-dev
 
 ## geoparquet support
 wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
@@ -111,7 +106,7 @@ bzip2 -d geos-*bz2
 tar xf geos*tar
 rm geos*tar
 cd geos*
-  mkdir build
+mkdir build
 cd build
 cmake ..
 cmake --build . --parallel "$CMAKE_CORES" --target install
@@ -129,7 +124,7 @@ wget "$PROJ_DL_URL" -O proj.tar.gz
 tar zxvf proj.tar.gz
 rm proj.tar.gz
 cd proj-*
-  mkdir build
+mkdir build
 cd build
 cmake ..
 cmake --build . --parallel "$CMAKE_CORES" --target install
@@ -148,7 +143,7 @@ wget "$GDAL_DL_URL" -O gdal.tar.gz
 tar -xf gdal.tar.gz
 rm gdal*tar.gz
 cd gdal*
-  mkdir build
+mkdir build
 cd ./build
 # cmake .. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/usr   -DBUILD_JAVA_BINDINGS:BOOL=OFF -DBUILD_CSHARP_BINDINGS:BOOL=OFF
 cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -158,12 +153,12 @@ ldconfig
 apt-get -y install cargo
 
 install2.r --error --skipmissing -n "$NCPUS" -r ${CRAN_SOURCE} \
-sf \
-terra \
-lwgeom \
-stars \
-gdalcubes \
-gifski
+  sf \
+  terra \
+  lwgeom \
+  stars \
+  gdalcubes \
+  gifski
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
