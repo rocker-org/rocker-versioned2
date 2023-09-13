@@ -49,31 +49,68 @@ export DEBIAN_FRONTEND=noninteractive
 apt_remove gdal-bin libgdal-dev libgeos-dev libproj-dev \
   && apt-get autoremove -y
 
+JAVA_VERSION=17
 ## Derived from osgeo/gdal
 apt-get update
 apt-get install -y --fix-missing --no-install-recommends \
-  build-essential ca-certificates \
-  git make cmake wget unzip libtool automake \
-  zlib1g-dev libsqlite3-dev pkg-config sqlite3 libcurl4-openssl-dev \
-  libtiff5-dev lsb-release \
-  libopenjp2-7-dev libcairo2-dev \
-  python3-dev python3-numpy python3-setuptools \
-  libpng-dev libjpeg-dev libgif-dev liblzma-dev \
-  curl libxml2-dev libexpat-dev libxerces-c-dev \
-  libnetcdf-dev libpoppler-dev libpoppler-private-dev \
-  librasterlite2-dev swig ant libhdf4-alt-dev libhdf5-serial-dev \
-  libfreexl-dev unixodbc-dev  mdbtools-dev libwebp-dev \
-  liblcms2-2 libpcre3-dev libcrypto++-dev libfyba-dev \
-  libkml-dev libmysqlclient-dev libogdi-dev \
-  libcfitsio-dev openjdk-"$JAVA_VERSION"-jdk libzstd-dev \
-  libpq-dev libssl-dev libboost-dev \
-  autoconf automake bash-completion libarmadillo-dev \
-  libopenexr-dev libheif-dev \
-  libdeflate-dev libblosc-dev liblz4-dev libbz2-dev \
-  libbrotli-dev \
+  ant \
+  autoconf \
+  automake \
+  bash-completion \
+  build-essential \
+  ca-certificates \
+  cmake \
+  curl \
+  git \
   libarchive-dev \
-  libaec-dev
-
+  libarmadillo-dev \
+  libblosc-dev \
+  libboost-dev \
+  libbz2-dev \
+  libcairo2-dev \
+  libcfitsio-dev \
+  libcrypto++-dev \
+  libcurl4-openssl-dev \
+  libdeflate-dev \
+  libexpat-dev \
+  libfyba-dev \
+  libgif-dev \
+  libheif-dev \
+  libhdf4-alt-dev \
+  libhdf5-serial-dev \
+  libjpeg-dev \
+  libkml-dev \
+  liblcms2-2 \
+  liblz4-dev \
+  liblzma-dev \
+  libmysqlclient-dev \
+  libnetcdf-dev \
+  libogdi-dev \
+  libopenexr-dev \
+  libopenjp2-7-dev \
+  libpcre3-dev \
+  libpng-dev \
+  libpq-dev \
+  libpoppler-dev \
+  libpoppler-private-dev \
+  libsqlite3-dev \
+  libssl-dev \
+  libtiff5-dev \
+  libwebp-dev \
+  libxerces-c-dev \
+  libxml2-dev \
+  lsb-release \
+  make \
+  mdbtools-dev \
+  pkg-config \
+  python3-dev \
+  python3-numpy \
+  python3-setuptools \
+  sqlite3 \
+  swig \
+  unixodbc-dev \
+  wget \
+  zlib1g-dev
 ## geoparquet support
 wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
 apt_install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
