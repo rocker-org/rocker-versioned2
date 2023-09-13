@@ -86,6 +86,8 @@ wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr 
 apt_install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
 apt-get update && apt-get install -y -V libarrow-dev libparquet-dev libarrow-dataset-dev
 
+rm -rf /build_local
+mkdir /build_local && cd /build_local
 
 ## tiledb
 GCC_ARCH="$(uname -m)"
@@ -130,6 +132,7 @@ cd build
 cmake ..
 cmake --build . --parallel "$CMAKE_CORES" --target install
 ldconfig
+cd /build_local
 
 # install proj
 # https://download.osgeo.org/proj/
@@ -147,8 +150,8 @@ mkdir build
 cd build
 cmake ..
 cmake --build . --parallel "$CMAKE_CORES" --target install
-cd ../..
 ldconfig
+cd /build_local
 
 # install gdal
 # https://download.osgeo.org/gdal/
@@ -168,6 +171,7 @@ cd ./build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake --build . --parallel "$CMAKE_CORES" --target install
 ldconfig
+cd /build_local
 
 apt-get update && apt-get -y install cargo
 

@@ -54,7 +54,6 @@ apt-get update && apt-get -y install \
   libcurl4-openssl-dev \
   libpq-dev \
   libsqlite3-dev \
-  libudunits2-dev \
   make \
   pandoc \
   qpdf \
@@ -91,15 +90,17 @@ apt_install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --s
 apt-get update && apt-get install -y -V libarrow-dev libparquet-dev libarrow-dataset-dev
 
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+rm -rf /build_local
+mkdir /build_local && cd /build_local
+
+## purge existing directories to permit re-run of script with updated versions
+rm -rf geos* proj* gdal*
 
 # install geos
 # https://libgeos.org/usage/download/
 if [ "$GEOS_VERSION" = "latest" ]; then
 GEOS_VERSION=$(wget -qO- "https://api.github.com/repos/libgeos/geos/git/refs/tags" | grep -oP "(?<=\"ref\":\s\"refs/tags/)\d+\.\d+\.\d+" | tail -n -1)
 fi
-
-## purge existing directories to permit re-run of script with updated versions
-rm -rf geos* proj* gdal*
   
 wget https://download.osgeo.org/geos/geos-"${GEOS_VERSION}".tar.bz2
 bzip2 -d geos-*bz2
@@ -111,6 +112,7 @@ cd build
 cmake ..
 cmake --build . --parallel "$CMAKE_CORES" --target install
 ldconfig
+cd /build_local
 
 # install proj
 # https://download.osgeo.org/proj/
@@ -128,8 +130,8 @@ mkdir build
 cd build
 cmake ..
 cmake --build . --parallel "$CMAKE_CORES" --target install
-cd ../..
 ldconfig
+cd /build_local
 
 # install gdal
 # https://download.osgeo.org/gdal/
@@ -149,8 +151,10 @@ cd ./build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 cmake --build . --parallel "$CMAKE_CORES" --target install
 ldconfig
+cd /build_local
 
-apt-get -y install cargo
+# R package dependencies
+apt-get -y install cargo libudunits2-dev
 
 install2.r --error --skipmissing -n "$NCPUS" -r ${CRAN_SOURCE} \
   sf \
@@ -162,12 +166,10 @@ install2.r --error --skipmissing -n "$NCPUS" -r ${CRAN_SOURCE} \
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
-  rm -rf /tmp/downloaded_packages
+rm -rf /tmp/downloaded_packages
 
 # Check the geospatial packages
 
 echo -e "Check the stars package...\n"
-
 R -q -e "library(stars)"
-
 echo -e "\nInstall stars package, done!"
