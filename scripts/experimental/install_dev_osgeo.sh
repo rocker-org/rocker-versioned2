@@ -134,6 +134,7 @@ fi
 ## ensure that osgeo.gdal and family get installed for python use https://github.com/OSGeo/gdal/blob/master/swig/python/README.rst
 wget https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
+rm get-pip.py
 pip install numpy setuptools
 
 wget "$GDAL_DL_URL" -O gdal.tar.gz
