@@ -135,7 +135,7 @@ fi
 wget https://bootstrap.pypa.io/get-pip.py
 python3 get-pip.py
 rm get-pip.py
-pip install numpy setuptools
+pip install  --no-cache-dir numpy setuptools
 
 wget "$GDAL_DL_URL" -O gdal.tar.gz
 tar -xf gdal.tar.gz
