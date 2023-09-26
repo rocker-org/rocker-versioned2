@@ -77,7 +77,6 @@ apt-get install -y --fix-missing --no-install-recommends \
   libfreexl-dev \
   libfyba-dev \
   libgif-dev \
-  libgeotiff-dev \
   libheif-dev \
   libhdf4-alt-dev \
   libhdf5-serial-dev \
