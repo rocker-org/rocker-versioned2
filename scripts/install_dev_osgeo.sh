@@ -68,19 +68,23 @@ apt-get install -y --fix-missing --no-install-recommends \
   libboost-dev \
   libbz2-dev \
   libcairo2-dev \
+  libclc-15-dev \
   libcfitsio-dev \
   libcrypto++-dev \
   libcurl4-openssl-dev \
   libdeflate-dev \
   libexpat-dev \
+  libfreexl-dev \
   libfyba-dev \
   libgif-dev \
+  libgeotiff-dev \
   libheif-dev \
   libhdf4-alt-dev \
   libhdf5-serial-dev \
   libjpeg-dev \
   libkml-dev \
   liblcms2-2 \
+  liblerc-dev \
   liblz4-dev \
   liblzma-dev \
   libmysqlclient-dev \
@@ -93,6 +97,7 @@ apt-get install -y --fix-missing --no-install-recommends \
   libpq-dev \
   libpoppler-dev \
   libpoppler-private-dev \
+  libqhull-dev \
   libsqlite3-dev \
   libssl-dev \
   libtiff5-dev \
