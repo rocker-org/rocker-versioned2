@@ -96,6 +96,7 @@ apt-get install -y --fix-missing --no-install-recommends \
   libsqlite3-dev \
   libssl-dev \
   libtiff5-dev \
+  libudunits2-dev \
   libwebp-dev \
   libxerces-c-dev \
   libxml2-dev \
