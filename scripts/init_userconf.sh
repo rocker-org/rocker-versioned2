@@ -122,8 +122,8 @@ elif [ -z "$PASSWORD" ]; then
 fi
 
 if [ "${RUNROOTLESS}" = "true" ]; then
-    check_user_id=$(grep -F "auth-minimum-user-id" /etc/rstudio/rserver.conf | sed -e "s/^.*= *//")
-    if [[ "$check_user_id" = '0' ]]; then
+    check_user_id="$(grep -F auth-minimum-user-id /etc/rstudio/rserver.conf | sed -e 's/^.*= *//')"
+    if [[ "$check_user_id" = "0" ]]; then
         echo "root user already authorized in /etc/rstudio/rserver.conf: $check_user_id, not changed"
     elif [[ -n $check_user_id ]]; then
         echo "minimum authorised user already exists in /etc/rstudio/rserver.conf: $check_user_id"
