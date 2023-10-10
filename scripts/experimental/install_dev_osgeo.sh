@@ -215,8 +215,7 @@ install2.r --error --skipmissing -n "$NCPUS" -r ${CRAN_SOURCE} \
    terra \
    lwgeom \
    stars \
-   gdalcubes \
-   gifski
+   gdalcubes
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
