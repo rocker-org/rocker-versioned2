@@ -38,84 +38,82 @@ function apt_remove() {
     fi
 }
 
-
 function url_latest_gh_released_asset() {
     wget -qO- "https://api.github.com/repos/$1/releases/latest" | grep -oP "(?<=\"browser_download_url\":\s\")https.*\.tar.gz(?=\")" | head -n 1
 }
 
 export DEBIAN_FRONTEND=noninteractive
 
-
-apt_remove gdal-bin libgdal-dev libgeos-dev libproj-dev \
-  && apt-get autoremove -y
+apt_remove gdal-bin libgdal-dev libgeos-dev libproj-dev &&
+    apt-get autoremove -y
 
 JAVA_VERSION=17
 ## Derived from osgeo/gdal
 apt-get update
 apt-get install -y --fix-missing --no-install-recommends \
-  ant \
-  autoconf \
-  automake \
-  bash-completion \
-  build-essential \
-  ca-certificates \
-  cmake \
-  curl \
-  git \
-  libarchive-dev \
-  libarmadillo-dev \
-  libblosc-dev \
-  libboost-dev \
-  libbz2-dev \
-  libcairo2-dev \
-  libclc-15-dev \
-  libcfitsio-dev \
-  libcrypto++-dev \
-  libcurl4-openssl-dev \
-  libdeflate-dev \
-  libexpat-dev \
-  libfreexl-dev \
-  libfyba-dev \
-  libgif-dev \
-  libheif-dev \
-  libhdf4-alt-dev \
-  libhdf5-serial-dev \
-  libjpeg-dev \
-  libkml-dev \
-  liblcms2-2 \
-  liblerc-dev \
-  liblz4-dev \
-  liblzma-dev \
-  libmysqlclient-dev \
-  libnetcdf-dev \
-  libogdi-dev \
-  libopenexr-dev \
-  libopenjp2-7-dev \
-  libpcre3-dev \
-  libpng-dev \
-  libpq-dev \
-  libpoppler-dev \
-  libpoppler-private-dev \
-  libqhull-dev \
-  libsqlite3-dev \
-  libssl-dev \
-  libtiff5-dev \
-  libudunits2-dev \
-  libwebp-dev \
-  libxerces-c-dev \
-  libxml2-dev \
-  lsb-release \
-  make \
-  mdbtools-dev \
-  pkg-config \
-  python3-dev \
-  python3-numpy \
-  python3-setuptools \
-  sqlite3 \
-  swig \
-  unixodbc-dev \
-  wget \
-  zlib1g-dev
+    ant \
+    autoconf \
+    automake \
+    bash-completion \
+    build-essential \
+    ca-certificates \
+    cmake \
+    curl \
+    git \
+    libarchive-dev \
+    libarmadillo-dev \
+    libblosc-dev \
+    libboost-dev \
+    libbz2-dev \
+    libcairo2-dev \
+    libclc-15-dev \
+    libcfitsio-dev \
+    libcrypto++-dev \
+    libcurl4-openssl-dev \
+    libdeflate-dev \
+    libexpat-dev \
+    libfreexl-dev \
+    libfyba-dev \
+    libgif-dev \
+    libheif-dev \
+    libhdf4-alt-dev \
+    libhdf5-serial-dev \
+    libjpeg-dev \
+    libkml-dev \
+    liblcms2-2 \
+    liblerc-dev \
+    liblz4-dev \
+    liblzma-dev \
+    libmysqlclient-dev \
+    libnetcdf-dev \
+    libogdi-dev \
+    libopenexr-dev \
+    libopenjp2-7-dev \
+    libpcre3-dev \
+    libpng-dev \
+    libpq-dev \
+    libpoppler-dev \
+    libpoppler-private-dev \
+    libqhull-dev \
+    libsqlite3-dev \
+    libssl-dev \
+    libtiff5-dev \
+    libudunits2-dev \
+    libwebp-dev \
+    libxerces-c-dev \
+    libxml2-dev \
+    lsb-release \
+    make \
+    mdbtools-dev \
+    pkg-config \
+    python3-dev \
+    python3-numpy \
+    python3-setuptools \
+    sqlite3 \
+    swig \
+    unixodbc-dev \
+    wget \
+    zlib1g-dev
 ## geoparquet support
 wget https://apache.jfrog.io/artifactory/arrow/"$(lsb_release --id --short | tr '[:upper:]' '[:lower:]')"/apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
 apt_install -y -V ./apache-arrow-apt-source-latest-"$(lsb_release --codename --short)".deb
@@ -127,24 +125,23 @@ mkdir /build_local && cd /build_local
 ## tiledb
 GCC_ARCH="$(uname -m)"
 export TILEDB_VERSION=2.16.3
-apt-get update -y \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        libspdlog-dev \
-    && mkdir tiledb \
-    && wget -q https://github.com/TileDB-Inc/TileDB/archive/${TILEDB_VERSION}.tar.gz -O - \
-        | tar xz -C tiledb --strip-components=1 \
-    && cd tiledb \
-    && mkdir build_cmake \
-    && cd build_cmake \
-    && ../bootstrap --prefix=/usr --disable-werror \
-    && make -j$(nproc) \
-    && make install-tiledb DESTDIR="/build_thirdparty" \
-    && make install-tiledb \
-    && cd ../.. \
-    && rm -rf tiledb \
-    && for i in /build_thirdparty/usr/lib/${GCC_ARCH}-linux-gnu/*; do strip -s $i 2>/dev/null || /bin/true; done \
-    && for i in /build_thirdparty/usr/bin/*; do strip -s $i 2>/dev/null || /bin/true; done
-
+apt-get update -y &&
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        libspdlog-dev &&
+    mkdir tiledb &&
+    wget -q https://github.com/TileDB-Inc/TileDB/archive/${TILEDB_VERSION}.tar.gz -O - |
+    tar xz -C tiledb --strip-components=1 &&
+    cd tiledb &&
+    mkdir build_cmake &&
+    cd build_cmake &&
+    ../bootstrap --prefix=/usr --disable-werror &&
+    make -j$(nproc) &&
+    make install-tiledb DESTDIR="/build_thirdparty" &&
+    make install-tiledb &&
+    cd ../.. &&
+    rm -rf tiledb &&
+    for i in /build_thirdparty/usr/lib/${GCC_ARCH}-linux-gnu/*; do strip -s $i 2>/dev/null || /bin/true; done &&
+    for i in /build_thirdparty/usr/bin/*; do strip -s $i 2>/dev/null || /bin/true; done
 
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
@@ -211,11 +208,11 @@ cd /build_local
 apt-get update && apt-get -y install cargo
 
 install2.r --error --skipmissing -n "$NCPUS" -r ${CRAN_SOURCE} \
-   sf \
-   terra \
-   lwgeom \
-   stars \
-   gdalcubes
+    sf \
+    terra \
+    lwgeom \
+    stars \
+    gdalcubes
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
