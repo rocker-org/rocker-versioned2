@@ -47,7 +47,6 @@ export DEBIAN_FRONTEND=noninteractive
 apt_remove gdal-bin libgdal-dev libgeos-dev libproj-dev &&
     apt-get autoremove -y
 
-JAVA_VERSION=17
 ## Derived from osgeo/gdal
 apt-get update
 apt-get install -y --fix-missing --no-install-recommends \
