@@ -134,13 +134,13 @@ apt-get update -y &&
     mkdir build_cmake &&
     cd build_cmake &&
     ../bootstrap --prefix=/usr --disable-werror &&
-    make -j$(nproc) &&
+    make "-j$(nproc)" &&
     make install-tiledb DESTDIR="/build_thirdparty" &&
     make install-tiledb &&
     cd ../.. &&
     rm -rf tiledb &&
-    for i in /build_thirdparty/usr/lib/${GCC_ARCH}-linux-gnu/*; do strip -s $i 2>/dev/null || /bin/true; done &&
-    for i in /build_thirdparty/usr/bin/*; do strip -s $i 2>/dev/null || /bin/true; done
+    for i in /build_thirdparty/usr/lib/"${GCC_ARCH}"-linux-gnu/*; do strip -s "$i" 2>/dev/null || /bin/true; done &&
+    for i in /build_thirdparty/usr/bin/*; do strip -s "$i" 2>/dev/null || /bin/true; done
 
 LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
@@ -206,7 +206,7 @@ cd /build_local
 
 apt-get update && apt-get -y install cargo
 
-install2.r --error --skipmissing -n "$NCPUS" -r ${CRAN_SOURCE} \
+install2.r --error --skipmissing -n "$NCPUS" -r "${CRAN_SOURCE}" \
     sf \
     terra \
     lwgeom \
