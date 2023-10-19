@@ -36,6 +36,8 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" remotes
 R --quiet -e 'remotes::install_github("IRkernel/IRkernel@*release")'
 R --quiet -e 'IRkernel::installspec(user = FALSE)'
 
+## Install texlive
+/rocker_scripts/install_texlive.sh
 # Install tex packages needed for Jupyter's nbconvert to work correctly & convert to PDF
 # Sourced from https://github.com/jupyter/nbconvert/issues/1328
 tlmgr install adjustbox caption collectbox enumitem environ eurosym etoolbox jknapltx parskip \
