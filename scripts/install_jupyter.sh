@@ -38,7 +38,7 @@ R --quiet -e 'IRkernel::installspec(user = FALSE)'
 
 # Install texlive if it has not already been installed
 if ! command -v tlmgr; then
-    # shellcheck source=scripts/install_texlive.sh
+    # shellcheck source=/dev/null
     source /rocker_scripts/install_texlive.sh
 fi
 
