@@ -5,9 +5,12 @@
 ### Changes in pre-built images
 
 - `rocker/binder` now includes necessary LaTeX packages to allow Jupyter Notebooks to be converted to PDF. ([#714](https://github.com/rocker-org/rocker-versioned2/pull/714))
-  - `install_jupyter.sh` will now install TexLive if it is not installed, and add
-     additional LaTeX packages needed for Jupyter PDF conversion. This will increase
-     the build time and size of the final image in cases `install_jupyter.sh` is called.
+
+### Changes in rocker_scripts
+
+- `install_jupyter.sh` will now install TexLive if it is not installed, and add
+  additional LaTeX packages needed for Jupyter PDF conversion. This will increase
+  the build time and size of the final image in cases `install_jupyter.sh` is called.
 
 ## 2023-04
 
