@@ -1,5 +1,11 @@
 # News
 
+## 2023-10
+
+### Changes in pre-built images
+
+- `rocker/binder` now includes necessary LaTeX packages to allow Jupyter Notebooks to be converted to PDF. ([#714](https://github.com/rocker-org/rocker-versioned2/pull/714))
+
 ## 2023-04
 
 ### Changes in pre-built images
