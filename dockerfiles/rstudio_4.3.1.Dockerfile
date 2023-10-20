@@ -6,7 +6,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
 ENV S6_VERSION=v2.1.0.2
-ENV RSTUDIO_VERSION=2023.09.0+463
+ENV RSTUDIO_VERSION=2023.09.1+494
 ENV DEFAULT_USER=rstudio
 ENV PANDOC_VERSION=default
 ENV QUARTO_VERSION=default
