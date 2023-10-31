@@ -1,11 +1,14 @@
-FROM rocker/tidyverse:4.3.1
+FROM rocker/verse:4.3.2
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV CTAN_REPO=https://www.texlive.info/tlnet-archive/2023/10/30/tlnet
-ENV PATH=$PATH:/usr/local/texlive/bin/linux
+ENV PROJ_VERSION=9.3.0
+ENV GDAL_VERSION=3.7.2
+ENV GEOS_VERSION=3.12.0
 
-RUN /rocker_scripts/install_verse.sh
+COPY scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh
+
+RUN /rocker_scripts/experimental/install_dev_osgeo.sh
