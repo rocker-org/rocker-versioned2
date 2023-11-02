@@ -58,8 +58,8 @@ fi
 
 # Check that python and python3 point to correct places
 echo -e "Check python and python3 executables point to the correct place...\n"
-which python
-which python3
+echo -e "python -> $(which python)\n"
+echo -e "python3 -> $(which python3)\n"
 
 # Check Python version
 echo -e "Check the Python to use with reticulate...\n"
