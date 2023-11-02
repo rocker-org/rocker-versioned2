@@ -27,7 +27,7 @@ if ! id -u "${NB_USER}" >/dev/null 2>&1; then
 fi
 
 # install python
-/rocker_scripts/install_python.sh
+source /rocker_scripts/install_python.sh
 
 python3 -m pip install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab jupyterhub
 
