@@ -26,7 +26,8 @@ if ! id -u "${NB_USER}" >/dev/null 2>&1; then
     /rocker_scripts/default_user.sh "${NB_USER}"
 fi
 
-# install python
+# install python & setup venv
+# shellcheck source=/dev/null
 source /rocker_scripts/install_python.sh
 
 python3 -m pip install --no-cache-dir jupyter-rsession-proxy notebook jupyterlab jupyterhub
