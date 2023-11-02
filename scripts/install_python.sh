@@ -26,7 +26,7 @@ apt_install \
 
 # Put things under /opt/venv, if nothing else is specified
 export VIRTUAL_ENV="${VIRTUAL_ENV:=/opt/venv}"
-export PATH="${VIRTUAL_ENV}:${PATH}"
+export PATH="${VIRTUAL_ENV}/bin:${PATH}"
 
 python3 -m venv "${VIRTUAL_ENV}"
 
