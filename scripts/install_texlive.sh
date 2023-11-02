@@ -64,10 +64,9 @@ tlmgr install \
     fancyvrb \
     framed \
     geometry \
-    getlittlestring \
+    gettitlestring \
     hycolor \
     hyperref \
-    iftext \
     inconsolata \
     infwarerr \
     intcalc \
