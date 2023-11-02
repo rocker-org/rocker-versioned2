@@ -23,8 +23,12 @@ apt_install \
     swig
 
 # Setup a virtualenv to install things into
-python3 -m venv ${VIRTUAL_ENV}
+
+# Put things under /opt/venv, if nothing else is specified
+export VIRTUAL_ENV="${VIRTUAL_ENV:=/opt/venv}"
 export PATH=${VIRTUAL_ENV}:${PATH}
+
+python3 -m venv ${VIRTUAL_ENV}
 
 # Upgrade version of pip inside the virtualenv
 python3 -m pip --no-cache-dir install --upgrade \
