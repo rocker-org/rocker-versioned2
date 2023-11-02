@@ -49,7 +49,52 @@ ln -fsr /usr/local/texlive/bin/"${ARCH}"-linux /usr/local/texlive/bin/linux
 
 tlmgr update --self
 tlmgr install latex-bin luatex xetex
-tlmgr install ae bibtex context inconsolata listings makeindex metafont mfware parskip pdfcrop tex tools url xkeyval
+tlmgr install \
+    ae \
+    amsmath \
+    auxhook \
+    bibtex \
+    bigintcalc \
+    bitset \
+    context \
+    ec \
+    epstopdf-pkg
+    etexcmds \
+    etoolbox \
+    fancyvrb \
+    framed \
+    geometry \
+    getlittlestring \
+    hycolor \
+    hyperref \
+    iftext \
+    inconsolata \
+    infwarerr \
+    intcalc \
+    kvdefinekeys \
+    kvoptions \
+    kvsetkeys \
+    letltxmacro \
+    listings \
+    ltxcmds \
+    makeindex \
+    metafont \
+    mfware \
+    parskip \
+    pdfcrop \
+    pdfescape \
+    pdftexcmds \
+    refcount \
+    rerunfilecheck \
+    stringenc \
+    tex \
+    tools \
+    uniquecounter \
+    url \
+    xcolor \
+    xkeyval \
+    zapfding \
+
 
 ## do not add to /usr/local/bin
 # tlmgr path add
