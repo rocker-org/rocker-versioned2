@@ -58,7 +58,7 @@ tlmgr install \
     bitset \
     context \
     ec \
-    epstopdf-pkg
+    epstopdf-pkg \
     etexcmds \
     etoolbox \
     fancyvrb \
@@ -93,8 +93,7 @@ tlmgr install \
     url \
     xcolor \
     xkeyval \
-    zapfding \
-
+    zapfding
 
 ## do not add to /usr/local/bin
 # tlmgr path add
