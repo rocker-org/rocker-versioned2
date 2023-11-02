@@ -26,9 +26,9 @@ apt_install \
 
 # Put things under /opt/venv, if nothing else is specified
 export VIRTUAL_ENV="${VIRTUAL_ENV:=/opt/venv}"
-export PATH=${VIRTUAL_ENV}:${PATH}
+export PATH="${VIRTUAL_ENV}:${PATH}"
 
-python3 -m venv ${VIRTUAL_ENV}
+python3 -m venv "${VIRTUAL_ENV}"
 
 # Upgrade version of pip inside the virtualenv
 python3 -m pip --no-cache-dir install --upgrade \
