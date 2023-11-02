@@ -22,13 +22,13 @@ apt_install \
     python3-venv \
     swig
 
+# Setup a virtualenv to install things into
+python3 -m venv ${VIRTUAL_ENV}
+export PATH=${VIRTUAL_ENV}:${PATH}
+
+# Upgrade version of pip inside the virtualenv
 python3 -m pip --no-cache-dir install --upgrade \
     pip
-
-# Some TF tools expect a "python" binary
-if [ ! -e /usr/local/bin/python ]; then
-    ln -s "$(which python3)" /usr/local/bin/python
-fi
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" reticulate
 
