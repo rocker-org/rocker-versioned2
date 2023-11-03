@@ -6,6 +6,17 @@
 
 - Switch the base URL of CRAN mirrors (P3M, formerly RSPM) from `https://packagemanager.posit.co/cran`
   to `https://p3m.dev/cran` ([#722](https://github.com/rocker-org/rocker-versioned2/pull/722))
+- `rocker/verse` and images that inherit from it now include necessary
+  LaTex packages to allow Rmarkdown to knit to PDF out of the box.
+  ([#721](https://github.com/rocker-org/rocker-versioned2/pull/721))
+
+### Changes in rocker_scripts
+
+- `install_texlive.sh` will now install additional LaTeX packages
+  required for Rmarkdown to knit to PDF. This will increase the
+  build time and size of the final image in cases where
+  `install_texlive.sh` is called.
+  ([#721](https://github.com/rocker-org/rocker-versioned2/pull/721))
 
 ## 2023-10
 
