@@ -112,7 +112,9 @@ library(gert)
 .cuda_baseimage_tag <- function(ubuntu_series, other_variants = "11.8.0-cudnn8-devel") {
   ubuntu_version <- dplyr::case_when(
     ubuntu_series == "focal" ~ "20.04",
-    ubuntu_series == "jammy" ~ "22.04"
+    ubuntu_series == "jammy" ~ "22.04",
+    ubuntu_series == "noble" ~ "24.04",
+    .default = "unknown"
   )
 
   image_tag <- glue::glue("nvidia/cuda:{other_variants}-ubuntu{ubuntu_version}", .na = NULL)
