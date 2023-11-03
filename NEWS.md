@@ -14,6 +14,7 @@
   required for Rmarkdown to knit to PDF. This will increase the
   build time and size of the final image in cases where
   `install_texlive.sh` is called.
+  ([#721](https://github.com/rocker-org/rocker-versioned2/pull/721))
 
 ## 2023-10
 
