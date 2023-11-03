@@ -1,5 +1,12 @@
 # News
 
+## 2023-11
+
+### Changes in pre-built images
+
+- Switch the base URL of CRAN mirrors (P3M, formerly RSPM) from `https://packagemanager.posit.co/cran`
+  to `https://p3m.dev/cran` ([#722](https://github.com/rocker-org/rocker-versioned2/pull/722))
+
 ## 2023-10
 
 ### Changes in pre-built images
