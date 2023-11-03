@@ -1,5 +1,20 @@
 # News
 
+## 2023-11
+
+### Changes in pre-built images
+
+- `rocker/verse` and images that inherit from it now include necessary
+  LaTex packages to allow Rmarkdown to knit to PDF out of the box.
+  ([#721](https://github.com/rocker-org/rocker-versioned2/pull/721))
+
+### Changes in rocker_scripts
+
+- `install_texlive.sh` will now install additional LaTeX packages
+  required for Rmarkdown to knit to PDF. This will increase the
+  build time and size of the final image in cases where
+  `install_texlive.sh` is called.
+
 ## 2023-10
 
 ### Changes in pre-built images
@@ -11,10 +26,6 @@
 - `install_jupyter.sh` will now install TexLive if it is not installed, and add
   additional LaTeX packages needed for Jupyter PDF conversion. This will increase
   the build time and size of the final image in cases `install_jupyter.sh` is called.
-- `install_texlive.sh` will now install additional LaTeX packages
-  required for Rmarkdown to knit to PDF. This will increase the
-  build time and size of the final image in cases where
-  `install_texlive.sh` is called.
 
 ## 2023-04
 
