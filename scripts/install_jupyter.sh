@@ -44,9 +44,10 @@ fi
 
 # Install tex packages needed for Jupyter's nbconvert to work correctly & convert to PDF
 # Sourced from https://github.com/jupyter/nbconvert/issues/1328
-tlmgr install adjustbox caption collectbox enumitem environ eurosym jknapltx parskip \
+tlmgr install adjustbox caption collectbox enumitem environ eurosym etoolbox jknapltx parskip \
     pdfcol pgf rsfs tcolorbox titling trimspaces ucs ulem upquote \
-    float fontspec unicode-math grffile booktabs soul
+    ltxcmds infwarerr iftex kvoptions kvsetkeys float geometry amsmath fontspec \
+    unicode-math fancyvrb grffile hyperref booktabs soul ec
 
 # Clean up
 rm -rf /var/lib/apt/lists/*
