@@ -51,7 +51,7 @@ library(gert)
 }
 
 .make_rspm_cran_url_linux <- function(date, distro_version_name, type = "source") {
-  base_url <- "https://packagemanager.posit.co/cran"
+  base_url <- "https://p3m.dev/cran"
   .url <- dplyr::case_when(
     type == "source" & is.na(date) ~ glue::glue("{base_url}/latest"),
     type == "binary" & is.na(date) ~ glue::glue("{base_url}/__linux__/{distro_version_name}/latest"),
