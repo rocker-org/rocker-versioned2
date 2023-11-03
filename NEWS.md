@@ -11,6 +11,10 @@
 - `install_jupyter.sh` will now install TexLive if it is not installed, and add
   additional LaTeX packages needed for Jupyter PDF conversion. This will increase
   the build time and size of the final image in cases `install_jupyter.sh` is called.
+- `install_texlive.sh` will now install additional LaTeX packages
+  required for Rmarkdown to knit to PDF. This will increase the
+  build time and size of the final image in cases where
+  `install_texlive.sh` is called.
 
 ## 2023-04
 
