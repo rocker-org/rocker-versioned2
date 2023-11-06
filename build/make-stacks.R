@@ -51,7 +51,7 @@ library(gert)
 }
 
 .make_rspm_cran_url_linux <- function(date, distro_version_name, type = "source") {
-  base_url <- "https://packagemanager.posit.co/cran"
+  base_url <- "https://p3m.dev/cran"
   .url <- dplyr::case_when(
     type == "source" & is.na(date) ~ glue::glue("{base_url}/latest"),
     type == "binary" & is.na(date) ~ glue::glue("{base_url}/__linux__/{distro_version_name}/latest"),
@@ -112,7 +112,9 @@ library(gert)
 .cuda_baseimage_tag <- function(ubuntu_series, other_variants = "11.8.0-cudnn8-devel") {
   ubuntu_version <- dplyr::case_when(
     ubuntu_series == "focal" ~ "20.04",
-    ubuntu_series == "jammy" ~ "22.04"
+    ubuntu_series == "jammy" ~ "22.04",
+    ubuntu_series == "noble" ~ "24.04",
+    .default = "unknown"
   )
 
   image_tag <- glue::glue("nvidia/cuda:{other_variants}-ubuntu{ubuntu_version}", .na = NULL)

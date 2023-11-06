@@ -4,6 +4,8 @@
 
 ### Changes in pre-built images
 
+- Switch the base URL of CRAN mirrors (P3M, formerly RSPM) from `https://packagemanager.posit.co/cran`
+  to `https://p3m.dev/cran` ([#722](https://github.com/rocker-org/rocker-versioned2/pull/722))
 - `rocker/verse` and images that inherit from it now include necessary
   LaTex packages to allow Rmarkdown to knit to PDF out of the box.
   ([#721](https://github.com/rocker-org/rocker-versioned2/pull/721))
