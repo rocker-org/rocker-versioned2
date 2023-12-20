@@ -129,7 +129,7 @@
       "ENV": {
         "NB_USER": "rstudio",
         "VIRTUAL_ENV": "/opt/venv",
-        "PATH": "${PATH}:${VIRTUAL_ENV}/bin"
+        "PATH": "${VIRTUAL_ENV}/bin:${PATH}"
       },
       "RUN": [
         "/rocker_scripts/install_jupyter.sh"

@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
 
 ENV NB_USER=rstudio
 ENV VIRTUAL_ENV=/opt/venv
-ENV PATH=${PATH}:${VIRTUAL_ENV}/bin
+ENV PATH=${VIRTUAL_ENV}/bin:${PATH}
 
 RUN /rocker_scripts/install_jupyter.sh
 
