@@ -38,6 +38,10 @@ python3 -m venv "${VIRTUAL_ENV}"
 python3 -m pip --no-cache-dir install --upgrade \
     pip
 
+# Make the venv owned by the staff group, so users can install packages
+# without having to be root
+chown -R rstudio:staff /opt/venv
+
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" reticulate
 
 # Clean up
