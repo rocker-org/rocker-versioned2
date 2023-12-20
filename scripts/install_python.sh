@@ -61,9 +61,10 @@ if [ "${UBUNTU_CODENAME}" == "focal" ]; then
 fi
 
 # Check that python and python3 point to correct places
-echo "Check python and python3 executables point to the correct place..."
+echo "Check python, python3 and pip executables point to the correct place..."
 echo "python -> $(which python)"
 echo "python3 -> $(which python3)"
+echo "pip -> $(which pip)"
 
 # Check Python version
 echo -e "Check the Python to use with reticulate...\n"
