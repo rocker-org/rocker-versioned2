@@ -22,13 +22,26 @@ apt_install \
     python3-venv \
     swig
 
+# Setup a virtualenv to install things into
+
+# Put things under /opt/venv, if nothing else is specified
+export VIRTUAL_ENV="${VIRTUAL_ENV:=/opt/venv}"
+export PATH="${VIRTUAL_ENV}/bin:${PATH}"
+
+# Make sure that Rstudio sees these env vars too
+echo "PATH=${PATH}" >>"${R_HOME}/etc/Renviron.site"
+echo "VIRTUAL_ENV=${VIRTUAL_ENV}" >>"${R_HOME}/etc/Renviron.site"
+
+python3 -m venv "${VIRTUAL_ENV}"
+
+# Upgrade version of pip inside the virtualenv
 python3 -m pip --no-cache-dir install --upgrade \
     pip
 
-# Some TF tools expect a "python" binary
-if [ ! -e /usr/local/bin/python ]; then
-    ln -s "$(which python3)" /usr/local/bin/python
-fi
+# Make the venv owned by the staff group, so users can install packages
+# without having to be root
+chown -R root:staff "${VIRTUAL_ENV}"
+chmod g+ws "${VIRTUAL_ENV}"
 
 install2.r --error --skipmissing --skipinstalled -n "$NCPUS" reticulate
 
@@ -51,6 +64,12 @@ if [ "${UBUNTU_CODENAME}" == "focal" ]; then
         update-alternatives --set "liblapack.so.3-${ARCH}-linux-gnu" "/usr/lib/${ARCH}-linux-gnu/lapack/liblapack.so.3"
     fi
 fi
+
+# Check that python and python3 point to correct places
+echo "Check python, python3 and pip executables point to the correct place..."
+echo "python -> $(which python)"
+echo "python3 -> $(which python3)"
+echo "pip -> $(which pip)"
 
 # Check Python version
 echo -e "Check the Python to use with reticulate...\n"

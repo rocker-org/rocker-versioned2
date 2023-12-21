@@ -1,5 +1,20 @@
 # News
 
+## 2023-12
+
+### Changes in pre-built images
+
+- For images that ship with a python environment installed, the default python
+  environment will now be a [virtual environment](https://docs.python.org/3/library/venv.html)
+  created at `/opt/venv`. ([#718](https://github.com/rocker-org/rocker-versioned2/pull/718))
+
+### Changes in rocker_scripts
+
+- `install_python.sh` will now setup a [virtual environment](https://docs.python.org/3/library/venv.html)
+  under `/opt/venv`, and this will be the default python environment (accomplished via setting
+  the `$PATH` and `$VIRTUAL_ENV` variables). `/opt/venv` will be owned by the `staff` group so non-root
+  users can safely install python packages. ([#718](https://github.com/rocker-org/rocker-versioned2/pull/718))
+
 ## 2023-11
 
 ### Changes in pre-built images
