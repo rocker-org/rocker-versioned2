@@ -43,6 +43,8 @@ cat <<EOF >>"${R_HOME}/etc/Rprofile.site"
 options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))
 EOF
 
+
+
 ## Install OpenBLAS and hot-switching to it
 ## https://github.com/rocker-org/rocker-versioned2/issues/390
 if ! dpkg -l | grep -q libopenblas-dev; then
@@ -68,7 +70,7 @@ if [ ! -x "$(command -v r)" ]; then
 
     # Clean up
     # shellcheck disable=SC2086
-    apt-get remove --purge -y ${BUILDDEPS}
+    # apt-get remove --purge -y ${BUILDDEPS}
     apt-get autoremove -y
     apt-get autoclean -y
 fi
