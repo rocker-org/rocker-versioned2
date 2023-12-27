@@ -158,7 +158,9 @@
       },
       "FROM": "rocker/geospatial:4.1.1",
       "ENV": {
-        "NB_USER": "rstudio"
+        "NB_USER": "rstudio",
+        "VIRTUAL_ENV": "/opt/venv",
+        "PATH": "${VIRTUAL_ENV}/bin:${PATH}"
       },
       "RUN": [
         "/rocker_scripts/install_jupyter.sh"
