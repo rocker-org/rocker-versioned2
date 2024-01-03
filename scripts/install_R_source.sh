@@ -136,7 +136,11 @@ R_PAPERSIZE=letter \
 
 make
 make install
+make install-tests
 make clean
+#make tests directory writeable
+chmod a+w /usr/local/lib/R/tests/
+
 
 ## Add a library directory (for user-installed packages)
 mkdir -p "${R_HOME}/site-library"
