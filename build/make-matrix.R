@@ -57,7 +57,7 @@ supported_versions <- df_args |>
 message("\nstart writing matrix files.")
 
 df_args |>
-  dplyr::filter(r_version %in% supported_versions) |>
+  dplyr::filter(package_version(r_version) >= package_version("4.3.0")) |> # %in% supported_versions) |>
   .write_matrix("build/matrix/all.json")
 
 df_args |>

@@ -7,7 +7,8 @@
             "r-ver",
             "rstudio",
             "tidyverse",
-            "verse"
+            "verse",
+            "cctu"
           ]
         }
       ]
@@ -133,6 +134,38 @@
       "cache-to": [
         "type=inline"
       ]
+    },
+
+    "cctu": {
+      "contexts": { "verse": "target:verse" } ,
+      "dockerfile": "dockerfiles/cctu_4.3.2.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.3.2",
+        "org.opencontainers.image.version": "R-4.3.2"
+      },
+      "tags": [
+        "cctu:4.3.2",
+        "docker.io/shug0131/cctu/cctu:4.3.2",
+        "ghcr.io/shug0131/cctu:4.3.2",
+        "docker.io/shug0131/cctu/cctu:4.3",
+        "ghcr.io/shug0131/cctu:4.3",
+        "docker.io/shug0131/cctu/cctu:4",
+        "ghcr.io/shug0131/cctu:4",
+        "docker.io/shug0131/cctu/cctu:latest",
+        "ghcr.io/shug0131/cctu:latest"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        "type=inline"
+      ],
+      "cache-to": [
+        "type=inline"
+      ]
     }
+
   }
 }

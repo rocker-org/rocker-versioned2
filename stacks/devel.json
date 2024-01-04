@@ -10,7 +10,8 @@
             "r-ver",
             "rstudio",
             "tidyverse",
-            "verse"
+            "verse",
+            "cctu"
           ]
         }
       ]
@@ -33,7 +34,7 @@
       "RUN_a_script": "/rocker_scripts/install_R_source.sh",
       "ENV_after_a_script": {
         "CRAN": "https://cloud.r-project.org",
-        "LANG": "en_US.UTF-8"
+        "LANG": "en_GB.UTF-8"
       },
       "COPY": "scripts /rocker_scripts",
       "RUN": "/rocker_scripts/setup_R.sh",
@@ -48,7 +49,7 @@
       "FROM": "rocker/r-ver:devel",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2023.09.1+494",
+        "RSTUDIO_VERSION": "2023.12.0+369",
         "DEFAULT_USER": "rstudio",
         "PANDOC_VERSION": "default",
         "QUARTO_VERSION": "default"
@@ -86,132 +87,13 @@
       ]
     },
     {
-      "IMAGE": "geospatial",
+      "IMAGE": "cctu",
       "labels": {
-        "org.opencontainers.image.title": "rocker/geospatial",
-        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image."
+        "org.opencontainers.image.title": "rocker/cctu",
+        "org.opencontainers.image.description": "Docker-based image for CCTU specific use, built on versioned Rocker image."
       },
       "FROM": "rocker/verse:devel",
-      "RUN": "/rocker_scripts/install_geospatial.sh"
-    },
-    {
-      "IMAGE": "shiny",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/shiny",
-        "org.opencontainers.image.description": "Shiny Server on versioned Rocker image."
-      },
-      "FROM": "rocker/r-ver:devel",
-      "ENV": {
-        "S6_VERSION": "v2.1.0.2",
-        "SHINY_SERVER_VERSION": "latest",
-        "PANDOC_VERSION": "default"
-      },
-      "RUN": "/rocker_scripts/install_shiny_server.sh",
-      "CMD": "[\"/init\"]",
-      "EXPOSE": 3838
-    },
-    {
-      "IMAGE": "shiny-verse",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/shiny-verse",
-        "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image."
-      },
-      "FROM": "rocker/shiny:devel",
-      "RUN": "/rocker_scripts/install_tidyverse.sh"
-    },
-    {
-      "IMAGE": "binder",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/binder",
-        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter."
-      },
-      "FROM": "rocker/geospatial:devel",
-      "ENV": {
-        "NB_USER": "rstudio"
-      },
-      "RUN": [
-        "/rocker_scripts/install_jupyter.sh"
-      ],
-      "USER": "${NB_USER}",
-      "WORKDIR": "/home/${NB_USER}",
-      "CMD": "[\"/bin/sh\", \"-c\", \"jupyter lab --ip 0.0.0.0 --no-browser\"]",
-      "EXPOSE": 8888
-    },
-    {
-      "IMAGE": "cuda",
-      "tags": [
-        "docker.io/rocker/cuda:devel"
-      ],
-      "labels": {
-        "org.opencontainers.image.title": "rocker/cuda",
-        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image."
-      },
-      "FROM": "nvidia/cuda:11.8.0-cudnn8-devel-ubuntu24.04",
-      "ENV": {
-        "R_VERSION": "devel",
-        "R_HOME": "/usr/local/lib/R",
-        "TZ": "Etc/UTC",
-        "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
-        "PYTHON_CONFIGURE_OPTS": "--enable-shared",
-        "RETICULATE_AUTOCONFIGURE": "0",
-        "PATH": "${PATH}:${CUDA_HOME}/bin"
-      },
-      "COPY_a_script": "scripts/install_R_source.sh /rocker_scripts/install_R_source.sh",
-      "RUN_a_script": "/rocker_scripts/install_R_source.sh",
-      "ENV_after_a_script": {
-        "CRAN": "https://cloud.r-project.org",
-        "LANG": "en_US.UTF-8"
-      },
-      "COPY": "scripts /rocker_scripts",
-      "RUN": [
-        "/rocker_scripts/setup_R.sh",
-        "/rocker_scripts/config_R_cuda.sh",
-        "/rocker_scripts/install_python.sh"
-      ]
-    },
-    {
-      "IMAGE": "ml",
-      "tags": [
-        "docker.io/rocker/ml:devel"
-      ],
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries."
-      },
-      "FROM": "rocker/cuda:devel",
-      "ENV": {
-        "S6_VERSION": "v2.1.0.2",
-        "RSTUDIO_VERSION": "2023.09.1+494",
-        "DEFAULT_USER": "rstudio",
-        "PANDOC_VERSION": "default",
-        "QUARTO_VERSION": "default"
-      },
-      "RUN": [
-        "/rocker_scripts/install_rstudio.sh",
-        "/rocker_scripts/install_pandoc.sh",
-        "/rocker_scripts/install_quarto.sh",
-        "/rocker_scripts/install_tidyverse.sh"
-      ],
-      "CMD": "[\"/init\"]",
-      "EXPOSE": 8787
-    },
-    {
-      "IMAGE": "ml-verse",
-      "tags": [
-        "docker.io/rocker/ml-verse:devel"
-      ],
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml-verse",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages."
-      },
-      "FROM": "rocker/ml:devel",
-      "ENV": {
-        "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet"
-      },
-      "RUN": [
-        "/rocker_scripts/install_verse.sh",
-        "/rocker_scripts/install_geospatial.sh"
-      ]
+      "RUN": "/rocker_scripts/install_cctu.sh"
     }
   ]
 }
