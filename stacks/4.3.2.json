@@ -15,7 +15,7 @@
     {
       "IMAGE": "r-ver",
       "labels": {
-        "org.opencontainers.image.title": "rocker/r-ver",
+        "org.opencontainers.image.title": "shug0131/r-ver",
         "org.opencontainers.image.description": "Reproducible builds to fixed version of R"
       },
       "FROM": "ubuntu:jammy",
@@ -56,7 +56,7 @@
     {
       "IMAGE": "rstudio",
       "labels": {
-        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.title": "shug0131/rstudio",
         "org.opencontainers.image.description": "RStudio Server with fixed version of R"
       },
       "FROM": "shug0131/r-ver:4.3.2",
@@ -85,14 +85,13 @@
         "ghcr.io/shug0131/rstudio:latest"
       ],
       "platforms": [
-        "linux/amd64",
-        "linux/arm64"
+        "linux/amd64"
       ]
     },
     {
       "IMAGE": "tidyverse",
       "labels": {
-        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.title": "shug0131/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages."
       },
       "FROM": "shug0131/rstudio:4.3.2",
@@ -111,7 +110,7 @@
     {
       "IMAGE": "verse",
       "labels": {
-        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.title": "shug0131/verse",
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image."
       },
       "FROM": "shug0131/tidyverse:4.3.2",
@@ -136,10 +135,13 @@
     {
       "IMAGE": "cctu",
       "labels": {
-        "org.opencontainers.image.title": "rocker/cctu",
+        "org.opencontainers.image.title": "shug0131/cctu",
         "org.opencontainers.image.description": "Docker-based image for CCTU specific use, built on versioned Rocker image."
       },
-      "FROM": "shug0131/cctu:4.3.2",
+      "ENV": {
+        "CCTU_VERSION": "V0.7.6"
+      },
+      "FROM": "shug0131/verse:4.3.2",
       "RUN": "/rocker_scripts/install_cctu.sh",
       "tags": [
         "docker.io/shug0131/cctu:4.3.2",

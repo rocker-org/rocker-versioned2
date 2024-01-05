@@ -14,7 +14,7 @@ COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 RUN /rocker_scripts/install_R_source.sh
 
 ENV CRAN=https://p3m.dev/cran/__linux__/jammy/2023-06-15
-ENV LANG=en_US.UTF-8
+ENV LANG=en_GB.UTF-8
 
 COPY scripts /rocker_scripts
 

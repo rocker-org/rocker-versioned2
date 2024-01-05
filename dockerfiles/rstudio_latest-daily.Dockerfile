@@ -1,4 +1,4 @@
-FROM rocker/r-ver:latest
+FROM shug0131/r-ver:latest
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \

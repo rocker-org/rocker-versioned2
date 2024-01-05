@@ -174,7 +174,8 @@ write_stack <- function(r_version,
                         ctan_url,
                         r_minor_latest = FALSE,
                         r_major_latest = FALSE,
-                        r_latest = FALSE) {
+                        r_latest = FALSE,
+                        cctu_version="V0.7.6") {
   template <- jsonlite::read_json("stacks/devel.json")
 
   output_path <- stringr::str_c("stacks/", r_version, ".json")
@@ -222,7 +223,7 @@ write_stack <- function(r_version,
     # We are postponing the build of the linux/arm64 version of rocker/rstudio until this version
     # because we want to fix the version of Quarto CLI included in rocker/rstudio
     if (numeric_version(stringr::str_replace_all(rstudio_version, r"(\+)", ".")) > "2023.05.0") {
-      list("linux/amd64", "linux/arm64")
+      list("linux/amd64")
     }
 
   # shug0131/tidyverse
@@ -247,7 +248,8 @@ write_stack <- function(r_version,
   template$stack[[4]]$ENV$CTAN_REPO <- ctan_url
 
   # shug0131/cctu
-  template$stack[[5]]$FROM <- stringr::str_c("shug0131/cctu:", r_version)
+  template$stack[[5]]$FROM <- stringr::str_c("shug0131/verse:", r_version)
+  template$stack[[5]]$ENV$CCTU_VERSION <- cctu_version
   template$stack[[5]]$tags <- .generate_tags(
     c("docker.io/shug0131/cctu", "ghcr.io/shug0131/cctu"),
     r_version,
@@ -284,6 +286,13 @@ df_ubuntu_lts <- suppressWarnings(
     dplyr::arrange(ubuntu_release_date)
 )
 
+# git_config_global_set("user.name", "shug0131")
+# git_config_global_set("user.email", "sjb277@medschl.cam.ac.uk")
+# git_config_global()
+# library(gert)
+
+# Need the working directory of R to be a git repo else the code fails
+
 # RStudio versions data from the RStudio GitHub repository.
 df_rstudio <- gert::git_remote_ls(remote = "https://github.com/rstudio/rstudio.git") |>
   dplyr::filter(stringr::str_detect(ref, "^refs/tags/v")) |>
@@ -302,6 +311,26 @@ df_rstudio <- gert::git_remote_ls(remote = "https://github.com/rstudio/rstudio.g
     rstudio_commit_date
   ) |>
   dplyr::arrange(rstudio_commit_date)
+
+# versions and dates of cctu packages from github.
+
+df_cctu <- gert::git_remote_ls(remote = "https://github.com/shug0131/cctu.git")|>
+  dplyr::filter(stringr::str_detect(ref, "^refs/tags/[vV]?")) |>
+  dplyr::mutate(
+    cctu_version = stringr::str_extract(ref, r"([vV]?\d+\.\d+\.\d+.{0,1}\d*.*)"),
+    commit_url = glue::glue("https://api.github.com/repos/shug0131/cctu/commits/{oid}"),
+    .keep = "none"
+  ) |>
+  dplyr::slice_tail(n = 10) |>
+  dplyr::rowwise() |>
+  dplyr::mutate(cctu_commit_date = .get_github_commit_date(commit_url)) |>
+  dplyr::ungroup() |>
+  tidyr::drop_na() |>
+  dplyr::select(
+    cctu_version,
+    cctu_commit_date
+  ) |>
+  dplyr::arrange(cctu_commit_date)
 
 
 df_args <- df_r |>
@@ -337,7 +366,17 @@ df_args <- df_r |>
     r_latest = dplyr::if_else(dplyr::row_number() == dplyr::n(), TRUE, FALSE)
   )
 
+# addin the cctu versions/dates
 
+df_args <- df_args|>
+  expand_grid(df_cctu)|>
+  filter( cctu_commit_date< r_freeze_date | is.na(r_freeze_date))|>
+  dplyr::group_by(r_version) |>
+  dplyr::slice_max(cctu_commit_date, with_ties = FALSE) |>
+  dplyr::ungroup()
+
+
+# Get the latest version of cctu
 
 r_latest_version <- df_args$r_version |>
   package_version() |>
@@ -346,9 +385,15 @@ r_latest_version <- df_args$r_version |>
 rstudio_latest_version <- df_args |>
   dplyr::slice_max(rstudio_commit_date, with_ties = FALSE) |>
   dplyr::pull(rstudio_version)
+cctu_latest_version <- df_args |>
+  dplyr::slice_max(cctu_commit_date, with_ties = FALSE) |>
+  dplyr::pull(cctu_version)
+
+
 
 message(stringr::str_c("\nThe latest R version is ", r_latest_version))
 message(stringr::str_c("The latest RStudio version is ", rstudio_latest_version))
+message(stringr::str_c("The latest cctu version is ", cctu_latest_version))
 
 message("\nstart writing stack files.")
 
@@ -358,20 +403,25 @@ template <- jsonlite::read_json("stacks/devel.json")
 # Update the RStudio Server Version.
 ## rocker/rstudio
 template$stack[[2]]$ENV$RSTUDIO_VERSION <- rstudio_latest_version
+template$stack[[5]]$ENV$CCTU_VERSION <- cctu_latest_version
 
 jsonlite::write_json(template, "stacks/devel.json", pretty = TRUE, auto_unbox = TRUE)
 message("stacks/devel.json")
 
+# latest version of cctu
 
 # Update core-latest-daily
 latest_daily <- jsonlite::read_json("stacks/core-latest-daily.json")
-## Only rstudio, tidyverse, verse
-latest_daily$stack <- template$stack[2:4]
-latest_daily$stack[[1]]$FROM <- "rocker/r-ver:latest"
+## Only rstudio, tidyverse, verse, cctu
+latest_daily$stack <- template$stack[2:5]
+latest_daily$stack[[1]]$FROM <- "shug0131/r-ver:latest"
 latest_daily$stack[[1]]$ENV$RSTUDIO_VERSION <- "daily"
 latest_daily$stack[[1]]$platforms <- list("linux/amd64")
-latest_daily$stack[[2]]$FROM <- "rocker/rstudio:latest-daily"
-latest_daily$stack[[3]]$FROM <- "rocker/tidyverse:latest-daily"
+latest_daily$stack[[2]]$FROM <- "shug0131/rstudio:latest-daily"
+latest_daily$stack[[3]]$FROM <- "shug0131/tidyverse:latest-daily"
+latest_daily$stack[[4]]$FROM <- "shug0131/verse:latest-daily"
+latest_daily$stack[[4]]$ENV$CCTU_VERSION <- cctu_latest_version
+# latest version cctu
 
 jsonlite::write_json(latest_daily, "stacks/core-latest-daily.json", pretty = TRUE, auto_unbox = TRUE)
 message("stacks/core-latest-daily.json")
@@ -394,7 +444,8 @@ df_recent <- df_args |>
     ctan_url,
     r_minor_latest,
     r_major_latest,
-    r_latest
+    r_latest,
+    cctu_version
   ) |>
   purrr::pwalk(write_stack)
 

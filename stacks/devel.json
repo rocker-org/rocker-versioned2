@@ -21,7 +21,7 @@
     {
       "IMAGE": "r-ver",
       "labels": {
-        "org.opencontainers.image.title": "rocker/r-ver",
+        "org.opencontainers.image.title": "shug0131/r-ver",
         "org.opencontainers.image.description": "Reproducible builds to fixed version of R"
       },
       "FROM": "ubuntu:latest",
@@ -43,10 +43,10 @@
     {
       "IMAGE": "rstudio",
       "labels": {
-        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.title": "shug0131/rstudio",
         "org.opencontainers.image.description": "RStudio Server with fixed version of R"
       },
-      "FROM": "rocker/r-ver:devel",
+      "FROM": "shug0131/r-ver:devel",
       "ENV": {
         "S6_VERSION": "v2.1.0.2",
         "RSTUDIO_VERSION": "2023.12.0+369",
@@ -65,19 +65,19 @@
     {
       "IMAGE": "tidyverse",
       "labels": {
-        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.title": "shug0131/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages."
       },
-      "FROM": "rocker/rstudio:devel",
+      "FROM": "shug0131/rstudio:devel",
       "RUN": "/rocker_scripts/install_tidyverse.sh"
     },
     {
       "IMAGE": "verse",
       "labels": {
-        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.title": "shug0131/verse",
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image."
       },
-      "FROM": "rocker/tidyverse:devel",
+      "FROM": "shug0131/tidyverse:devel",
       "ENV": {
         "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
         "PATH": "$PATH:/usr/local/texlive/bin/linux"
@@ -89,10 +89,13 @@
     {
       "IMAGE": "cctu",
       "labels": {
-        "org.opencontainers.image.title": "rocker/cctu",
+        "org.opencontainers.image.title": "shug0131/cctu",
         "org.opencontainers.image.description": "Docker-based image for CCTU specific use, built on versioned Rocker image."
       },
-      "FROM": "rocker/verse:devel",
+      "ENV": {
+        "CCTU_VERSION": "V0.7.6"
+      },
+      "FROM": "shug0131/verse:devel",
       "RUN": "/rocker_scripts/install_cctu.sh"
     }
   ]

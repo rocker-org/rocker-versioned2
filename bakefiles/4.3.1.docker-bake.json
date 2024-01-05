@@ -8,19 +8,7 @@
             "rstudio",
             "tidyverse",
             "verse",
-            "geospatial",
-            "shiny",
-            "shiny-verse",
-            "binder"
-          ]
-        }
-      ],
-      "cuda11images": [
-        {
-          "targets": [
-            "cuda",
-            "ml",
-            "ml-verse"
+            "cctu"
           ]
         }
       ]
@@ -31,21 +19,20 @@
       "context": "./",
       "dockerfile": "dockerfiles/r-ver_4.3.1.Dockerfile",
       "labels": {
-        "org.opencontainers.image.title": "rocker/r-ver",
+        "org.opencontainers.image.title": "shug0131/r-ver",
         "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
         "org.opencontainers.image.version": "R-4.3.1"
       },
       "tags": [
-        "docker.io/rocker/r-ver:4.3.1",
-        "ghcr.io/rocker-org/r-ver:4.3.1"
+        "docker.io/shug0131/r-ver:4.3.1",
+        "ghcr.io/shug0131/r-ver:4.3.1"
       ],
       "platforms": [
-        "linux/amd64",
-        "linux/arm64"
+        "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/r-ver:4.3.1"
+        "docker.io/shug0131/r-ver:4.3.1"
       ],
       "cache-to": [
         "type=inline"
@@ -55,21 +42,20 @@
       "context": "./",
       "dockerfile": "dockerfiles/rstudio_4.3.1.Dockerfile",
       "labels": {
-        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.title": "shug0131/rstudio",
         "org.opencontainers.image.description": "RStudio Server with fixed version of R",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.3.1",
+        "org.opencontainers.image.base.name": "docker.io/shug0131/r-ver:4.3.1",
         "org.opencontainers.image.version": "R-4.3.1"
       },
       "tags": [
-        "docker.io/rocker/rstudio:4.3.1",
-        "ghcr.io/rocker-org/rstudio:4.3.1"
+        "docker.io/shug0131/rstudio:4.3.1",
+        "ghcr.io/shug0131/rstudio:4.3.1"
       ],
       "platforms": [
-        "linux/amd64",
-        "linux/arm64"
+        "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/rstudio:4.3.1"
+        "docker.io/shug0131/rstudio:4.3.1"
       ],
       "cache-to": [
         "type=inline"
@@ -79,20 +65,20 @@
       "context": "./",
       "dockerfile": "dockerfiles/tidyverse_4.3.1.Dockerfile",
       "labels": {
-        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.title": "shug0131/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:4.3.1",
+        "org.opencontainers.image.base.name": "docker.io/shug0131/rstudio:4.3.1",
         "org.opencontainers.image.version": "R-4.3.1"
       },
       "tags": [
-        "docker.io/rocker/tidyverse:4.3.1",
-        "ghcr.io/rocker-org/tidyverse:4.3.1"
+        "docker.io/shug0131/tidyverse:4.3.1",
+        "ghcr.io/shug0131/tidyverse:4.3.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/tidyverse:4.3.1"
+        "docker.io/shug0131/tidyverse:4.3.1"
       ],
       "cache-to": [
         "type=inline"
@@ -102,181 +88,43 @@
       "context": "./",
       "dockerfile": "dockerfiles/verse_4.3.1.Dockerfile",
       "labels": {
-        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.title": "shug0131/verse",
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:4.3.1",
+        "org.opencontainers.image.base.name": "docker.io/shug0131/tidyverse:4.3.1",
         "org.opencontainers.image.version": "R-4.3.1"
       },
       "tags": [
-        "docker.io/rocker/verse:4.3.1",
-        "ghcr.io/rocker-org/verse:4.3.1"
+        "docker.io/shug0131/verse:4.3.1",
+        "ghcr.io/shug0131/verse:4.3.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/verse:4.3.1"
+        "docker.io/shug0131/verse:4.3.1"
       ],
       "cache-to": [
         "type=inline"
       ]
     },
-    "geospatial": {
+    "cctu": {
       "context": "./",
-      "dockerfile": "dockerfiles/geospatial_4.3.1.Dockerfile",
+      "dockerfile": "dockerfiles/cctu_4.3.1.Dockerfile",
       "labels": {
-        "org.opencontainers.image.title": "rocker/geospatial",
-        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.3.1",
+        "org.opencontainers.image.title": "shug0131/cctu",
+        "org.opencontainers.image.description": "Docker-based image for CCTU specific use, built on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/shug0131/verse:4.3.1",
         "org.opencontainers.image.version": "R-4.3.1"
       },
       "tags": [
-        "docker.io/rocker/geospatial:4.3.1",
-        "ghcr.io/rocker-org/geospatial:4.3.1"
+        "docker.io/shug0131/cctu:4.3.1",
+        "ghcr.io/shug0131/cctu:4.3.1"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/geospatial:4.3.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "shiny": {
-      "context": "./",
-      "dockerfile": "dockerfiles/shiny_4.3.1.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/shiny",
-        "org.opencontainers.image.description": "Shiny Server on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.3.1",
-        "org.opencontainers.image.version": "R-4.3.1"
-      },
-      "tags": [
-        "docker.io/rocker/shiny:4.3.1",
-        "ghcr.io/rocker-org/shiny:4.3.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/shiny:4.3.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "shiny-verse": {
-      "context": "./",
-      "dockerfile": "dockerfiles/shiny-verse_4.3.1.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/shiny-verse",
-        "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/shiny:4.3.1",
-        "org.opencontainers.image.version": "R-4.3.1"
-      },
-      "tags": [
-        "docker.io/rocker/shiny-verse:4.3.1",
-        "ghcr.io/rocker-org/shiny-verse:4.3.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/shiny-verse:4.3.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "binder": {
-      "context": "./",
-      "dockerfile": "dockerfiles/binder_4.3.1.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/binder",
-        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/geospatial:4.3.1",
-        "org.opencontainers.image.version": "R-4.3.1"
-      },
-      "tags": [
-        "docker.io/rocker/binder:4.3.1",
-        "ghcr.io/rocker-org/binder:4.3.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/binder:4.3.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "cuda": {
-      "context": "./",
-      "dockerfile": "dockerfiles/cuda_4.3.1.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/cuda",
-        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04",
-        "org.opencontainers.image.version": "R-4.3.1"
-      },
-      "tags": [
-        "docker.io/rocker/cuda:4.3.1",
-        "ghcr.io/rocker-org/cuda:4.3.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/cuda:4.3.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "ml": {
-      "context": "./",
-      "dockerfile": "dockerfiles/ml_4.3.1.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/cuda:4.3.1",
-        "org.opencontainers.image.version": "R-4.3.1"
-      },
-      "tags": [
-        "docker.io/rocker/ml:4.3.1",
-        "ghcr.io/rocker-org/ml:4.3.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/ml:4.3.1"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "ml-verse": {
-      "context": "./",
-      "dockerfile": "dockerfiles/ml-verse_4.3.1.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml-verse",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/ml:4.3.1",
-        "org.opencontainers.image.version": "R-4.3.1"
-      },
-      "tags": [
-        "docker.io/rocker/ml-verse:4.3.1",
-        "ghcr.io/rocker-org/ml-verse:4.3.1"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/ml-verse:4.3.1"
+        "docker.io/shug0131/cctu:4.3.1"
       ],
       "cache-to": [
         "type=inline"

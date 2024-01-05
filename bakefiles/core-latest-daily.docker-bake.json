@@ -6,7 +6,8 @@
           "targets": [
             "rstudio",
             "tidyverse",
-            "verse"
+            "verse",
+            "cctu"
           ]
         }
       ]
@@ -17,16 +18,15 @@
       "context": "./",
       "dockerfile": "dockerfiles/rstudio_latest-daily.Dockerfile",
       "labels": {
-        "org.opencontainers.image.title": "rocker/rstudio",
+        "org.opencontainers.image.title": "shug0131/rstudio",
         "org.opencontainers.image.description": "RStudio Server with fixed version of R",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:latest"
+        "org.opencontainers.image.base.name": "docker.io/shug0131/r-ver:latest"
       },
       "tags": [
         "docker.io/rocker/rstudio:latest-daily"
       ],
       "platforms": [
-        "linux/amd64",
-        "linux/arm64"
+        "linux/amd64"
       ],
       "cache-from": [
         "docker.io/rocker/rstudio:latest-daily"
@@ -39,9 +39,9 @@
       "context": "./",
       "dockerfile": "dockerfiles/tidyverse_latest-daily.Dockerfile",
       "labels": {
-        "org.opencontainers.image.title": "rocker/tidyverse",
+        "org.opencontainers.image.title": "shug0131/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:latest-daily"
+        "org.opencontainers.image.base.name": "docker.io/shug0131/rstudio:latest-daily"
       },
       "tags": [
         "docker.io/rocker/tidyverse:latest-daily"
@@ -60,9 +60,9 @@
       "context": "./",
       "dockerfile": "dockerfiles/verse_latest-daily.Dockerfile",
       "labels": {
-        "org.opencontainers.image.title": "rocker/verse",
+        "org.opencontainers.image.title": "shug0131/verse",
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:latest-daily"
+        "org.opencontainers.image.base.name": "docker.io/shug0131/tidyverse:latest-daily"
       },
       "tags": [
         "docker.io/rocker/verse:latest-daily"
@@ -72,6 +72,27 @@
       ],
       "cache-from": [
         "docker.io/rocker/verse:latest-daily"
+      ],
+      "cache-to": [
+        "type=inline"
+      ]
+    },
+    "cctu": {
+      "context": "./",
+      "dockerfile": "dockerfiles/cctu_latest-daily.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "shug0131/cctu",
+        "org.opencontainers.image.description": "Docker-based image for CCTU specific use, built on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/shug0131/verse:latest-daily"
+      },
+      "tags": [
+        "docker.io/rocker/cctu:latest-daily"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-from": [
+        "docker.io/rocker/cctu:latest-daily"
       ],
       "cache-to": [
         "type=inline"

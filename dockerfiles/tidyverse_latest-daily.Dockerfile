@@ -1,4 +1,4 @@
-FROM rocker/rstudio:latest-daily
+FROM shug0131/rstudio:latest-daily
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
