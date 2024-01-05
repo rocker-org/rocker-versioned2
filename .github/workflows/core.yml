@@ -33,12 +33,14 @@ jobs:
           if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
             JSON=build/matrix/all.json
           fi
-          echo ::set-output name=json::${JSON}
+#          echo ::set-output name=json::${JSON}
+          echo json=${JSON} >> $GITHUB_OUTPUT
           echo ${JSON}
       - id: set-matrix
         run: |
           CONTENT=$(jq -r 'tostring' ${{ steps.set-json.outputs.json }})
-          echo ::set-output name=matrix::"${CONTENT}"
+#          echo ::set-output name=matrix::"${CONTENT}"
+          echo matrix="${CONTENT}" >> $GITHUB_OUTPUT        
           echo "${CONTENT}"
 
   build:
