@@ -98,7 +98,8 @@
       "FROM": "shug0131/tidyverse:4.3.1",
       "ENV": {
         "CTAN_REPO": "https://www.texlive.info/tlnet-archive/2023/10/30/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/linux"
+        "PATH": "$PATH:/usr/local/texlive/bin/linux",
+        "LANG": "en_US.UTF-8"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh"
