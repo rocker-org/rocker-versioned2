@@ -80,7 +80,8 @@
       "FROM": "shug0131/tidyverse:devel",
       "ENV": {
         "CTAN_REPO": "https://mirror.ctan.org/systems/texlive/tlnet",
-        "PATH": "$PATH:/usr/local/texlive/bin/linux"
+        "PATH": "$PATH:/usr/local/texlive/bin/linux",
+        "LANG": "en_US.UTF-8"
       },
       "RUN": [
         "/rocker_scripts/install_verse.sh"
