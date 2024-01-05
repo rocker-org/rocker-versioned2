@@ -70,7 +70,7 @@ if [ ! -x "$(command -v r)" ]; then
 
     # Clean up
     # shellcheck disable=SC2086
-    # apt-get remove --purge -y ${BUILDDEPS}
+    apt-get remove --purge -y ${BUILDDEPS}
     apt-get autoremove -y
     apt-get autoclean -y
 fi
