@@ -73,8 +73,7 @@
         "ghcr.io/shug0131/rstudio:4.3.0"
       ],
       "platforms": [
-        "linux/amd64",
-        "linux/arm64"
+        "linux/amd64"
       ]
     },
     {
