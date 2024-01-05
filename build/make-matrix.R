@@ -46,13 +46,15 @@ supported_versions <- df_args |>
   dplyr::mutate(
     supported = (patch == dplyr::last(patch)),
     .by = c(major, minor)
-  ) |>
+  )|>
   dplyr::mutate(
-    major_minor = numeric_version(paste0(major, ".", minor)),
-    supported = supported | (major_minor >= nth(unique(major_minor), -2))
+    major_minor = numeric_version(paste0(major, ".", minor) ),
+    supported = supported | (major_minor >= nth(unique(major_minor), -min(2, length(unique(major_minor)))))
   ) |>
   dplyr::filter(supported) |>
   dplyr::pull(r_version)
+
+
 
 message("\nstart writing matrix files.")
 
