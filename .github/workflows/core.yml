@@ -30,7 +30,7 @@ jobs:
       - id: set-json
         run: |
           JSON=build/matrix/latest.json
-          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_run" || "${{ github.event_name }}" == "workflow_dispatch"]]; then
             JSON=build/matrix/all.json
           fi
           echo json=${JSON} >> $GITHUB_OUTPUT
@@ -38,7 +38,7 @@ jobs:
       - id: set-matrix
         run: |
           CONTENT=$(jq -r 'tostring' ${{ steps.set-json.outputs.json }})
-          echo matrix="${CONTENT}" >> $GITHUB_OUTPUT        
+          echo matrix="${CONTENT}" >> $GITHUB_OUTPUT
           echo "${CONTENT}"
 
 #          echo ::set-output name=json::${JSON}
