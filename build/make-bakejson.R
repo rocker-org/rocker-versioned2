@@ -44,7 +44,7 @@ library(rlang, warn.conflicts = FALSE)
       labels = purrr::map(value, "labels"),
       tags = purrr::map(
         value,
-        ~ if (!is.null(.x$tags)) .x$tags else list(stringr::str_c("docker.io/rocker/", .x$IMAGE, ":", stack_tag))
+        ~ if (!is.null(.x$tags)) .x$tags else list(stringr::str_c("docker.io/shug0131/", .x$IMAGE, ":", stack_tag))
       ),
       platforms = purrr::map(value, "platforms", .default = list("linux/amd64")),
       `cache-from` = purrr::map(value, "cache-from", .default = NULL),

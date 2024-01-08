@@ -34,7 +34,7 @@
       "RUN_a_script": "/rocker_scripts/install_R_source.sh",
       "ENV_after_a_script": {
         "CRAN": "https://cloud.r-project.org",
-        "LANG": "en_GB.UTF-8"
+        "LANG": "en_US.UTF-8"
       },
       "COPY": "scripts /rocker_scripts",
       "RUN": "/rocker_scripts/setup_R.sh",
