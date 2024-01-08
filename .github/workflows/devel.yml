@@ -2,7 +2,7 @@ name: Build & Push R devel images and RStudio daily build images
 
 on:
   schedule:
-    - cron: "2 15 * * *"
+    - cron: "0 2 * * *"
   workflow_dispatch:
 
 concurrency:
