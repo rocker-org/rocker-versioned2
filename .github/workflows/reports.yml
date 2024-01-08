@@ -34,8 +34,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: set-matrix
         run: |
-          CONTENT=$(jq -r '.r_version += ["extra"] | tostring' build/matrix/all.json)
-          CONTENT=build/matrix/all.json
+          CONTENT=$(jq -r '.r_version +=  tostring' build/matrix/all.json)
           echo "matrix=${CONTENT}" >> "$GITHUB_OUTPUT"
           echo "${CONTENT}"
 
