@@ -30,7 +30,7 @@ jobs:
       - id: set-json
         run: |
           JSON=build/matrix/latest.json
-          if [[ "${{ github.event_name }}" == "workflow_run" || "${{ github.event_name }}" == "workflow_dispatch"]]; then
+          if [[ "${{ github.event_name }}" == "workflow_run"]]; || [["${{ github.event_name }}" == "workflow_dispatch"]]; then
             JSON=build/matrix/all.json
           fi
           echo json=${JSON} >> $GITHUB_OUTPUT
