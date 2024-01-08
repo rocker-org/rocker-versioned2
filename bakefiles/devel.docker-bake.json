@@ -24,13 +24,13 @@
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:latest"
       },
       "tags": [
-        "docker.io/rocker/r-ver:devel"
+        "docker.io/shug0131/r-ver:devel"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/r-ver:devel"
+        "docker.io/shug0131/r-ver:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -45,13 +45,13 @@
         "org.opencontainers.image.base.name": "docker.io/shug0131/r-ver:devel"
       },
       "tags": [
-        "docker.io/rocker/rstudio:devel"
+        "docker.io/shug0131/rstudio:devel"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/rstudio:devel"
+        "docker.io/shug0131/rstudio:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -66,13 +66,13 @@
         "org.opencontainers.image.base.name": "docker.io/shug0131/rstudio:devel"
       },
       "tags": [
-        "docker.io/rocker/tidyverse:devel"
+        "docker.io/shug0131/tidyverse:devel"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/tidyverse:devel"
+        "docker.io/shug0131/tidyverse:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -87,13 +87,13 @@
         "org.opencontainers.image.base.name": "docker.io/shug0131/tidyverse:devel"
       },
       "tags": [
-        "docker.io/rocker/verse:devel"
+        "docker.io/shug0131/verse:devel"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/verse:devel"
+        "docker.io/shug0131/verse:devel"
       ],
       "cache-to": [
         "type=inline"
@@ -108,13 +108,13 @@
         "org.opencontainers.image.base.name": "docker.io/shug0131/verse:devel"
       },
       "tags": [
-        "docker.io/rocker/cctu:devel"
+        "docker.io/shug0131/cctu:devel"
       ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-from": [
-        "docker.io/rocker/cctu:devel"
+        "docker.io/shug0131/cctu:devel"
       ],
       "cache-to": [
         "type=inline"
