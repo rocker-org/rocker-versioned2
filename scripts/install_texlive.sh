@@ -56,6 +56,7 @@ tlmgr install \
     bibtex \
     bigintcalc \
     bitset \
+    bookmark \
     context \
     ec \
     epstopdf-pkg \
@@ -70,6 +71,7 @@ tlmgr install \
     inconsolata \
     infwarerr \
     intcalc \
+    koma-script \
     kvdefinekeys \
     kvoptions \
     kvsetkeys \
@@ -77,6 +79,7 @@ tlmgr install \
     listings \
     ltxcmds \
     makeindex \
+    mdwtools \
     metafont \
     mfware \
     parskip \
@@ -87,6 +90,7 @@ tlmgr install \
     rerunfilecheck \
     stringenc \
     tex \
+    tikzfill \
     tools \
     uniquecounter \
     url \
