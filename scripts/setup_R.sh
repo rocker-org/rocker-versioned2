@@ -43,8 +43,6 @@ cat <<EOF >>"${R_HOME}/etc/Rprofile.site"
 options(HTTPUserAgent = sprintf("R/%s R (%s)", getRversion(), paste(getRversion(), R.version["platform"], R.version["arch"], R.version["os"])))
 EOF
 
-
-
 ## Install OpenBLAS and hot-switching to it
 ## https://github.com/rocker-org/rocker-versioned2/issues/390
 if ! dpkg -l | grep -q libopenblas-dev; then
