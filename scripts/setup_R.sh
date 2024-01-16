@@ -10,6 +10,7 @@
 set -e
 
 CRAN=${1:-${CRAN:-"https://cran.r-project.org"}}
+PURGE_BUILDDEPS=${PURGE_BUILDDEPS=-"TRUE"}
 
 ARCH=$(uname -m)
 
@@ -68,7 +69,9 @@ if [ ! -x "$(command -v r)" ]; then
 
     # Clean up
     # shellcheck disable=SC2086
-    apt-get remove --purge -y ${BUILDDEPS}
+    if [ "${PURGE_BUILDDEPS}" == "TRUE" ]; then
+      apt-get remove --purge -y ${BUILDDEPS}
+    fi
     apt-get autoremove -y
     apt-get autoclean -y
 fi

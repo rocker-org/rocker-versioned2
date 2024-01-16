@@ -11,6 +11,7 @@
 set -e
 
 R_VERSION=${1:-${R_VERSION:-"latest"}}
+PURGE_BUILDDEPS=${PURGE_BUILDDEPS=-"TRUE"}
 
 # shellcheck source=/dev/null
 source /etc/os-release
@@ -157,7 +158,9 @@ rm -rf "R.tar.gz"
 cp /usr/bin/checkbashisms /usr/local/bin/checkbashisms
 
 # shellcheck disable=SC2086
-apt-get remove --purge -y ${BUILDDEPS}
+if [ "${PURGE_BUILDDEPS}" == "TRUE" ]; then
+  apt-get remove --purge -y ${BUILDDEPS}
+fi
 apt-get autoremove -y
 apt-get autoclean -y
 rm -rf /var/lib/apt/lists/*
