@@ -157,7 +157,7 @@
         "PYTHON_CONFIGURE_OPTS": "--enable-shared",
         "RETICULATE_AUTOCONFIGURE": "0",
         "PURGE_BUILDDEPS": "FALSE",
-        "VIRUTAL_ENV": "/opt/venv",
+        "VIRTUAL_ENV": "/opt/venv",
         "PATH": "${PATH}:${VIRTUAL_ENV}/bin:${CUDA_HOME}/bin"
       },
       "COPY_a_script": "scripts/install_R_source.sh /rocker_scripts/install_R_source.sh",
