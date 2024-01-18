@@ -52,6 +52,7 @@ apt-get install -y --no-install-recommends \
     "libreadline${READLINE_VERSION}" \
     libtiff* \
     liblzma* \
+    libxt6 \
     make \
     tzdata \
     unzip \
