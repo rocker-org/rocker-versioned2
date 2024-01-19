@@ -156,7 +156,7 @@
         "NVBLAS_CONFIG_FILE": "/etc/nvblas.conf",
         "PYTHON_CONFIGURE_OPTS": "--enable-shared",
         "RETICULATE_AUTOCONFIGURE": "0",
-        "PURGE_BUILDDEPS": "FALSE",
+        "PURGE_BUILDDEPS": "false",
         "VIRTUAL_ENV": "/opt/venv",
         "PATH": "${PATH}:${VIRTUAL_ENV}/bin:${CUDA_HOME}/bin"
       },
