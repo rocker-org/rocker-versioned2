@@ -70,7 +70,7 @@ if [ ! -x "$(command -v r)" ]; then
     # Clean up
     # shellcheck disable=SC2086
     if [ "${PURGE_BUILDDEPS}" == "true" ]; then
-      apt-get remove --purge -y ${BUILDDEPS}
+        apt-get remove --purge -y ${BUILDDEPS}
     fi
     apt-get autoremove -y
     apt-get autoclean -y

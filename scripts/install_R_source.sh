@@ -159,7 +159,7 @@ cp /usr/bin/checkbashisms /usr/local/bin/checkbashisms
 
 # shellcheck disable=SC2086
 if [ "${PURGE_BUILDDEPS}" == "true" ]; then
-  apt-get remove --purge -y ${BUILDDEPS}
+    apt-get remove --purge -y ${BUILDDEPS}
 fi
 apt-get autoremove -y
 apt-get autoclean -y
