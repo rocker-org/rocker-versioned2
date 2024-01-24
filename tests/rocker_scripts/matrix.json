@@ -17,8 +17,7 @@
     "install_python.sh",
     "install_jupyter.sh",
     "install_julia.sh",
-    "install_cuda-10.1.sh",
-    "install_texlive.sh"
+    "install_cuda-10.1.sh"
   ],
   "script_arg": [
     "none"
@@ -69,7 +68,7 @@
     {
       "base_image": "rocker/cuda",
       "tag": "latest",
-      "script_name": "install_texlive.sh",
+      "script_name": "install_verse.sh",
       "script_arg": "none"
     },
     {
