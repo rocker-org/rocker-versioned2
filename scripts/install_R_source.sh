@@ -159,7 +159,7 @@ rm -rf "R.tar.gz"
 cp /usr/bin/checkbashisms /usr/local/bin/checkbashisms
 
 # shellcheck disable=SC2086
-if [ "${PURGE_BUILDDEPS}" == "true" ]; then
+if [ "${PURGE_BUILDDEPS}" != "false" ]; then
     apt-get remove --purge -y ${BUILDDEPS}
 fi
 apt-get autoremove -y
