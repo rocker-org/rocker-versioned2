@@ -11,7 +11,7 @@
 set -e
 
 R_VERSION=${1:-${R_VERSION:-"latest"}}
-PURGE_BUILDDEPS=${PURGE_BUILDDEPS=-"true"}
+PURGE_BUILDDEPS=${PURGE_BUILDDEPS:-"true"}
 
 # shellcheck source=/dev/null
 source /etc/os-release
