@@ -74,7 +74,6 @@ apt-get remove -y systemd
 apt-get -y autoremove
 
 ## Add LaTeX, rticles and bookdown support
-
 ## tinytex recommends a dummy texlive if using tlmgr manually
 if [[ ! -x "/usr/bin/latex" ]]; then
     wget "https://travis-bin.yihui.name/texlive-local.deb"
