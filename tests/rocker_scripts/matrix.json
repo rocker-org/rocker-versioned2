@@ -68,7 +68,7 @@
     },
     {
       "base_image": "rocker/cuda",
-      "tag": "cuda11.1",
+      "tag": "latest",
       "script_name": "install_texlive.sh",
       "script_arg": "none"
     },
