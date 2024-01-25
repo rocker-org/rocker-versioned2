@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+if [[ -x "/usr/bin/latex" ]]; then
+    echo "texlive already installed"
+    exit 0
+fi
+
 CTAN_REPO=${1:-${CTAN_REPO:-"https://mirror.ctan.org/systems/texlive/tlnet"}}
 
 ARCH=$(uname -m)

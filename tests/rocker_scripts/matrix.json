@@ -67,6 +67,12 @@
     },
     {
       "base_image": "rocker/cuda",
+      "tag": "latest",
+      "script_name": "install_verse.sh",
+      "script_arg": "none"
+    },
+    {
+      "base_image": "rocker/cuda",
       "tag": "cuda11.1",
       "script_name": "config_R_cuda.sh",
       "script_arg": "none"

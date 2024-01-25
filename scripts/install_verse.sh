@@ -74,9 +74,12 @@ apt-get remove -y systemd
 apt-get -y autoremove
 
 ## Add LaTeX, rticles and bookdown support
-wget "https://travis-bin.yihui.name/texlive-local.deb"
-dpkg -i texlive-local.deb
-rm texlive-local.deb
+## tinytex recommends a dummy texlive if using tlmgr manually
+if [[ ! -x "/usr/bin/latex" ]]; then
+    wget "https://travis-bin.yihui.name/texlive-local.deb"
+    dpkg -i texlive-local.deb
+    rm texlive-local.deb
+fi
 
 ## Install texlive
 /rocker_scripts/install_texlive.sh
