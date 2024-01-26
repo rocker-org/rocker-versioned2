@@ -13,7 +13,7 @@ ENV PYTHON_CONFIGURE_OPTS=--enable-shared
 ENV RETICULATE_AUTOCONFIGURE=0
 ENV PURGE_BUILDDEPS=false
 ENV VIRTUAL_ENV=/opt/venv
-ENV PATH=${PATH}:${VIRTUAL_ENV}/bin:${CUDA_HOME}/bin
+ENV PATH=${VIRTUAL_ENV}/bin:${PATH}:${CUDA_HOME}/bin
 
 COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 
