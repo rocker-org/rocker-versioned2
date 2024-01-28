@@ -15,7 +15,7 @@ function apt_install() {
 
 apt_install pciutils
 
-python3 -m pip install --no-cache-dir torch tensorflow[and-cuda] keras
+python3 -m pip install --no-cache-dir "torch" "tensorflow[and-cuda]" "keras"
 
 install2.r --error --skipmissing --skipinstalled torch tensorflow keras
 
