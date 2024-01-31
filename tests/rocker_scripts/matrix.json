@@ -29,12 +29,6 @@
     },
     {
       "base_image": "rocker/r-ver",
-      "tag": "devel",
-      "script_name": "install_rstudio.sh",
-      "script_arg": "daily"
-    },
-    {
-      "base_image": "rocker/r-ver",
       "tag": "latest",
       "script_name": "install_pandoc.sh",
       "script_arg": "2.18"
