@@ -48,12 +48,6 @@
     {
       "base_image": "rocker/r-ver",
       "tag": "latest",
-      "script_name": "install_cuda-11.1.sh",
-      "script_arg": "none"
-    },
-    {
-      "base_image": "rocker/r-ver",
-      "tag": "latest",
       "script_name": "install_tensorflow.sh",
       "script_arg": "none"
     },
