@@ -14,7 +14,7 @@
   "include": [
     {
       "base_image": "rocker/cuda",
-      "tag": "4.0.0",
+      "tag": "latest",
       "script_name": "install_rstudio.sh"
     }
   ]
