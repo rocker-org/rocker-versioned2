@@ -3,6 +3,7 @@
     "rocker/r-ver"
   ],
   "tag": [
+    "4.0.0",
     "latest"
   ],
   "script_name": [
@@ -15,7 +16,8 @@
     "install_geospatial.sh",
     "install_python.sh",
     "install_jupyter.sh",
-    "install_julia.sh"
+    "install_julia.sh",
+    "install_cuda-10.1.sh"
   ],
   "script_arg": [
     "none"
@@ -26,6 +28,12 @@
       "tag": "4.0.0",
       "script_name": "install_rstudio.sh",
       "script_arg": "1.3.959"
+    },
+    {
+      "base_image": "rocker/r-ver",
+      "tag": "devel",
+      "script_name": "install_rstudio.sh",
+      "script_arg": "daily"
     },
     {
       "base_image": "rocker/r-ver",
@@ -47,14 +55,26 @@
     },
     {
       "base_image": "rocker/r-ver",
-      "tag": "latest",
+      "tag": "4.0.5",
+      "script_name": "install_cuda-11.1.sh",
+      "script_arg": "none"
+    },
+    {
+      "base_image": "rocker/r-ver",
+      "tag": "4.0.4",
       "script_name": "install_tensorflow.sh",
       "script_arg": "none"
     },
     {
       "base_image": "rocker/cuda",
       "tag": "latest",
-      "script_name": "install_rstudio.sh",
+      "script_name": "install_verse.sh",
+      "script_arg": "none"
+    },
+    {
+      "base_image": "rocker/cuda",
+      "tag": "cuda11.1",
+      "script_name": "config_R_cuda.sh",
       "script_arg": "none"
     },
     {
