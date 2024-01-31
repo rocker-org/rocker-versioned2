@@ -1,0 +1,21 @@
+{
+  "base_image": [
+    "rocker/cuda"
+  ],
+  "tag": [
+    "latest"
+  ],
+  "script_name": [
+    "install_rstudio.sh"
+      ],
+  "script_arg": [
+    "none"
+  ],
+  "include": [
+    {
+      "base_image": "rocker/cuda",
+      "tag": "4.0.0",
+      "script_name": "install_rstudio.sh"
+    }
+  ]
+}
