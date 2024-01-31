@@ -1,16 +1,12 @@
-name: test for rocker scripts
+name: test for rocker cuda scripts
 
 on:
   pull_request:
     branches:
       - master
     paths:
-      - tests/rocker_scripts/Dockerfile
       - tests/rocker_scripts/cuda_matrix.json
-      - tests/rocker_scripts/test.sh
-      - scripts/*.sh
-      - "!scripts/install_R_*.sh"
-      - "!scripts/setup_R.sh"
+      - scripts/cuda*.sh
   workflow_dispatch:
 
 concurrency:
