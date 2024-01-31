@@ -32,7 +32,7 @@
       "base_image": "rocker/r-ver",
       "tag": "devel",
       "script_name": "install_rstudio.sh",
-      "script_arg": "daily"
+      "script_arg": "latest"
     },
     {
       "base_image": "rocker/r-ver",
