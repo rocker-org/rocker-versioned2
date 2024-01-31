@@ -54,7 +54,7 @@
     {
       "base_image": "rocker/cuda",
       "tag": "latest",
-      "script_name": "install_jupyter.sh",
+      "script_name": "install_rstudio.sh",
       "script_arg": "none"
     },
     {
