@@ -1,4 +1,4 @@
-name: Test cuda builds 
+name: Test cuda builds
 on:
   workflow_dispatch: null
   push:
