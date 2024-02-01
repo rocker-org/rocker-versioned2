@@ -12,9 +12,6 @@ RUN /rocker_scripts/install_pandoc.sh
 RUN /rocker_scripts/install_quarto.sh
 RUN /rocker_scripts/install_tidyverse.sh
 
-#COPY scripts/install_ml-cuda.sh /rocker_scripts/install_ml-cuda.sh
-#RUN /rocker_scripts/install_ml-cuda.sh
-
 EXPOSE 8787
 
 CMD ["/init"]
