@@ -2,7 +2,7 @@ name: Test cuda builds
 on:
   workflow_dispatch: null
   pull_request:
-    branches: 
+    branches:
       - master
     paths:
       - tests/ml-test.Dockerfile
