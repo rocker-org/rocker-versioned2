@@ -37,7 +37,7 @@ if [ "$JULIA_VERSION" = "latest" ]; then
 js <- yaml::read_yaml("https://julialang-s3.julialang.org/bin/versions.json")
 versions <- names(js)
 is_stable <- unlist(Map(function(x) x$stable, js))
-latest_version <- sort(versions[is_stable], decreasing = TRUE)[1]
+latest_version <- as.character(sort(numeric_version(versions[is_stable]), decreasing = TRUE)[1])
 cat(latest_version)
 ')
 fi
