@@ -15,6 +15,7 @@ RUN /rocker_scripts/install_rstudio.sh
 RUN /rocker_scripts/install_pandoc.sh
 RUN /rocker_scripts/install_quarto.sh
 RUN /rocker_scripts/install_tidyverse.sh
+RUN /rocker_scripts/install_ml-cuda.sh
 
 EXPOSE 8787
 
