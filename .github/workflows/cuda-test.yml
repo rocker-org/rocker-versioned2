@@ -1,0 +1,17 @@
+name: Test cuda builds
+on:
+  workflow_dispatch: null
+  pull_request:
+    branches:
+      - master
+    paths:
+      - tests/ml-test.Dockerfile
+      - .github/workflows/cuda-test.yml
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: read-all
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: docker build -f tests/ml-test.Dockerfile .
