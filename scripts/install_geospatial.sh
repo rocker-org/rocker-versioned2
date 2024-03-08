@@ -18,6 +18,7 @@ function apt_install() {
 }
 
 apt_install \
+    cargo \
     gdal-bin \
     lbzip2 \
     libfftw3-dev \
@@ -49,18 +50,21 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     RNetCDF \
     classInt \
     deldir \
+    gdalcubes \
+    geoR \
+    geosphere \
     gstat \
     hdf5r \
     lidR \
+    leaflet \
+    leaftlet.extras2 \
     mapdata \
     maptools \
     mapview \
     ncdf4 \
-    proj4 \
     raster \
-    rgdal \
-    rgeos \
     rlas \
+    rstac \
     sf \
     sfarrow \
     sp \
@@ -72,8 +76,6 @@ install2.r --error --skipmissing --skipinstalled -n "$NCPUS" \
     terra \
     tidync \
     tmap \
-    geoR \
-    geosphere \
     BiocManager
 
 R -e "BiocManager::install('rhdf5')"
