@@ -220,7 +220,7 @@
       ],
       "USER": "${NB_USER}",
       "WORKDIR": "/home/${NB_USER}",
-      "CMD": "[\"/bin/sh\", \"-c\", \"jupyter lab --ip 0.0.0.0 --no-browser\"]",
+      "CMD": "[\"jupyter\", \"lab\", \"--ip\", \"0.0.0.0\", \"--no-browser\"]",
       "EXPOSE": 8888,
       "tags": [
         "docker.io/rocker/binder:4.3.3",
