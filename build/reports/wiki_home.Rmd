@@ -47,7 +47,8 @@ df_definitions <- fs::dir_ls(
   regexp = "([0-9]+\\.[0-9]+\\.[0-9]+|extra)\\.docker-bake.json$"
 ) |>
   rev() |>
-  purrr::map_dfr(.read_bakefile, .id = "file") |>
+  purrr::map(.read_bakefile, .id = "file") |>
+  purrr::list_rbind() |>
   dplyr::mutate(
     stack = stringr::str_remove_all(file, ".*/|\\.docker-bake\\.json"),
     order_number = dplyr::row_number()
@@ -56,25 +57,38 @@ df_definitions <- fs::dir_ls(
 df_images <- fs::dir_ls(path = "reports/imagelist", glob = "*.tsv") |>
   readr::read_tsv(col_names = FALSE, lazy = FALSE) |>
   dplyr::filter(X3 != "<none>") |>
-  dplyr::transmute(
+  dplyr::mutate(
     id = X1,
     tags = stringr::str_c(X2, ":", X3),
-    CreatedTime = lubridate::ymd_hms(X4)
+    CreatedTime = lubridate::ymd_hms(X4),
+    .keep = "none"
   ) |>
-  dplyr::group_by(tags) |>
-  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE) |>
-  dplyr::ungroup()
+  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE, by = tags)
 
 
-df_all <- df_definitions |>
+df_current_raw <- df_definitions |>
   dplyr::mutate(tags = stringr::str_remove(tags, "^docker.io/library|^docker.io/")) |>
   dplyr::inner_join(df_images, by = "tags") |>
-  dplyr::group_by(id) |>
-  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE) |>
-  dplyr::mutate(tags = stringr::str_c("`", stringr::str_c(tags, collapse = "`<br/>`"), "`")) |>
-  dplyr::filter(stringr::str_detect(tags, version) | stack == "extra") |>
-  dplyr::slice_head(n = 1) |>
-  dplyr::ungroup() |>
+  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE, by = id)
+
+df_current <- df_current_raw |>
+  dplyr::mutate(
+    tags = stringr::str_c("`", stringr::str_c(tags, collapse = "`<br/>`"), "`"),
+    .by = id
+  ) |>
+  dplyr::filter(stringr::str_detect(tags, version) | stack == "extra", .by = id) |>
+  dplyr::slice_head(n = 1, by = id) |>
+  tidyr::drop_na() |>
+  dplyr::mutate(report_name = stringr::str_c(name, "_", id))
+
+df_past <- df_images |>
+  dplyr::anti_join(df_current_raw, by = "id") |>
+  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE, by = id) |>
+  dplyr::mutate(
+    tags = stringr::str_c("`", stringr::str_c(tags, collapse = "`<br/>`"), "`"),
+    .by = id
+  ) |>
+  dplyr::slice_head(n = 1, by = id) |>
   tidyr::drop_na() |>
   dplyr::mutate(report_name = stringr::str_c(name, "_", id))
 ```
@@ -86,10 +100,10 @@ df_all <- df_definitions |>
 
   if (fs::file_exists(report_path)) fs::file_move(report_path, report_new_path)
 
-  return(invisible())
+  invisible()
 }
 
-purrr::walk2(df_all$id, df_all$report_name, .rename_report)
+purrr::walk2(df_current$id, df_current$report_name, .rename_report)
 ```
 
 ```{r}
@@ -99,7 +113,7 @@ purrr::walk2(df_all$id, df_all$report_name, .rename_report)
     substr(1, 7)
   linked_text <- paste0("[`", commit_short_hash, "`](", base_url, commit_hash, ")")
 
-  return(linked_text)
+  linked_text
 }
 ```
 
@@ -116,7 +130,7 @@ Click on the ID to see detailed information about each image.
 ### Versioned images
 
 ```{r print_table}
-df_all |>
+df_current |>
   dplyr::arrange(order_number) |>
   dplyr::filter(stack != "extra") |>
   dplyr::transmute(
@@ -133,7 +147,7 @@ df_all |>
 The following images are experimental and may differ from other images in terms of the repositories used.
 
 ```{r print_extra_table}
-df_all |>
+df_current |>
   dplyr::arrange(order_number) |>
   dplyr::filter(stack == "extra") |>
   dplyr::transmute(
@@ -142,4 +156,20 @@ df_all |>
     ID = stringr::str_c("[", id, "](./", report_name, ")"),
     CreatedTime
   )
+```
+
+```{r past_images, results='asis'}
+if (isTRUE(nrow(df_past) > 0)) {
+  cat("## Images no longer updated")
+  cat("The following images are built from the repository but are no longer updated.")
+  cat("(Definition files are not available for these images in current HEAD of the repository.)")
+
+  df_past |>
+    dplyr::arrange(CreatedTime) |>
+    dplyr::select(
+      RepoTags = tags,
+      ID = stringr::str_c("[", id, "](./", report_name, ")"),
+      CreatedTime
+    )
+}
 ```
