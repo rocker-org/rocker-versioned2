@@ -38,7 +38,8 @@ library(jsonlite)
       )
     ) |>
     tidyr::unnest_longer(tags) |>
-    dplyr::select(name, version, image_title, tags)
+    dplyr::select(name, version, image_title, tags) |>
+    dplyr::mutate(file = file)
 }
 
 
@@ -47,7 +48,7 @@ df_definitions <- fs::dir_ls(
   regexp = "([0-9]+\\.[0-9]+\\.[0-9]+|extra)\\.docker-bake.json$"
 ) |>
   rev() |>
-  purrr::map(.read_bakefile, .id = "file") |>
+  purrr::map(.read_bakefile) |>
   purrr::list_rbind() |>
   dplyr::mutate(
     stack = stringr::str_remove_all(file, ".*/|\\.docker-bake\\.json"),
