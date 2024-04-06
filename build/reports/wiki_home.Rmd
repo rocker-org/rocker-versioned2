@@ -6,6 +6,7 @@ output:
     toc: false
     df_print: kable
     html_preview: false
+    md_extensions: -smart
 ---
 
 ```{r setup, include=FALSE}
@@ -160,9 +161,9 @@ df_current |>
 
 ```{r past_images, results='asis'}
 if (isTRUE(nrow(df_past) > 0)) {
-  cat("## Images no longer updated")
-  cat("The following images are built from the repository but are no longer updated.")
-  cat("(Definition files are not available for these images in current HEAD of the repository.)")
+  cat("## Images no longer updated\n\n")
+  cat("The following images are built from the repository but are no longer updated.\n")
+  cat("(Definition files are not available for these images in current HEAD of the repository.)\n")
 
   df_past |>
     dplyr::arrange(CreatedTime) |>
