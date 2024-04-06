@@ -90,8 +90,7 @@ df_past <- df_images |>
     .by = id
   ) |>
   dplyr::slice_head(n = 1, by = id) |>
-  tidyr::drop_na() |>
-  dplyr::mutate(report_name = stringr::str_c(name, "_", id))
+  tidyr::drop_na()
 ```
 
 ```{r rename_reports}
@@ -169,7 +168,7 @@ if (isTRUE(nrow(df_past) > 0)) {
     dplyr::arrange(CreatedTime) |>
     dplyr::select(
       RepoTags = tags,
-      ID = stringr::str_c("[", id, "](./", report_name, ")"),
+      ID = id,
       CreatedTime
     )
 }
