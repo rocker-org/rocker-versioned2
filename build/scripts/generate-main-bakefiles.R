@@ -170,12 +170,12 @@ generate_tags <- function(base_name,
   r_minor_version <- stringr::str_extract(r_version, "^\\d+\\.\\d+")
   r_major_version <- stringr::str_extract(r_version, "^\\d+")
 
-  if (r_minor_latest == TRUE) {
+  if (isTRUE(r_minor_latest)) {
     .tags <- c(.tags, outer_paste(base_name, ":", r_minor_version, tag_suffix))
   }
-  if (r_major_latest == TRUE) {
+  if (isTRUE(r_major_latest)) {
     .tags <- c(.tags, outer_paste(base_name, ":", r_major_version, tag_suffix))
-    if (use_latest_tag == TRUE) {
+    if (isTRUE(use_latest_tag)) {
       .tags <- c(.tags, outer_paste(base_name, ":", latest_tag))
     }
   }
@@ -184,7 +184,7 @@ generate_tags <- function(base_name,
 }
 
 
-df_args <- fs::dir_ls(path = "build/args", glob = "*.json") |>
+df_args <- fs::dir_ls(path = "build/args", regexp = r"((\d+\.){3}json)") |>
   purrr::map(
     \(x) jsonlite::fromJSON(x, flatten = TRUE) |>
       purrr::modify_if(is.null, \(x) NA) |>

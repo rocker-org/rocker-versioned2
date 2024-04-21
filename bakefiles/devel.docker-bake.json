@@ -3,24 +3,23 @@
     {
       "default": [
         {
-          "targets": [
-            "r-ver",
-            "rstudio",
-            "tidyverse",
-            "verse"
-          ]
+          "targets": ["r-ver", "rstudio", "tidyverse", "verse"]
         }
       ]
     }
   ],
   "target": {
     "r-ver": {
-      "context": "./",
       "dockerfile": "dockerfiles/r-ver_devel.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/r-ver",
         "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
-        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:latest"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:latest",
+        "org.opencontainers.image.version": "R-devel",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
       "tags": [
         "docker.io/rocker/r-ver:devel"
@@ -28,20 +27,27 @@
       "platforms": [
         "linux/amd64"
       ],
-      "cache-from": [
-        "docker.io/rocker/r-ver:devel"
-      ],
       "cache-to": [
         "type=inline"
+      ],
+      "cache-from": [
+        "docker.io/rocker/r-ver:devel",
+        "docker.io/rocker/rstudio:devel",
+        "docker.io/rocker/tidyverse:devel",
+        "docker.io/rocker/verse:devel"
       ]
     },
     "rstudio": {
-      "context": "./",
       "dockerfile": "dockerfiles/rstudio_devel.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/rstudio",
         "org.opencontainers.image.description": "RStudio Server with fixed version of R",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:devel"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:latest",
+        "org.opencontainers.image.version": "R-devel",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
       "tags": [
         "docker.io/rocker/rstudio:devel"
@@ -49,200 +55,70 @@
       "platforms": [
         "linux/amd64"
       ],
-      "cache-from": [
-        "docker.io/rocker/rstudio:devel"
-      ],
       "cache-to": [
         "type=inline"
+      ],
+      "cache-from": [
+        "docker.io/rocker/r-ver:devel",
+        "docker.io/rocker/rstudio:devel",
+        "docker.io/rocker/tidyverse:devel",
+        "docker.io/rocker/verse:devel"
       ]
     },
     "tidyverse": {
-      "context": "./",
       "dockerfile": "dockerfiles/tidyverse_devel.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:devel"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:latest",
+        "org.opencontainers.image.version": "R-devel",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
       "tags": [
         "docker.io/rocker/tidyverse:devel"
       ],
       "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/tidyverse:devel"
+        "linux/arm64"
       ],
       "cache-to": [
         "type=inline"
+      ],
+      "cache-from": [
+        "docker.io/rocker/r-ver:devel",
+        "docker.io/rocker/rstudio:devel",
+        "docker.io/rocker/tidyverse:devel",
+        "docker.io/rocker/verse:devel"
       ]
     },
     "verse": {
-      "context": "./",
       "dockerfile": "dockerfiles/verse_devel.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/verse",
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:devel"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:latest",
+        "org.opencontainers.image.version": "R-devel",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
       "tags": [
         "docker.io/rocker/verse:devel"
       ],
       "platforms": [
-        "linux/amd64"
+        "linux/arm64"
+      ],
+      "cache-to": [
+        "type=inline"
       ],
       "cache-from": [
+        "docker.io/rocker/r-ver:devel",
+        "docker.io/rocker/rstudio:devel",
+        "docker.io/rocker/tidyverse:devel",
         "docker.io/rocker/verse:devel"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "geospatial": {
-      "context": "./",
-      "dockerfile": "dockerfiles/geospatial_devel.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/geospatial",
-        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:devel"
-      },
-      "tags": [
-        "docker.io/rocker/geospatial:devel"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/geospatial:devel"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "shiny": {
-      "context": "./",
-      "dockerfile": "dockerfiles/shiny_devel.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/shiny",
-        "org.opencontainers.image.description": "Shiny Server on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:devel"
-      },
-      "tags": [
-        "docker.io/rocker/shiny:devel"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/shiny:devel"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "shiny-verse": {
-      "context": "./",
-      "dockerfile": "dockerfiles/shiny-verse_devel.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/shiny-verse",
-        "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/shiny:devel"
-      },
-      "tags": [
-        "docker.io/rocker/shiny-verse:devel"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/shiny-verse:devel"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "binder": {
-      "context": "./",
-      "dockerfile": "dockerfiles/binder_devel.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/binder",
-        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/geospatial:devel"
-      },
-      "tags": [
-        "docker.io/rocker/binder:devel"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/binder:devel"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "cuda": {
-      "context": "./",
-      "dockerfile": "dockerfiles/cuda_devel.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/cuda",
-        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/nvidia/cuda:11.8.0-cudnn8-devel-ubuntu24.04"
-      },
-      "tags": [
-        "docker.io/rocker/cuda:devel"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/cuda:devel"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "ml": {
-      "context": "./",
-      "dockerfile": "dockerfiles/ml_devel.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/cuda:devel"
-      },
-      "tags": [
-        "docker.io/rocker/ml:devel"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/ml:devel"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "ml-verse": {
-      "context": "./",
-      "dockerfile": "dockerfiles/ml-verse_devel.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml-verse",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/ml:devel"
-      },
-      "tags": [
-        "docker.io/rocker/ml-verse:devel"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/ml-verse:devel"
-      ],
-      "cache-to": [
-        "type=inline"
       ]
     }
   }

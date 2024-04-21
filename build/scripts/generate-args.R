@@ -1,17 +1,3 @@
-library(rversions)
-library(jsonlite)
-library(pak)
-library(dplyr, warn.conflicts = FALSE)
-library(readr)
-library(tibble)
-library(httr2)
-library(purrr, warn.conflicts = FALSE)
-library(glue, warn.conflicts = FALSE)
-library(tidyr)
-library(stringr)
-library(gert)
-
-
 #' Search the latest P3M CRAN mirror URL for Linux at a given date
 #' @param date A single character of date like `"2023-10-30"` or `NA`.
 #' If `NA`, the "latest" URL will be returned.
@@ -248,7 +234,21 @@ rocker_versioned_args <- function(
 }
 
 
-rocker_versioned_args() |>
+# Add devel version
+df_args <- rocker_versioned_args() |> (\(x)
+dplyr::add_row(
+  x,
+  r_version = "devel",
+  ubuntu_series = "latest",
+  cran = "https://cloud.r-project.org",
+  rstudio_version = x$rstudio_version |>
+    utils::tail(1),
+  ctan = x$ctan |>
+    utils::tail(1)
+))()
+
+
+df_args |>
   purrr::pwalk(
     \(...) {
       dots <- rlang::list2(...)
