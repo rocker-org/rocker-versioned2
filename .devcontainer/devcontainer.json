@@ -1,11 +1,11 @@
 {
-	"image": "ghcr.io/rocker-org/devcontainer/r-ver:4",
-	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"dockerDashComposeVersion": "v2"
-		},
-		"ghcr.io/rocker-org/devcontainer-features/r-history:0": {}
-	},
+  "image": "ghcr.io/rocker-org/devcontainer/r-ver:4",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "dockerDashComposeVersion": "v2"
+    },
+    "ghcr.io/rocker-org/devcontainer-features/r-history:0": {}
+  },
   "customizations": {
     "vscode": {
       "extensions": [
