@@ -63,7 +63,8 @@ tibble::tibble(
     "shiny-verse",
     "cuda",
     "ml",
-    "ml-verse"
+    "ml-verse",
+    "binder"
   )
 ) |>
   dplyr::mutate(
