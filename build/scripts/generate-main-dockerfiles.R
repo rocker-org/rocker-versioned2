@@ -47,7 +47,9 @@ df_args <- fs::dir_ls(path = "build/args", glob = "*.json") |>
       purrr::modify_if(is.null, \(x) NA) |>
       tibble::as_tibble()
   ) |>
-  purrr::list_rbind()
+  purrr::list_rbind() |>
+  # Limit to the last 2 versions and devel
+  utils::tail(3)
 
 
 tibble::tibble(

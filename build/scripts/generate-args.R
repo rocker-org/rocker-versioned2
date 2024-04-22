@@ -162,7 +162,8 @@ rocker_versioned_args <- function(
     ...,
     r_versions_file = "build/variables/r-versions.tsv",
     ubuntu_lts_versions_file = "build/variables/ubuntu-lts-versions.tsv",
-    rstudio_versions_file = "build/variables/rstudio-versions.tsv") {
+    rstudio_versions_file = "build/variables/rstudio-versions.tsv",
+    n_r_versions = 6) {
   df_all <- readr::read_tsv(r_versions_file, show_col_types = FALSE) |>
     dplyr::arrange(as.numeric_version(r_version)) |>
     dplyr::mutate(
@@ -180,11 +181,7 @@ rocker_versioned_args <- function(
       .by = r_major_version
     ) |>
     dplyr::select(!c(r_minor_version, r_major_version)) |>
-    # Supports the latest two patch versions and the latest two minor versions.
-    dplyr::filter(
-      r_minor_latest | dplyr::lead(r_major_latest, default = FALSE)
-    ) |>
-    dplyr::slice_tail(n = 3) |>
+    dplyr::slice_tail(n = n_r_versions) |>
     tidyr::expand_grid(
       readr::read_tsv(
         ubuntu_lts_versions_file,

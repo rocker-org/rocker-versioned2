@@ -190,7 +190,9 @@ df_args <- fs::dir_ls(path = "build/args", regexp = r"((\d+\.){3}json)") |>
       purrr::modify_if(is.null, \(x) NA) |>
       tibble::as_tibble()
   ) |>
-  purrr::list_rbind()
+  purrr::list_rbind() |>
+  # Limit to the last 2 versions
+  utils::tail(2)
 
 df_args |>
   purrr::pwalk(
