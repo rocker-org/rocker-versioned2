@@ -1,9 +1,16 @@
+default_labels <- list(
+  org.opencontainers.image.licenses = "GPL-2.0-or-later",
+  org.opencontainers.image.source = "https://github.com/rocker-org/rocker-versioned2",
+  org.opencontainers.image.vendor = "Rocker Project",
+  org.opencontainers.image.authors = "Carl Boettiger <cboettig@ropensci.org>"
+)
+
 #' @param ... Named arguments
 #' @param bakefile_template A character of a template for docker-bake.json
 #' @param path_template A character of output path template
 #' @return A data frame invisibly.
 #' @examples
-#' write_bakefile(
+#' write_main_bakefile(
 #'   r_version = "4.0.0",
 #'   ubuntu_series = "focal",
 #'   r_minor_latest = TRUE,
@@ -11,7 +18,7 @@
 #'   bakefile_template = r"({"target": {"r-ver": {"dockerfile": "dockerfiles/r-ver_{{r_version}}.Dockerfile"}}})",
 #'   path_template = "bakefiles/{{r_version}}.docker-bake.json"
 #' )
-write_bakefile <- function(..., bakefile_template, path_template) {
+write_main_bakefile <- function(..., bakefile_template, path_template) {
   dots <- rlang::list2(...)
   bake_json_content <- glue::glue_data(
     dots,
@@ -22,14 +29,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
   ) |>
     jsonlite::fromJSON()
 
-  default_labels <- list(
-    org.opencontainers.image.licenses = "GPL-2.0-or-later",
-    org.opencontainers.image.source = "https://github.com/rocker-org/rocker-versioned2",
-    org.opencontainers.image.vendor = "Rocker Project",
-    org.opencontainers.image.authors = "Carl Boettiger <cboettig@ropensci.org>"
-  )
-
-  .generate_versioned_tags <- function(base_name) {
+  generate_versioned_tags <- function(base_name) {
     generate_tags(
       base_name,
       r_version = dots$r_version,
@@ -47,7 +47,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$`r-ver`$tags <- c("docker.io/rocker/r-ver", "ghcr.io/rocker-org/r-ver") |>
-    .generate_versioned_tags()
+    generate_versioned_tags()
   bake_json_content$target$`r-ver`$`platforms` <- list("linux/amd64", "linux/arm64")
   bake_json_content$target$`r-ver`$`cache-to` <- list("type=inline")
 
@@ -57,7 +57,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$rstudio$tags <- c("docker.io/rocker/rstudio", "ghcr.io/rocker-org/rstudio") |>
-    .generate_versioned_tags()
+    generate_versioned_tags()
   bake_json_content$target$rstudio$`platforms` <- list("linux/amd64", "linux/arm64")
   bake_json_content$target$rstudio$`cache-to` <- list("type=inline")
 
@@ -67,7 +67,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$tidyverse$tags <- c("docker.io/rocker/tidyverse", "ghcr.io/rocker-org/tidyverse") |>
-    .generate_versioned_tags()
+    generate_versioned_tags()
   bake_json_content$target$tidyverse$`platforms` <- list("linux/arm64")
   bake_json_content$target$tidyverse$`cache-to` <- list("type=inline")
 
@@ -77,7 +77,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$verse$tags <- c("docker.io/rocker/verse", "ghcr.io/rocker-org/verse") |>
-    .generate_versioned_tags()
+    generate_versioned_tags()
   bake_json_content$target$verse$`platforms` <- list("linux/arm64")
   bake_json_content$target$verse$`cache-to` <- list("type=inline")
 
@@ -87,7 +87,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$geospatial$tags <- c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial") |>
-    .generate_versioned_tags()
+    generate_versioned_tags()
   bake_json_content$target$geospatial$`platforms` <- list("linux/arm64")
   bake_json_content$target$geospatial$`cache-to` <- list("type=inline")
 
@@ -97,7 +97,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$shiny$tags <- c("docker.io/rocker/shiny", "ghcr.io/rocker-org/shiny") |>
-    .generate_versioned_tags()
+    generate_versioned_tags()
   bake_json_content$target$shiny$`platforms` <- list("linux/arm64")
   bake_json_content$target$shiny$`cache-to` <- list("type=inline")
 
@@ -107,7 +107,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$`shiny-verse`$tags <- c("docker.io/rocker/shiny-verse", "ghcr.io/rocker-org/shiny-verse") |>
-    .generate_versioned_tags()
+    generate_versioned_tags()
   bake_json_content$target$`shiny-verse`$`platforms` <- list("linux/arm64")
   bake_json_content$target$`shiny-verse`$`cache-to` <- list("type=inline")
 
@@ -127,6 +127,83 @@ write_bakefile <- function(..., bakefile_template, path_template) {
       bake_json_content$target$geospatial$tags,
       bake_json_content$target$shiny$tags,
       bake_json_content$target$`shiny-verse`$tags
+    )
+
+  jsonlite::write_json(
+    bake_json_content,
+    path = glue::glue_data(
+      dots,
+      path_template,
+      .open = "{{",
+      .close = "}}"
+    ),
+    pretty = TRUE,
+    auto_unbox = TRUE
+  )
+}
+
+
+write_cuda_bakefile <- function(..., bakefile_template, path_template) {
+  dots <- rlang::list2(...)
+  bake_json_content <- glue::glue_data(
+    dots,
+    bakefile_template,
+    .open = "{{",
+    .close = "}}",
+    .trim = FALSE
+  ) |>
+    jsonlite::fromJSON()
+
+  generate_versioned_tags <- function(base_name) {
+    generate_tags(
+      base_name,
+      r_version = dots$r_version,
+      r_minor_latest = dots$r_minor_latest,
+      r_major_latest = dots$r_major_latest
+    ) |>
+      as.list()
+  }
+
+  # Update labels, tags, platforms, cache-to
+  # TODO: Do not repeat these
+  ## cuda
+  bake_json_content$target$`cuda`$labels <- c(
+    bake_json_content$target$`cuda`$labels,
+    default_labels
+  )
+  bake_json_content$target$`cuda`$tags <- c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda") |>
+    generate_versioned_tags()
+  bake_json_content$target$`cuda`$`platforms` <- list("linux/amd64")
+  bake_json_content$target$`cuda`$`cache-to` <- list("type=inline")
+
+  ## ml
+  bake_json_content$target$ml$labels <- c(
+    bake_json_content$target$ml$labels,
+    default_labels
+  )
+  bake_json_content$target$ml$tags <- c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml-verse") |>
+    generate_versioned_tags()
+  bake_json_content$target$ml$`platforms` <- list("linux/amd64")
+  bake_json_content$target$ml$`cache-to` <- list("type=inline")
+
+  ## ml-verse
+  bake_json_content$target$`ml-verse`$labels <- c(
+    bake_json_content$target$`ml-verse`$labels,
+    default_labels
+  )
+  bake_json_content$target$`ml-verse`$tags <- c("docker.io/rocker/ml-verse", "ghcr.io/rocker-org/ml-verse") |>
+    generate_versioned_tags()
+  bake_json_content$target$`ml-verse`$`platforms` <- list("linux/arm64")
+  bake_json_content$target$`ml-verse`$`cache-to` <- list("type=inline")
+
+  # Update cache-from
+  bake_json_content$target$`cuda`$`cache-from` <-
+    bake_json_content$target$ml$`cache-from` <-
+    bake_json_content$target$`ml-verse`$`cache-from` <-
+    c(
+      bake_json_content$target$`cuda`$tags,
+      bake_json_content$target$ml$tags,
+      bake_json_content$target$`ml-verse`$tags
     )
 
   jsonlite::write_json(
@@ -198,10 +275,23 @@ df_args <- fs::dir_ls(path = "build/args", regexp = r"((\d+\.){3}json)") |>
 df_args |>
   purrr::pwalk(
     \(...) {
-      write_bakefile(
+      write_main_bakefile(
         ...,
         bakefile_template = readr::read_file("build/templates/bakefiles/main.docker-bake.json"),
         path_template = "bakefiles/{{r_version}}.docker-bake.json"
+      )
+    }
+  )
+
+
+# cuda bake files
+df_args |>
+  purrr::pwalk(
+    \(...) {
+      write_cuda_bakefile(
+        ...,
+        bakefile_template = readr::read_file("build/templates/bakefiles/cuda.docker-bake.json"),
+        path_template = "bakefiles/{{r_version}}.cuda.docker-bake.json"
       )
     }
   )
