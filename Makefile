@@ -1,13 +1,15 @@
 SHELL := /bin/bash
 
-.PHONY: clean setup test print-% pull-image% bake-json% inspect-% report% wiki%
+.PHONY: clean test print-% pull-image% bake-json% inspect-% report% wiki%
 
 all:
 
+.PHONY: setup
 setup:
-	./build/make-dockerfiles.R
-	./build/make-bakejson.R
-	./build/make-matrix.R
+	Rscript build/scripts/generate-matrix.R
+	Rscript build/scripts/generate-bakefiles.R
+	Rscript build/scripts/generate-dockerfiles.R
+	Rscript build/scripts/clean-files.R
 
 test: bake-json-test-all bake-json-test-groups
 
