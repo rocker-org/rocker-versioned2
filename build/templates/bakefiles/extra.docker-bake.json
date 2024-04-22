@@ -6,6 +6,23 @@
           "targets": [
             "cuda",
             "ml",
+            "ml-verse",
+            "binder"
+          ]
+        }
+      ],
+      "binder": [
+        {
+          "targets": [
+            "binder"
+          ]
+        }
+      ],
+      "cuda": [
+        {
+          "targets": [
+            "cuda",
+            "ml",
             "ml-verse"
           ]
         }

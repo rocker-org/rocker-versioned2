@@ -143,7 +143,7 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
 }
 
 
-write_cuda_bakefile <- function(..., bakefile_template, path_template) {
+write_extra_bakefile <- function(..., bakefile_template, path_template) {
   dots <- rlang::list2(...)
   bake_json_content <- glue::glue_data(
     dots,
@@ -166,6 +166,17 @@ write_cuda_bakefile <- function(..., bakefile_template, path_template) {
 
   # Update labels, tags, platforms, cache-to
   # TODO: Do not repeat these
+  ## binder
+  bake_json_content$target$binder$labels <- c(
+    bake_json_content$target$binder$labels,
+    default_labels
+  )
+  bake_json_content$target$binder$tags <- c("docker.io/rocker/binder", "ghcr.io/rocker-org/binder") |>
+    generate_versioned_tags()
+  bake_json_content$target$binder$`platforms` <- list("linux/amd64")
+  bake_json_content$target$binder$`cache-to` <- list("type=inline")
+  bake_json_content$target$binder$`cache-from` <- bake_json_content$target$binder$tags
+
   ## cuda
   bake_json_content$target$`cuda`$labels <- c(
     bake_json_content$target$`cuda`$labels,
@@ -284,14 +295,14 @@ df_args |>
   )
 
 
-# cuda bake files
+# binder and cuda bake files
 df_args |>
   purrr::pwalk(
     \(...) {
-      write_cuda_bakefile(
+      write_extra_bakefile(
         ...,
-        bakefile_template = readr::read_file("build/templates/bakefiles/cuda.docker-bake.json"),
-        path_template = "bakefiles/{{r_version}}.cuda.docker-bake.json"
+        bakefile_template = readr::read_file("build/templates/bakefiles/extra.docker-bake.json"),
+        path_template = "bakefiles/{{r_version}}.extra.docker-bake.json"
       )
     }
   )
