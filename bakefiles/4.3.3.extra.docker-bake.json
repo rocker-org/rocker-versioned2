@@ -3,6 +3,16 @@
     {
       "default": [
         {
+          "targets": ["cuda", "ml", "ml-verse", "binder"]
+        }
+      ],
+      "binder": [
+        {
+          "targets": "binder"
+        }
+      ],
+      "cuda": [
+        {
           "targets": ["cuda", "ml", "ml-verse"]
         }
       ]
@@ -172,6 +182,40 @@
         "ghcr.io/rocker-org/ml-verse:4",
         "docker.io/rocker/ml-verse:latest",
         "ghcr.io/rocker-org/ml-verse:latest"
+      ]
+    },
+    "binder": {
+      "labels": {
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
+      },
+      "tags": [
+        "docker.io/rocker/binder:4.3.3",
+        "ghcr.io/rocker-org/binder:4.3.3",
+        "docker.io/rocker/binder:4.3",
+        "ghcr.io/rocker-org/binder:4.3",
+        "docker.io/rocker/binder:4",
+        "ghcr.io/rocker-org/binder:4",
+        "docker.io/rocker/binder:latest",
+        "ghcr.io/rocker-org/binder:latest"
+      ],
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
+      "cache-from": [
+        "docker.io/rocker/binder:4.3.3",
+        "ghcr.io/rocker-org/binder:4.3.3",
+        "docker.io/rocker/binder:4.3",
+        "ghcr.io/rocker-org/binder:4.3",
+        "docker.io/rocker/binder:4",
+        "ghcr.io/rocker-org/binder:4",
+        "docker.io/rocker/binder:latest",
+        "ghcr.io/rocker-org/binder:latest"
       ]
     }
   }
