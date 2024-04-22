@@ -53,7 +53,18 @@ df_args <- fs::dir_ls(path = "build/args", glob = "*.json") |>
 
 
 tibble::tibble(
-  .name = c("r-ver", "rstudio", "tidyverse", "verse", "geospatial", "shiny", "shiny-verse")
+  .name = c(
+    "r-ver",
+    "rstudio",
+    "tidyverse",
+    "verse",
+    "geospatial",
+    "shiny",
+    "shiny-verse",
+    "cuda",
+    "ml",
+    "ml-verse"
+  )
 ) |>
   dplyr::mutate(
     .template_path = glue::glue("build/templates/dockerfiles/{.name}.Dockerfile.txt")
