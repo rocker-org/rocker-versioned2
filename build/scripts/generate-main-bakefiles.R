@@ -40,6 +40,7 @@ write_bakefile <- function(..., bakefile_template, path_template) {
   }
 
   # Update labels, tags, platforms, cache-to
+  # TODO: Do not repeat these
   ## r-ver
   bake_json_content$target$`r-ver`$labels <- c(
     bake_json_content$target$`r-ver`$labels,
