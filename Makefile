@@ -86,4 +86,4 @@ $(REPORT_DIR)/Versions.md: build/reports/versions.Rmd $(STACK_FILES)
 	-Rscript -e 'rmarkdown::render(input = "$<", output_dir = "$(@D)", output_file = "$(@F)")'
 
 clean:
-	rm -r -f dockerfiles/*.Dockerfile bakefiles/*.json tmp/*
+	rm -r -f tmp/*
