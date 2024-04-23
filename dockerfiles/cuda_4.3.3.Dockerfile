@@ -9,6 +9,7 @@ RUN /rocker_scripts/install_R_source.sh
 
 ENV CRAN="https://p3m.dev/cran/__linux__/jammy/latest"
 
+COPY scripts/bin/ /rocker_scripts/bin/
 COPY scripts/setup_R.sh /rocker_scripts/setup_R.sh
 RUN /rocker_scripts/setup_R.sh
 

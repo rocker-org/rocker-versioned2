@@ -9,6 +9,7 @@ RUN /rocker_scripts/install_R_source.sh
 
 ENV CRAN="https://cloud.r-project.org"
 
+COPY scripts/bin/ /rocker_scripts/bin/
 COPY scripts/setup_R.sh /rocker_scripts/setup_R.sh
 RUN /rocker_scripts/setup_R.sh
 
