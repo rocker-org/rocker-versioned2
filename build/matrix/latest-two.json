@@ -3,5 +3,7 @@
     "4.3.2",
     "4.3.3"
   ],
-  "group": "default"
+  "group": [
+    "default"
+  ]
 }

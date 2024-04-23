@@ -5,7 +5,7 @@
 write_matrix <- function(r_versions, file) {
   list(
     r_version = as.list(r_versions),
-    group = "default"
+    group = list("default")
   ) |>
     jsonlite::write_json(file, pretty = TRUE, auto_unbox = TRUE)
 }
