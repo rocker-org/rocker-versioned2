@@ -34,16 +34,18 @@ jobs:
       - uses: actions/checkout@v4
       - id: set-matrix
         run: |
-          CONTENT=$(jq -r '.r_version += ["extra"] | tostring' build/matrix/all.json)
-          echo "matrix=${CONTENT}" >> "$GITHUB_OUTPUT"
-          echo "${CONTENT}"
+          CONTENT_MAIN="$(jq -r 'tostring' build/matrix/all.json)"
+          CONTENT_EXTRA="$(jq -s -r '.[0] + { group: [.[1].group[] | keys[] | select(. != "default")] } | tostring' build/matrix/latest-two.json build/templates/bakefiles/extra.docker-bake.json)"
+          echo "matrix-main=${CONTENT_MAIN}" >> "$GITHUB_OUTPUT"
+          echo "matrix-extra=${CONTENT_EXTRA}" >> "$GITHUB_OUTPUT"
+          echo "${CONTENT_MAIN}"
 
-  inspect:
+  inspect-main:
     needs: generate_matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
+      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix-main)}}
     steps:
       - uses: actions/checkout@v4
       - name: Clean up
@@ -64,9 +66,37 @@ jobs:
           name: tmp
           path: tmp
 
+  inspect-extra:
+    needs: generate_matrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix-extra)}}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clean up
+        run: |
+          docker image prune --all --force
+      - name: Pull images
+        run: |
+          BAKE_JSON="bakefiles/${{ matrix.r_version }}.extra.docker-bake.json" \
+          BAKE_GROUP="${{ matrix.group }}" \
+          make pull-image-group
+      - name: Inspect built image
+        run: |
+          IMAGELIST_NAME="${{ matrix.r_version }}-extra-${{ matrix.group }}.tsv" \
+          make inspect-image-all
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: tmp
+          path: tmp
+
   publish_reports:
     if: always()
-    needs: inspect
+    needs:
+      - inspect-main
+      - inspect-extra
     runs-on: ubuntu-latest
     container:
       image: rocker/tidyverse:latest
@@ -81,9 +111,6 @@ jobs:
         with:
           repository: "${{ github.repository }}.wiki"
           path: reports
-      # - name: clean up image list
-      #   run:
-      #     rm -rf reports/imagelist
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:

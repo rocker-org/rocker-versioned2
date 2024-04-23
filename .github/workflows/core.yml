@@ -30,15 +30,18 @@ jobs:
       - id: set-json
         run: |
           JSON=build/matrix/latest.json
+          ALL=false
           if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
             JSON=build/matrix/all.json
+            ALL=true
           fi
-          echo ::set-output name=json::${JSON}
+          echo "json=${JSON}" >>"$GITHUB_OUTPUT"
+          echo "all-versions=${ALL}" >>"$GITHUB_OUTPUT"
           echo ${JSON}
       - id: set-matrix
         run: |
           CONTENT=$(jq -r 'tostring' ${{ steps.set-json.outputs.json }})
-          echo ::set-output name=matrix::"${CONTENT}"
+          echo "matrix=${CONTENT}" >>"$GITHUB_OUTPUT"
           echo "${CONTENT}"
 
   build:
@@ -70,3 +73,10 @@ jobs:
           BAKE_GROUP=${{ matrix.group }} \
           BAKE_OPTION=--push \
           make bake-json-group
+
+  call-extra-workflow:
+    needs:
+      - build
+    uses: ./.github/workflows/extra.yml
+    with:
+      all-versions: ${{ steps.set-json.outputs.all-versions == 'true' }}
