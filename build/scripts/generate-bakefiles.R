@@ -164,6 +164,9 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
       as.list()
   }
 
+  # Prevent auto unboxing
+  bake_json_content$group$binder[[1]]$targets[[1]] <- I("binder")
+
   # Update labels, tags, platforms, cache-to
   # TODO: Do not repeat these
   ## binder
