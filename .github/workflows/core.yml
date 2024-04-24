@@ -25,6 +25,7 @@ jobs:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
+      all-versions: ${{ steps.set-json.outputs.all-versions }}
     steps:
       - uses: actions/checkout@v4.1.1
       - id: set-json
@@ -76,7 +77,8 @@ jobs:
 
   call-extra-workflow:
     needs:
+      - generate_matrix
       - build
     uses: ./.github/workflows/extra.yml
     with:
-      all-versions: ${{ steps.set-json.outputs.all-versions == 'true' }}
+      all-versions: ${{ needs.generate_matrix.outputs.all-versions }}

@@ -36,13 +36,13 @@ jobs:
       - id: set-matrix
         run: |
           JSON="build/matrix/latest.json"
-          if [[ "{{ inputs.all-versions }}" ]]; then
+          if [[ "${{ inputs.all-versions }}" == "true" ]]; then
             JSON="build/matrix/latest-two.json"
           fi
-          if [[ -n "{{ inputs.group }}" ]]; then
-            CONTENT="$(jq -s -r '.[0] + { group: [.[1].group[] | keys[] | select(. != "default")] } | tostring' ${{ steps.set-json.outputs.json }} build/templates/bakefiles/extra.docker-bake.json)"
+          if [[ -n "${{ inputs.group }}" ]]; then
+            CONTENT="$(jq -s -r '.[0] + { group: [.[1].group[] | keys[] | select(. != "default")] } | tostring' $JSON build/templates/bakefiles/extra.docker-bake.json)"
           else
-            CONTENT="$(jq -r '.group = ["${{ inputs.group }}"] | tostring' ${{ steps.set-json.outputs.json }})"
+            CONTENT="$(jq -r '.group = ["${{ inputs.group }}"] | tostring' $JSON)"
           fi
           echo "matrix=${CONTENT}" >>"$GITHUB_OUTPUT"
           echo "${CONTENT}"

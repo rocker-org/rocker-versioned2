@@ -29,7 +29,8 @@ jobs:
   generate_matrix:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix-main: ${{ steps.set-matrix.outputs.matrix-main }}
+      matrix-extra: ${{ steps.set-matrix.outputs.matrix-extra }}
     steps:
       - uses: actions/checkout@v4.1.1
       - id: set-matrix
