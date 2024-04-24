@@ -1,20 +1,10 @@
-FROM rocker/geospatial:4.4.0
+FROM rocker/verse:4.3.3
 
 LABEL org.opencontainers.image.licenses="GPL-2.0-or-later" \
       org.opencontainers.image.source="https://github.com/rocker-org/rocker-versioned2" \
       org.opencontainers.image.vendor="Rocker Project" \
       org.opencontainers.image.authors="Carl Boettiger <cboettig@ropensci.org>"
 
-ENV NB_USER=rstudio
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH=${VIRTUAL_ENV}/bin:${PATH}
+COPY scripts/experimental/install_geospatial_unstable.sh /rocker_scripts/experimental/install_geospatial_unstable.sh
 
-RUN /rocker_scripts/install_jupyter.sh
-
-EXPOSE 8888
-
-CMD ["jupyter", "lab", "--ip", "0.0.0.0", "--no-browser"]
-
-USER ${NB_USER}
-
-WORKDIR /home/${NB_USER}
+RUN /rocker_scripts/experimental/install_geospatial_unstable.sh
