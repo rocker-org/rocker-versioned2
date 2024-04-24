@@ -3,17 +3,28 @@
     {
       "default": [
         {
-          "targets": ["cuda", "ml", "ml-verse", "binder"]
+          "targets": [
+            "cuda",
+            "ml",
+            "ml-verse",
+            "binder"
+          ]
         }
       ],
       "binder": [
         {
-          "targets": ["binder"]
+          "targets": [
+            "binder"
+          ]
         }
       ],
       "cuda": [
         {
-          "targets": ["cuda", "ml", "ml-verse"]
+          "targets": [
+            "cuda",
+            "ml",
+            "ml-verse"
+          ]
         }
       ]
     }
@@ -31,15 +42,15 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
-      "tags": [
-        "docker.io/rocker/cuda:4.3.2",
-        "ghcr.io/rocker-org/cuda:4.3.2"
-      ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-to": [
         "type=inline"
+      ],
+      "tags": [
+        "docker.io/rocker/cuda:4.3.2",
+        "ghcr.io/rocker-org/cuda:4.3.2"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.3.2",
@@ -62,15 +73,15 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
-      "tags": [
-        "docker.io/rocker/ml:4.3.2",
-        "ghcr.io/rocker-org/ml-verse:4.3.2"
-      ],
       "platforms": [
         "linux/amd64"
       ],
       "cache-to": [
         "type=inline"
+      ],
+      "tags": [
+        "docker.io/rocker/ml:4.3.2",
+        "ghcr.io/rocker-org/ml-verse:4.3.2"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.3.2",
@@ -93,15 +104,15 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
-      "tags": [
-        "docker.io/rocker/ml-verse:4.3.2",
-        "ghcr.io/rocker-org/ml-verse:4.3.2"
-      ],
       "platforms": [
-        "linux/arm64"
+        "linux/amd64"
       ],
       "cache-to": [
         "type=inline"
+      ],
+      "tags": [
+        "docker.io/rocker/ml-verse:4.3.2",
+        "ghcr.io/rocker-org/ml-verse:4.3.2"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.3.2",
@@ -122,12 +133,6 @@
       "tags": [
         "docker.io/rocker/binder:4.3.2",
         "ghcr.io/rocker-org/binder:4.3.2"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/binder:4.3.2",

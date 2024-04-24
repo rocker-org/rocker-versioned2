@@ -3,7 +3,15 @@
     {
       "default": [
         {
-          "targets": ["r-ver", "rstudio", "tidyverse", "shiny", "shiny-verse", "verse", "geospatial"]
+          "targets": [
+            "r-ver",
+            "rstudio",
+            "tidyverse",
+            "shiny",
+            "shiny-verse",
+            "verse",
+            "geospatial"
+          ]
         }
       ]
     }
@@ -21,18 +29,18 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
-      "tags": [
-        "docker.io/rocker/r-ver:4.2.3",
-        "ghcr.io/rocker-org/r-ver:4.2.3",
-        "docker.io/rocker/r-ver:4.2",
-        "ghcr.io/rocker-org/r-ver:4.2"
-      ],
       "platforms": [
         "linux/amd64",
         "linux/arm64"
       ],
       "cache-to": [
         "type=inline"
+      ],
+      "tags": [
+        "docker.io/rocker/r-ver:4.2.3",
+        "ghcr.io/rocker-org/r-ver:4.2.3",
+        "docker.io/rocker/r-ver:4.2",
+        "ghcr.io/rocker-org/r-ver:4.2"
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.2.3",
@@ -77,18 +85,18 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
-      "tags": [
-        "docker.io/rocker/rstudio:4.2.3",
-        "ghcr.io/rocker-org/rstudio:4.2.3",
-        "docker.io/rocker/rstudio:4.2",
-        "ghcr.io/rocker-org/rstudio:4.2"
-      ],
       "platforms": [
         "linux/amd64",
         "linux/arm64"
       ],
       "cache-to": [
         "type=inline"
+      ],
+      "tags": [
+        "docker.io/rocker/rstudio:4.2.3",
+        "ghcr.io/rocker-org/rstudio:4.2.3",
+        "docker.io/rocker/rstudio:4.2",
+        "ghcr.io/rocker-org/rstudio:4.2"
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.2.3",
@@ -133,17 +141,17 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/tidyverse:4.2.3",
         "ghcr.io/rocker-org/tidyverse:4.2.3",
         "docker.io/rocker/tidyverse:4.2",
         "ghcr.io/rocker-org/tidyverse:4.2"
-      ],
-      "platforms": [
-        "linux/arm64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.2.3",
@@ -188,17 +196,17 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/verse:4.2.3",
         "ghcr.io/rocker-org/verse:4.2.3",
         "docker.io/rocker/verse:4.2",
         "ghcr.io/rocker-org/verse:4.2"
-      ],
-      "platforms": [
-        "linux/arm64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.2.3",
@@ -243,17 +251,17 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/geospatial:4.2.3",
         "ghcr.io/rocker-org/geospatial:4.2.3",
         "docker.io/rocker/geospatial:4.2",
         "ghcr.io/rocker-org/geospatial:4.2"
-      ],
-      "platforms": [
-        "linux/arm64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.2.3",
@@ -298,17 +306,17 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/shiny:4.2.3",
         "ghcr.io/rocker-org/shiny:4.2.3",
         "docker.io/rocker/shiny:4.2",
         "ghcr.io/rocker-org/shiny:4.2"
-      ],
-      "platforms": [
-        "linux/arm64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.2.3",
@@ -353,17 +361,17 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/shiny-verse:4.2.3",
         "ghcr.io/rocker-org/shiny-verse:4.2.3",
         "docker.io/rocker/shiny-verse:4.2",
         "ghcr.io/rocker-org/shiny-verse:4.2"
-      ],
-      "platforms": [
-        "linux/arm64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/r-ver:4.2.3",

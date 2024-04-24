@@ -3,17 +3,28 @@
     {
       "default": [
         {
-          "targets": ["cuda", "ml", "ml-verse", "binder"]
+          "targets": [
+            "cuda",
+            "ml",
+            "ml-verse",
+            "binder"
+          ]
         }
       ],
       "binder": [
         {
-          "targets": ["binder"]
+          "targets": [
+            "binder"
+          ]
         }
       ],
       "cuda": [
         {
-          "targets": ["cuda", "ml", "ml-verse"]
+          "targets": [
+            "cuda",
+            "ml",
+            "ml-verse"
+          ]
         }
       ]
     }
@@ -31,6 +42,12 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/cuda:4.3.3",
         "ghcr.io/rocker-org/cuda:4.3.3",
@@ -40,12 +57,6 @@
         "ghcr.io/rocker-org/cuda:4",
         "docker.io/rocker/cuda:latest",
         "ghcr.io/rocker-org/cuda:latest"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.3.3",
@@ -86,6 +97,12 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/ml:4.3.3",
         "ghcr.io/rocker-org/ml-verse:4.3.3",
@@ -95,12 +112,6 @@
         "ghcr.io/rocker-org/ml-verse:4",
         "docker.io/rocker/ml:latest",
         "ghcr.io/rocker-org/ml-verse:latest"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.3.3",
@@ -141,6 +152,12 @@
         "org.opencontainers.image.vendor": "Rocker Project",
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/ml-verse:4.3.3",
         "ghcr.io/rocker-org/ml-verse:4.3.3",
@@ -150,12 +167,6 @@
         "ghcr.io/rocker-org/ml-verse:4",
         "docker.io/rocker/ml-verse:latest",
         "ghcr.io/rocker-org/ml-verse:latest"
-      ],
-      "platforms": [
-        "linux/arm64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.3.3",
@@ -200,12 +211,6 @@
         "ghcr.io/rocker-org/binder:4",
         "docker.io/rocker/binder:latest",
         "ghcr.io/rocker-org/binder:latest"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-to": [
-        "type=inline"
       ],
       "cache-from": [
         "docker.io/rocker/binder:4.3.3",

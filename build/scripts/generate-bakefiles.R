@@ -27,7 +27,7 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     .close = "}}",
     .trim = FALSE
   ) |>
-    jsonlite::fromJSON()
+    jsonlite::fromJSON(simplifyVector = FALSE)
 
   generate_versioned_tags <- function(base_name) {
     generate_tags(
@@ -39,7 +39,7 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
       as.list()
   }
 
-  # Update labels, tags, platforms, cache-to
+  # Update labels, tags
   # TODO: Do not repeat these
   ## r-ver
   bake_json_content$target$`r-ver`$labels <- c(
@@ -48,8 +48,6 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$`r-ver`$tags <- c("docker.io/rocker/r-ver", "ghcr.io/rocker-org/r-ver") |>
     generate_versioned_tags()
-  bake_json_content$target$`r-ver`$`platforms` <- list("linux/amd64", "linux/arm64")
-  bake_json_content$target$`r-ver`$`cache-to` <- list("type=inline")
 
   ## rstudio
   bake_json_content$target$rstudio$labels <- c(
@@ -58,8 +56,6 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$rstudio$tags <- c("docker.io/rocker/rstudio", "ghcr.io/rocker-org/rstudio") |>
     generate_versioned_tags()
-  bake_json_content$target$rstudio$`platforms` <- list("linux/amd64", "linux/arm64")
-  bake_json_content$target$rstudio$`cache-to` <- list("type=inline")
 
   ## tidyverse
   bake_json_content$target$tidyverse$labels <- c(
@@ -68,8 +64,6 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$tidyverse$tags <- c("docker.io/rocker/tidyverse", "ghcr.io/rocker-org/tidyverse") |>
     generate_versioned_tags()
-  bake_json_content$target$tidyverse$`platforms` <- list("linux/arm64")
-  bake_json_content$target$tidyverse$`cache-to` <- list("type=inline")
 
   ## verse
   bake_json_content$target$verse$labels <- c(
@@ -78,8 +72,6 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$verse$tags <- c("docker.io/rocker/verse", "ghcr.io/rocker-org/verse") |>
     generate_versioned_tags()
-  bake_json_content$target$verse$`platforms` <- list("linux/arm64")
-  bake_json_content$target$verse$`cache-to` <- list("type=inline")
 
   ## geospatial
   bake_json_content$target$geospatial$labels <- c(
@@ -88,8 +80,6 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$geospatial$tags <- c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial") |>
     generate_versioned_tags()
-  bake_json_content$target$geospatial$`platforms` <- list("linux/arm64")
-  bake_json_content$target$geospatial$`cache-to` <- list("type=inline")
 
   ## shiny
   bake_json_content$target$shiny$labels <- c(
@@ -98,8 +88,6 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$shiny$tags <- c("docker.io/rocker/shiny", "ghcr.io/rocker-org/shiny") |>
     generate_versioned_tags()
-  bake_json_content$target$shiny$`platforms` <- list("linux/arm64")
-  bake_json_content$target$shiny$`cache-to` <- list("type=inline")
 
   ## shiny-verse
   bake_json_content$target$`shiny-verse`$labels <- c(
@@ -108,8 +96,6 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$`shiny-verse`$tags <- c("docker.io/rocker/shiny-verse", "ghcr.io/rocker-org/shiny-verse") |>
     generate_versioned_tags()
-  bake_json_content$target$`shiny-verse`$`platforms` <- list("linux/arm64")
-  bake_json_content$target$`shiny-verse`$`cache-to` <- list("type=inline")
 
   # Update cache-from
   bake_json_content$target$`r-ver`$`cache-from` <-
@@ -152,7 +138,7 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
     .close = "}}",
     .trim = FALSE
   ) |>
-    jsonlite::fromJSON()
+    jsonlite::fromJSON(simplifyVector = FALSE)
 
   generate_versioned_tags <- function(base_name) {
     generate_tags(
@@ -164,10 +150,7 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
       as.list()
   }
 
-  # Prevent auto unboxing
-  bake_json_content$group$binder[[1]]$targets[[1]] <- I("binder")
-
-  # Update labels, tags, platforms, cache-to
+  # Update labels, tags
   # TODO: Do not repeat these
   ## binder
   bake_json_content$target$binder$labels <- c(
@@ -176,8 +159,6 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$binder$tags <- c("docker.io/rocker/binder", "ghcr.io/rocker-org/binder") |>
     generate_versioned_tags()
-  bake_json_content$target$binder$`platforms` <- list("linux/amd64")
-  bake_json_content$target$binder$`cache-to` <- list("type=inline")
   bake_json_content$target$binder$`cache-from` <- bake_json_content$target$binder$tags
 
   ## cuda
@@ -187,8 +168,6 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$`cuda`$tags <- c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda") |>
     generate_versioned_tags()
-  bake_json_content$target$`cuda`$`platforms` <- list("linux/amd64")
-  bake_json_content$target$`cuda`$`cache-to` <- list("type=inline")
 
   ## ml
   bake_json_content$target$ml$labels <- c(
@@ -197,8 +176,6 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$ml$tags <- c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml-verse") |>
     generate_versioned_tags()
-  bake_json_content$target$ml$`platforms` <- list("linux/amd64")
-  bake_json_content$target$ml$`cache-to` <- list("type=inline")
 
   ## ml-verse
   bake_json_content$target$`ml-verse`$labels <- c(
@@ -207,8 +184,6 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
   )
   bake_json_content$target$`ml-verse`$tags <- c("docker.io/rocker/ml-verse", "ghcr.io/rocker-org/ml-verse") |>
     generate_versioned_tags()
-  bake_json_content$target$`ml-verse`$`platforms` <- list("linux/arm64")
-  bake_json_content$target$`ml-verse`$`cache-to` <- list("type=inline")
 
   # Update cache-from
   bake_json_content$target$`cuda`$`cache-from` <-

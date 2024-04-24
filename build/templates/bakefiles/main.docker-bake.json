@@ -24,7 +24,9 @@
         "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
-      }
+      },
+      "platforms": ["linux/amd64", "linux/arm64"],
+      "cache-to": ["type=inline"]
     },
     "rstudio": {
       "dockerfile": "dockerfiles/rstudio_{{r_version}}.Dockerfile",
@@ -33,7 +35,9 @@
         "org.opencontainers.image.description": "RStudio Server with fixed version of R",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
-      }
+      },
+      "platforms": ["linux/amd64", "linux/arm64"],
+      "cache-to": ["type=inline"]
     },
     "tidyverse": {
       "dockerfile": "dockerfiles/tidyverse_{{r_version}}.Dockerfile",
@@ -42,7 +46,9 @@
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
-      }
+      },
+      "platforms": ["linux/amd64"],
+      "cache-to": ["type=inline"]
     },
     "verse": {
       "dockerfile": "dockerfiles/verse_{{r_version}}.Dockerfile",
@@ -51,7 +57,9 @@
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
-      }
+      },
+      "platforms": ["linux/amd64"],
+      "cache-to": ["type=inline"]
     },
     "geospatial": {
       "dockerfile": "dockerfiles/geospatial_{{r_version}}.Dockerfile",
@@ -60,7 +68,9 @@
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
-      }
+      },
+      "platforms": ["linux/amd64"],
+      "cache-to": ["type=inline"]
     },
     "shiny": {
       "dockerfile": "dockerfiles/shiny_{{r_version}}.Dockerfile",
@@ -69,7 +79,9 @@
         "org.opencontainers.image.description": "Shiny Server on versioned Rocker image.",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
-      }
+      },
+      "platforms": ["linux/amd64"],
+      "cache-to": ["type=inline"]
     },
     "shiny-verse": {
       "dockerfile": "dockerfiles/shiny-verse_{{r_version}}.Dockerfile",
@@ -78,7 +90,9 @@
         "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image.",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
-      }
+      },
+      "platforms": ["linux/amd64"],
+      "cache-to": ["type=inline"]
     }
   }
 }
