@@ -26,7 +26,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.4
       - id: set-json
         run: |
           JSON=build/matrix/latest.json
@@ -48,7 +48,7 @@ jobs:
       fail-fast: false
       matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v4.1.1
+      - uses: actions/checkout@v4.1.4
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
