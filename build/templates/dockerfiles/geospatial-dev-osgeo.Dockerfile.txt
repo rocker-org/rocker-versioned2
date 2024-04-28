@@ -1,0 +1,8 @@
+FROM rocker/verse:{{r_version}}
+
+ENV PROJ_VERSION="{{proj_version}}"
+ENV GDAL_VERSION="{{gdal_version}}"
+ENV GEOS_VERSION="{{geos_version}}"
+
+COPY scripts/experimental/install_dev_osgeo.sh /rocker_scripts/experimental/install_dev_osgeo.sh
+RUN /rocker_scripts/experimental/install_dev_osgeo.sh

@@ -93,6 +93,23 @@ get_github_commit_date <- function(commit_url) {
 }
 
 
+#' Get the latest version from Git remote tags
+#' @param remote_repo A single character of Git remote repository URL.
+#' @return A character of the latest version.
+#' @examples
+#' latest_version_of_git_repo("https://github.com/OSGeo/PROJ.git")
+latest_version_of_git_repo <- function(remote_repo) {
+  gert::git_remote_ls(remote = remote_repo) |>
+    dplyr::pull(ref) |>
+    stringr::str_subset(r"(^refs/tags/v?(\d+\.){2}\d+$)") |>
+    stringr::str_extract(r"((\d+\.)*\d+$)") |>
+    package_version() |>
+    sort() |>
+    utils::tail(1) |>
+    as.character()
+}
+
+
 r_versions_with_freeze_dates() |>
   readr::write_tsv("build/variables/r-versions.tsv", na = "")
 
@@ -103,3 +120,22 @@ ubuntu_lts_versions() |>
 
 rstudio_versions() |>
   readr::write_tsv("build/variables/rstudio-versions.tsv", na = "")
+
+
+# geospatial-dev-osgeo's variables
+tibble::tibble(
+  proj_version = latest_version_of_git_repo("https://github.com/OSGeo/PROJ.git")
+) |>
+  readr::write_tsv("build/variables/proj-versions.tsv", na = "")
+
+
+tibble::tibble(
+  gdal_version = latest_version_of_git_repo("https://github.com/OSGeo/gdal.git")
+) |>
+  readr::write_tsv("build/variables/gdal-versions.tsv", na = "")
+
+
+tibble::tibble(
+  geos_version = latest_version_of_git_repo("https://github.com/libgeos/geos.git")
+) |>
+  readr::write_tsv("build/variables/geos-versions.tsv", na = "")

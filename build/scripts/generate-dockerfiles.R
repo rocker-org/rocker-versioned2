@@ -83,3 +83,19 @@ tibble::tibble(
         )
     }
   )
+
+
+tibble::tibble(
+  r_version = readr::read_tsv("build/variables/r-versions.tsv", show_col_types = FALSE)$r_version |>
+    dplyr::last(),
+  proj_version = readr::read_tsv("build/variables/proj-versions.tsv", show_col_types = FALSE)$proj_version |>
+    dplyr::last(),
+  gdal_version = readr::read_tsv("build/variables/gdal-versions.tsv", show_col_types = FALSE)$gdal_version |>
+    dplyr::last(),
+  geos_version = readr::read_tsv("build/variables/geos-versions.tsv", show_col_types = FALSE)$geos_version |>
+    dplyr::last()
+) |>
+  write_dockerfiles(
+    dockerfile_template = readr::read_file("build/templates/dockerfiles/geospatial-dev-osgeo.Dockerfile.txt"),
+    path_template = "dockerfiles/geospatial-dev-osgeo.Dockerfile"
+  )

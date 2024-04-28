@@ -123,23 +123,6 @@ latest_ctan_url <- function(date) {
 }
 
 
-#' Get the latest version from Git remote tags
-#' @param remote_repo A single character of Git remote repository URL.
-#' @return A character of the latest version.
-#' @examples
-#' latest_version_of_git_repo("https://github.com/OSGeo/PROJ.git")
-latest_version_of_git_repo <- function(remote_repo) {
-  gert::git_remote_ls(remote = remote_repo) |>
-    dplyr::pull(ref) |>
-    stringr::str_subset(r"(^refs/tags/v?(\d+\.){2}\d+$)") |>
-    stringr::str_extract(r"((\d+\.)*\d+$)") |>
-    package_version() |>
-    sort() |>
-    utils::tail(1) |>
-    as.character()
-}
-
-
 #' Paste each element of vectors in a cartesian product
 #' @param ... Dynamic dots. Character vectors to paste.
 #' @return A character vector.
