@@ -1,0 +1,37 @@
+{
+  "group": [
+    {
+      "default": [
+        {
+          "targets": ["geospatial-dev-osgeo"]
+        }
+      ],
+      "osgeo": [
+        {
+          "targets": ["geospatial-dev-osgeo"]
+        }
+      ]
+    }
+  ],
+  "target": {
+    "geospatial-dev-osgeo": {
+      "dockerfile": "dockerfiles/geospatial-dev-osgeo.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/geospatial on dev-osgeo",
+        "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:{{r_version}}",
+        "org.opencontainers.image.version": "R-{{r_version}}"
+      },
+      "platforms": ["linux/amd64"],
+      "tags": [
+        "docker.io/rocker/geospatial:dev-osgeo",
+        "ghcr.io/rocker-org/geospatial:dev-osgeo"
+      ],
+      "cache-from": [
+        "docker.io/rocker/geospatial:dev-osgeo",
+        "ghcr.io/rocker-org/geospatial:dev-osgeo"
+      ],
+      "cache-to": ["type=inline"]
+    }
+  }
+}

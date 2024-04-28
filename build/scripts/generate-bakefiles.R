@@ -209,6 +209,30 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
 }
 
 
+write_experimental_bakefile <- function(..., bakefile_template, path_template) {
+  dots <- rlang::list2(...)
+
+  glue::glue_data(
+    dots,
+    bakefile_template,
+    .open = "{{",
+    .close = "}}",
+    .trim = FALSE
+  ) |>
+    jsonlite::fromJSON(simplifyVector = FALSE) |>
+    jsonlite::write_json(
+      path = glue::glue_data(
+        dots,
+        path_template,
+        .open = "{{",
+        .close = "}}"
+      ),
+      pretty = TRUE,
+      auto_unbox = TRUE
+    )
+}
+
+
 #' Outer paste of vectors
 #' @param ... Character vectors to paste
 #' @return A character vector
@@ -281,6 +305,19 @@ df_args |>
         ...,
         bakefile_template = readr::read_file("build/templates/bakefiles/extra.docker-bake.json"),
         path_template = "bakefiles/{{r_version}}.extra.docker-bake.json"
+      )
+    }
+  )
+
+# Experimental images' bake files
+df_args |>
+  utils::tail(1) |>
+  purrr::pwalk(
+    \(...) {
+      write_experimental_bakefile(
+        ...,
+        bakefile_template = readr::read_file("build/templates/bakefiles/experimental.docker-bake.json"),
+        path_template = "bakefiles/experimental.docker-bake.json"
       )
     }
   )
