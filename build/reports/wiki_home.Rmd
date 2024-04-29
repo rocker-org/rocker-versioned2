@@ -48,12 +48,13 @@ df_definitions <- fs::dir_ls(
   path = "bakefiles",
   regexp = r"(.+\.docker-bake.json$)"
 ) |>
-  stringr::str_sort(decreasing = TRUE) |>
-  # Move extra to the end
-  (\(x) {
-    cond <- stringr::str_detect(x, "extra")
-    c(x[!cond], x[cond])
-  })() |>
+  tibble::tibble(file = _) |>
+  dplyr::arrange(
+    stringr::str_extract(file, r"(\d+\.\d+\.\d+)") |>
+      numeric_version(strict = FALSE) |>
+      dplyr::desc()
+  ) |>
+  dplyr::pull(file) |>
   purrr::map(.read_bakefile) |>
   purrr::list_rbind() |>
   dplyr::mutate(
@@ -172,7 +173,7 @@ if (isTRUE(nrow(df_past) > 0)) {
   cat("(Definition files are not available for these images in current HEAD of the repository.)\n")
 
   df_past |>
-    dplyr::arrange(CreatedTime) |>
+    dplyr::arrange(dplyr::desc(CreatedTime)) |>
     dplyr::select(
       RepoTags = tags,
       ID = id,
