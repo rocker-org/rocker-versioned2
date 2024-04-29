@@ -65,7 +65,8 @@ df_images <- fs::dir_ls(path = "reports/imagelist", glob = "*.tsv") |>
     CreatedTime = lubridate::ymd_hms(X4),
     .keep = "none"
   ) |>
-  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE, by = tags)
+  dplyr::slice_max(order_by = CreatedTime, with_ties = TRUE, by = tags) |>
+  dplyr::distinct()
 
 
 df_current_raw <- df_definitions |>
