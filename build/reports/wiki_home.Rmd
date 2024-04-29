@@ -46,7 +46,7 @@ library(jsonlite)
 
 df_definitions <- fs::dir_ls(
   path = "bakefiles",
-  regexp = "([0-9]+\\.[0-9]+\\.[0-9]+|extra)\\.docker-bake.json$"
+  regexp = r"(.+\.docker-bake.json$)"
 ) |>
   rev() |>
   purrr::map(.read_bakefile) |>
@@ -78,7 +78,7 @@ df_current <- df_current_raw |>
     tags = stringr::str_c("`", stringr::str_c(tags, collapse = "`<br/>`"), "`"),
     .by = id
   ) |>
-  dplyr::filter(stringr::str_detect(tags, version) | stack == "extra", .by = id) |>
+  dplyr::filter(stringr::str_detect(tags, version) | stack == "experimental", .by = id) |>
   dplyr::slice_head(n = 1, by = id) |>
   tidyr::drop_na() |>
   dplyr::mutate(report_name = stringr::str_c(name, "_", id))
@@ -133,7 +133,7 @@ Click on the ID to see detailed information about each image.
 ```{r print_table}
 df_current |>
   dplyr::arrange(order_number) |>
-  dplyr::filter(stack != "extra") |>
+  dplyr::filter(stack != "experimental") |>
   dplyr::transmute(
     R = version,
     ImageName = image_title,
@@ -143,14 +143,14 @@ df_current |>
   )
 ```
 
-### Extra images
+### Experimental images
 
 The following images are experimental and may differ from other images in terms of the repositories used.
 
 ```{r print_extra_table}
 df_current |>
   dplyr::arrange(order_number) |>
-  dplyr::filter(stack == "extra") |>
+  dplyr::filter(stack == "experimental") |>
   dplyr::transmute(
     ImageName = image_title,
     RepoTags = tags,
