@@ -48,7 +48,12 @@ df_definitions <- fs::dir_ls(
   path = "bakefiles",
   regexp = r"(.+\.docker-bake.json$)"
 ) |>
-  rev() |>
+  stringr::str_sort(decreasing = TRUE) |>
+  # Move extra to the end
+  (\(x) {
+    cond <- stringr::str_detect(x, "extra")
+    c(x[!cond], x[cond])
+  })() |>
   purrr::map(.read_bakefile) |>
   purrr::list_rbind() |>
   dplyr::mutate(
