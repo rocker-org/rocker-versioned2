@@ -93,6 +93,28 @@ jobs:
           name: tmp
           path: tmp
 
+  inspect-experimental:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clean up
+        run: |
+          docker image prune --all --force
+      - name: Pull images
+        run: |
+          BAKE_JSON="bakefiles/experimental.docker-bake.json" \
+          BAKE_GROUP="default" \
+          make pull-image-group
+      - name: Inspect built image
+        run: |
+          IMAGELIST_NAME="experimental.tsv" \
+          make inspect-image-all
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: tmp
+          path: tmp
+
   publish_reports:
     if: always()
     needs:
@@ -107,7 +129,6 @@ jobs:
       - name: Set as safe for following git commands
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Checkout wiki
-        if: github.event_name != 'pull_request'
         uses: actions/checkout@v4.1.1
         with:
           repository: "${{ github.repository }}.wiki"
