@@ -144,7 +144,7 @@ jobs:
           make --jobs=2 report-all
           make --always-make wiki-home
       - name: Upload artifacts
-        if: always()
+        if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v3
         with:
           name: reports
