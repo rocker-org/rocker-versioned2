@@ -8,7 +8,7 @@ on:
       - scripts/install_R_source.sh
       - scripts/setup_R.sh
       - scripts/bin/**
-      - dockerfiles/r-ver_devel.Dockerfile
+      - build/templates/dockerfiles/r-ver.Dockerfile.txt
       - "!**.md"
   workflow_dispatch:
 
@@ -22,9 +22,10 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
+        # TODO: use the latest tag automatically
         tag:
           - "devel"
-          - "4.0.0"
+          - "4.3.3"
         platforms:
           - linux/amd64
     steps:
@@ -59,8 +60,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # TODO: use the latest tag automatically
         tag:
-          - "4.0.0"
+          - "4.3.3"
         platforms:
           - linux/amd64
         script:

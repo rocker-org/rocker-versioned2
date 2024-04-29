@@ -1,0 +1,12 @@
+{
+  "r_version": "devel",
+  "r_release_date": null,
+  "r_freeze_date": null,
+  "ubuntu_series": "latest",
+  "ubuntu_version": null,
+  "cran": "https://cloud.r-project.org",
+  "rstudio_version": "2023.12.0+369",
+  "ctan": "https://mirror.ctan.org/systems/texlive/tlnet",
+  "r_major_latest": null,
+  "r_minor_latest": null
+}

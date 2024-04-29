@@ -5,6 +5,10 @@ on:
     - cron: "0 10 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   createPullRequest:
     runs-on: ubuntu-latest
@@ -20,8 +24,8 @@ jobs:
           install2.r --error --skipinstalled -n -1 pak
       - name: Make changes to pull request
         run: |
-          ./build/make-stacks.R
-          make clean
+          Rscript build/scripts/generate-variables.R
+          Rscript build/scripts/generate-args.R
           make setup
       - name: Create Pull Request
         id: cpr

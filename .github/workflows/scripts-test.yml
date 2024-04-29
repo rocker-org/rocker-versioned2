@@ -27,7 +27,7 @@ jobs:
       - id: set-matrix
         run: |
           CONTENT=$(jq 'tostring' -r tests/rocker_scripts/matrix.json)
-          echo ::set-output name=matrix::"${CONTENT}"
+          echo "matrix=${CONTENT}" >> "$GITHUB_OUTPUT"
           echo "${CONTENT}"
 
   build:
@@ -45,7 +45,7 @@ jobs:
         run: |
           lower_script_name=$(echo ${{ matrix.script_name }} | tr '[:upper:]' '[:lower:]')
           test_name="${{ matrix.base_image }}-${{ matrix.tag }}-${lower_script_name}-${{ matrix.script_arg }}"
-          echo ::set-output name=output_tag::"${test_name/"/"/"-"}"
+          echo "output_tag=${test_name/"/"/"-"}" >>"$GITHUB_OUTPUT"
       - name: test build
         run: |
           docker buildx build . -f tests/rocker_scripts/Dockerfile \

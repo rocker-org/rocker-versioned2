@@ -1,0 +1,12 @@
+{
+  "r_version": "4.3.3",
+  "r_release_date": "2024-02-29",
+  "r_freeze_date": "2024-04-23",
+  "ubuntu_series": "jammy",
+  "ubuntu_version": "22.04",
+  "cran": "https://p3m.dev/cran/__linux__/jammy/2024-04-23",
+  "rstudio_version": "2023.12.0+369",
+  "ctan": "https://www.texlive.info/tlnet-archive/2024/04/23/tlnet",
+  "r_major_latest": false,
+  "r_minor_latest": true
+}

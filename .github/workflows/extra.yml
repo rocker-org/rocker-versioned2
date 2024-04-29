@@ -1,9 +1,25 @@
 name: Build & Push extra images
 
+# TODO: reconsider the triggers
 on:
-  schedule:
-    - cron: "0 0 1 * *"
+  workflow_call:
+    inputs:
+      all-versions:
+        type: boolean
+        default: false
+      group:
+        type: string
+        required: false
   workflow_dispatch:
+    inputs:
+      all-versions:
+        description: Build all versions
+        type: boolean
+        default: false
+      group:
+        description: Build a specific group
+        type: string
+        required: false
 
 concurrency:
   group: ${{ github.workflow }}
@@ -12,14 +28,23 @@ concurrency:
 jobs:
   generate_matrix:
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4.1.4
       - id: set-matrix
         run: |
-          CONTENT=$(jq '{ group: [.group[] | keys[] | select(. != "default")] } | tostring' -r bakefiles/extra.docker-bake.json)
-          echo ::set-output name=matrix::"${CONTENT}"
+          JSON="build/matrix/latest.json"
+          if [[ "${{ inputs.all-versions }}" == "true" ]]; then
+            JSON="build/matrix/latest-two.json"
+          fi
+          if [[ -n "${{ inputs.group }}" ]]; then
+            CONTENT="$(jq -s -r '.[0] + { group: [.[1].group[] | keys[] | select(. != "default")] } | tostring' $JSON build/templates/bakefiles/extra.docker-bake.json)"
+          else
+            CONTENT="$(jq -r '.group = ["${{ inputs.group }}"] | tostring' $JSON)"
+          fi
+          echo "matrix=${CONTENT}" >>"$GITHUB_OUTPUT"
           echo "${CONTENT}"
 
   build:
@@ -41,12 +66,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
-        id: buildx
         uses: docker/setup-buildx-action@v3
       - name: Build and push Docker images
         run: |
-          BAKE_JSON=bakefiles/extra.docker-bake.json \
+          BAKE_JSON=bakefiles/${{ matrix.r_version }}.extra.docker-bake.json \
           BAKE_GROUP=${{ matrix.group }} \
           BAKE_OPTION=--push \
           make bake-json-group

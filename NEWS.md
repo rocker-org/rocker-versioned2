@@ -1,5 +1,11 @@
 # News
 
+## 2024-04
+
+The repository has been completely reorganized.
+See [#776](https://github.com/rocker-org/rocker-versioned2/issues/776) for details.
+([#782](https://github.com/rocker-org/rocker-versioned2/pull/782))
+
 ## 2023-12
 
 ### Changes in pre-built images

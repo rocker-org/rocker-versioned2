@@ -7,20 +7,10 @@
             "r-ver",
             "rstudio",
             "tidyverse",
-            "verse",
-            "geospatial",
             "shiny",
             "shiny-verse",
-            "binder"
-          ]
-        }
-      ],
-      "cuda11images": [
-        {
-          "targets": [
-            "cuda",
-            "ml",
-            "ml-verse"
+            "verse",
+            "geospatial"
           ]
         }
       ]
@@ -28,14 +18,24 @@
   ],
   "target": {
     "r-ver": {
-      "context": "./",
       "dockerfile": "dockerfiles/r-ver_4.4.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/r-ver",
         "org.opencontainers.image.description": "Reproducible builds to fixed version of R",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
-        "org.opencontainers.image.version": "R-4.4.0"
+        "org.opencontainers.image.version": "R-4.4.0",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64",
+        "linux/arm64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/r-ver:4.4.0",
         "ghcr.io/rocker-org/r-ver:4.4.0",
@@ -46,26 +46,84 @@
         "docker.io/rocker/r-ver:latest",
         "ghcr.io/rocker-org/r-ver:latest"
       ],
-      "platforms": [
-        "linux/amd64",
-        "linux/arm64"
-      ],
       "cache-from": [
-        "docker.io/rocker/r-ver:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
+        "docker.io/rocker/r-ver:4.4.0",
+        "ghcr.io/rocker-org/r-ver:4.4.0",
+        "docker.io/rocker/r-ver:4.4",
+        "ghcr.io/rocker-org/r-ver:4.4",
+        "docker.io/rocker/r-ver:4",
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest",
+        "docker.io/rocker/rstudio:4.4.0",
+        "ghcr.io/rocker-org/rstudio:4.4.0",
+        "docker.io/rocker/rstudio:4.4",
+        "ghcr.io/rocker-org/rstudio:4.4",
+        "docker.io/rocker/rstudio:4",
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest",
+        "docker.io/rocker/tidyverse:4.4.0",
+        "ghcr.io/rocker-org/tidyverse:4.4.0",
+        "docker.io/rocker/tidyverse:4.4",
+        "ghcr.io/rocker-org/tidyverse:4.4",
+        "docker.io/rocker/tidyverse:4",
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest",
+        "docker.io/rocker/verse:4.4.0",
+        "ghcr.io/rocker-org/verse:4.4.0",
+        "docker.io/rocker/verse:4.4",
+        "ghcr.io/rocker-org/verse:4.4",
+        "docker.io/rocker/verse:4",
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest",
+        "docker.io/rocker/geospatial:4.4.0",
+        "ghcr.io/rocker-org/geospatial:4.4.0",
+        "docker.io/rocker/geospatial:4.4",
+        "ghcr.io/rocker-org/geospatial:4.4",
+        "docker.io/rocker/geospatial:4",
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest",
+        "docker.io/rocker/shiny:4.4.0",
+        "ghcr.io/rocker-org/shiny:4.4.0",
+        "docker.io/rocker/shiny:4.4",
+        "ghcr.io/rocker-org/shiny:4.4",
+        "docker.io/rocker/shiny:4",
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest",
+        "docker.io/rocker/shiny-verse:4.4.0",
+        "ghcr.io/rocker-org/shiny-verse:4.4.0",
+        "docker.io/rocker/shiny-verse:4.4",
+        "ghcr.io/rocker-org/shiny-verse:4.4",
+        "docker.io/rocker/shiny-verse:4",
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ]
     },
     "rstudio": {
-      "context": "./",
       "dockerfile": "dockerfiles/rstudio_4.4.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/rstudio",
         "org.opencontainers.image.description": "RStudio Server with fixed version of R",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+        "org.opencontainers.image.version": "R-4.4.0",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64",
+        "linux/arm64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/rstudio:4.4.0",
         "ghcr.io/rocker-org/rstudio:4.4.0",
@@ -76,26 +134,83 @@
         "docker.io/rocker/rstudio:latest",
         "ghcr.io/rocker-org/rstudio:latest"
       ],
-      "platforms": [
-        "linux/amd64",
-        "linux/arm64"
-      ],
       "cache-from": [
-        "docker.io/rocker/rstudio:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
+        "docker.io/rocker/r-ver:4.4.0",
+        "ghcr.io/rocker-org/r-ver:4.4.0",
+        "docker.io/rocker/r-ver:4.4",
+        "ghcr.io/rocker-org/r-ver:4.4",
+        "docker.io/rocker/r-ver:4",
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest",
+        "docker.io/rocker/rstudio:4.4.0",
+        "ghcr.io/rocker-org/rstudio:4.4.0",
+        "docker.io/rocker/rstudio:4.4",
+        "ghcr.io/rocker-org/rstudio:4.4",
+        "docker.io/rocker/rstudio:4",
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest",
+        "docker.io/rocker/tidyverse:4.4.0",
+        "ghcr.io/rocker-org/tidyverse:4.4.0",
+        "docker.io/rocker/tidyverse:4.4",
+        "ghcr.io/rocker-org/tidyverse:4.4",
+        "docker.io/rocker/tidyverse:4",
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest",
+        "docker.io/rocker/verse:4.4.0",
+        "ghcr.io/rocker-org/verse:4.4.0",
+        "docker.io/rocker/verse:4.4",
+        "ghcr.io/rocker-org/verse:4.4",
+        "docker.io/rocker/verse:4",
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest",
+        "docker.io/rocker/geospatial:4.4.0",
+        "ghcr.io/rocker-org/geospatial:4.4.0",
+        "docker.io/rocker/geospatial:4.4",
+        "ghcr.io/rocker-org/geospatial:4.4",
+        "docker.io/rocker/geospatial:4",
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest",
+        "docker.io/rocker/shiny:4.4.0",
+        "ghcr.io/rocker-org/shiny:4.4.0",
+        "docker.io/rocker/shiny:4.4",
+        "ghcr.io/rocker-org/shiny:4.4",
+        "docker.io/rocker/shiny:4",
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest",
+        "docker.io/rocker/shiny-verse:4.4.0",
+        "ghcr.io/rocker-org/shiny-verse:4.4.0",
+        "docker.io/rocker/shiny-verse:4.4",
+        "ghcr.io/rocker-org/shiny-verse:4.4",
+        "docker.io/rocker/shiny-verse:4",
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ]
     },
     "tidyverse": {
-      "context": "./",
       "dockerfile": "dockerfiles/tidyverse_4.4.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/rstudio:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+        "org.opencontainers.image.version": "R-4.4.0",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/tidyverse:4.4.0",
         "ghcr.io/rocker-org/tidyverse:4.4.0",
@@ -106,25 +221,83 @@
         "docker.io/rocker/tidyverse:latest",
         "ghcr.io/rocker-org/tidyverse:latest"
       ],
-      "platforms": [
-        "linux/amd64"
-      ],
       "cache-from": [
-        "docker.io/rocker/tidyverse:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
+        "docker.io/rocker/r-ver:4.4.0",
+        "ghcr.io/rocker-org/r-ver:4.4.0",
+        "docker.io/rocker/r-ver:4.4",
+        "ghcr.io/rocker-org/r-ver:4.4",
+        "docker.io/rocker/r-ver:4",
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest",
+        "docker.io/rocker/rstudio:4.4.0",
+        "ghcr.io/rocker-org/rstudio:4.4.0",
+        "docker.io/rocker/rstudio:4.4",
+        "ghcr.io/rocker-org/rstudio:4.4",
+        "docker.io/rocker/rstudio:4",
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest",
+        "docker.io/rocker/tidyverse:4.4.0",
+        "ghcr.io/rocker-org/tidyverse:4.4.0",
+        "docker.io/rocker/tidyverse:4.4",
+        "ghcr.io/rocker-org/tidyverse:4.4",
+        "docker.io/rocker/tidyverse:4",
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest",
+        "docker.io/rocker/verse:4.4.0",
+        "ghcr.io/rocker-org/verse:4.4.0",
+        "docker.io/rocker/verse:4.4",
+        "ghcr.io/rocker-org/verse:4.4",
+        "docker.io/rocker/verse:4",
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest",
+        "docker.io/rocker/geospatial:4.4.0",
+        "ghcr.io/rocker-org/geospatial:4.4.0",
+        "docker.io/rocker/geospatial:4.4",
+        "ghcr.io/rocker-org/geospatial:4.4",
+        "docker.io/rocker/geospatial:4",
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest",
+        "docker.io/rocker/shiny:4.4.0",
+        "ghcr.io/rocker-org/shiny:4.4.0",
+        "docker.io/rocker/shiny:4.4",
+        "ghcr.io/rocker-org/shiny:4.4",
+        "docker.io/rocker/shiny:4",
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest",
+        "docker.io/rocker/shiny-verse:4.4.0",
+        "ghcr.io/rocker-org/shiny-verse:4.4.0",
+        "docker.io/rocker/shiny-verse:4.4",
+        "ghcr.io/rocker-org/shiny-verse:4.4",
+        "docker.io/rocker/shiny-verse:4",
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ]
     },
     "verse": {
-      "context": "./",
       "dockerfile": "dockerfiles/verse_4.4.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/verse",
         "org.opencontainers.image.description": "Adds tex & related publishing packages to version-locked tidyverse image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/tidyverse:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+        "org.opencontainers.image.version": "R-4.4.0",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/verse:4.4.0",
         "ghcr.io/rocker-org/verse:4.4.0",
@@ -135,25 +308,83 @@
         "docker.io/rocker/verse:latest",
         "ghcr.io/rocker-org/verse:latest"
       ],
-      "platforms": [
-        "linux/amd64"
-      ],
       "cache-from": [
-        "docker.io/rocker/verse:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
+        "docker.io/rocker/r-ver:4.4.0",
+        "ghcr.io/rocker-org/r-ver:4.4.0",
+        "docker.io/rocker/r-ver:4.4",
+        "ghcr.io/rocker-org/r-ver:4.4",
+        "docker.io/rocker/r-ver:4",
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest",
+        "docker.io/rocker/rstudio:4.4.0",
+        "ghcr.io/rocker-org/rstudio:4.4.0",
+        "docker.io/rocker/rstudio:4.4",
+        "ghcr.io/rocker-org/rstudio:4.4",
+        "docker.io/rocker/rstudio:4",
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest",
+        "docker.io/rocker/tidyverse:4.4.0",
+        "ghcr.io/rocker-org/tidyverse:4.4.0",
+        "docker.io/rocker/tidyverse:4.4",
+        "ghcr.io/rocker-org/tidyverse:4.4",
+        "docker.io/rocker/tidyverse:4",
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest",
+        "docker.io/rocker/verse:4.4.0",
+        "ghcr.io/rocker-org/verse:4.4.0",
+        "docker.io/rocker/verse:4.4",
+        "ghcr.io/rocker-org/verse:4.4",
+        "docker.io/rocker/verse:4",
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest",
+        "docker.io/rocker/geospatial:4.4.0",
+        "ghcr.io/rocker-org/geospatial:4.4.0",
+        "docker.io/rocker/geospatial:4.4",
+        "ghcr.io/rocker-org/geospatial:4.4",
+        "docker.io/rocker/geospatial:4",
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest",
+        "docker.io/rocker/shiny:4.4.0",
+        "ghcr.io/rocker-org/shiny:4.4.0",
+        "docker.io/rocker/shiny:4.4",
+        "ghcr.io/rocker-org/shiny:4.4",
+        "docker.io/rocker/shiny:4",
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest",
+        "docker.io/rocker/shiny-verse:4.4.0",
+        "ghcr.io/rocker-org/shiny-verse:4.4.0",
+        "docker.io/rocker/shiny-verse:4.4",
+        "ghcr.io/rocker-org/shiny-verse:4.4",
+        "docker.io/rocker/shiny-verse:4",
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ]
     },
     "geospatial": {
-      "context": "./",
       "dockerfile": "dockerfiles/geospatial_4.4.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/geospatial",
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+        "org.opencontainers.image.version": "R-4.4.0",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/geospatial:4.4.0",
         "ghcr.io/rocker-org/geospatial:4.4.0",
@@ -164,25 +395,83 @@
         "docker.io/rocker/geospatial:latest",
         "ghcr.io/rocker-org/geospatial:latest"
       ],
-      "platforms": [
-        "linux/amd64"
-      ],
       "cache-from": [
-        "docker.io/rocker/geospatial:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
+        "docker.io/rocker/r-ver:4.4.0",
+        "ghcr.io/rocker-org/r-ver:4.4.0",
+        "docker.io/rocker/r-ver:4.4",
+        "ghcr.io/rocker-org/r-ver:4.4",
+        "docker.io/rocker/r-ver:4",
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest",
+        "docker.io/rocker/rstudio:4.4.0",
+        "ghcr.io/rocker-org/rstudio:4.4.0",
+        "docker.io/rocker/rstudio:4.4",
+        "ghcr.io/rocker-org/rstudio:4.4",
+        "docker.io/rocker/rstudio:4",
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest",
+        "docker.io/rocker/tidyverse:4.4.0",
+        "ghcr.io/rocker-org/tidyverse:4.4.0",
+        "docker.io/rocker/tidyverse:4.4",
+        "ghcr.io/rocker-org/tidyverse:4.4",
+        "docker.io/rocker/tidyverse:4",
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest",
+        "docker.io/rocker/verse:4.4.0",
+        "ghcr.io/rocker-org/verse:4.4.0",
+        "docker.io/rocker/verse:4.4",
+        "ghcr.io/rocker-org/verse:4.4",
+        "docker.io/rocker/verse:4",
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest",
+        "docker.io/rocker/geospatial:4.4.0",
+        "ghcr.io/rocker-org/geospatial:4.4.0",
+        "docker.io/rocker/geospatial:4.4",
+        "ghcr.io/rocker-org/geospatial:4.4",
+        "docker.io/rocker/geospatial:4",
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest",
+        "docker.io/rocker/shiny:4.4.0",
+        "ghcr.io/rocker-org/shiny:4.4.0",
+        "docker.io/rocker/shiny:4.4",
+        "ghcr.io/rocker-org/shiny:4.4",
+        "docker.io/rocker/shiny:4",
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest",
+        "docker.io/rocker/shiny-verse:4.4.0",
+        "ghcr.io/rocker-org/shiny-verse:4.4.0",
+        "docker.io/rocker/shiny-verse:4.4",
+        "ghcr.io/rocker-org/shiny-verse:4.4",
+        "docker.io/rocker/shiny-verse:4",
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ]
     },
     "shiny": {
-      "context": "./",
       "dockerfile": "dockerfiles/shiny_4.4.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/shiny",
         "org.opencontainers.image.description": "Shiny Server on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/r-ver:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+        "org.opencontainers.image.version": "R-4.4.0",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/shiny:4.4.0",
         "ghcr.io/rocker-org/shiny:4.4.0",
@@ -193,25 +482,83 @@
         "docker.io/rocker/shiny:latest",
         "ghcr.io/rocker-org/shiny:latest"
       ],
-      "platforms": [
-        "linux/amd64"
-      ],
       "cache-from": [
-        "docker.io/rocker/shiny:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
+        "docker.io/rocker/r-ver:4.4.0",
+        "ghcr.io/rocker-org/r-ver:4.4.0",
+        "docker.io/rocker/r-ver:4.4",
+        "ghcr.io/rocker-org/r-ver:4.4",
+        "docker.io/rocker/r-ver:4",
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest",
+        "docker.io/rocker/rstudio:4.4.0",
+        "ghcr.io/rocker-org/rstudio:4.4.0",
+        "docker.io/rocker/rstudio:4.4",
+        "ghcr.io/rocker-org/rstudio:4.4",
+        "docker.io/rocker/rstudio:4",
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest",
+        "docker.io/rocker/tidyverse:4.4.0",
+        "ghcr.io/rocker-org/tidyverse:4.4.0",
+        "docker.io/rocker/tidyverse:4.4",
+        "ghcr.io/rocker-org/tidyverse:4.4",
+        "docker.io/rocker/tidyverse:4",
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest",
+        "docker.io/rocker/verse:4.4.0",
+        "ghcr.io/rocker-org/verse:4.4.0",
+        "docker.io/rocker/verse:4.4",
+        "ghcr.io/rocker-org/verse:4.4",
+        "docker.io/rocker/verse:4",
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest",
+        "docker.io/rocker/geospatial:4.4.0",
+        "ghcr.io/rocker-org/geospatial:4.4.0",
+        "docker.io/rocker/geospatial:4.4",
+        "ghcr.io/rocker-org/geospatial:4.4",
+        "docker.io/rocker/geospatial:4",
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest",
+        "docker.io/rocker/shiny:4.4.0",
+        "ghcr.io/rocker-org/shiny:4.4.0",
+        "docker.io/rocker/shiny:4.4",
+        "ghcr.io/rocker-org/shiny:4.4",
+        "docker.io/rocker/shiny:4",
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest",
+        "docker.io/rocker/shiny-verse:4.4.0",
+        "ghcr.io/rocker-org/shiny-verse:4.4.0",
+        "docker.io/rocker/shiny-verse:4.4",
+        "ghcr.io/rocker-org/shiny-verse:4.4",
+        "docker.io/rocker/shiny-verse:4",
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ]
     },
     "shiny-verse": {
-      "context": "./",
       "dockerfile": "dockerfiles/shiny-verse_4.4.0.Dockerfile",
       "labels": {
         "org.opencontainers.image.title": "rocker/shiny-verse",
         "org.opencontainers.image.description": "Rocker Shiny image + Tidyverse R packages. Uses version-stable image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/shiny:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:jammy",
+        "org.opencontainers.image.version": "R-4.4.0",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
       "tags": [
         "docker.io/rocker/shiny-verse:4.4.0",
         "ghcr.io/rocker-org/shiny-verse:4.4.0",
@@ -222,130 +569,63 @@
         "docker.io/rocker/shiny-verse:latest",
         "ghcr.io/rocker-org/shiny-verse:latest"
       ],
-      "platforms": [
-        "linux/amd64"
-      ],
       "cache-from": [
-        "docker.io/rocker/shiny-verse:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "binder": {
-      "context": "./",
-      "dockerfile": "dockerfiles/binder_4.4.0.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/binder",
-        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/geospatial:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
-      },
-      "tags": [
-        "docker.io/rocker/binder:4.4.0",
-        "ghcr.io/rocker-org/binder:4.4.0",
-        "docker.io/rocker/binder:4.4",
-        "ghcr.io/rocker-org/binder:4.4",
-        "docker.io/rocker/binder:4",
-        "ghcr.io/rocker-org/binder:4",
-        "docker.io/rocker/binder:latest",
-        "ghcr.io/rocker-org/binder:latest"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/binder:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "cuda": {
-      "context": "./",
-      "dockerfile": "dockerfiles/cuda_4.4.0.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/cuda",
-        "org.opencontainers.image.description": "NVIDIA CUDA libraries added to Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04",
-        "org.opencontainers.image.version": "R-4.4.0"
-      },
-      "tags": [
-        "docker.io/rocker/cuda:4.4.0",
-        "ghcr.io/rocker-org/cuda:4.4.0",
-        "docker.io/rocker/cuda:4.4",
-        "ghcr.io/rocker-org/cuda:4.4",
-        "docker.io/rocker/cuda:4",
-        "ghcr.io/rocker-org/cuda:4",
-        "docker.io/rocker/cuda:latest",
-        "ghcr.io/rocker-org/cuda:latest"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/cuda:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "ml": {
-      "context": "./",
-      "dockerfile": "dockerfiles/ml_4.4.0.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/cuda:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
-      },
-      "tags": [
-        "docker.io/rocker/ml:4.4.0",
-        "ghcr.io/rocker-org/ml:4.4.0",
-        "docker.io/rocker/ml:4.4",
-        "ghcr.io/rocker-org/ml:4.4",
-        "docker.io/rocker/ml:4",
-        "ghcr.io/rocker-org/ml:4",
-        "docker.io/rocker/ml:latest",
-        "ghcr.io/rocker-org/ml:latest"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/ml:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
-      ]
-    },
-    "ml-verse": {
-      "context": "./",
-      "dockerfile": "dockerfiles/ml-verse_4.4.0.Dockerfile",
-      "labels": {
-        "org.opencontainers.image.title": "rocker/ml-verse",
-        "org.opencontainers.image.description": "Docker image with R + GPU support for machine learning libraries, and many R packages.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/ml:4.4.0",
-        "org.opencontainers.image.version": "R-4.4.0"
-      },
-      "tags": [
-        "docker.io/rocker/ml-verse:4.4.0",
-        "ghcr.io/rocker-org/ml-verse:4.4.0",
-        "docker.io/rocker/ml-verse:4.4",
-        "ghcr.io/rocker-org/ml-verse:4.4",
-        "docker.io/rocker/ml-verse:4",
-        "ghcr.io/rocker-org/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest",
-        "ghcr.io/rocker-org/ml-verse:latest"
-      ],
-      "platforms": [
-        "linux/amd64"
-      ],
-      "cache-from": [
-        "docker.io/rocker/ml-verse:4.4.0"
-      ],
-      "cache-to": [
-        "type=inline"
+        "docker.io/rocker/r-ver:4.4.0",
+        "ghcr.io/rocker-org/r-ver:4.4.0",
+        "docker.io/rocker/r-ver:4.4",
+        "ghcr.io/rocker-org/r-ver:4.4",
+        "docker.io/rocker/r-ver:4",
+        "ghcr.io/rocker-org/r-ver:4",
+        "docker.io/rocker/r-ver:latest",
+        "ghcr.io/rocker-org/r-ver:latest",
+        "docker.io/rocker/rstudio:4.4.0",
+        "ghcr.io/rocker-org/rstudio:4.4.0",
+        "docker.io/rocker/rstudio:4.4",
+        "ghcr.io/rocker-org/rstudio:4.4",
+        "docker.io/rocker/rstudio:4",
+        "ghcr.io/rocker-org/rstudio:4",
+        "docker.io/rocker/rstudio:latest",
+        "ghcr.io/rocker-org/rstudio:latest",
+        "docker.io/rocker/tidyverse:4.4.0",
+        "ghcr.io/rocker-org/tidyverse:4.4.0",
+        "docker.io/rocker/tidyverse:4.4",
+        "ghcr.io/rocker-org/tidyverse:4.4",
+        "docker.io/rocker/tidyverse:4",
+        "ghcr.io/rocker-org/tidyverse:4",
+        "docker.io/rocker/tidyverse:latest",
+        "ghcr.io/rocker-org/tidyverse:latest",
+        "docker.io/rocker/verse:4.4.0",
+        "ghcr.io/rocker-org/verse:4.4.0",
+        "docker.io/rocker/verse:4.4",
+        "ghcr.io/rocker-org/verse:4.4",
+        "docker.io/rocker/verse:4",
+        "ghcr.io/rocker-org/verse:4",
+        "docker.io/rocker/verse:latest",
+        "ghcr.io/rocker-org/verse:latest",
+        "docker.io/rocker/geospatial:4.4.0",
+        "ghcr.io/rocker-org/geospatial:4.4.0",
+        "docker.io/rocker/geospatial:4.4",
+        "ghcr.io/rocker-org/geospatial:4.4",
+        "docker.io/rocker/geospatial:4",
+        "ghcr.io/rocker-org/geospatial:4",
+        "docker.io/rocker/geospatial:latest",
+        "ghcr.io/rocker-org/geospatial:latest",
+        "docker.io/rocker/shiny:4.4.0",
+        "ghcr.io/rocker-org/shiny:4.4.0",
+        "docker.io/rocker/shiny:4.4",
+        "ghcr.io/rocker-org/shiny:4.4",
+        "docker.io/rocker/shiny:4",
+        "ghcr.io/rocker-org/shiny:4",
+        "docker.io/rocker/shiny:latest",
+        "ghcr.io/rocker-org/shiny:latest",
+        "docker.io/rocker/shiny-verse:4.4.0",
+        "ghcr.io/rocker-org/shiny-verse:4.4.0",
+        "docker.io/rocker/shiny-verse:4.4",
+        "ghcr.io/rocker-org/shiny-verse:4.4",
+        "docker.io/rocker/shiny-verse:4",
+        "ghcr.io/rocker-org/shiny-verse:4",
+        "docker.io/rocker/shiny-verse:latest",
+        "ghcr.io/rocker-org/shiny-verse:latest"
       ]
     }
   }

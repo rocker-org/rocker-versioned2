@@ -1,5 +1,8 @@
 name: test for docker-bake.json
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     branches:

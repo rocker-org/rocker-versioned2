@@ -4,7 +4,9 @@
     "consoleFull"
   ],
   "ignore": [
-    "**/stacks/*.json"
+    "**/bakefiles/*.json",
+    "**/dockerfiles/*.json",
+    "**/templates/*"
   ],
   "absolute": true
 }
