@@ -26,5 +26,5 @@ fs::dir_ls(path = "dockerfiles", regexp = r"((\d+\.){3}Dockerfile)") |>
 
 
 # Clean up docker-bake.json files
-fs::dir_ls(path = "bakefiles", regexp = r"((\d+\.){3}docker-bake.json)") |>
+fs::dir_ls(path = "bakefiles", regexp = r"((\d+\.){3}(extra\.)?docker-bake.json)") |>
   remove_unsupported_files(supported_versions)
