@@ -120,6 +120,7 @@ jobs:
     needs:
       - inspect-main
       - inspect-extra
+      - inspect-experimental
     runs-on: ubuntu-latest
     container:
       image: rocker/tidyverse:latest
