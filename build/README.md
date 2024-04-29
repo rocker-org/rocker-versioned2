@@ -29,9 +29,9 @@ The wiki HOME(`Home.md`) is generated from `build/reports/wiki_home.Rmd`.
 
 ### Stop building a specific R version
 
-Variables described in the stack files that exist in each version may be referenced during document generation.
-
-So, if you no longer need to build a particular R version, please edit the `make-matrix.R` script and exclude that R version from the build matrix, instead of remove the stack file for that version.
+If you no longer need to build a particular R version, please edit the `build/scripts/generate-matrix.R` script
+and exclude that R version from the build matrix.
+Matrix files are reffered to in many places.
 
 ### Stop building a specific image of a specific R version
 
