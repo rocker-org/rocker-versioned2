@@ -205,6 +205,7 @@ rocker_versioned_args <- function(
       r_release_date,
       r_freeze_date,
       ubuntu_series,
+      ubuntu_version,
       cran,
       rstudio_version,
       ctan,
@@ -240,3 +241,19 @@ df_args |>
         )
     }
   )
+
+
+# Update history.tsv
+df_history <- readr::read_tsv(
+  "build/args/history.tsv",
+  col_types = list(ubuntu_version = readr::col_character()),
+  show_col_types = FALSE
+)
+
+df_args |>
+  dplyr::filter(!r_version == "devel") |>
+  dplyr::select(names(df_history)) |>
+  dplyr::union(df_history) |>
+  dplyr::distinct(r_version, .keep_all = TRUE) |>
+  dplyr::arrange(r_version) |>
+  readr::write_tsv("build/args/history.tsv", na = "")

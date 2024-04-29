@@ -3,6 +3,7 @@
   "r_release_date": "2024-04-24",
   "r_freeze_date": null,
   "ubuntu_series": "jammy",
+  "ubuntu_version": "22.04",
   "cran": "https://p3m.dev/cran/__linux__/jammy/latest",
   "rstudio_version": "2023.12.0+369",
   "ctan": "https://mirror.ctan.org/systems/texlive/tlnet",
