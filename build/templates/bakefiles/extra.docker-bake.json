@@ -3,33 +3,33 @@
     {
       "default": [
         {
-          "targets": [
-            "cuda",
-            "ml",
-            "ml-verse",
-            "binder"
-          ]
+          "targets": ["cuda", "ml", "ml-verse", "binder"]
         }
       ],
       "binder": [
         {
-          "targets": [
-            "binder"
-          ]
+          "targets": ["binder"]
         }
       ],
       "cuda": [
         {
-          "targets": [
-            "cuda",
-            "ml",
-            "ml-verse"
-          ]
+          "targets": ["cuda", "ml", "ml-verse"]
         }
       ]
     }
   ],
   "target": {
+    "binder": {
+      "dockerfile": "dockerfiles/binder_{{r_version}}.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/binder",
+        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/geospatial:{{r_version}}",
+        "org.opencontainers.image.version": "R-{{r_version}}"
+      },
+      "platforms": ["linux/amd64"],
+      "cache-to": ["type=inline"]
+    },
     "cuda": {
       "dockerfile": "dockerfiles/cuda_{{r_version}}.Dockerfile",
       "labels": {

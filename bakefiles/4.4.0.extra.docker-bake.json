@@ -30,6 +30,45 @@
     }
   ],
   "target": {
+    "binder": {
+      "dockerfile": "dockerfiles/binder_4.4.0.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/binder",
+        "org.opencontainers.image.description": "Adds Jupyter to rocker/geospatial. RStudio Server can be started from Jupyter.",
+        "org.opencontainers.image.base.name": "docker.io/rocker/geospatial:4.4.0",
+        "org.opencontainers.image.version": "R-4.4.0",
+        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
+        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
+        "org.opencontainers.image.vendor": "Rocker Project",
+        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
+      },
+      "platforms": [
+        "linux/amd64"
+      ],
+      "cache-to": [
+        "type=inline"
+      ],
+      "tags": [
+        "docker.io/rocker/binder:4.4.0",
+        "ghcr.io/rocker-org/binder:4.4.0",
+        "docker.io/rocker/binder:4.4",
+        "ghcr.io/rocker-org/binder:4.4",
+        "docker.io/rocker/binder:4",
+        "ghcr.io/rocker-org/binder:4",
+        "docker.io/rocker/binder:latest",
+        "ghcr.io/rocker-org/binder:latest"
+      ],
+      "cache-from": [
+        "docker.io/rocker/binder:4.4.0",
+        "ghcr.io/rocker-org/binder:4.4.0",
+        "docker.io/rocker/binder:4.4",
+        "ghcr.io/rocker-org/binder:4.4",
+        "docker.io/rocker/binder:4",
+        "ghcr.io/rocker-org/binder:4",
+        "docker.io/rocker/binder:latest",
+        "ghcr.io/rocker-org/binder:latest"
+      ]
+    },
     "cuda": {
       "dockerfile": "dockerfiles/cuda_4.4.0.Dockerfile",
       "labels": {
@@ -193,34 +232,6 @@
         "ghcr.io/rocker-org/ml-verse:4",
         "docker.io/rocker/ml-verse:latest",
         "ghcr.io/rocker-org/ml-verse:latest"
-      ]
-    },
-    "binder": {
-      "labels": {
-        "org.opencontainers.image.licenses": "GPL-2.0-or-later",
-        "org.opencontainers.image.source": "https://github.com/rocker-org/rocker-versioned2",
-        "org.opencontainers.image.vendor": "Rocker Project",
-        "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
-      },
-      "tags": [
-        "docker.io/rocker/binder:4.4.0",
-        "ghcr.io/rocker-org/binder:4.4.0",
-        "docker.io/rocker/binder:4.4",
-        "ghcr.io/rocker-org/binder:4.4",
-        "docker.io/rocker/binder:4",
-        "ghcr.io/rocker-org/binder:4",
-        "docker.io/rocker/binder:latest",
-        "ghcr.io/rocker-org/binder:latest"
-      ],
-      "cache-from": [
-        "docker.io/rocker/binder:4.4.0",
-        "ghcr.io/rocker-org/binder:4.4.0",
-        "docker.io/rocker/binder:4.4",
-        "ghcr.io/rocker-org/binder:4.4",
-        "docker.io/rocker/binder:4",
-        "ghcr.io/rocker-org/binder:4",
-        "docker.io/rocker/binder:latest",
-        "ghcr.io/rocker-org/binder:latest"
       ]
     }
   }
