@@ -53,6 +53,7 @@ COPY scripts/install_quarto.sh /rocker_scripts/install_quarto.sh
 RUN /rocker_scripts/install_quarto.sh
 
 COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
+COPY scripts/install_texlive.sh /rocker_scripts/install_texlive.sh
 RUN /rocker_scripts/install_verse.sh
 
 COPY scripts/install_geospatial.sh /rocker_scripts/install_geospatial.sh
