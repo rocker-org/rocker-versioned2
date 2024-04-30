@@ -18,6 +18,8 @@ ENV SHINY_SERVER_VERSION="latest"
 ENV PANDOC_VERSION="default"
 
 COPY scripts/install_shiny_server.sh /rocker_scripts/install_shiny_server.sh
+COPY scripts/install_s6init.sh /rocker_scripts/install_s6init.sh
+COPY scripts/install_pandoc.sh /rocker_scripts/install_pandoc.sh
 RUN /rocker_scripts/install_shiny_server.sh
 
 EXPOSE 8787
