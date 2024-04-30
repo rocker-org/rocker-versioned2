@@ -21,6 +21,10 @@ ENV RSTUDIO_VERSION="2024.04.0+735"
 ENV DEFAULT_USER="rstudio"
 
 COPY scripts/install_rstudio.sh /rocker_scripts/install_rstudio.sh
+COPY scripts/install_s6init.sh /rocker_scripts/install_s6init.sh
+COPY scripts/init_set_env.sh /rocker_scripts/init_set_env.sh
+COPY scripts/init_userconf.sh /rocker_scripts/init_userconf.sh
+COPY scripts/pam-helper.sh /rocker_scripts/pam-helper.sh
 RUN /rocker_scripts/install_rstudio.sh
 
 EXPOSE 8787
@@ -35,6 +39,7 @@ RUN /rocker_scripts/install_quarto.sh
 ENV CTAN_REPO="https://mirror.ctan.org/systems/texlive/tlnet"
 ENV PATH="$PATH:/usr/local/texlive/bin/linux"
 
+COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
 COPY scripts/install_texlive.sh /rocker_scripts/install_texlive.sh
 RUN /rocker_scripts/install_verse.sh
 
