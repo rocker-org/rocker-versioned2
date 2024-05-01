@@ -41,14 +41,13 @@ jobs:
           else
             TAG="${{ matrix.tag }}"
           fi
-          echo "TAG=${TAG}" >>"$GITHUB_ENV"
           docker buildx bake \
-          -f bakefiles/"${{ env.TAG }}".docker-bake.json \
+          -f bakefiles/"${TAG}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
-          --set=*.cache-from=docker.io/rocker/r-ver:"${{ env.TAG }}" \
-          --set=*.cache-from=type=gha,scope=r-ver-"${{ env.TAG }}" \
-          --set=*.cache-to=type=gha,scope=r-ver-"${{ env.TAG }}" \
-          --set=r-ver.tags=r-ver-test-"${{ env.TAG }}" \
+          --set=*.cache-from=docker.io/rocker/r-ver:"${TAG}" \
+          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}" \
+          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}" \
+          --set=r-ver.tags=r-ver-test-"${TAG}" \
           --load \
           r-ver
       - name: inspect image
@@ -91,12 +90,12 @@ jobs:
           fi
           echo "TAG=${TAG}" >>"$GITHUB_ENV"
           docker buildx bake \
-          -f bakefiles/"${{ env.TAG }}".docker-bake.json \
+          -f bakefiles/"${TAG}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
-          --set=*.cache-from=docker.io/rocker/r-ver:"${{ env.TAG }}" \
-          --set=*.cache-from=type=gha,scope=r-ver-"${{ env.TAG }}" \
-          --set=*.cache-to=type=gha,scope=r-ver-"${{ env.TAG }}" \
-          --set=r-ver.tags=r-ver-test-"${{ env.TAG }}" \
+          --set=*.cache-from=docker.io/rocker/r-ver:"${TAG}" \
+          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}" \
+          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}" \
+          --set=r-ver.tags=r-ver-test-"${TAG}" \
           --load \
           r-ver
       - name: test run rocker scripts
