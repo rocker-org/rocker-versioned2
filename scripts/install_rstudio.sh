@@ -25,19 +25,8 @@ function apt_install() {
 
 apt_install \
     ca-certificates \
-    lsb-release \
-    file \
+    gdebi-core \
     git \
-    libapparmor1 \
-    libclang-dev \
-    libcurl4-openssl-dev \
-    libedit2 \
-    libobjc4 \
-    libssl-dev \
-    libpq5 \
-    psmisc \
-    procps \
-    python-setuptools \
     pwgen \
     sudo \
     wget
@@ -68,7 +57,7 @@ else
         wget "https://s3.amazonaws.com/rstudio-ide-build/server/${UBUNTU_CODENAME}/${ARCH}/rstudio-server-${RSTUDIO_VERSION/"+"/"-"}-${ARCH}.deb" -O "$DOWNLOAD_FILE"
 fi
 
-dpkg -i "$DOWNLOAD_FILE"
+gdebi --non-interactive "$DOWNLOAD_FILE"
 rm "$DOWNLOAD_FILE"
 
 ln -fs /usr/lib/rstudio-server/bin/rstudio-server /usr/local/bin
@@ -83,7 +72,7 @@ mkdir -p /etc/R
 ## Make RStudio compatible with case when R is built from source
 ## (and thus is at /usr/local/bin/R), because RStudio doesn't obey
 ## path if a user apt-get installs a package
-R_BIN=$(which R)
+R_BIN="$(which R)"
 echo "rsession-which-r=${R_BIN}" >/etc/rstudio/rserver.conf
 ## use more robust file locking to avoid errors when using shared volumes:
 echo "lock-type=advisory" >/etc/rstudio/file-locks
