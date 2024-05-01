@@ -15,6 +15,7 @@ on:
     workflows:
       - "Build & Push Core images"
       - "Build & Push extra images"
+      - "Build & Push experimental images"
     branches:
       - "master"
     types:
