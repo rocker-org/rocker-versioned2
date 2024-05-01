@@ -3,14 +3,32 @@ name: Build & Push R devel images
 on:
   schedule:
     - cron: "0 0 * * *"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
+  check-revision:
+    runs-on: ubuntu-latest
+    outputs:
+      svn-revision: ${{ steps.check-revision.outputs.REV }}
+    steps:
+      - uses: actions/checkout@v4.1.4
+      - name: Check R devel revision
+        id: check-revision
+        run: |
+          pushd "${{ runner.temp }}"
+          wget https://cloud.r-project.org/src/base-prerelease/R-devel.tar.gz -O R.tar.gz
+          tar xzf R.tar.gz
+          REV="$(grep 'Revision:' < R-devel/SVN-REVISION | sed -e 's/Revision:\s*//g')"
+          echo "REV=${REV}" >>"$GITHUB_OUTPUT"
+
   build:
     runs-on: ubuntu-latest
+    needs:
+      - check-revision
     strategy:
       fail-fast: false
       matrix:
@@ -26,12 +44,13 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Expose GitHub Runtime
+        uses: crazy-max/ghaction-github-runtime@v3
       - name: Build and push Docker images
         run: |
-          CACHE_DIR="/mnt/cache"
-          sudo mkdir -p "${CACHE_DIR}"
-          BAKE_JSON=bakefiles/${{ matrix.bakefile }} \
-          BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}" \
+          CACHE_DIR="${{ runner.temp }}"
+          BAKE_JSON="bakefiles/${{ matrix.bakefile }}" \
+          BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}"\
+          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}" \
           make bake-json-group
