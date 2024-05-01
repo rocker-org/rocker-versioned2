@@ -22,7 +22,7 @@ jobs:
           pushd "${{ runner.temp }}"
           wget https://cloud.r-project.org/src/base-prerelease/R-devel.tar.gz -O R.tar.gz
           tar xzf R.tar.gz
-          REV="$(cat R-devel/SVN-REVISION | grep 'Revision:' | sed -e 's/Revision:\s*//g')"
+          REV="$(grep 'Revision:' < R-devel/SVN-REVISION | sed -e 's/Revision:\s*//g')"
           echo "REV=${REV}" >>"$GITHUB_OUTPUT"
 
   build:
@@ -49,8 +49,8 @@ jobs:
       - name: Build and push Docker images
         run: |
           CACHE_DIR="${{ runner.temp }}"
-          BAKE_JSON=bakefiles/${{ matrix.bakefile }} \
+          BAKE_JSON="bakefiles/${{ matrix.bakefile }}" \
           BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}\
-          \ --set=*.cache-to=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }} \
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}"\
+          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}" \
           make bake-json-group
