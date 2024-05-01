@@ -83,7 +83,7 @@ jobs:
         uses: crazy-max/ghaction-github-runtime@v3
       - name: test build
         run: |
-          if [ "${{ matrix.tag }} == "latest" ]; then
+          if [ "${{ matrix.tag }}" == "latest" ]; then
             TAG="$(jq '.r_version[0]' -r build/matrix/latest.json)"
           else
             TAG="${{ matrix.tag }}"
