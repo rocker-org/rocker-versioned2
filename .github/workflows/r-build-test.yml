@@ -5,6 +5,7 @@ on:
     branches:
       - master
     paths:
+      - .github/workflows/r-build-test.yml
       - scripts/install_R_source.sh
       - scripts/setup_R.sh
       - scripts/bin/**
