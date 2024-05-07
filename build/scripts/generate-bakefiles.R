@@ -174,7 +174,7 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
     bake_json_content$target$ml$labels,
     default_labels
   )
-  bake_json_content$target$ml$tags <- c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml-verse") |>
+  bake_json_content$target$ml$tags <- c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml") |>
     generate_versioned_tags()
 
   ## ml-verse
