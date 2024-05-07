@@ -40,7 +40,7 @@ jobs:
           if [[ "${{ inputs.all-versions }}" == "true" ]]; then
             JSON="build/matrix/latest-two.json"
           fi
-          if [[ -n "${{ inputs.group }}" ]]; then
+          if [[ -z "${{ inputs.group }}" ]]; then
             CONTENT="$(jq -s -r '.[0] + { group: [.[1].group[] | keys[] | select(. != "default")] } | tostring' $JSON build/templates/bakefiles/extra.docker-bake.json)"
           else
             CONTENT="$(jq -r '.group = ["${{ inputs.group }}"] | tostring' $JSON)"
