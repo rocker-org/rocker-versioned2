@@ -6,12 +6,12 @@
           "targets": ["cuda", "ml", "ml-verse", "binder"]
         }
       ],
-      "binder": [
+      "binder-images": [
         {
           "targets": ["binder"]
         }
       ],
-      "cuda": [
+      "cuda-images": [
         {
           "targets": ["cuda", "ml", "ml-verse"]
         }

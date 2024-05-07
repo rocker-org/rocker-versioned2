@@ -11,14 +11,14 @@
           ]
         }
       ],
-      "binder": [
+      "binder-images": [
         {
           "targets": [
             "binder"
           ]
         }
       ],
-      "cuda": [
+      "cuda-images": [
         {
           "targets": [
             "cuda",
