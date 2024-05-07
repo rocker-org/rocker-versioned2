@@ -21,9 +21,10 @@ on:
         type: string
         required: false
 
-concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
+# TODO: reconsider <https://github.com/github/vscode-github-actions/issues/135>
+# concurrency:
+#   group: ${{ github.workflow }}
+#   cancel-in-progress: true
 
 jobs:
   generate_matrix:
@@ -39,7 +40,7 @@ jobs:
           if [[ "${{ inputs.all-versions }}" == "true" ]]; then
             JSON="build/matrix/latest-two.json"
           fi
-          if [[ -n "${{ inputs.group }}" ]]; then
+          if [[ -z "${{ inputs.group }}" ]]; then
             CONTENT="$(jq -s -r '.[0] + { group: [.[1].group[] | keys[] | select(. != "default")] } | tostring' $JSON build/templates/bakefiles/extra.docker-bake.json)"
           else
             CONTENT="$(jq -r '.group = ["${{ inputs.group }}"] | tostring' $JSON)"
