@@ -21,9 +21,10 @@ on:
         type: string
         required: false
 
-concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
+# TODO: reconsider <https://github.com/github/vscode-github-actions/issues/135>
+# concurrency:
+#   group: ${{ github.workflow }}
+#   cancel-in-progress: true
 
 jobs:
   generate_matrix:
