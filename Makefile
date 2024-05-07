@@ -48,7 +48,7 @@ BAKE_OPTION ?= --print
 bake-json/%:
 	docker buildx bake -f $(BAKE_JSON) --set=*.labels.org.opencontainers.image.revision=$(IMAGE_REVISION) $(BAKE_OPTION) $*
 bake-json-all: $(foreach I, $(shell jq '.target | keys_unsorted | .[]' -r $(BAKE_JSON)), bake-json/$(I))
-bake-json-group: $(foreach I, $(shell jq '.group[].$(BAKE_GROUP)[].targets[]' -r $(BAKE_JSON)), bake-json/$(I))
+bake-json-group: $(foreach I, $(shell jq '.group[]."$(BAKE_GROUP)"[].targets[]' -r $(BAKE_JSON)), bake-json/$(I))
 
 
 # Inspect R container images by `make inspect-image-all` and generate reports about them by `make report-all`.
