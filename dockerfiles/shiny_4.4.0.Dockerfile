@@ -24,7 +24,7 @@ COPY scripts/install_pandoc.sh /rocker_scripts/install_pandoc.sh
 COPY scripts/init_set_env.sh /rocker_scripts/init_set_env.sh
 RUN /rocker_scripts/install_shiny_server.sh
 
-EXPOSE 8787
+EXPOSE 3838
 CMD ["/init"]
 
 COPY scripts /rocker_scripts
