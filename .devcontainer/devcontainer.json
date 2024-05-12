@@ -4,7 +4,14 @@
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "dockerDashComposeVersion": "v2"
     },
-    "ghcr.io/rocker-org/devcontainer-features/r-history:0": {}
+    "ghcr.io/rocker-org/devcontainer-features/r-history:0": {},
+    "ghcr.io/rocker-org/devcontainer-features/r-dependent-packages:0": {
+      "manifestRoot": "build",
+      "when": "updateContent"
+    }
+  },
+  "containerEnv": {
+    "PKG_SYSREQS": "false"
   },
   "customizations": {
     "vscode": {

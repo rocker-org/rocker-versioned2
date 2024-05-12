@@ -1,0 +1,21 @@
+Package: rocker-versiond-dev
+Version: 0.0.0.9000
+Imports:
+    dplyr,
+    forcats,
+    fs,
+    gert,
+    glue,
+    httr2,
+    jsonlite,
+    knitr,
+    lubridate,
+    purrr,
+    readr,
+    rlang,
+    rmarkdown,
+    rversions,
+    stringr,
+    tibble,
+    tidyr
+Encoding: UTF-8
