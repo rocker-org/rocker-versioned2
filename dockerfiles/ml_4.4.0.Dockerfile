@@ -7,7 +7,7 @@ ENV TZ="Etc/UTC"
 COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 RUN /rocker_scripts/install_R_source.sh
 
-ENV CRAN="https://p3m.dev/cran/__linux__/jammy/latest"
+ENV CRAN="https://p3m.dev/cran/__linux__/jammy/2024-06-13"
 ENV LANG=en_US.UTF-8
 
 COPY scripts/bin/ /rocker_scripts/bin/
