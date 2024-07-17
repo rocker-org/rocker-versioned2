@@ -33,11 +33,11 @@ apt_install \
     libcurl4-openssl-dev \
     libedit2 \
     libobjc4 \
+    libsqlite3-0 \
     libssl-dev \
     libpq5 \
     psmisc \
     procps \
-    python-setuptools \
     pwgen \
     sudo \
     wget
@@ -56,6 +56,10 @@ fi
 
 if [ "$UBUNTU_CODENAME" = "focal" ]; then
     UBUNTU_CODENAME="bionic"
+fi
+
+if [ "$UBUNTU_CODENAME" = "noble" ]; then
+    UBUNTU_CODENAME="jammy"
 fi
 
 if [ "$RSTUDIO_VERSION" = "stable" ] || [ "$RSTUDIO_VERSION" = "preview" ] || [ "$RSTUDIO_VERSION" = "daily" ]; then
