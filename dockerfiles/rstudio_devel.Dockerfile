@@ -15,7 +15,7 @@ COPY scripts/setup_R.sh /rocker_scripts/setup_R.sh
 RUN /rocker_scripts/setup_R.sh
 
 ENV S6_VERSION="v2.1.0.2"
-ENV RSTUDIO_VERSION="2024.04.2+764"
+ENV RSTUDIO_VERSION="latest"
 ENV DEFAULT_USER="rstudio"
 
 COPY scripts/install_rstudio.sh /rocker_scripts/install_rstudio.sh

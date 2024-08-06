@@ -58,13 +58,13 @@ if [ "$UBUNTU_CODENAME" = "focal" ]; then
     UBUNTU_CODENAME="bionic"
 fi
 
-if [ "$UBUNTU_CODENAME" = "noble" ]; then
-    UBUNTU_CODENAME="jammy"
-fi
-
 if [ "$RSTUDIO_VERSION" = "stable" ] || [ "$RSTUDIO_VERSION" = "preview" ] || [ "$RSTUDIO_VERSION" = "daily" ]; then
     if [ "$UBUNTU_CODENAME" = "bionic" ]; then
         UBUNTU_CODENAME="focal"
+    fi
+    if [ "$UBUNTU_CODENAME" = "noble" ]; then
+        # use Jammy link per https://dailies.rstudio.com/links/ - last checked 2024-08-05
+        UBUNTU_CODENAME="jammy"
     fi
     wget "https://rstudio.org/download/latest/${RSTUDIO_VERSION}/server/${UBUNTU_CODENAME}/rstudio-server-latest-${ARCH}.deb" -O "$DOWNLOAD_FILE"
 else
