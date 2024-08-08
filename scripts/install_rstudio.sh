@@ -51,6 +51,11 @@ if [ "$UBUNTU_CODENAME" = "focal" ]; then
     UBUNTU_CODENAME="bionic"
 fi
 
+# TODO: remove this workaround for Ubuntu 24.04
+if [ "$UBUNTU_CODENAME" = "noble" ]; then
+    UBUNTU_CODENAME="jammy"
+fi
+
 if [ "$RSTUDIO_VERSION" = "stable" ] || [ "$RSTUDIO_VERSION" = "preview" ] || [ "$RSTUDIO_VERSION" = "daily" ]; then
     if [ "$UBUNTU_CODENAME" = "bionic" ]; then
         UBUNTU_CODENAME="focal"
