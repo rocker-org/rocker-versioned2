@@ -28,6 +28,7 @@ apt_install \
     gdebi-core \
     git \
     libssl-dev \
+    psmisc \
     pwgen \
     sudo \
     wget
