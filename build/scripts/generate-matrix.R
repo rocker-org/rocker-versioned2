@@ -22,7 +22,7 @@ supported_versions <- fs::dir_ls(path = "build/args", regexp = r"((\d+\.){3}json
   ) |>
   dplyr::slice_tail(n = 2, by = c(major, minor)) |>
   dplyr::filter(
-    minor == dplyr::last(minor) | patch >= dplyr::lead(patch)
+    minor == dplyr::last(minor) | dplyr::lead(minor) == dplyr::last(minor) & patch >= dplyr::lead(patch)
   ) |>
   dplyr::pull(r_version) |>
   as.character()
