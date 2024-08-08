@@ -27,6 +27,7 @@ apt_install \
     ca-certificates \
     gdebi-core \
     git \
+    libssl-dev \
     pwgen \
     sudo \
     wget
