@@ -29,6 +29,7 @@ apt_install \
     git \
     libclang-dev \
     libssl-dev \
+    lsb-release \
     psmisc \
     pwgen \
     sudo \
