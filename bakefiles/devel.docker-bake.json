@@ -81,7 +81,7 @@
         "docker.io/rocker/tidyverse:devel"
       ],
       "platforms": [
-        "linux/arm64"
+        "linux/amd64"
       ],
       "cache-to": [
         "type=inline"
@@ -109,7 +109,7 @@
         "docker.io/rocker/verse:devel"
       ],
       "platforms": [
-        "linux/arm64"
+        "linux/amd64"
       ],
       "cache-to": [
         "type=inline"
