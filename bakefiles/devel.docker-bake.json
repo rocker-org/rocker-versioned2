@@ -3,7 +3,7 @@
     {
       "default": [
         {
-          "targets": ["r-ver", "rstudio", "tidyverse", "verse"]
+          "targets": ["r-ver", "rstudio", "tidyverse"]
         }
       ]
     }
