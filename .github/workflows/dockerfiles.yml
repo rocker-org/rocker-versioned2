@@ -29,7 +29,7 @@ jobs:
           make setup
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           commit-message: Automatic update of container definition files
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
