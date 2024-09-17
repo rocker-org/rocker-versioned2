@@ -49,8 +49,29 @@ jobs:
       - name: Build and push Docker images
         run: |
           CACHE_DIR="${{ runner.temp }}"
+
+          # Build rocker/r-ver
           BAKE_JSON="bakefiles/${{ matrix.bakefile }}" \
           BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}"\
-          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}" \
-          make bake-json-group
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-r-ver"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-rstudio"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-tidyverse"\
+          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-r-ver" \
+          make bake-json/r-ver
+          BAKE_JSON="bakefiles/${{ matrix.bakefile }}" \
+
+          # Build rocker/rstudio
+          BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-r-ver"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-rstudio"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-tidyverse"\
+          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-rstudio" \
+          make bake-json/rstudio
+
+          # Build rocker/tidyverse
+          BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-r-ver"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-rstudio"\
+          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-tidyverse"\
+          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-tidyverse" \
+          make bake-json/tidyverse
