@@ -27,6 +27,19 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
       all-versions: ${{ steps.set-json.outputs.all-versions }}
     steps:
+    # For biggish images, github actions runs out of disk space.
+    # So we cleanup some unwanted things in the disk image, and reclaim that space for our docker use
+    # https://github.com/actions/virtual-environments/issues/2606#issuecomment-772683150
+    # and https://github.com/easimon/maximize-build-space/blob/b4d02c14493a9653fe7af06cc89ca5298071c66e/action.yml#L104
+    # This gives us a total of about 52G of free space, which should be enough for now
+      - name: cleanup disk space
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc
+          df -h
+      - name: relocate docker data-dir
+        run: |
+          sudo sed -i 's#^{#{"data-root":"/mnt/docker",#' /etc/docker/daemon.json 
+          sudo systemctl restart docker
       - uses: actions/checkout@v4.1.4
       - id: set-json
         run: |
