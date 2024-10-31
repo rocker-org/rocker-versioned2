@@ -87,6 +87,7 @@ is_rstudio_deb_available <- function(rstudio_version, ubuntu_series) {
   os_ver <- dplyr::case_match(
     ubuntu_series,
     "focal" ~ "bionic",
+    "noble" ~ "jammy",
     .default = ubuntu_series
   )
 
