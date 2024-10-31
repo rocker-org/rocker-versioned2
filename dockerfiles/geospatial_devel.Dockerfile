@@ -38,7 +38,7 @@ RUN /rocker_scripts/install_pandoc.sh
 COPY scripts/install_quarto.sh /rocker_scripts/install_quarto.sh
 RUN /rocker_scripts/install_quarto.sh
 
-ENV CTAN_REPO="https://www.texlive.info/tlnet-archive/2024/10/30/tlnet"
+ENV CTAN_REPO="https://mirror.ctan.org/systems/texlive/tlnet"
 ENV PATH="$PATH:/usr/local/texlive/bin/linux"
 
 COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh
