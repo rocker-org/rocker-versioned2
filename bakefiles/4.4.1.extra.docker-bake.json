@@ -50,23 +50,11 @@
       ],
       "tags": [
         "docker.io/rocker/binder:4.4.1",
-        "ghcr.io/rocker-org/binder:4.4.1",
-        "docker.io/rocker/binder:4.4",
-        "ghcr.io/rocker-org/binder:4.4",
-        "docker.io/rocker/binder:4",
-        "ghcr.io/rocker-org/binder:4",
-        "docker.io/rocker/binder:latest",
-        "ghcr.io/rocker-org/binder:latest"
+        "ghcr.io/rocker-org/binder:4.4.1"
       ],
       "cache-from": [
         "docker.io/rocker/binder:4.4.1",
-        "ghcr.io/rocker-org/binder:4.4.1",
-        "docker.io/rocker/binder:4.4",
-        "ghcr.io/rocker-org/binder:4.4",
-        "docker.io/rocker/binder:4",
-        "ghcr.io/rocker-org/binder:4",
-        "docker.io/rocker/binder:latest",
-        "ghcr.io/rocker-org/binder:latest"
+        "ghcr.io/rocker-org/binder:4.4.1"
       ]
     },
     "cuda": {
@@ -89,39 +77,15 @@
       ],
       "tags": [
         "docker.io/rocker/cuda:4.4.1",
-        "ghcr.io/rocker-org/cuda:4.4.1",
-        "docker.io/rocker/cuda:4.4",
-        "ghcr.io/rocker-org/cuda:4.4",
-        "docker.io/rocker/cuda:4",
-        "ghcr.io/rocker-org/cuda:4",
-        "docker.io/rocker/cuda:latest",
-        "ghcr.io/rocker-org/cuda:latest"
+        "ghcr.io/rocker-org/cuda:4.4.1"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.4.1",
         "ghcr.io/rocker-org/cuda:4.4.1",
-        "docker.io/rocker/cuda:4.4",
-        "ghcr.io/rocker-org/cuda:4.4",
-        "docker.io/rocker/cuda:4",
-        "ghcr.io/rocker-org/cuda:4",
-        "docker.io/rocker/cuda:latest",
-        "ghcr.io/rocker-org/cuda:latest",
         "docker.io/rocker/ml:4.4.1",
         "ghcr.io/rocker-org/ml:4.4.1",
-        "docker.io/rocker/ml:4.4",
-        "ghcr.io/rocker-org/ml:4.4",
-        "docker.io/rocker/ml:4",
-        "ghcr.io/rocker-org/ml:4",
-        "docker.io/rocker/ml:latest",
-        "ghcr.io/rocker-org/ml:latest",
         "docker.io/rocker/ml-verse:4.4.1",
-        "ghcr.io/rocker-org/ml-verse:4.4.1",
-        "docker.io/rocker/ml-verse:4.4",
-        "ghcr.io/rocker-org/ml-verse:4.4",
-        "docker.io/rocker/ml-verse:4",
-        "ghcr.io/rocker-org/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest",
-        "ghcr.io/rocker-org/ml-verse:latest"
+        "ghcr.io/rocker-org/ml-verse:4.4.1"
       ]
     },
     "ml": {
@@ -144,39 +108,15 @@
       ],
       "tags": [
         "docker.io/rocker/ml:4.4.1",
-        "ghcr.io/rocker-org/ml:4.4.1",
-        "docker.io/rocker/ml:4.4",
-        "ghcr.io/rocker-org/ml:4.4",
-        "docker.io/rocker/ml:4",
-        "ghcr.io/rocker-org/ml:4",
-        "docker.io/rocker/ml:latest",
-        "ghcr.io/rocker-org/ml:latest"
+        "ghcr.io/rocker-org/ml:4.4.1"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.4.1",
         "ghcr.io/rocker-org/cuda:4.4.1",
-        "docker.io/rocker/cuda:4.4",
-        "ghcr.io/rocker-org/cuda:4.4",
-        "docker.io/rocker/cuda:4",
-        "ghcr.io/rocker-org/cuda:4",
-        "docker.io/rocker/cuda:latest",
-        "ghcr.io/rocker-org/cuda:latest",
         "docker.io/rocker/ml:4.4.1",
         "ghcr.io/rocker-org/ml:4.4.1",
-        "docker.io/rocker/ml:4.4",
-        "ghcr.io/rocker-org/ml:4.4",
-        "docker.io/rocker/ml:4",
-        "ghcr.io/rocker-org/ml:4",
-        "docker.io/rocker/ml:latest",
-        "ghcr.io/rocker-org/ml:latest",
         "docker.io/rocker/ml-verse:4.4.1",
-        "ghcr.io/rocker-org/ml-verse:4.4.1",
-        "docker.io/rocker/ml-verse:4.4",
-        "ghcr.io/rocker-org/ml-verse:4.4",
-        "docker.io/rocker/ml-verse:4",
-        "ghcr.io/rocker-org/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest",
-        "ghcr.io/rocker-org/ml-verse:latest"
+        "ghcr.io/rocker-org/ml-verse:4.4.1"
       ]
     },
     "ml-verse": {
@@ -199,39 +139,15 @@
       ],
       "tags": [
         "docker.io/rocker/ml-verse:4.4.1",
-        "ghcr.io/rocker-org/ml-verse:4.4.1",
-        "docker.io/rocker/ml-verse:4.4",
-        "ghcr.io/rocker-org/ml-verse:4.4",
-        "docker.io/rocker/ml-verse:4",
-        "ghcr.io/rocker-org/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest",
-        "ghcr.io/rocker-org/ml-verse:latest"
+        "ghcr.io/rocker-org/ml-verse:4.4.1"
       ],
       "cache-from": [
         "docker.io/rocker/cuda:4.4.1",
         "ghcr.io/rocker-org/cuda:4.4.1",
-        "docker.io/rocker/cuda:4.4",
-        "ghcr.io/rocker-org/cuda:4.4",
-        "docker.io/rocker/cuda:4",
-        "ghcr.io/rocker-org/cuda:4",
-        "docker.io/rocker/cuda:latest",
-        "ghcr.io/rocker-org/cuda:latest",
         "docker.io/rocker/ml:4.4.1",
         "ghcr.io/rocker-org/ml:4.4.1",
-        "docker.io/rocker/ml:4.4",
-        "ghcr.io/rocker-org/ml:4.4",
-        "docker.io/rocker/ml:4",
-        "ghcr.io/rocker-org/ml:4",
-        "docker.io/rocker/ml:latest",
-        "ghcr.io/rocker-org/ml:latest",
         "docker.io/rocker/ml-verse:4.4.1",
-        "ghcr.io/rocker-org/ml-verse:4.4.1",
-        "docker.io/rocker/ml-verse:4.4",
-        "ghcr.io/rocker-org/ml-verse:4.4",
-        "docker.io/rocker/ml-verse:4",
-        "ghcr.io/rocker-org/ml-verse:4",
-        "docker.io/rocker/ml-verse:latest",
-        "ghcr.io/rocker-org/ml-verse:latest"
+        "ghcr.io/rocker-org/ml-verse:4.4.1"
       ]
     }
   }
