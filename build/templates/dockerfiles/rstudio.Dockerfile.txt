@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM docker.io/library/ubuntu:{{ubuntu_series}}
 
 ENV R_VERSION="{{r_version}}"
@@ -12,7 +14,12 @@ ENV LANG=en_US.UTF-8
 
 COPY scripts/bin/ /rocker_scripts/bin/
 COPY scripts/setup_R.sh /rocker_scripts/setup_R.sh
-RUN /rocker_scripts/setup_R.sh
+RUN <<EOF
+if grep -q "1000" /etc/passwd; then
+    userdel --remove "$(id -un 1000)";
+fi
+/rocker_scripts/setup_R.sh
+EOF
 
 ENV S6_VERSION="v2.1.0.2"
 ENV RSTUDIO_VERSION="{{rstudio_version}}"

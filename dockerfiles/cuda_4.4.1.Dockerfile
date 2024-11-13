@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
 ENV R_VERSION="4.4.1"
@@ -12,7 +14,12 @@ ENV LANG=en_US.UTF-8
 
 COPY scripts/bin/ /rocker_scripts/bin/
 COPY scripts/setup_R.sh /rocker_scripts/setup_R.sh
-RUN /rocker_scripts/setup_R.sh
+RUN <<EOF
+if grep -q "1000" /etc/passwd; then
+    userdel --remove "$(id -un 1000)";
+fi
+/rocker_scripts/setup_R.sh
+EOF
 
 CMD ["R"]
 
