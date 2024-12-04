@@ -54,7 +54,7 @@ jobs:
         run: |
           make inspect-image/r-ver-test-"${{ env.TAG }}"
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: tmp
           path: tmp
