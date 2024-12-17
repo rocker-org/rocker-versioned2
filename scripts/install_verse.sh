@@ -76,9 +76,15 @@ apt-get -y autoremove
 ## Add LaTeX, rticles and bookdown support
 ## tinytex recommends a dummy texlive if using tlmgr manually
 if [[ ! -x "/usr/bin/latex" ]]; then
-    wget "https://travis-bin.yihui.name/texlive-local.deb"
+    apt_install equivs
+    cd /tmp
+    wget https://github.com/scottkosty/install-tl-ubuntu/raw/master/debian-control-texlive-in.txt
+    equivs-build debian-*
+    mv texlive-local*.deb texlive-local.deb
     dpkg -i texlive-local.deb
-    rm texlive-local.deb
+    rm debian-control-texlive-in.txt
+    apt-get -y purge equivs
+    apt-get -y autoremove
 fi
 
 ## Install texlive
