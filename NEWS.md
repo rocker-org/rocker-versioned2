@@ -5,7 +5,7 @@
 ### Changes in pre-built images
 
 - The feature to change the name of the default non-root user via the `USER` environment variable has been removed.
-  ([#891](https://github.com/rocker-org/rocker-versioned2/pull/891))
+  ([#891](https://github.com/rocker-org/rocker-versioned2/pull/891))\
   If you want to change the default user name, you should creat a new user.
   For example, something like this:
 
