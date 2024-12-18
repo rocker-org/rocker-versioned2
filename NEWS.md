@@ -1,5 +1,11 @@
 # News
 
+## 2024-12
+
+### Changes in pre-built images
+
+The feature to change the name of the default non-root user via the `USER` environment variable has been removed.
+
 ## 2024-04
 
 The repository has been completely reorganized.

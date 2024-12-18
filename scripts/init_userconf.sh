@@ -3,7 +3,7 @@
 
 ## Set defaults for environmental variables in case they are undefined
 DEFAULT_USER=${DEFAULT_USER:-rstudio}
-USER=${USER:=${DEFAULT_USER}}
+USER=${DEFAULT_USER}
 USERID=${USERID:=1000}
 GROUPID=${GROUPID:=1000}
 ROOT=${ROOT:=FALSE}
@@ -144,15 +144,6 @@ elif [ "$USERID" -lt 1000 ]; then # Probably a macOS user, https://github.com/ro
     fi
 fi
 
-if [ "${RUNROOTLESS}" != "true" ] && [ "$USER" != "$DEFAULT_USER" ]; then
-    printf "\n\n"
-    tput bold
-    printf "Settings by \e[31m\`-e USER=<new username>\`\e[39m is now deprecated and will be removed in the future.\n"
-    printf "Please do not use the USER environment variable.\n"
-    tput sgr0
-    printf "\n\n"
-fi
-
 if [ "${RUNROOTLESS}" = "true" ]; then
     echo "deleting the default user ($DEFAULT_USER) since it is not needed."
     userdel "$DEFAULT_USER"
@@ -164,15 +155,6 @@ elif [ "$USERID" -ne 1000 ]; then ## Configure user with a different USERID if r
     mkdir -p "${USERHOME}"
     chown -R "$USER" "${USERHOME}"
     usermod -a -G staff "$USER"
-elif [ "$USER" != "$DEFAULT_USER" ]; then
-    ## cannot move home folder when it's a shared volume, have to copy and change permissions instead
-    cp -r /home/"$DEFAULT_USER" "${USERHOME}"
-    ## RENAME the user
-    usermod -l "$USER" -d /home/"$USER" "$DEFAULT_USER"
-    groupmod -n "$USER" "$DEFAULT_USER"
-    usermod -a -G staff "$USER"
-    chown -R "$USER":"$USER" "${USERHOME}"
-    echo "USER is now $USER"
 fi
 
 if [ "${RUNROOTLESS}" != "true" ] && [ "$GROUPID" -ne 1000 ]; then ## Configure the primary GID (whether rstudio or $USER) with a different GROUPID if requested.
