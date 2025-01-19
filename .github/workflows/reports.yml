@@ -63,9 +63,9 @@ jobs:
           IMAGELIST_NAME="${{ matrix.r_version }}-${{ matrix.group }}.tsv" \
           make inspect-image-all
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: tmp
+          name: tmp-${{ matrix.r_version }}-${{ matrix.group }}
           path: tmp
 
   inspect-extra:
@@ -89,9 +89,9 @@ jobs:
           IMAGELIST_NAME="${{ matrix.r_version }}-extra-${{ matrix.group }}.tsv" \
           make inspect-image-all
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: tmp
+          name: tmp-${{ matrix.r_version }}-extra-${{ matrix.group }}
           path: tmp
 
   inspect-experimental:
@@ -111,9 +111,9 @@ jobs:
           IMAGELIST_NAME="experimental.tsv" \
           make inspect-image-all
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: tmp
+          name: tmp-experimental
           path: tmp
 
   publish_reports:
@@ -136,17 +136,18 @@ jobs:
           repository: "${{ github.repository }}.wiki"
           path: reports
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: tmp
           path: tmp
+          pattern: tmp-*
+          merge-multiple: true
       - name: Generate reports and update wiki home
         run: |
           make --jobs=2 report-all
           make --always-make wiki-home
       - name: Upload artifacts
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: reports
