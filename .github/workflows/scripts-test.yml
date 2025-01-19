@@ -5,6 +5,7 @@ on:
     branches:
       - master
     paths:
+      - .github/workflows/scripts-test.yml
       - tests/rocker_scripts/Dockerfile
       - tests/rocker_scripts/matrix.json
       - tests/rocker_scripts/test.sh
@@ -59,7 +60,7 @@ jobs:
         run: |
           make inspect-image/"${{ steps.prep.outputs.output_tag }}"
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: tmp
+          name: tmp-${{ steps.prep.outputs.output_tag }}
           path: tmp
