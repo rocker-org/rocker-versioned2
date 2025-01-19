@@ -58,6 +58,7 @@ if [ ! -x "$(command -v r)" ]; then
         liblzma-dev \
         libbz2-dev \
         zlib1g-dev \
+        libzstd-dev \
         libicu-dev"
 
     if [ "$(find /var/lib/apt/lists/* | wc -l)" = "0" ]; then
