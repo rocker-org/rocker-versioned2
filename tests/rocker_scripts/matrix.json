@@ -16,8 +16,7 @@
     "install_geospatial.sh",
     "install_python.sh",
     "install_jupyter.sh",
-    "install_julia.sh",
-    "install_cuda-10.1.sh"
+    "install_julia.sh"
   ],
   "script_arg": [
     "none"
@@ -46,12 +45,6 @@
       "tag": "latest",
       "script_name": "install_quarto.sh",
       "script_arg": "prerelease"
-    },
-    {
-      "base_image": "rocker/cuda",
-      "tag": "latest",
-      "script_name": "install_verse.sh",
-      "script_arg": "none"
     },
     {
       "base_image": "debian",

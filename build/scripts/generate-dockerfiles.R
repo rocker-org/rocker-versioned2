@@ -61,9 +61,6 @@ tibble::tibble(
     "geospatial",
     "shiny",
     "shiny-verse",
-    "cuda",
-    "ml",
-    "ml-verse",
     "binder"
   )
 ) |>
