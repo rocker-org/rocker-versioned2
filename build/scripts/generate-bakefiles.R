@@ -161,40 +161,6 @@ write_extra_bakefile <- function(..., bakefile_template, path_template) {
     generate_versioned_tags()
   bake_json_content$target$binder$`cache-from` <- bake_json_content$target$binder$tags
 
-  ## cuda
-  bake_json_content$target$`cuda`$labels <- c(
-    bake_json_content$target$`cuda`$labels,
-    default_labels
-  )
-  bake_json_content$target$`cuda`$tags <- c("docker.io/rocker/cuda", "ghcr.io/rocker-org/cuda") |>
-    generate_versioned_tags()
-
-  ## ml
-  bake_json_content$target$ml$labels <- c(
-    bake_json_content$target$ml$labels,
-    default_labels
-  )
-  bake_json_content$target$ml$tags <- c("docker.io/rocker/ml", "ghcr.io/rocker-org/ml") |>
-    generate_versioned_tags()
-
-  ## ml-verse
-  bake_json_content$target$`ml-verse`$labels <- c(
-    bake_json_content$target$`ml-verse`$labels,
-    default_labels
-  )
-  bake_json_content$target$`ml-verse`$tags <- c("docker.io/rocker/ml-verse", "ghcr.io/rocker-org/ml-verse") |>
-    generate_versioned_tags()
-
-  # Update cache-from
-  bake_json_content$target$`cuda`$`cache-from` <-
-    bake_json_content$target$ml$`cache-from` <-
-    bake_json_content$target$`ml-verse`$`cache-from` <-
-    c(
-      bake_json_content$target$`cuda`$tags,
-      bake_json_content$target$ml$tags,
-      bake_json_content$target$`ml-verse`$tags
-    )
-
   jsonlite::write_json(
     bake_json_content,
     path = glue::glue_data(
@@ -297,7 +263,7 @@ df_args |>
   )
 
 
-# binder and cuda bake files
+# binder bake files
 df_args |>
   purrr::pwalk(
     \(...) {

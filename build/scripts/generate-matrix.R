@@ -37,7 +37,7 @@ supported_versions |>
   write_matrix("build/matrix/latest.json")
 
 
-# binda and cuda
+# binder
 supported_versions |>
   utils::tail(2) |>
   write_matrix("build/matrix/latest-two.json")

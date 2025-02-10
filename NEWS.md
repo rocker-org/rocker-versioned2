@@ -1,5 +1,12 @@
 # News
 
+## 2025-02
+
+### Changes in pre-built images
+
+- `rocker/cuda`, `rocker/ml`, and `rocker/ml-verse` images are no longer built from this repository.
+  See [#903](https://github.com/rocker-org/rocker-versioned2/issues/903) for background.
+
 ## 2024-12
 
 ### Changes in pre-built images
