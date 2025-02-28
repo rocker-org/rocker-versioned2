@@ -1,4 +1,4 @@
-FROM rocker/geospatial:4.4.1
+FROM rocker/geospatial:4.4.3
 
 ENV NB_USER="rstudio"
 ENV VIRTUAL_ENV="/opt/venv"

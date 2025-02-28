@@ -38,23 +38,11 @@
       ],
       "tags": [
         "docker.io/rocker/binder:4.4.2",
-        "ghcr.io/rocker-org/binder:4.4.2",
-        "docker.io/rocker/binder:4.4",
-        "ghcr.io/rocker-org/binder:4.4",
-        "docker.io/rocker/binder:4",
-        "ghcr.io/rocker-org/binder:4",
-        "docker.io/rocker/binder:latest",
-        "ghcr.io/rocker-org/binder:latest"
+        "ghcr.io/rocker-org/binder:4.4.2"
       ],
       "cache-from": [
         "docker.io/rocker/binder:4.4.2",
-        "ghcr.io/rocker-org/binder:4.4.2",
-        "docker.io/rocker/binder:4.4",
-        "ghcr.io/rocker-org/binder:4.4",
-        "docker.io/rocker/binder:4",
-        "ghcr.io/rocker-org/binder:4",
-        "docker.io/rocker/binder:latest",
-        "ghcr.io/rocker-org/binder:latest"
+        "ghcr.io/rocker-org/binder:4.4.2"
       ]
     }
   }

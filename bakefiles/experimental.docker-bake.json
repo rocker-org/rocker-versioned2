@@ -23,8 +23,8 @@
       "labels": {
         "org.opencontainers.image.title": "rocker/geospatial on dev-osgeo",
         "org.opencontainers.image.description": "Docker-based Geospatial toolkit for R, built on versioned Rocker image.",
-        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.4.2",
-        "org.opencontainers.image.version": "R-4.4.2"
+        "org.opencontainers.image.base.name": "docker.io/rocker/verse:4.4.3",
+        "org.opencontainers.image.version": "R-4.4.3"
       },
       "platforms": [
         "linux/amd64"
