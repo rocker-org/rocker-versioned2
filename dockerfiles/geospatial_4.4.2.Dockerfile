@@ -9,7 +9,7 @@ ENV TZ="Etc/UTC"
 COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 RUN /rocker_scripts/install_R_source.sh
 
-ENV CRAN="https://p3m.dev/cran/__linux__/noble/latest"
+ENV CRAN="https://p3m.dev/cran/__linux__/noble/2025-02-27"
 ENV LANG=en_US.UTF-8
 
 COPY scripts/bin/ /rocker_scripts/bin/
@@ -45,7 +45,7 @@ RUN /rocker_scripts/install_pandoc.sh
 COPY scripts/install_quarto.sh /rocker_scripts/install_quarto.sh
 RUN /rocker_scripts/install_quarto.sh
 
-ENV CTAN_REPO="https://mirror.ctan.org/systems/texlive/tlnet"
+ENV CTAN_REPO="https://www.texlive.info/tlnet-archive/2025/02/27/tlnet"
 ENV PATH="$PATH:/usr/local/texlive/bin/linux"
 
 COPY scripts/install_verse.sh /rocker_scripts/install_verse.sh

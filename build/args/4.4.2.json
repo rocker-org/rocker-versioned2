@@ -1,12 +1,12 @@
 {
   "r_version": "4.4.2",
   "r_release_date": "2024-10-31",
-  "r_freeze_date": null,
+  "r_freeze_date": "2025-02-27",
   "ubuntu_series": "noble",
   "ubuntu_version": "24.04",
-  "cran": "https://p3m.dev/cran/__linux__/noble/latest",
+  "cran": "https://p3m.dev/cran/__linux__/noble/2025-02-27",
   "rstudio_version": "2024.12.1+563",
-  "ctan": "https://mirror.ctan.org/systems/texlive/tlnet",
-  "r_major_latest": true,
-  "r_minor_latest": true
+  "ctan": "https://www.texlive.info/tlnet-archive/2025/02/27/tlnet",
+  "r_major_latest": false,
+  "r_minor_latest": false
 }

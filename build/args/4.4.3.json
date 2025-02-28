@@ -1,0 +1,12 @@
+{
+  "r_version": "4.4.3",
+  "r_release_date": "2025-02-28",
+  "r_freeze_date": null,
+  "ubuntu_series": "noble",
+  "ubuntu_version": "24.04",
+  "cran": "https://p3m.dev/cran/__linux__/noble/latest",
+  "rstudio_version": "2024.12.1+563",
+  "ctan": "https://mirror.ctan.org/systems/texlive/tlnet",
+  "r_major_latest": true,
+  "r_minor_latest": true
+}
