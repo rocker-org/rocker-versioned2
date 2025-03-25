@@ -54,7 +54,7 @@ if [ "$QUARTO_VERSION" != "$INSTALLED_QUARTO_VERSION" ]; then
     if [ "$QUARTO_VERSION" = "$BUNDLED_QUARTO_VERSION" ] || [ "$QUARTO_VERSION" = "default" ]; then
         ln -fs "$BUNDLED_QUARTO" /usr/local/bin
     else
-        if [ "$QUARTO_VERSION" = "latest" ] || [ "$RSTUDIO_VERSION" = "release" ]; then
+        if [ "$QUARTO_VERSION" = "latest" ] || [ "$QUARTO_VERSION" = "release" ]; then
             QUARTO_DL_URL=$(wget -qO- https://quarto.org/docs/download/_download.json | grep -oP "(?<=\"download_url\":\s\")https.*${ARCH}\.deb")
         elif [ "$QUARTO_VERSION" = "prerelease" ]; then
             QUARTO_DL_URL=$(wget -qO- https://quarto.org/docs/download/_prerelease.json | grep -oP "(?<=\"download_url\":\s\")https.*${ARCH}\.deb")
