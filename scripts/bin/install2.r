@@ -15,19 +15,21 @@ library(docopt)
 libloc <- .libPaths()[1]
 
 ## configuration for docopt
-doc <- paste0("Usage: install2.r [-l LIBLOC] [-h] [-x] [-s] [-d DEPS] [-n NCPUS] [-r REPOS...] [-m METHOD] [-t TYPE] [--error] [--skipmissing] [--] [PACKAGES ...]
+doc <- paste0("Usage: install2.r [-l LIBLOC] [-h] [-x] [-s] [-d DEPS] [-n NCPUS] [-r REPOS...] [-m METHOD] [-t TYPE] [-v VERBOSE] [-q QUIET] [--error] [--skipmissing] [--] [PACKAGES ...]
 
--l --libloc LIBLOC  location in which to install [default: ", libloc, "]
--d --deps DEPS      install suggested dependencies as well [default: NA]
--n --ncpus NCPUS    number of processes to use for parallel install, -1 selects all cores [default: getOption]
--r --repos REPOS    repositor(y|ies) to use, or NULL for file [default: getOption]
--e --error          throw error and halt instead of a warning [default: FALSE]
---skipmissing       use with the --error option, skip the packages missing error [default: FALSE]
--s --skipinstalled  skip installing already installed packages [default: FALSE]
--m --method METHOD  method to be used for downloading files [default: auto]
--t --type TYPE      installation type as used by `install.packages` [default: getOption]
--h --help           show this help text
--x --usage          show help and short example usage")
+-l --libloc LIBLOC   location in which to install [default: ", libloc, "]
+-d --deps DEPS       install suggested dependencies as well [default: NA]
+-n --ncpus NCPUS     number of processes to use for parallel install, -1 selects all cores [default: getOption]
+-r --repos REPOS     repositor(y|ies) to use, or NULL for file [default: getOption]
+-e --error           throw error and halt instead of a warning [default: FALSE]
+--skipmissing        use with the --error option, skip the packages missing error [default: FALSE]
+-s --skipinstalled   skip installing already installed packages [default: FALSE]
+-m --method METHOD   method to be used for downloading files [default: auto]
+-t --type TYPE       installation type as used by `install.packages` [default: getOption]
+-h --help            show this help text
+-x --usage           show help and short example usage
+-v --verbose VERBOSE verbosity as used by `install.packages` [default: getOption]
+-q --quiet QUIET	   reduce amount of output as used by `install.packages` [default: FALSE]")
 opt <- docopt(doc)			# docopt parsing
 
 if (opt$usage) {
@@ -76,7 +78,19 @@ if (opt$ncpus == "getOption") {
 if (opt$type == "getOption") {
     opt$type <- getOption("pkgType")
     #if (requireNamespace("bspm", quietly=TRUE) && Sys.info()[["sysname"]] == "Linux") opt$type <- "binary-source"
+}
 
+## set the verbosity
+if (opt$verbose == "getOption") {
+  opt$verbose <- getOption("verbose")
+}
+if (opt$verbose == "TRUE" || opt$verbose == "FALSE") {
+  opt$verbose <- as.logical(opt$verbose)
+}
+
+## set the quiet mode
+if (opt$quiet == "TRUE" || opt$quiet == "FALSE") {
+  opt$quiet <- as.logical(opt$quiet)
 }
 
 ## ensure installation is stripped
@@ -111,7 +125,7 @@ install_packages2 <- function(pkgs, ..., error = FALSE, skipmissing = FALSE, ski
 isMatchingFile <- function(f) (file.exists(f) && grepl("(\\.tar\\.gz|\\.tgz|\\.zip)$", f)) || (f == ".")
 
 ## helper function which switches to local (ie NULL) repo if matching file is presented
-installArg <- function(f, lib, rep, dep, iopts, error, skipmissing, skipinstalled, ncpus, method, type) {
+installArg <- function(f, lib, rep, dep, iopts, error, skipmissing, skipinstalled, ncpus, method, type, verbose, quiet) {
     install_packages2(pkgs=f,
                       lib=lib,
                       repos=if (isMatchingFile(f)) NULL else rep,
@@ -122,7 +136,9 @@ installArg <- function(f, lib, rep, dep, iopts, error, skipmissing, skipinstalle
                       type = type,
                       error = error,
                       skipmissing = skipmissing,
-                      skipinstalled = skipinstalled)
+                      skipinstalled = skipinstalled,
+                      verbose = verbose,
+                      quiet = quiet)
 }
 
 ## strip out arguments to be passed to R CMD INSTALL
@@ -149,7 +165,7 @@ isLocal <- sapply(opt$PACKAGES, isMatchingFile)
 ## possibly in parallel using up to ncpus)
 if (any(isLocal)) {
     sapply(opt$PACKAGES, installArg, opt$libloc, opt$repos, opt$deps,
-           installOpts, opt$error, opt$skipmissing, opt$skipinstalled, opt$ncpus, opt$method, opt$type)
+           installOpts, opt$error, opt$skipmissing, opt$skipinstalled, opt$ncpus, opt$method, opt$type, opt$verbose, opt$quiet)
 } else {
     install_packages2(pkgs = opt$PACKAGES,
                       lib = opt$libloc,
@@ -161,7 +177,9 @@ if (any(isLocal)) {
                       type = opt$type,
                       error = opt$error,
                       skipmissing = opt$skipmissing,
-                      skipinstalled = opt$skipinstalled)
+                      skipinstalled = opt$skipinstalled,
+                      verbose = opt$verbose,
+                      quiet = opt$quiet)
 }
 
 ## clean up any temp file containing CRAN directory information
