@@ -29,7 +29,7 @@ doc <- paste0("Usage: install2.r [-l LIBLOC] [-h] [-x] [-s] [-d DEPS] [-n NCPUS]
 -h --help            show this help text
 -x --usage           show help and short example usage
 -v --verbose VERBOSE verbosity as used by `install.packages` [default: getOption]
--q --quiet QUIET	   reduce amount of output as used by `install.packages` [default: FALSE]")
+-q --quiet QUIET     reduce amount of output as used by `install.packages` [default: FALSE]")
 opt <- docopt(doc)			# docopt parsing
 
 if (opt$usage) {
