@@ -22,7 +22,7 @@ fi
 EOF
 
 ENV S6_VERSION="v2.1.0.2"
-ENV RSTUDIO_VERSION="2024.12.1+563"
+ENV RSTUDIO_VERSION="2025.05.0+496"
 ENV DEFAULT_USER="rstudio"
 
 COPY scripts/install_rstudio.sh /rocker_scripts/install_rstudio.sh
