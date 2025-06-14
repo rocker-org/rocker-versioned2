@@ -4,8 +4,9 @@
 
 ### Changes in pre-built images
 
-- `rocker/cuda`, `rocker/ml`, and `rocker/ml-verse` images are no longer built from this repository.
-  See [#903](https://github.com/rocker-org/rocker-versioned2/issues/903) for background.
+- `rocker/cuda`, `rocker/ml`, `rocker/ml-verse`, and `rocker/binder` images are no longer built from this repository.
+  See [#903](https://github.com/rocker-org/rocker-versioned2/issues/903)
+  and [#909](https://github.com/rocker-org/rocker-versioned2/issues/909) for background.
 
 ## 2024-12
 
