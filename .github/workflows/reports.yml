@@ -14,7 +14,6 @@ on:
   workflow_run:
     workflows:
       - "Build & Push Core images"
-      - "Build & Push extra images"
       - "Build & Push experimental images"
     branches:
       - "master"
@@ -31,15 +30,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix-main: ${{ steps.set-matrix.outputs.matrix-main }}
-      matrix-extra: ${{ steps.set-matrix.outputs.matrix-extra }}
     steps:
       - uses: actions/checkout@v4.1.4
       - id: set-matrix
         run: |
           CONTENT_MAIN="$(jq -r 'tostring' build/matrix/all.json)"
-          CONTENT_EXTRA="$(jq -s -r '.[0] + { group: [.[1].group[] | keys[] | select(. != "default")] } | tostring' build/matrix/latest-two.json build/templates/bakefiles/extra.docker-bake.json)"
           echo "matrix-main=${CONTENT_MAIN}" >> "$GITHUB_OUTPUT"
-          echo "matrix-extra=${CONTENT_EXTRA}" >> "$GITHUB_OUTPUT"
           echo "${CONTENT_MAIN}"
 
   inspect-main:
@@ -68,32 +64,6 @@ jobs:
           name: tmp-${{ matrix.r_version }}-${{ matrix.group }}
           path: tmp
 
-  inspect-extra:
-    needs: generate_matrix
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix-extra)}}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Clean up
-        run: |
-          docker image prune --all --force
-      - name: Pull images
-        run: |
-          BAKE_JSON="bakefiles/${{ matrix.r_version }}.extra.docker-bake.json" \
-          BAKE_GROUP="${{ matrix.group }}" \
-          make pull-image-group
-      - name: Inspect built image
-        run: |
-          IMAGELIST_NAME="${{ matrix.r_version }}-extra-${{ matrix.group }}.tsv" \
-          make inspect-image-all
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: tmp-${{ matrix.r_version }}-extra-${{ matrix.group }}
-          path: tmp
-
   inspect-experimental:
     runs-on: ubuntu-latest
     steps:
@@ -120,7 +90,6 @@ jobs:
     if: always()
     needs:
       - inspect-main
-      - inspect-extra
       - inspect-experimental
     runs-on: ubuntu-latest
     container:

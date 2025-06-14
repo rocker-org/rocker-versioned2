@@ -74,11 +74,3 @@ jobs:
           BAKE_GROUP=${{ matrix.group }} \
           BAKE_OPTION=--push \
           make bake-json-group
-
-  call-extra-workflow:
-    needs:
-      - generate_matrix
-      - build
-    uses: ./.github/workflows/extra.yml
-    with:
-      all-versions: ${{ needs.generate_matrix.outputs.all-versions == 'true' }}
