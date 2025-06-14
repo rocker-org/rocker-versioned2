@@ -60,8 +60,7 @@ tibble::tibble(
     "verse",
     "geospatial",
     "shiny",
-    "shiny-verse",
-    "binder"
+    "shiny-verse"
   )
 ) |>
   dplyr::mutate(
