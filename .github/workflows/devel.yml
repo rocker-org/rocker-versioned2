@@ -15,7 +15,7 @@ jobs:
     outputs:
       svn-revision: ${{ steps.check-revision.outputs.REV }}
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v5
       - name: Check R devel revision
         id: check-revision
         run: |
@@ -35,7 +35,7 @@ jobs:
         bakefile:
           - devel.docker-bake.json
     steps:
-      - uses: actions/checkout@v4.1.4
+      - uses: actions/checkout@v5
       - uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USER }}
