@@ -20,6 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v4.1.4
+        uses: actions/checkout@v5
       - name: Run make test
         run: make test
