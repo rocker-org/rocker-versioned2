@@ -145,9 +145,6 @@ mkdir -p "${R_HOME}/site-library"
 chown root:staff "${R_HOME}/site-library"
 chmod g+ws "${R_HOME}/site-library"
 
-## Fix library path
-echo "R_LIBS=\${R_LIBS-'${R_HOME}/site-library:${R_HOME}/library'}" >>"${R_HOME}/etc/Renviron.site"
-
 ## Clean up from R source install
 cd ..
 rm -rf /tmp/*
