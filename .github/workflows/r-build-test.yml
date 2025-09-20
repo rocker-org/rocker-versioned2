@@ -49,8 +49,8 @@ jobs:
           -f bakefiles/"${TAG}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
           --set=*.cache-from=docker.io/rocker/r-ver:"${TAG}" \
-          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}" \
-          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}" \
+          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
+          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
           --set=r-ver.tags=r-ver-test-"${TAG}" \
           --load \
           r-ver
@@ -60,7 +60,7 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: tmp-${{ matrix.tag }}
+          name: tmp-${{ matrix.tag }}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}
           path: tmp
 
   regression-test:
@@ -104,8 +104,8 @@ jobs:
           -f bakefiles/"${TAG}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
           --set=*.cache-from=docker.io/rocker/r-ver:"${TAG}" \
-          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}" \
-          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}" \
+          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
+          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
           --set=r-ver.tags=r-ver-test-"${TAG}" \
           --load \
           r-ver
