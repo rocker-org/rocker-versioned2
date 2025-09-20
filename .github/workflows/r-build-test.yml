@@ -82,10 +82,10 @@ jobs:
         include:
           - platforms: linux/arm64
             tag: "latest"
-            script: install_rstudio.sh
+            script: install_tidyverse.sh
           - platforms: linux/arm64
             tag: "latest"
-            script: install_tidyverse.sh
+            script: install_verse.sh
     steps:
       - uses: actions/checkout@v5
       - name: Set up Docker Buildx
