@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}
     strategy:
       fail-fast: true
       matrix:
@@ -28,6 +28,10 @@ jobs:
           - "latest"
         platforms:
           - linux/amd64
+          - linux/arm64
+        exclude:
+          - tag: "devel"
+            platforms: linux/arm64
     steps:
       - uses: actions/checkout@v5
       - name: Set up Docker Buildx
@@ -45,8 +49,8 @@ jobs:
           -f bakefiles/"${TAG}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
           --set=*.cache-from=docker.io/rocker/r-ver:"${TAG}" \
-          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}" \
-          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}" \
+          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
+          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
           --set=r-ver.tags=r-ver-test-"${TAG}" \
           --load \
           r-ver
@@ -56,12 +60,12 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: tmp-${{ matrix.tag }}
+          name: tmp-${{ matrix.tag }}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}
           path: tmp
 
   regression-test:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}
     strategy:
       fail-fast: false
       matrix:
@@ -75,6 +79,13 @@ jobs:
           - install_verse.sh
           - install_shiny_server.sh
           - install_geospatial.sh
+        include:
+          - platforms: linux/arm64
+            tag: "latest"
+            script: install_tidyverse.sh
+          - platforms: linux/arm64
+            tag: "latest"
+            script: install_verse.sh
     steps:
       - uses: actions/checkout@v5
       - name: Set up Docker Buildx
@@ -93,8 +104,8 @@ jobs:
           -f bakefiles/"${TAG}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
           --set=*.cache-from=docker.io/rocker/r-ver:"${TAG}" \
-          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}" \
-          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}" \
+          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
+          --set=*.cache-to=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
           --set=r-ver.tags=r-ver-test-"${TAG}" \
           --load \
           r-ver
