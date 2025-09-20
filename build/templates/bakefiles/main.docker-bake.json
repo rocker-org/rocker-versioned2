@@ -47,7 +47,7 @@
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
       },
-      "platforms": ["linux/amd64"],
+      "platforms": ["linux/amd64", "linux/arm64"],
       "cache-to": ["type=inline"]
     },
     "verse": {

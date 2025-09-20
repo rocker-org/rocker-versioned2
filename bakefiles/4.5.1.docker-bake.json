@@ -206,7 +206,8 @@
         "org.opencontainers.image.authors": "Carl Boettiger <cboettig@ropensci.org>"
       },
       "platforms": [
-        "linux/amd64"
+        "linux/amd64",
+        "linux/arm64"
       ],
       "cache-to": [
         "type=inline"
