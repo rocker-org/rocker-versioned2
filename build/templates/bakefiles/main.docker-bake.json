@@ -7,6 +7,7 @@
             "r-ver",
             "rstudio",
             "tidyverse",
+            "pharmaverse",
             "shiny",
             "shiny-verse",
             "verse",
@@ -44,6 +45,17 @@
       "labels": {
         "org.opencontainers.image.title": "rocker/tidyverse",
         "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, and R packages.",
+        "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
+        "org.opencontainers.image.version": "R-{{r_version}}"
+      },
+      "platforms": ["linux/amd64", "linux/arm64"],
+      "cache-to": ["type=inline"]
+    },
+    "pharmaverse": {
+      "dockerfile": "dockerfiles/pharmaverse_{{r_version}}.Dockerfile",
+      "labels": {
+        "org.opencontainers.image.title": "rocker/pharmaverse",
+        "org.opencontainers.image.description": "Version-stable build of R, RStudio Server, tidyverse, and pharmaverse packages for clinical data analysis.",
         "org.opencontainers.image.base.name": "docker.io/library/ubuntu:{{ubuntu_series}}",
         "org.opencontainers.image.version": "R-{{r_version}}"
       },
