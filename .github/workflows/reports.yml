@@ -122,7 +122,7 @@ jobs:
           path: reports
       - name: Update wiki
         if: github.event_name != 'pull_request'
-        uses: stefanzweifel/git-auto-commit-action@v6
+        uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: Automated update
           repository: reports
