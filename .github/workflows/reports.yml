@@ -105,7 +105,7 @@ jobs:
           repository: "${{ github.repository }}.wiki"
           path: reports
       - name: Download artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: tmp
           pattern: tmp-*
