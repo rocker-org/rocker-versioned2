@@ -5,7 +5,7 @@
   "ubuntu_series": "latest",
   "ubuntu_version": null,
   "cran": "https://cloud.r-project.org",
-  "rstudio_version": "2025.09.1+401",
+  "rstudio_version": "2025.09.2+418",
   "ctan": "https://mirror.ctan.org/systems/texlive/tlnet",
   "r_major_latest": null,
   "r_minor_latest": null

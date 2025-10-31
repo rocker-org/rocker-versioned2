@@ -9,7 +9,7 @@ ENV TZ="Etc/UTC"
 COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 RUN /rocker_scripts/install_R_source.sh
 
-ENV CRAN="https://p3m.dev/cran/__linux__/noble/latest"
+ENV CRAN="https://p3m.dev/cran/__linux__/noble/2025-10-30"
 ENV LANG=en_US.UTF-8
 
 COPY scripts/bin/ /rocker_scripts/bin/
@@ -25,7 +25,7 @@ COPY scripts/install_tidyverse.sh /rocker_scripts/install_tidyverse.sh
 RUN /rocker_scripts/install_tidyverse.sh
 
 ENV S6_VERSION="v2.1.0.2"
-ENV RSTUDIO_VERSION="2025.09.1+401"
+ENV RSTUDIO_VERSION="2025.09.2+418"
 ENV DEFAULT_USER="rstudio"
 
 COPY scripts/install_rstudio.sh /rocker_scripts/install_rstudio.sh
