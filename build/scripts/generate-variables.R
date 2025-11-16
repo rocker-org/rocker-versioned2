@@ -15,7 +15,7 @@ r_versions_with_freeze_dates <- function(min_version = "4.0.0") {
       r_freeze_date = dplyr::lead(r_release_date, 1) - 1,
       .keep = "none"
     ) |>
-    dplyr::filter(package_version(r_version) >= package_version(min_version)) |>
+    dplyr::filter(package_version(r_version, strict = FALSE) >= package_version(min_version)) |>
     dplyr::arrange(r_release_date)
 }
 
