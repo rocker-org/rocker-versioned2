@@ -31,7 +31,7 @@ jobs:
     outputs:
       matrix-main: ${{ steps.set-matrix.outputs.matrix-main }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - id: set-matrix
         run: |
           CONTENT_MAIN="$(jq -r 'tostring' build/matrix/all.json)"
@@ -45,7 +45,7 @@ jobs:
       fail-fast: false
       matrix: ${{fromJson(needs.generate_matrix.outputs.matrix-main)}}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Clean up
         run: |
           docker image prune --all --force
@@ -67,7 +67,7 @@ jobs:
   inspect-experimental:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Clean up
         run: |
           docker image prune --all --force
@@ -96,11 +96,11 @@ jobs:
       image: rocker/tidyverse:latest
     steps:
       - name: Checkout main
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Set as safe for following git commands
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Checkout wiki
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: "${{ github.repository }}.wiki"
           path: reports
