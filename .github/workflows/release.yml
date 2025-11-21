@@ -13,7 +13,7 @@ jobs:
     outputs:
       tag: ${{ steps.tag-version.outputs.new_tag }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - id: set-version
         run: |
@@ -34,7 +34,7 @@ jobs:
     needs: create_tag
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
