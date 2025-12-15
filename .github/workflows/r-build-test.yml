@@ -58,7 +58,7 @@ jobs:
         run: |
           make inspect-image/r-ver-test-"${{ env.TAG }}"
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: tmp-${{ matrix.tag }}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}
           path: tmp
