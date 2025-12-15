@@ -59,7 +59,7 @@ jobs:
           IMAGELIST_NAME="${{ matrix.r_version }}-${{ matrix.group }}.tsv" \
           make inspect-image-all
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: tmp-${{ matrix.r_version }}-${{ matrix.group }}
           path: tmp
@@ -81,7 +81,7 @@ jobs:
           IMAGELIST_NAME="experimental.tsv" \
           make inspect-image-all
       - name: Upload artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: tmp-experimental
           path: tmp
@@ -116,7 +116,7 @@ jobs:
           make --always-make wiki-home
       - name: Upload artifacts
         if: github.event_name == 'pull_request'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: reports
           path: reports
