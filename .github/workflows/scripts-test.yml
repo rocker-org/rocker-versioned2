@@ -60,7 +60,7 @@ jobs:
         run: |
           make inspect-image/"${{ steps.prep.outputs.output_tag }}"
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: tmp-${{ steps.prep.outputs.output_tag }}
           path: tmp
