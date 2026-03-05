@@ -37,7 +37,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Expose GitHub Runtime
-        uses: crazy-max/ghaction-github-runtime@v3
+        uses: crazy-max/ghaction-github-runtime@v4
       - name: test build
         run: |
           if [ "${{ matrix.tag }}" == "latest" ]; then
@@ -91,7 +91,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Expose GitHub Runtime
-        uses: crazy-max/ghaction-github-runtime@v3
+        uses: crazy-max/ghaction-github-runtime@v4
       - name: test build
         run: |
           if [ "${{ matrix.tag }}" == "latest" ]; then
