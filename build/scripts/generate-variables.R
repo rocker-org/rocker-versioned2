@@ -28,19 +28,32 @@ r_versions_with_freeze_dates <- function(min_version = "4.0.0") {
 #' @examples
 #' ubuntu_lts_versions()
 ubuntu_lts_versions <- function() {
-  # On Ubuntu, the local file `/usr/share/distro-info/ubuntu.csv` is the same.
-  readr::read_csv(
-    "https://git.launchpad.net/ubuntu/+source/distro-info-data/plain/ubuntu.csv",
-    show_col_types = FALSE
+  # Avoid Launchpad git endpoint instability by using Ubuntu's official
+  # release metadata feed.
+  meta_release <- readr::read_lines(
+    "https://changelogs.ubuntu.com/meta-release-lts",
+    progress = FALSE
   ) |>
-    suppressWarnings() |>
-    dplyr::filter(stringr::str_detect(version, "LTS")) |>
+    paste(collapse = "\n")
+
+  meta <- read.dcf(textConnection(meta_release)) |>
+    tibble::as_tibble()
+
+  meta |>
+    dplyr::filter(stringr::str_detect(Version, "LTS")) |>
     dplyr::mutate(
-      ubuntu_version = stringr::str_extract(version, "^\\d+\\.\\d+"),
-      ubuntu_series = series,
-      ubuntu_release_date = release,
+      ubuntu_version = stringr::str_extract(Version, "^\\d+\\.\\d+"),
+      ubuntu_series = Dist,
+      ubuntu_release_date = as.Date(
+        strptime(
+          sub(" UTC$", "", Date),
+          format = "%a, %d %b %Y %H:%M:%S",
+          tz = "UTC"
+        )
+      ),
       .keep = "none"
     ) |>
+    tidyr::drop_na() |>
     dplyr::arrange(ubuntu_release_date)
 }
 
