@@ -1,0 +1,4 @@
+skip-check:
+  - CKV_DOCKER_2  # HEALTHCHECK not applicable for interactive dev containers
+  - CKV_DOCKER_3  # USER not set intentionally; rocker images run as root by design
+  - CKV_DOCKER_7  # "latest" tag used intentionally in devel/experimental images

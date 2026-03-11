@@ -1,5 +1,22 @@
 # News
 
+## 2026-03
+
+### Breaking changes
+
+- `rocker/geospatial` no longer inherits from `rocker/verse`; it now builds on `rocker/tidyverse`.
+  TeX Live and publishing packages (`bookdown`, `rticles`, etc.) are no longer included.
+  Use `rocker/verse` or add `install_verse.sh` in a downstream image if LaTeX is needed.
+  ([#989](https://github.com/rocker-org/rocker-versioned2/pull/989))
+
+### Changes in pre-built images
+
+- `rocker/geospatial` now publishes `linux/arm64` images in addition to `linux/amd64`.
+  ([#989](https://github.com/rocker-org/rocker-versioned2/pull/989))
+- Archived CRAN packages (`RandomFields`, `rgdal`, `rgeos`, `maptools`) removed from `install_geospatial.sh`;
+  they have been superseded by `sf` and `terra`.
+  ([#989](https://github.com/rocker-org/rocker-versioned2/pull/989))
+
 ## 2025-02
 
 ### Changes in pre-built images

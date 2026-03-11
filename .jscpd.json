@@ -5,7 +5,7 @@
   ],
   "ignore": [
     "**/bakefiles/*.json",
-    "**/dockerfiles/*.json",
+    "**/dockerfiles/**",
     "**/templates/*"
   ],
   "absolute": true
