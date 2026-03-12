@@ -45,7 +45,6 @@ RUN /rocker_scripts/install_pandoc.sh
 COPY scripts/install_quarto.sh /rocker_scripts/install_quarto.sh
 RUN /rocker_scripts/install_quarto.sh
 
-
 COPY scripts/install_geospatial.sh /rocker_scripts/install_geospatial.sh
 RUN /rocker_scripts/install_geospatial.sh
 
