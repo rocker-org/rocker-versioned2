@@ -170,7 +170,9 @@ echo "$USER:$PASSWORD" | chpasswd
 if [ "${RUNROOTLESS}" = "true" ]; then
     echo "No sudoers changes needed when running rootless"
 elif [[ ${ROOT,,} == "true" ]]; then
-    adduser "$USER" sudo && echo '%sudo ALL=(ALL) NOPASSWD:ALL' >>/etc/sudoers
+    line='%sudo ALL=(ALL) NOPASSWD:ALL'
+    sudoers_file='/etc/sudoers'
+    adduser "$USER" sudo && { grep -qxF "$line" "$sudoers_file" || echo "$line"  >> "$sudoers_file"; }
     echo "$USER added to sudoers"
 fi
 
