@@ -108,22 +108,6 @@ is_rstudio_deb_available <- function(rstudio_version, ubuntu_series) {
 }
 
 
-#' Get the latest CTAN URL for a given date
-#' @param date A [Date] class vector.
-#' If `NA`, the "latest" URL will be returned.
-#' @return A character of CTAN URL.
-#' @examples
-#' latest_ctan_url(as.Date(c("2023-10-30", NA)))
-latest_ctan_url <- function(date) {
-  .url <- dplyr::if_else(
-    is.na(date), "https://mirror.ctan.org/systems/texlive/tlnet",
-    stringr::str_c("https://www.texlive.info/tlnet-archive/", format(date, "%Y/%m/%d"), "/tlnet")
-  )
-
-  .url
-}
-
-
 #' Paste each element of vectors in a cartesian product
 #' @param ... Dynamic dots. Character vectors to paste.
 #' @return A character vector.
@@ -195,7 +179,6 @@ rocker_versioned_args <- function(
     dplyr::semi_join(df_available_rstudio, by = c("ubuntu_series", "rstudio_version")) |>
     dplyr::slice_max(rstudio_version, with_ties = FALSE, by = c(r_version, ubuntu_series)) |>
     dplyr::mutate(
-      ctan = latest_ctan_url(r_freeze_date),
       cran = purrr::pmap_chr(
         list(r_freeze_date, ubuntu_series, r_version),
         \(...) latest_p3m_cran_url_linux(...)
@@ -209,7 +192,6 @@ rocker_versioned_args <- function(
       ubuntu_version,
       cran,
       rstudio_version,
-      ctan,
       r_major_latest,
       r_minor_latest
     )
@@ -224,8 +206,6 @@ dplyr::add_row(
   ubuntu_series = "latest",
   cran = "https://cloud.r-project.org",
   rstudio_version = x$rstudio_version |>
-    utils::tail(1),
-  ctan = x$ctan |>
     utils::tail(1)
 ))()
 

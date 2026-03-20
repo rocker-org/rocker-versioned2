@@ -14,11 +14,17 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
-if [ "$(find /var/lib/apt/lists/* 2>/dev/null | wc -l)" = "0" ]; then
-    apt-get update
-fi
+# a function to install apt packages only if they are not installed
+function apt_install() {
+    if ! dpkg -s "$@" >/dev/null 2>&1; then
+        if [ "$(find /var/lib/apt/lists/* 2>/dev/null | wc -l)" = "0" ]; then
+            apt-get update
+        fi
+        apt-get install -y --no-install-recommends "$@"
+    fi
+}
 
-apt-get install -y --no-install-recommends \
+apt_install \
     lmodern \
     texlive-fonts-recommended \
     texlive-latex-base \

@@ -8,6 +8,8 @@
   TeX Live and publishing packages (`bookdown`, `rticles`, etc.) are no longer included.
   Use `rocker/verse` or add `install_verse.sh` in a downstream image if LaTeX is needed.
   ([#989](https://github.com/rocker-org/rocker-versioned2/pull/989))
+- `rocker/verse` and `install_texlive.sh` now install TeX Live from Ubuntu/Debian apt packages
+  instead of the CTAN installer, so CTAN snapshot pinning is no longer part of the versioning scheme.
 
 ### Changes in pre-built images
 
