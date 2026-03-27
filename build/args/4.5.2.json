@@ -6,7 +6,6 @@
   "ubuntu_version": "24.04",
   "cran": "https://p3m.dev/cran/__linux__/noble/2026-03-10",
   "rstudio_version": "2026.01.1+403",
-  "ctan": "https://www.texlive.info/tlnet-archive/2026/03/10/tlnet",
   "r_major_latest": false,
   "r_minor_latest": false
 }

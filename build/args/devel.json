@@ -6,7 +6,6 @@
   "ubuntu_version": null,
   "cran": "https://cloud.r-project.org",
   "rstudio_version": "2026.01.1+403",
-  "ctan": "https://mirror.ctan.org/systems/texlive/tlnet",
   "r_major_latest": null,
   "r_minor_latest": null
 }

@@ -73,24 +73,9 @@ apt_install \
 apt-get remove -y systemd
 apt-get -y autoremove
 
-## Add LaTeX, rticles and bookdown support
-## tinytex recommends a dummy texlive if using tlmgr manually
-if [[ ! -x "/usr/bin/latex" ]]; then
-    apt_install equivs
-    cd /tmp
-    wget https://github.com/scottkosty/install-tl-ubuntu/raw/master/debian-control-texlive-in.txt
-    equivs-build debian-*
-    mv texlive-local*.deb texlive-local.deb
-    dpkg -i texlive-local.deb
-    rm debian-control-texlive-in.txt
-    apt-get -y purge equivs
-    apt-get -y autoremove
-fi
-
-## Install texlive
+## Install texlive (via apt)
 /rocker_scripts/install_texlive.sh
 
-install2.r --error --skipinstalled -n "$NCPUS" tinytex
 install2.r --error --skipmissing --deps TRUE --skipinstalled -n "$NCPUS" \
     blogdown \
     bookdown \
