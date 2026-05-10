@@ -56,6 +56,7 @@ tlmgr update --self
 tlmgr install latex-bin luatex xetex
 tlmgr install \
     ae \
+    amsfonts \
     amsmath \
     auxhook \
     bibtex \
