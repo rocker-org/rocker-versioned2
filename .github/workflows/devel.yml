@@ -5,6 +5,9 @@ on:
     - cron: "0 0 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
@@ -25,54 +28,134 @@ jobs:
           REV="$(grep 'Revision:' < R-devel/SVN-REVISION | sed -e 's/Revision:\s*//g')"
           echo "REV=${REV}" >>"$GITHUB_OUTPUT"
 
-  build:
-    runs-on: ubuntu-latest
+  r-ver:
     needs:
       - check-revision
     strategy:
       fail-fast: false
       matrix:
-        bakefile:
-          - devel.docker-bake.json
+        include:
+          - platform: linux/amd64
+            pair: linux-amd64
+            runner: ubuntu-24.04
+          - platform: linux/arm64
+            pair: linux-arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
     steps:
       - uses: actions/checkout@v7
-      - uses: docker/login-action@v4
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
-      - name: Expose GitHub Runtime
-        uses: crazy-max/ghaction-github-runtime@v4
-      - name: Build and push Docker images
+      - name: Build and push rocker/r-ver by digest
+        id: bake
+        uses: docker/bake-action@v7
+        with:
+          files: bakefiles/devel.docker-bake.json
+          targets: r-ver
+          set: |
+            r-ver.platform=${{ matrix.platform }}
+            r-ver.labels.org.opencontainers.image.revision=${{ github.sha }}
+            r-ver.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-r-ver-${{ matrix.pair }}
+            r-ver.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-rstudio-${{ matrix.pair }}
+            r-ver.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-tidyverse-${{ matrix.pair }}
+            r-ver.cache-to=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-r-ver-${{ matrix.pair }}
+            r-ver.output=type=image,name=docker.io/rocker/r-ver,push-by-digest=true,name-canonical=true,push=true
+      - name: Export digest
+        env:
+          DIGEST: ${{ fromJSON(steps.bake.outputs.metadata)['r-ver']['containerimage.digest'] }}
         run: |
-          CACHE_DIR="${{ runner.temp }}"
+          mkdir -p "${{ runner.temp }}/digests"
+          touch "${{ runner.temp }}/digests/${DIGEST}"
+      - name: Upload digest
+        uses: actions/upload-artifact@v7
+        with:
+          name: digests-${{ matrix.pair }}
+          path: ${{ runner.temp }}/digests/*
+          if-no-files-found: error
+          retention-days: 1
 
-          # Build rocker/r-ver
-          BAKE_JSON="bakefiles/${{ matrix.bakefile }}" \
-          BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-r-ver"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-rstudio"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-tidyverse"\
-          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-r-ver" \
-          make bake-json/r-ver
+  merge-r-ver:
+    runs-on: ubuntu-24.04
+    needs:
+      - r-ver
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@v8
+        with:
+          path: ${{ runner.temp }}/digests
+          pattern: digests-*
+          merge-multiple: true
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Create multi-platform manifest
+        working-directory: ${{ runner.temp }}/digests
+        run: |
+          printf 'docker.io/rocker/r-ver@%s\n' * \
+            | xargs docker buildx imagetools create \
+              --tag docker.io/rocker/r-ver:devel
+      - name: Inspect multi-platform manifest
+        run: docker buildx imagetools inspect docker.io/rocker/r-ver:devel
 
-          # Build rocker/rstudio
-          BAKE_JSON="bakefiles/${{ matrix.bakefile }}" \
-          BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-r-ver"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-rstudio"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-tidyverse"\
-          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-rstudio" \
-          make bake-json/rstudio
+  rstudio:
+    needs:
+      - check-revision
+      - merge-r-ver
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build and push rocker/rstudio
+        uses: docker/bake-action@v7
+        with:
+          files: bakefiles/devel.docker-bake.json
+          targets: rstudio
+          set: |
+            rstudio.labels.org.opencontainers.image.revision=${{ github.sha }}
+            rstudio.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-r-ver-linux-amd64
+            rstudio.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-rstudio-linux-amd64
+            rstudio.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-tidyverse-linux-amd64
+            rstudio.cache-to=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-rstudio-linux-amd64
+            rstudio.output=type=registry
 
-          # Build rocker/tidyverse
-          BAKE_JSON="bakefiles/${{ matrix.bakefile }}" \
-          BAKE_OPTION=--push\ --set=*.cache-to=type=local,dest="${CACHE_DIR}"\ --set=*.cache-from=type=local,src="${CACHE_DIR}"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-r-ver"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-rstudio"\
-          \ --set=*.cache-from=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-tidyverse"\
-          \ --set=*.cache-to=type=gha,scope=svn-revision-"${{ needs.check-revision.outputs.svn-revision }}-tidyverse" \
-          make bake-json/tidyverse
+  tidyverse:
+    needs:
+      - check-revision
+      - rstudio
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build and push rocker/tidyverse
+        uses: docker/bake-action@v7
+        with:
+          files: bakefiles/devel.docker-bake.json
+          targets: tidyverse
+          set: |
+            tidyverse.labels.org.opencontainers.image.revision=${{ github.sha }}
+            tidyverse.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-r-ver-linux-amd64
+            tidyverse.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-rstudio-linux-amd64
+            tidyverse.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-tidyverse-linux-amd64
+            tidyverse.cache-to=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-tidyverse-linux-amd64
+            tidyverse.output=type=registry
