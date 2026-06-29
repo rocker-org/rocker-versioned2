@@ -64,11 +64,13 @@ jobs:
             r-ver.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-rstudio-${{ matrix.pair }}
             r-ver.cache-from=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-tidyverse-${{ matrix.pair }}
             r-ver.cache-to=type=gha,scope=svn-revision-${{ needs.check-revision.outputs.svn-revision }}-r-ver-${{ matrix.pair }}
+            r-ver.tags=
             r-ver.output=type=image,name=docker.io/rocker/r-ver,push-by-digest=true,name-canonical=true,push=true
       - name: Export digest
         env:
-          DIGEST: ${{ fromJSON(steps.bake.outputs.metadata)['r-ver']['containerimage.digest'] }}
+          METADATA: ${{ steps.bake.outputs.metadata }}
         run: |
+          DIGEST="$(jq -er '."r-ver"."containerimage.digest"' <<<"${METADATA}")"
           mkdir -p "${{ runner.temp }}/digests"
           touch "${{ runner.temp }}/digests/${DIGEST}"
       - name: Upload digest
