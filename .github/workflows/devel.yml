@@ -71,6 +71,8 @@ jobs:
           METADATA: ${{ steps.bake.outputs.metadata }}
         run: |
           DIGEST="$(jq -er '."r-ver"."containerimage.digest"' <<<"${METADATA}")"
+          DIGEST="${DIGEST#sha256:}"
+          [[ "${DIGEST}" =~ ^[0-9a-f]{64}$ ]]
           mkdir -p "${{ runner.temp }}/digests"
           touch "${{ runner.temp }}/digests/${DIGEST}"
       - name: Upload digest
@@ -102,7 +104,7 @@ jobs:
       - name: Create multi-platform manifest
         working-directory: ${{ runner.temp }}/digests
         run: |
-          printf 'docker.io/rocker/r-ver@%s\n' * \
+          printf 'docker.io/rocker/r-ver@sha256:%s\n' * \
             | xargs docker buildx imagetools create \
               --tag docker.io/rocker/r-ver:devel
       - name: Inspect multi-platform manifest
