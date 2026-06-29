@@ -1,7 +1,7 @@
 {
   "image": "ghcr.io/rocker-org/devcontainer/r-ver:4",
   "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:3": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {
       "dockerDashComposeVersion": "v2"
     },
     "ghcr.io/rocker-org/devcontainer-features/r-history:0": {},
