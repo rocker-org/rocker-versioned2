@@ -5,7 +5,7 @@
   "ubuntu_series": "noble",
   "ubuntu_version": "24.04",
   "cran": "https://p3m.dev/cran/__linux__/noble/2026-06-23",
-  "rstudio_version": "2026.05.1+225",
+  "rstudio_version": "2026.06.0+242",
   "ctan": "https://www.texlive.info/tlnet-archive/2026/06/23/tlnet",
   "r_major_latest": false,
   "r_minor_latest": false
