@@ -51,6 +51,12 @@
       "tag": "stable-slim",
       "script_name": "install_quarto.sh",
       "script_arg": "none"
+    },
+    {
+      "base_image": "rocker/r-bspm",
+      "tag": "20.04",
+      "script_name": "install_shiny_server.sh",
+      "script_arg": "none"
     }
   ]
 }
