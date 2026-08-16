@@ -9,9 +9,6 @@ on:
       target:
         required: true
         type: string
-      platforms:
-        required: true
-        type: string
       revision:
         required: true
         type: string
@@ -22,15 +19,38 @@ on:
         required: true
 
 jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+    outputs:
+      platforms: ${{ steps.config.outputs.platforms }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.revision }}
+      - name: Read and validate Bake platforms
+        id: config
+        run: |
+          BAKEFILE="bakefiles/${{ inputs.version }}.docker-bake.json"
+          jq -e --arg target "${{ inputs.target }}" '
+            .target[$target].platforms
+            | type == "array" and length > 0
+            and all(.[]; type == "string" and test("^linux/(amd64|arm64)$"))
+          ' "${BAKEFILE}" >/dev/null
+          echo "platforms=$(jq -cer --arg target "${{ inputs.target }}" \
+            '.target[$target].platforms' "${BAKEFILE}")" >>"${GITHUB_OUTPUT}"
+
   build:
     name: ${{ inputs.target }} ${{ matrix.platform }}
+    needs: prepare
     permissions:
       contents: read
       packages: write
     strategy:
       fail-fast: false
       matrix:
-        platform: ${{ fromJSON(inputs.platforms) }}
+        platform: ${{ fromJSON(needs.prepare.outputs.platforms) }}
     runs-on: ${{ matrix.platform == 'linux/arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     steps:
       - uses: actions/checkout@v7

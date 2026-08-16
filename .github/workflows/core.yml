@@ -64,14 +64,15 @@ jobs:
     with:
       version: ${{ matrix.version }}
       target: r-ver
-      platforms: '["linux/amd64", "linux/arm64"]'
       revision: ${{ needs.prepare.outputs.revision }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   rstudio:
-    needs: [prepare, r-ver]
+    needs:
+      - prepare
+      - r-ver
     strategy:
       fail-fast: false
       matrix:
@@ -83,14 +84,15 @@ jobs:
     with:
       version: ${{ matrix.version }}
       target: rstudio
-      platforms: '["linux/amd64", "linux/arm64"]'
       revision: ${{ needs.prepare.outputs.revision }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   tidyverse:
-    needs: [prepare, rstudio]
+    needs:
+      - prepare
+      - rstudio
     strategy:
       fail-fast: false
       matrix:
@@ -102,14 +104,15 @@ jobs:
     with:
       version: ${{ matrix.version }}
       target: tidyverse
-      platforms: '["linux/amd64", "linux/arm64"]'
       revision: ${{ needs.prepare.outputs.revision }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   shiny:
-    needs: [prepare, tidyverse]
+    needs:
+      - prepare
+      - tidyverse
     strategy:
       fail-fast: false
       matrix:
@@ -121,14 +124,15 @@ jobs:
     with:
       version: ${{ matrix.version }}
       target: shiny
-      platforms: '["linux/amd64"]'
       revision: ${{ needs.prepare.outputs.revision }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   shiny-verse:
-    needs: [prepare, shiny]
+    needs:
+      - prepare
+      - shiny
     strategy:
       fail-fast: false
       matrix:
@@ -140,14 +144,15 @@ jobs:
     with:
       version: ${{ matrix.version }}
       target: shiny-verse
-      platforms: '["linux/amd64"]'
       revision: ${{ needs.prepare.outputs.revision }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   verse:
-    needs: [prepare, shiny-verse]
+    needs:
+      - prepare
+      - shiny-verse
     strategy:
       fail-fast: false
       matrix:
@@ -159,14 +164,15 @@ jobs:
     with:
       version: ${{ matrix.version }}
       target: verse
-      platforms: '["linux/amd64"]'
       revision: ${{ needs.prepare.outputs.revision }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   geospatial:
-    needs: [prepare, verse]
+    needs:
+      - prepare
+      - verse
     strategy:
       fail-fast: false
       matrix:
@@ -178,14 +184,15 @@ jobs:
     with:
       version: ${{ matrix.version }}
       target: geospatial
-      platforms: '["linux/amd64", "linux/arm64"]'
       revision: ${{ needs.prepare.outputs.revision }}
     secrets:
       DOCKER_USER: ${{ secrets.DOCKER_USER }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   smoke-test:
-    needs: [prepare, geospatial]
+    needs:
+      - prepare
+      - geospatial
     name: Smoke ${{ matrix.image.target }} ${{ matrix.image.platform }} R ${{ matrix.version }}
     strategy:
       fail-fast: false
