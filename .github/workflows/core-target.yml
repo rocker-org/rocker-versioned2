@@ -1,0 +1,138 @@
+name: Build & publish one core target
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+      target:
+        required: true
+        type: string
+      platforms:
+        required: true
+        type: string
+      revision:
+        required: true
+        type: string
+    secrets:
+      DOCKER_USER:
+        required: true
+      DOCKER_PASSWORD:
+        required: true
+
+jobs:
+  build:
+    name: ${{ inputs.target }} ${{ matrix.platform }}
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJSON(inputs.platforms) }}
+    runs-on: ${{ matrix.platform == 'linux/arm64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.revision }}
+      - name: Read and validate Bake publish configuration
+        id: config
+        run: |
+          build/scripts/core-publish.sh config \
+            "bakefiles/${{ inputs.version }}.docker-bake.json" \
+            "${{ inputs.target }}" \
+            "${{ matrix.platform }}"
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4.6.0
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build and push canonical platform digests
+        id: bake
+        uses: docker/bake-action@v7
+        with:
+          files: bakefiles/${{ inputs.version }}.docker-bake.json
+          targets: ${{ inputs.target }}
+          set: |
+            ${{ inputs.target }}.platform=${{ matrix.platform }}
+            ${{ inputs.target }}.labels.org.opencontainers.image.revision=${{ inputs.revision }}
+            ${{ inputs.target }}.cache-from=type=gha,scope=core-${{ inputs.version }}-r-ver-${{ steps.config.outputs.platform_pair }}
+            ${{ inputs.target }}.cache-from=type=gha,scope=core-${{ inputs.version }}-rstudio-${{ steps.config.outputs.platform_pair }}
+            ${{ inputs.target }}.cache-from=type=gha,scope=core-${{ inputs.version }}-tidyverse-${{ steps.config.outputs.platform_pair }}
+            ${{ inputs.target }}.cache-from=type=gha,scope=core-${{ inputs.version }}-shiny-${{ steps.config.outputs.platform_pair }}
+            ${{ inputs.target }}.cache-from=type=gha,scope=core-${{ inputs.version }}-shiny-verse-${{ steps.config.outputs.platform_pair }}
+            ${{ inputs.target }}.cache-from=type=gha,scope=core-${{ inputs.version }}-verse-${{ steps.config.outputs.platform_pair }}
+            ${{ inputs.target }}.cache-from=type=gha,scope=core-${{ inputs.version }}-geospatial-${{ steps.config.outputs.platform_pair }}
+            ${{ inputs.target }}.cache-to=type=gha,scope=core-${{ inputs.version }}-${{ inputs.target }}-${{ steps.config.outputs.platform_pair }}
+            ${{ inputs.target }}.tags=
+            ${{ inputs.target }}.output=type=image,name=${{ steps.config.outputs.docker_repository }},push-by-digest=true,name-canonical=true,push=true
+            ${{ inputs.target }}.output=type=image,name=${{ steps.config.outputs.ghcr_repository }},push-by-digest=true,name-canonical=true,push=true
+      - name: Write digest metadata
+        env:
+          METADATA: ${{ steps.bake.outputs.metadata }}
+        run: |
+          DIGEST=$(jq -er --arg target "${{ inputs.target }}" \
+            '.[$target]."containerimage.digest"' <<<"${METADATA}")
+          build/scripts/core-publish.sh write-metadata \
+            "bakefiles/${{ inputs.version }}.docker-bake.json" \
+            "${{ inputs.version }}" \
+            "${{ inputs.target }}" \
+            "${{ matrix.platform }}" \
+            "${DIGEST}" \
+            "${{ runner.temp }}/digest-metadata/${{ inputs.version }}-${{ inputs.target }}-${{ strategy.job-index }}.json"
+      - name: Upload digest metadata
+        uses: actions/upload-artifact@v7
+        with:
+          name: core-digests-${{ inputs.version }}-${{ inputs.target }}-${{ strategy.job-index }}
+          path: ${{ runner.temp }}/digest-metadata/*.json
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 1
+
+  finalize:
+    name: Finalize ${{ inputs.target }}
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.revision }}
+      - name: Download platform digest metadata
+        uses: actions/download-artifact@v8
+        with:
+          path: ${{ runner.temp }}/digest-metadata
+          pattern: core-digests-${{ inputs.version }}-${{ inputs.target }}-*
+          merge-multiple: true
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4.6.0
+        with:
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Create and verify all Bake tags
+        run: |
+          build/scripts/core-publish.sh finalize \
+            "bakefiles/${{ inputs.version }}.docker-bake.json" \
+            "${{ inputs.version }}" \
+            "${{ inputs.target }}" \
+            "${{ runner.temp }}/digest-metadata" \
+            "${{ inputs.revision }}"
