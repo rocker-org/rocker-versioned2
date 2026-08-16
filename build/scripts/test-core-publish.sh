@@ -58,5 +58,7 @@ export -f docker
 [[ "$(wc -l <"${MOCK_DOCKER_LOG}")" -eq 2 ]]
 grep -q -- "--tag docker.io/rocker/r-ver:${VERSION}" "${MOCK_DOCKER_LOG}"
 grep -q -- '--tag ghcr.io/rocker-org/r-ver:latest' "${MOCK_DOCKER_LOG}"
+grep -q -- "docker.io/rocker/r-ver@${DIGEST}" "${MOCK_DOCKER_LOG}"
+grep -q -- "ghcr.io/rocker-org/r-ver@${DIGEST}" "${MOCK_DOCKER_LOG}"
 
 echo "core publish metadata tests passed"

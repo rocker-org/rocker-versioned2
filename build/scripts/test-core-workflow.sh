@@ -65,6 +65,22 @@ grep -Fq ".target[\$target].platforms" "${TARGET_WORKFLOW}" || {
     exit 1
 }
 
+[[ "$(grep -c 'uses: docker/bake-action@v7' "${TARGET_WORKFLOW}")" -eq 1 ]] || {
+    echo "core reusable workflow must invoke Bake exactly once" >&2
+    exit 1
+}
+mapfile -t image_outputs < <(grep '\.output=type=image' "${TARGET_WORKFLOW}")
+[[ "${#image_outputs[@]}" -eq 1 ]] || {
+    echo "core reusable workflow must use exactly one image exporter" >&2
+    exit 1
+}
+expected_output='            ${{ inputs.target }}.output=type=image,"name=${{ steps.config.outputs.docker_repository }},${{ steps.config.outputs.ghcr_repository }}",push-by-digest=true,name-canonical=true,push=true'
+[[ "${image_outputs[0]}" == "${expected_output}" ]] || {
+    echo "core image exporter must push one shared canonical digest to Docker Hub and GHCR" >&2
+    exit 1
+}
+grep -Fq 'METADATA: ${{ steps.bake.outputs.metadata }}' "${TARGET_WORKFLOW}"
+
 expected_pairs=$(jq -r '.group[0].default[0].targets[] as $target
     | .target[$target].platforms[] | $target + " " + .' "${TEMPLATE}")
 actual_pairs=$(awk '
