@@ -9,10 +9,19 @@ on:
       - master
     paths:
       - bakefiles/*.json
+      - build/matrix/*.json
+      - build/templates/bakefiles/*.json
+      - build/scripts/core-publish.sh
+      - build/scripts/test-core-publish.sh
+      - build/scripts/test-core-workflow.sh
+      - .github/workflows/core.yml
+      - .github/workflows/core-target.yml
+      - .github/workflows/bakefile-test.yml
+      - Makefile
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

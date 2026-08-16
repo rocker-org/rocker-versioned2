@@ -11,7 +11,14 @@ setup:
 	Rscript build/scripts/generate-dockerfiles.R
 	Rscript build/scripts/clean-files.R
 
-test: bake-json-test-all bake-json-test-groups
+test: bake-json-test-all bake-json-test-groups core-publish-test core-workflow-test
+
+.PHONY: core-publish-test core-workflow-test
+core-publish-test:
+	build/scripts/test-core-publish.sh
+
+core-workflow-test:
+	build/scripts/test-core-workflow.sh
 
 
 # Test that all targets are in good format.
@@ -31,8 +38,9 @@ IMAGE_REVISION ?= $(COMMIT_HASH)
 print-%:
 	@echo $* = $($*)
 
-# Set docker-bake.json file path to BAKE_JSON before running `make pull-image-all` or `make bake-json-all`, `make bake-json-group`.
-# ex. $ BAKE_JSONbakefiles/core-latest-daily.docker-bake.json make pull-image-all
+# Set the Docker Bake file path in BAKE_JSON before running these local development helpers.
+# Production publishing is orchestrated by .github/workflows/core.yml using canonical digests.
+# ex. $ BAKE_JSON=bakefiles/4.6.1.docker-bake.json make pull-image-all
 BAKE_JSON ?= ""
 BAKE_GROUP ?= default
 

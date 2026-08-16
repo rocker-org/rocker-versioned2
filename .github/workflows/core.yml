@@ -15,62 +15,237 @@ on:
       - completed
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
+  group: core-publish
+  cancel-in-progress: false
 
 jobs:
-  generate_matrix:
-    runs-on: ubuntu-latest
+  prepare:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-      all-versions: ${{ steps.set-json.outputs.all-versions }}
+      versions: ${{ steps.matrix.outputs.versions }}
+      revision: ${{ steps.revision.outputs.revision }}
     steps:
+      - name: Select source revision
+        id: revision
+        run: |
+          REVISION="${{ github.sha }}"
+          if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
+            REVISION="${{ github.event.workflow_run.head_sha }}"
+          fi
+          echo "revision=${REVISION}" >>"${GITHUB_OUTPUT}"
       - uses: actions/checkout@v7
-      - id: set-json
+        with:
+          ref: ${{ steps.revision.outputs.revision }}
+      - name: Select version matrix
+        id: matrix
         run: |
           JSON=build/matrix/latest.json
-          ALL=false
           if [[ "${{ github.event_name }}" == "workflow_run" ]]; then
             JSON=build/matrix/all.json
-            ALL=true
           fi
-          echo "json=${JSON}" >>"$GITHUB_OUTPUT"
-          echo "all-versions=${ALL}" >>"$GITHUB_OUTPUT"
-          echo ${JSON}
-      - id: set-matrix
-        run: |
-          CONTENT=$(jq -r 'tostring' ${{ steps.set-json.outputs.json }})
-          echo "matrix=${CONTENT}" >>"$GITHUB_OUTPUT"
-          echo "${CONTENT}"
+          jq -e '.group == ["default"] and (.r_version | length > 0)' "${JSON}" >/dev/null
+          echo "versions=$(jq -c '.r_version' "${JSON}")" >>"${GITHUB_OUTPUT}"
 
-  build:
-    needs: generate_matrix
-    runs-on: ubuntu-latest
+  r-ver:
+    needs: prepare
     strategy:
       fail-fast: false
-      matrix: ${{fromJson(needs.generate_matrix.outputs.matrix)}}
+      matrix:
+        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/core-target.yml
+    with:
+      version: ${{ matrix.version }}
+      target: r-ver
+      revision: ${{ needs.prepare.outputs.revision }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  rstudio:
+    needs:
+      - prepare
+      - r-ver
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/core-target.yml
+    with:
+      version: ${{ matrix.version }}
+      target: rstudio
+      revision: ${{ needs.prepare.outputs.revision }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  tidyverse:
+    needs:
+      - prepare
+      - rstudio
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/core-target.yml
+    with:
+      version: ${{ matrix.version }}
+      target: tidyverse
+      revision: ${{ needs.prepare.outputs.revision }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  shiny:
+    needs:
+      - prepare
+      - tidyverse
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/core-target.yml
+    with:
+      version: ${{ matrix.version }}
+      target: shiny
+      revision: ${{ needs.prepare.outputs.revision }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  shiny-verse:
+    needs:
+      - prepare
+      - shiny
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/core-target.yml
+    with:
+      version: ${{ matrix.version }}
+      target: shiny-verse
+      revision: ${{ needs.prepare.outputs.revision }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  verse:
+    needs:
+      - prepare
+      - shiny-verse
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/core-target.yml
+    with:
+      version: ${{ matrix.version }}
+      target: verse
+      revision: ${{ needs.prepare.outputs.revision }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  geospatial:
+    needs:
+      - prepare
+      - verse
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+    permissions:
+      contents: read
+      packages: write
+    uses: ./.github/workflows/core-target.yml
+    with:
+      version: ${{ matrix.version }}
+      target: geospatial
+      revision: ${{ needs.prepare.outputs.revision }}
+    secrets:
+      DOCKER_USER: ${{ secrets.DOCKER_USER }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+  smoke-test:
+    needs:
+      - prepare
+      - geospatial
+    name: Smoke ${{ matrix.image.target }} ${{ matrix.image.platform }} R ${{ matrix.version }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+        image:
+          - target: r-ver
+            platform: linux/amd64
+            runner: ubuntu-24.04
+          - target: r-ver
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+          - target: rstudio
+            platform: linux/amd64
+            runner: ubuntu-24.04
+          - target: rstudio
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+          - target: tidyverse
+            platform: linux/amd64
+            runner: ubuntu-24.04
+          - target: tidyverse
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+          - target: shiny
+            platform: linux/amd64
+            runner: ubuntu-24.04
+          - target: shiny-verse
+            platform: linux/amd64
+            runner: ubuntu-24.04
+          - target: verse
+            platform: linux/amd64
+            runner: ubuntu-24.04
+          - target: geospatial
+            platform: linux/amd64
+            runner: ubuntu-24.04
+          - target: geospatial
+            platform: linux/arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.image.runner }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.prepare.outputs.revision }}
       - name: Login to Docker Hub
         uses: docker/login-action@v4.6.0
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v4.6.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
-      - name: Build and push Docker images
+      - name: Pull and run R on the native runner
         run: |
-          BAKE_JSON=bakefiles/${{ matrix.r_version }}.docker-bake.json \
-          BAKE_GROUP=${{ matrix.group }} \
-          BAKE_OPTION=--push \
-          make bake-json-group
+          build/scripts/core-publish.sh smoke \
+            "bakefiles/${{ matrix.version }}.docker-bake.json" \
+            "${{ matrix.image.target }}" \
+            "${{ matrix.image.platform }}" \
+            "${{ needs.prepare.outputs.revision }}"
