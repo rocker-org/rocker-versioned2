@@ -5,6 +5,14 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 WORKFLOW="${ROOT}/.github/workflows/core.yml"
 TEMPLATE="${ROOT}/build/templates/bakefiles/main.docker-bake.json"
+
+concurrency_block=$(sed -n '/^concurrency:$/,/^[[:alnum:]_-]\+:$/p' "${WORKFLOW}" | sed '$d')
+expected_concurrency_block=$'concurrency:\n  group: core-publish\n  cancel-in-progress: false'
+[[ "${concurrency_block}" == "${expected_concurrency_block}" ]] || {
+    echo "core workflow concurrency must serialize all publisher runs without cancellation" >&2
+    exit 1
+}
+
 mapfile -t EXPECTED_TARGETS < <(jq -r '.group[0].default[0].targets[]' "${TEMPLATE}")
 mapfile -t ACTUAL_TARGETS < <(
     sed -n '/^jobs:/,/^  smoke-test:/p' "${WORKFLOW}" |

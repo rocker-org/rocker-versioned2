@@ -19,8 +19,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: core-publish
+  cancel-in-progress: false
 
 jobs:
   prepare:
