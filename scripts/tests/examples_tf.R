@@ -1,6 +1,6 @@
 
 ## Tensorflow:
-install.packages('keras', repos='http://cran.us.r-project.org')
+install.packages('keras')
 library(keras)
 mnist <- dataset_mnist()
 x_train <- mnist$train$x
