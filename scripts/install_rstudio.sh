@@ -55,6 +55,10 @@ if [ "$UBUNTU_CODENAME" = "noble" ]; then
     UBUNTU_CODENAME="jammy"
 fi
 
+if [ "$UBUNTU_CODENAME" = "resolute" ]; then
+    UBUNTU_CODENAME="jammy"
+fi
+
 if [ "$RSTUDIO_VERSION" = "stable" ] || [ "$RSTUDIO_VERSION" = "preview" ] || [ "$RSTUDIO_VERSION" = "daily" ]; then
     if [ "$UBUNTU_CODENAME" = "bionic" ]; then
         UBUNTU_CODENAME="focal"
