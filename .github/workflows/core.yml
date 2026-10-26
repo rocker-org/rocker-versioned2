@@ -238,7 +238,7 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.revision }}
       - name: Login to Docker Hub
-        uses: docker/login-action@v4.6.0
+        uses: docker/login-action@v4.7.0
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
