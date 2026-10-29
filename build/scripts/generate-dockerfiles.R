@@ -48,8 +48,10 @@ df_args <- fs::dir_ls(path = "build/args", glob = "*.json") |>
       tibble::as_tibble()
   ) |>
   purrr::list_rbind() |>
-  # Limit to the last 2 versions and devel
-  utils::tail(3)
+  # Generate all supported versions, including older RStudio recoveries.
+  dplyr::filter(
+    r_version %in% c("devel", jsonlite::read_json("build/matrix/all.json", simplifyVector = TRUE)$r_version)
+  )
 
 
 tibble::tibble(

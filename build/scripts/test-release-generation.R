@@ -226,10 +226,20 @@ run_tests <- function() {
       r_freeze_date = as.Date(NA)
     )
   readr::write_tsv(releases, "build/variables/r-versions.tsv", na = "")
+  stopifnot(!file.exists("dockerfiles/rstudio_4.5.3.Dockerfile"))
+  unlink("dockerfiles/r-ver_4.6.1.Dockerfile")
   regenerate(function(version, series) {
     version == "2026.04.0+526" && series == "noble"
   })
-  aliases(read_bake("4.5.3"), "rstudio", "4.5.3")
+  recovered <- read_bake("4.5.3")
+  for (target in c("rstudio", "tidyverse", "verse", "geospatial")) {
+    stopifnot(file.exists(recovered$target[[target]]$dockerfile))
+  }
+  stopifnot(
+    !file.exists("dockerfiles/r-ver_4.6.1.Dockerfile"),
+    file.exists("dockerfiles/r-ver_devel.Dockerfile")
+  )
+  aliases(recovered, "rstudio", "4.5.3")
   aliases(read_bake("4.6.3"), "r-ver", "4.6.3")
   cat("Offline release generation regressions passed\n")
 }
