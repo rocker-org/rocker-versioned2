@@ -43,11 +43,9 @@ write_dockerfiles <- function(data, ..., dockerfile_template, path_template) {
 
 df_args <- fs::dir_ls(path = "build/args", glob = "*.json") |>
   purrr::map(
-    \(x) {
-      jsonlite::fromJSON(x, flatten = TRUE) |>
-        purrr::modify_if(is.null, \(x) NA) |>
-        tibble::as_tibble()
-    }
+    \(x) jsonlite::fromJSON(x, flatten = TRUE) |>
+      purrr::modify_if(is.null, \(x) NA) |>
+      tibble::as_tibble()
   ) |>
   purrr::list_rbind() |>
   # Limit to the last 2 versions and devel
@@ -66,9 +64,7 @@ tibble::tibble(
   )
 ) |>
   dplyr::mutate(
-    .template_path = glue::glue(
-      "build/templates/dockerfiles/{.name}.Dockerfile.txt"
-    )
+    .template_path = glue::glue("build/templates/dockerfiles/{.name}.Dockerfile.txt")
   ) |>
   purrr::pwalk(
     \(...) {
@@ -77,9 +73,7 @@ tibble::tibble(
       if (dots$.name %in% c("rstudio", "tidyverse", "verse", "geospatial")) {
         unavailable <- is.na(args$rstudio_version)
         # Remove a previously generated definition when availability changes.
-        unlink(glue::glue(
-          "dockerfiles/{dots$.name}_{args$r_version[unavailable]}.Dockerfile"
-        ))
+        unlink(glue::glue("dockerfiles/{dots$.name}_{args$r_version[unavailable]}.Dockerfile"))
         args <- args[!unavailable, ]
       }
       args |>
@@ -96,31 +90,17 @@ tibble::tibble(
 
 if (!is.na(tail(df_args$rstudio_version[df_args$r_version != "devel"], 1))) {
   tibble::tibble(
-    r_version = readr::read_tsv(
-      "build/variables/r-versions.tsv",
-      show_col_types = FALSE
-    )$r_version |>
+    r_version = readr::read_tsv("build/variables/r-versions.tsv", show_col_types = FALSE)$r_version |>
       dplyr::last(),
-    proj_version = readr::read_tsv(
-      "build/variables/proj-versions.tsv",
-      show_col_types = FALSE
-    )$proj_version |>
+    proj_version = readr::read_tsv("build/variables/proj-versions.tsv", show_col_types = FALSE)$proj_version |>
       dplyr::last(),
-    gdal_version = readr::read_tsv(
-      "build/variables/gdal-versions.tsv",
-      show_col_types = FALSE
-    )$gdal_version |>
+    gdal_version = readr::read_tsv("build/variables/gdal-versions.tsv", show_col_types = FALSE)$gdal_version |>
       dplyr::last(),
-    geos_version = readr::read_tsv(
-      "build/variables/geos-versions.tsv",
-      show_col_types = FALSE
-    )$geos_version |>
+    geos_version = readr::read_tsv("build/variables/geos-versions.tsv", show_col_types = FALSE)$geos_version |>
       dplyr::last()
   ) |>
     write_dockerfiles(
-      dockerfile_template = readr::read_file(
-        "build/templates/dockerfiles/geospatial-dev-osgeo.Dockerfile.txt"
-      ),
+      dockerfile_template = readr::read_file("build/templates/dockerfiles/geospatial-dev-osgeo.Dockerfile.txt"),
       path_template = "dockerfiles/geospatial-dev-osgeo.Dockerfile"
     )
 } else {
