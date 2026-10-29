@@ -84,25 +84,25 @@ is_cran_url_available <- function(url, r_version) {
 #' @examples
 #' is_rstudio_deb_available("2023.12.0+369", "jammy")
 is_rstudio_deb_available <- function(rstudio_version, ubuntu_series) {
-  os_ver <- dplyr::case_match(
+  os_ver <- dplyr::replace_values(
     ubuntu_series,
     "focal" ~ "bionic",
-    "noble" ~ "jammy",
-    .default = ubuntu_series
+    c("noble", "resolute") ~ "jammy"
   )
 
   glue::glue("\n\nChecking RStudio Sever {rstudio_version} deb package for {os_ver}\n\n") |>
     cat()
 
-  is_available <- glue::glue(
+  is_available <- tryCatch(glue::glue(
     "https://download2.rstudio.org/server/{os_ver}/amd64/rstudio-server-{rstudio_version}-amd64.deb"
   ) |>
     stringr::str_replace_all("\\+", "-") |>
     httr2::request() |>
     httr2::req_error(is_error = \(...) FALSE) |>
+    httr2::req_timeout(30) |>
     httr2::req_perform() |>
     httr2::resp_is_error() |>
-    isFALSE()
+    isFALSE(), error = function(e) FALSE)
 
   is_available
 }
@@ -148,7 +148,7 @@ rocker_versioned_args <- function(
     ubuntu_lts_versions_file = "build/variables/ubuntu-lts-versions.tsv",
     rstudio_versions_file = "build/variables/rstudio-versions.tsv",
     n_r_versions = 6) {
-  df_all <- readr::read_tsv(r_versions_file, show_col_types = FALSE) |>
+  df_base <- readr::read_tsv(r_versions_file, show_col_types = FALSE) |>
     dplyr::arrange(as.numeric_version(r_version)) |>
     dplyr::mutate(
       r_minor_version = stringr::str_extract(r_version, r"(^\d+\.\d+)") |>
@@ -174,7 +174,9 @@ rocker_versioned_args <- function(
       )
     ) |>
     dplyr::filter(r_release_date >= ubuntu_release_date + 90) |>
-    dplyr::slice_max(ubuntu_release_date, with_ties = FALSE, by = r_version) |>
+    dplyr::slice_max(ubuntu_release_date, with_ties = FALSE, by = r_version)
+
+  df_all <- df_base |>
     tidyr::expand_grid(
       readr::read_tsv(
         rstudio_versions_file,
@@ -191,9 +193,13 @@ rocker_versioned_args <- function(
       purrr::map2_lgl(rstudio_version, ubuntu_series, is_rstudio_deb_available)
     )
 
-  df_all |>
+  df_rstudio <- df_all |>
     dplyr::semi_join(df_available_rstudio, by = c("ubuntu_series", "rstudio_version")) |>
     dplyr::slice_max(rstudio_version, with_ties = FALSE, by = c(r_version, ubuntu_series)) |>
+    dplyr::select(r_version, ubuntu_series, rstudio_version)
+
+  df_base |>
+    dplyr::left_join(df_rstudio, by = c("r_version", "ubuntu_series")) |>
     dplyr::mutate(
       ctan = latest_ctan_url(r_freeze_date),
       cran = purrr::pmap_chr(

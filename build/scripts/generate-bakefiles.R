@@ -115,6 +115,13 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
       bake_json_content$target$`shiny-verse`$tags
     )
 
+  if (is.null(dots$rstudio_version) || is.na(dots$rstudio_version)) {
+    unavailable <- c("rstudio", "tidyverse", "verse", "geospatial")
+    bake_json_content$target[unavailable] <- NULL
+    targets <- bake_json_content$group[[1]]$default[[1]]$targets
+    bake_json_content$group[[1]]$default[[1]]$targets <- targets[!targets %in% unavailable]
+  }
+
   jsonlite::write_json(
     bake_json_content,
     path = glue::glue_data(
@@ -218,6 +225,7 @@ df_args |>
 # Experimental images' bake files
 df_args |>
   utils::tail(1) |>
+  dplyr::filter(!is.na(rstudio_version)) |>
   purrr::pwalk(
     \(...) {
       write_experimental_bakefile(
@@ -227,3 +235,7 @@ df_args |>
       )
     }
   )
+
+if (is.na(tail(df_args$rstudio_version, 1))) {
+  unlink("bakefiles/experimental.docker-bake.json")
+}

@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       versions: ${{ steps.matrix.outputs.versions }}
+      rstudio-versions: ${{ steps.matrix.outputs.rstudio-versions }}
       revision: ${{ steps.revision.outputs.revision }}
     steps:
       - name: Select source revision
@@ -50,6 +51,13 @@ jobs:
           fi
           jq -e '.group == ["default"] and (.r_version | length > 0)' "${JSON}" >/dev/null
           echo "versions=$(jq -c '.r_version' "${JSON}")" >>"${GITHUB_OUTPUT}"
+          RSTUDIO_VERSIONS=()
+          while IFS= read -r version; do
+            if jq -e '.target | has("rstudio")' "bakefiles/${version}.docker-bake.json" >/dev/null; then
+              RSTUDIO_VERSIONS+=("${version}")
+            fi
+          done < <(jq -r '.r_version[]' "${JSON}")
+          echo "rstudio-versions=$(jq -cn --args '$ARGS.positional' "${RSTUDIO_VERSIONS[@]}")" >>"${GITHUB_OUTPUT}"
 
   r-ver:
     needs: prepare
@@ -73,10 +81,11 @@ jobs:
     needs:
       - prepare
       - r-ver
+    if: needs.prepare.outputs.rstudio-versions != '[]'
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+        version: ${{ fromJSON(needs.prepare.outputs.rstudio-versions) }}
     permissions:
       contents: read
       packages: write
@@ -93,10 +102,11 @@ jobs:
     needs:
       - prepare
       - rstudio
+    if: needs.prepare.outputs.rstudio-versions != '[]'
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+        version: ${{ fromJSON(needs.prepare.outputs.rstudio-versions) }}
     permissions:
       contents: read
       packages: write
@@ -112,7 +122,7 @@ jobs:
   shiny:
     needs:
       - prepare
-      - tidyverse
+      - r-ver
     strategy:
       fail-fast: false
       matrix:
@@ -152,11 +162,12 @@ jobs:
   verse:
     needs:
       - prepare
-      - shiny-verse
+      - tidyverse
+    if: needs.prepare.outputs.rstudio-versions != '[]'
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+        version: ${{ fromJSON(needs.prepare.outputs.rstudio-versions) }}
     permissions:
       contents: read
       packages: write
@@ -173,10 +184,11 @@ jobs:
     needs:
       - prepare
       - verse
+    if: needs.prepare.outputs.rstudio-versions != '[]'
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+        version: ${{ fromJSON(needs.prepare.outputs.rstudio-versions) }}
     permissions:
       contents: read
       packages: write
@@ -190,8 +202,15 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   smoke-test:
+    if: always() && needs.prepare.result == 'success'
     needs:
       - prepare
+      - r-ver
+      - rstudio
+      - tidyverse
+      - shiny
+      - shiny-verse
+      - verse
       - geospatial
     name: Smoke ${{ matrix.image.target }} ${{ matrix.image.platform }} R ${{ matrix.version }}
     strategy:
@@ -237,12 +256,24 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ needs.prepare.outputs.revision }}
+      - name: Check published target
+        id: available
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          TARGET="${{ matrix.image.target }}"
+          if jq -e --arg target "${TARGET}" '.[$target].result == "success"' <<<"${RESULTS}" >/dev/null &&
+             jq -e --arg target "${TARGET}" '.target | has($target)' "bakefiles/${{ matrix.version }}.docker-bake.json" >/dev/null; then
+            echo "available=true" >>"${GITHUB_OUTPUT}"
+          fi
       - name: Login to Docker Hub
+        if: steps.available.outputs.available == 'true'
         uses: docker/login-action@v4.7.0
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Pull and run R on the native runner
+        if: steps.available.outputs.available == 'true'
         run: |
           build/scripts/core-publish.sh smoke \
             "bakefiles/${{ matrix.version }}.docker-bake.json" \

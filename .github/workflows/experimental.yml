@@ -29,6 +29,7 @@ jobs:
         id: buildx
         uses: docker/setup-buildx-action@v4
       - name: Build and push Docker images
+        if: hashFiles('bakefiles/experimental.docker-bake.json') != ''
         run: |
           BAKE_JSON="bakefiles/experimental.docker-bake.json" \
           BAKE_GROUP="default" \

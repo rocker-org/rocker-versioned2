@@ -29,6 +29,35 @@ The Makefile's `bake-json-*` entry points are retained for local builds and stat
 validation. They do not implement the production digest collection, manifest
 finalization, or registry verification flow.
 
+## RStudio availability and image dependencies
+
+R release arguments and release matrices are generated independently of RStudio
+Server availability. A missing package (including a failed availability request) is
+represented by a null `rstudio_version`; dependent Dockerfiles and Bake targets are
+omitted until an available package is detected. Existing version and alias tags are
+retained for enabled targets. The release workflow continues to use `latest.json`.
+
+| Images | RStudio Server required | Core publication gate |
+| --- | --- | --- |
+| `r-ver` | No | prepare |
+| `shiny` | No | r-ver |
+| `shiny-verse` | No | shiny |
+| `rstudio` | Yes | r-ver |
+| `tidyverse` | Yes | rstudio |
+| `verse` | Yes | tidyverse |
+| `geospatial` | Yes | verse |
+| experimental `geospatial-dev-osgeo` | Yes (inherits verse) | separate workflow |
+
+Core jobs select dependent versions from generated Bake targets. Shiny jobs do
+not wait for RStudio jobs; smoke tests run for targets successfully published by
+their jobs. The serialization within each branch remains unchanged. Ubuntu noble
+and resolute use the jammy RStudio `.deb` URL both during availability checks and
+installation (the installer change matches PR #1024).
+
+Run `Rscript build/scripts/test-release-generation.R` for the offline generation
+and publisher validation regression, and `bash build/scripts/test-core-workflow.sh`
+for orchestration checks. HTTP transport and CRAN checks are mocked in the former.
+
 ## Reports of built images
 
 Since 2021-08-10, the information of images built from this repository will be registered in [the Wiki](https://github.com/rocker-org/rocker-versioned2/wiki) automatically.

@@ -1,7 +1,7 @@
 Package: rocker-versiond-dev
 Version: 0.0.0.9000
 Imports:
-    dplyr,
+    dplyr (>= 1.2.0),
     forcats,
     fs,
     gert,

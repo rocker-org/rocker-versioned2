@@ -57,7 +57,9 @@ export -f docker
     "${BAKE_FILE}" "${VERSION}" r-ver "${TMP_DIR}/finalize" test-revision
 [[ "$(wc -l <"${MOCK_DOCKER_LOG}")" -eq 2 ]]
 grep -q -- "--tag docker.io/rocker/r-ver:${VERSION}" "${MOCK_DOCKER_LOG}"
-grep -q -- '--tag ghcr.io/rocker-org/r-ver:latest' "${MOCK_DOCKER_LOG}"
+while IFS= read -r tag; do
+    grep -Fq -- "--tag ${tag} " "${MOCK_DOCKER_LOG}"
+done < <(jq -r '.target["r-ver"].tags[]' "${BAKE_FILE}")
 grep -q -- "docker.io/rocker/r-ver@${DIGEST}" "${MOCK_DOCKER_LOG}"
 grep -q -- "ghcr.io/rocker-org/r-ver@${DIGEST}" "${MOCK_DOCKER_LOG}"
 
