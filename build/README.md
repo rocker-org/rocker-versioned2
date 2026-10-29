@@ -32,9 +32,13 @@ finalization, or registry verification flow.
 ## RStudio availability and image dependencies
 
 R release arguments and release matrices are generated independently of RStudio
-Server availability. A missing package (including a failed availability request) is
-represented by a null `rstudio_version`; dependent Dockerfiles and Bake targets are
-omitted until an available package is detected. Existing version and alias tags are
+Server availability. A confirmed missing package (HTTP 404/410) is represented by a
+null `rstudio_version`; dependent Dockerfiles and Bake targets are omitted until an
+available package is detected. Other HTTP failures and transport errors warn and
+produce an indeterminate result. On an indeterminate check, an existing release
+retains its previously selected package only if that same package remains eligible
+for its freeze date and Ubuntu series. A new release without a verified package
+still generates its independent image targets. Existing version and alias tags are
 retained for enabled targets. The release workflow continues to use `latest.json`.
 
 | Images | RStudio Server required | Core publication gate |
@@ -53,6 +57,10 @@ not wait for RStudio jobs; smoke tests run for targets successfully published by
 their jobs. The serialization within each branch remains unchanged. Ubuntu noble
 and resolute use the jammy RStudio `.deb` URL both during availability checks and
 installation (the installer change matches PR #1024).
+
+Devel simply attempts the latest version listed in `rstudio-versions.tsv`,
+independently of the stable release's package availability. If that package cannot
+be installed, its image build fails normally. Its workflow remains unchanged.
 
 Run `Rscript build/scripts/test-release-generation.R` for the offline generation
 and publisher validation regression, and `bash build/scripts/test-core-workflow.sh`

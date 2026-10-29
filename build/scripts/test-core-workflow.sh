@@ -36,9 +36,9 @@ for target in "${EXPECTED_TARGETS[@]}"; do
     expected_needs=(prepare)
     if [[ "${target}" != "r-ver" ]]; then
         case "${target}" in
-            shiny) expected_needs+=(r-ver) ;;
-            verse) expected_needs+=(tidyverse) ;;
-            *) expected_needs+=("${previous}") ;;
+        shiny) expected_needs+=(r-ver) ;;
+        verse) expected_needs+=(tidyverse) ;;
+        *) expected_needs+=("${previous}") ;;
         esac
     fi
     [[ "${actual_needs[*]}" == "${expected_needs[*]}" ]] || {
@@ -54,13 +54,13 @@ for target in "${EXPECTED_TARGETS[@]}"; do
         exit 1
     fi
     case "${target}" in
-        rstudio|tidyverse|verse|geospatial)
-            grep -Fq "if: needs.prepare.outputs.rstudio-versions != '[]'" <<<"${block}"
-            grep -Fq 'fromJSON(needs.prepare.outputs.rstudio-versions)' <<<"${block}"
-            ;;
-        *)
-            grep -Fq 'fromJSON(needs.prepare.outputs.versions)' <<<"${block}"
-            ;;
+    rstudio | tidyverse | verse | geospatial)
+        grep -Fq "if: needs.prepare.outputs.rstudio-versions != '[]'" <<<"${block}"
+        grep -Fq 'fromJSON(needs.prepare.outputs.rstudio-versions)' <<<"${block}"
+        ;;
+    *)
+        grep -Fq 'fromJSON(needs.prepare.outputs.versions)' <<<"${block}"
+        ;;
     esac
     previous=${target}
 done
