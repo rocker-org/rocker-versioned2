@@ -35,7 +35,11 @@ for target in "${EXPECTED_TARGETS[@]}"; do
     ' <<<"${block}")
     expected_needs=(prepare)
     if [[ "${target}" != "r-ver" ]]; then
-        expected_needs+=("${previous}")
+        case "${target}" in
+        shiny) expected_needs+=(r-ver) ;;
+        verse) expected_needs+=(tidyverse) ;;
+        *) expected_needs+=("${previous}") ;;
+        esac
     fi
     [[ "${actual_needs[*]}" == "${expected_needs[*]}" ]] || {
         echo "${target} is not gated by ${previous}" >&2
@@ -49,6 +53,15 @@ for target in "${EXPECTED_TARGETS[@]}"; do
         echo "${target} must get its platforms from Bake, not a workflow input" >&2
         exit 1
     fi
+    case "${target}" in
+    rstudio | tidyverse | verse | geospatial)
+        grep -Fq "needs.prepare.outputs.rstudio-versions != '[]'" <<<"${block}"
+        grep -Fq 'fromJSON(needs.prepare.outputs.rstudio-versions)' <<<"${block}"
+        ;;
+    *)
+        grep -Fq 'fromJSON(needs.prepare.outputs.versions)' <<<"${block}"
+        ;;
+    esac
     previous=${target}
 done
 
@@ -95,11 +108,12 @@ actual_pairs=$(awk '
 while IFS= read -r bake_file; do
     actual=$(jq -c '.group[0].default[0].targets' "${bake_file}")
     expected=$(jq -c '.group[0].default[0].targets' "${TEMPLATE}")
+    expected=$(jq -c --slurpfile bake "${bake_file}" '.group[0].default[0].targets | map(select(. as $t | $bake[0].target | has($t)))' "${TEMPLATE}")
     [[ "${actual}" == "${expected}" ]] || {
         echo "${bake_file}: default target order differs from template" >&2
         exit 1
     }
-    for target in "${EXPECTED_TARGETS[@]}"; do
+    for target in $(jq -r '.group[0].default[0].targets[]' "${bake_file}"); do
         actual=$(jq -c --arg target "${target}" '.target[$target].platforms' "${bake_file}")
         expected=$(jq -c --arg target "${target}" '.target[$target].platforms' "${TEMPLATE}")
         [[ "${actual}" == "${expected}" ]] || {
@@ -110,3 +124,16 @@ while IFS= read -r bake_file; do
 done < <(find "${ROOT}/bakefiles" -maxdepth 1 -name '[0-9]*.docker-bake.json' -print | sort)
 
 echo "core workflow target order and platform matrices match the Bake definitions"
+
+grep -Fq "if: always() && needs.prepare.result == 'success'" "${WORKFLOW}"
+grep -Fq "if: steps.available.outputs.available == 'true'" "${WORKFLOW}"
+
+# Recovery runs intentionally skip r-ver while reusing the dependent target chain.
+grep -Fq "needs.r-ver.result == 'success' || needs.r-ver.result == 'skipped'" "${WORKFLOW}"
+grep -Fq 'fromJSON(needs.prepare.outputs.smoke-versions)' "${WORKFLOW}"
+
+for pair in 'tidyverse rstudio' 'verse tidyverse' 'geospatial verse'; do
+    read -r target prerequisite <<<"${pair}"
+    block=$(sed -n "/^  ${target}:$/,/^  [a-z][a-z-]*:$/p" "${WORKFLOW}" | sed '$d')
+    grep -Fq "!cancelled() && needs.${prerequisite}.result == 'success'" <<<"${block}"
+done

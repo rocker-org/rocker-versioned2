@@ -80,31 +80,37 @@ is_cran_url_available <- function(url, r_version) {
 #' Check if an RStudio deb package (amd64) is available
 #' @param rstudio_version A single character of RStudio version like `"2023.12.0+369"`.
 #' @param ubuntu_series A character of Ubuntu series like `"jammy"`.
-#' @return A logical value.
+#' @return TRUE if available, FALSE for 404/410, NA for an indeterminate check.
 #' @examples
 #' is_rstudio_deb_available("2023.12.0+369", "jammy")
-is_rstudio_deb_available <- function(rstudio_version, ubuntu_series) {
-  os_ver <- dplyr::case_match(
+is_rstudio_deb_available <- function(rstudio_version, ubuntu_series, perform = httr2::req_perform) {
+  os_ver <- dplyr::replace_values(
     ubuntu_series,
     "focal" ~ "bionic",
-    "noble" ~ "jammy",
-    .default = ubuntu_series
+    c("noble", "resolute") ~ "jammy"
   )
 
   glue::glue("\n\nChecking RStudio Sever {rstudio_version} deb package for {os_ver}\n\n") |>
     cat()
 
-  is_available <- glue::glue(
-    "https://download2.rstudio.org/server/{os_ver}/amd64/rstudio-server-{rstudio_version}-amd64.deb"
-  ) |>
-    stringr::str_replace_all("\\+", "-") |>
-    httr2::request() |>
-    httr2::req_error(is_error = \(...) FALSE) |>
-    httr2::req_perform() |>
-    httr2::resp_is_error() |>
-    isFALSE()
-
-  is_available
+  tryCatch({
+    response <- glue::glue(
+      "https://download2.rstudio.org/server/{os_ver}/amd64/rstudio-server-{rstudio_version}-amd64.deb"
+    ) |>
+      stringr::str_replace_all("\\+", "-") |>
+      httr2::request() |>
+      httr2::req_error(is_error = \(...) FALSE) |>
+      httr2::req_timeout(30) |>
+      perform()
+    status <- httr2::resp_status(response)
+    if (status >= 200L && status < 300L) return(TRUE)
+    if (status %in% c(404L, 410L)) return(FALSE)
+    warning(glue::glue("RStudio availability indeterminate: HTTP {status} for {os_ver}/{rstudio_version}"))
+    NA
+  }, error = function(e) {
+    warning(glue::glue("RStudio availability indeterminate for {os_ver}/{rstudio_version}: {conditionMessage(e)}"))
+    NA
+  })
 }
 
 
@@ -142,13 +148,31 @@ outer_paste <- function(...) {
 }
 
 
+# Retain a previously selected package only when its own check is indeterminate.
+# A known missing package or a changed distro must never reuse old configuration.
+select_rstudio_version <- function(candidates, r_version, ubuntu_series) {
+  previous_file <- glue::glue("build/args/{r_version}.json")
+  if (file.exists(previous_file)) {
+    previous <- jsonlite::read_json(previous_file, simplifyVector = TRUE)
+    previous_series <- previous$ubuntu_series
+    if (identical(previous_series, ubuntu_series) && !is.null(previous$rstudio_version)) {
+      matched <- candidates[candidates$rstudio_version == previous$rstudio_version, ]
+      if (nrow(matched) == 1L && is.na(matched$available)) return(previous$rstudio_version)
+    }
+  }
+  available <- candidates$rstudio_version[!is.na(candidates$available) & candidates$available]
+  if (length(available)) max(available) else NA_character_
+}
+
 rocker_versioned_args <- function(
     ...,
     r_versions_file = "build/variables/r-versions.tsv",
     ubuntu_lts_versions_file = "build/variables/ubuntu-lts-versions.tsv",
     rstudio_versions_file = "build/variables/rstudio-versions.tsv",
-    n_r_versions = 6) {
-  df_all <- readr::read_tsv(r_versions_file, show_col_types = FALSE) |>
+    n_r_versions = 6,
+    check_rstudio = is_rstudio_deb_available,
+    cran_url = latest_p3m_cran_url_linux) {
+  df_base <- readr::read_tsv(r_versions_file, show_col_types = FALSE) |>
     dplyr::arrange(as.numeric_version(r_version)) |>
     dplyr::mutate(
       r_minor_version = stringr::str_extract(r_version, r"(^\d+\.\d+)") |>
@@ -174,7 +198,9 @@ rocker_versioned_args <- function(
       )
     ) |>
     dplyr::filter(r_release_date >= ubuntu_release_date + 90) |>
-    dplyr::slice_max(ubuntu_release_date, with_ties = FALSE, by = r_version) |>
+    dplyr::slice_max(ubuntu_release_date, with_ties = FALSE, by = r_version)
+
+  df_all <- df_base |>
     tidyr::expand_grid(
       readr::read_tsv(
         rstudio_versions_file,
@@ -185,20 +211,26 @@ rocker_versioned_args <- function(
       r_freeze_date > rstudio_commit_date | is.na(r_freeze_date)
     )
 
-  df_available_rstudio <- df_all |>
+  df_checked_rstudio <- df_all |>
     dplyr::distinct(ubuntu_series, rstudio_version) |>
-    dplyr::filter(
-      purrr::map2_lgl(rstudio_version, ubuntu_series, is_rstudio_deb_available)
+    dplyr::mutate(available = purrr::map2_lgl(rstudio_version, ubuntu_series, check_rstudio))
+
+  df_rstudio <- df_all |>
+    dplyr::left_join(df_checked_rstudio, by = c("ubuntu_series", "rstudio_version")) |>
+    dplyr::summarise(
+      rstudio_version = select_rstudio_version(
+        dplyr::pick(rstudio_version, available), r_version[1], ubuntu_series[1]
+      ),
+      .by = c(r_version, ubuntu_series)
     )
 
-  df_all |>
-    dplyr::semi_join(df_available_rstudio, by = c("ubuntu_series", "rstudio_version")) |>
-    dplyr::slice_max(rstudio_version, with_ties = FALSE, by = c(r_version, ubuntu_series)) |>
+  df_base |>
+    dplyr::left_join(df_rstudio, by = c("r_version", "ubuntu_series")) |>
     dplyr::mutate(
       ctan = latest_ctan_url(r_freeze_date),
       cran = purrr::pmap_chr(
         list(r_freeze_date, ubuntu_series, r_version),
-        \(...) latest_p3m_cran_url_linux(...)
+        \(...) cran_url(...)
       )
     ) |>
     dplyr::select(
@@ -216,45 +248,51 @@ rocker_versioned_args <- function(
 }
 
 
-# Add devel version
-df_args <- rocker_versioned_args() |> (\(x)
-dplyr::add_row(
-  x,
-  r_version = "devel",
-  ubuntu_series = "latest",
-  cran = "https://cloud.r-project.org",
-  rstudio_version = x$rstudio_version |>
-    utils::tail(1),
-  ctan = x$ctan |>
-    utils::tail(1)
-))()
-
-
-df_args |>
-  purrr::pwalk(
-    \(...) {
-      dots <- rlang::list2(...)
-      dots |>
-        jsonlite::write_json(
-          glue::glue("build/args/{dots$r_version}.json"),
-          auto_unbox = TRUE,
-          pretty = TRUE
-        )
-    }
+# Generate release arguments and history; sourcing this file only defines functions.
+generate_args <- function(...) {
+  # Devel attempts the latest known RStudio version; installation may fail if its
+  # package is unavailable. It does not inherit a stable release's availability.
+  df_args <- rocker_versioned_args(...)
+  df_args <- dplyr::add_row(
+    df_args,
+    r_version = "devel",
+    ubuntu_series = "latest",
+    cran = "https://cloud.r-project.org",
+    rstudio_version = readr::read_tsv(
+      "build/variables/rstudio-versions.tsv",
+      show_col_types = FALSE
+    )$rstudio_version |>
+      utils::tail(1),
+    ctan = df_args$ctan |> utils::tail(1)
   )
 
+  df_args |>
+    purrr::pwalk(
+      \(...) {
+        dots <- rlang::list2(...)
+        dots |>
+          jsonlite::write_json(
+            glue::glue("build/args/{dots$r_version}.json"),
+            auto_unbox = TRUE,
+            pretty = TRUE
+          )
+      }
+    )
 
-# Update history.tsv
-df_history <- readr::read_tsv(
-  "build/args/history.tsv",
-  col_types = list(ubuntu_version = readr::col_character()),
-  show_col_types = FALSE
-)
+  # Update history.tsv
+  df_history <- readr::read_tsv(
+    "build/args/history.tsv",
+    col_types = list(ubuntu_version = readr::col_character()),
+    show_col_types = FALSE
+  )
 
-df_args |>
-  dplyr::filter(!r_version == "devel") |>
-  dplyr::select(names(df_history)) |>
-  dplyr::union(df_history) |>
-  dplyr::distinct(r_version, .keep_all = TRUE) |>
-  dplyr::arrange(r_version) |>
-  readr::write_tsv("build/args/history.tsv", na = "")
+  df_args |>
+    dplyr::filter(!r_version == "devel") |>
+    dplyr::select(names(df_history)) |>
+    dplyr::union(df_history) |>
+    dplyr::distinct(r_version, .keep_all = TRUE) |>
+    dplyr::arrange(r_version) |>
+    readr::write_tsv("build/args/history.tsv", na = "")
+}
+
+if (sys.nframe() == 0L) generate_args()

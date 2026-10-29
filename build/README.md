@@ -29,6 +29,29 @@ The Makefile's `bake-json-*` entry points are retained for local builds and stat
 validation. They do not implement the production digest collection, manifest
 finalization, or registry verification flow.
 
+## RStudio availability and image dependencies
+
+R releases and independent images do not require RStudio availability. Unavailable
+dependent targets are omitted; transient failures preserve eligible existing
+configuration. Aliases follow the latest supported R separately for independent
+and RStudio-dependent images. When a later update makes RStudio available for an
+existing supported R, a Bake-file push publishes only its RStudio-dependent images;
+new R releases continue through the release workflow.
+
+| Images | RStudio Server required | Core publication gate |
+| --- | --- | --- |
+| `r-ver` | No | prepare |
+| `shiny` | No | r-ver |
+| `shiny-verse` | No | shiny |
+| `rstudio` | Yes | r-ver |
+| `tidyverse` | Yes | rstudio |
+| `verse` | Yes | tidyverse |
+| `geospatial` | Yes | verse |
+| experimental `geospatial-dev-osgeo` | Yes (inherits verse) | separate workflow |
+
+Run `Rscript build/scripts/test-release-generation.R` for offline regressions and
+`bash build/scripts/test-core-workflow.sh` for workflow dependency checks.
+
 ## Reports of built images
 
 Since 2021-08-10, the information of images built from this repository will be registered in [the Wiki](https://github.com/rocker-org/rocker-versioned2/wiki) automatically.

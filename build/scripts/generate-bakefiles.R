@@ -29,12 +29,16 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
   ) |>
     jsonlite::fromJSON(simplifyVector = FALSE)
 
-  generate_versioned_tags <- function(base_name) {
+  # Older argument files have only the shared alias flags.
+  if (is.null(dots$rstudio_minor_latest)) dots$rstudio_minor_latest <- dots$r_minor_latest
+  if (is.null(dots$rstudio_major_latest)) dots$rstudio_major_latest <- dots$r_major_latest
+
+  generate_versioned_tags <- function(base_name, rstudio = FALSE) {
     generate_tags(
       base_name,
       r_version = dots$r_version,
-      r_minor_latest = dots$r_minor_latest,
-      r_major_latest = dots$r_major_latest
+      r_minor_latest = if (rstudio) dots$rstudio_minor_latest else dots$r_minor_latest,
+      r_major_latest = if (rstudio) dots$rstudio_major_latest else dots$r_major_latest
     ) |>
       as.list()
   }
@@ -55,7 +59,7 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$rstudio$tags <- c("docker.io/rocker/rstudio", "ghcr.io/rocker-org/rstudio") |>
-    generate_versioned_tags()
+    generate_versioned_tags(rstudio = TRUE)
 
   ## tidyverse
   bake_json_content$target$tidyverse$labels <- c(
@@ -63,7 +67,7 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$tidyverse$tags <- c("docker.io/rocker/tidyverse", "ghcr.io/rocker-org/tidyverse") |>
-    generate_versioned_tags()
+    generate_versioned_tags(rstudio = TRUE)
 
   ## verse
   bake_json_content$target$verse$labels <- c(
@@ -71,7 +75,7 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$verse$tags <- c("docker.io/rocker/verse", "ghcr.io/rocker-org/verse") |>
-    generate_versioned_tags()
+    generate_versioned_tags(rstudio = TRUE)
 
   ## geospatial
   bake_json_content$target$geospatial$labels <- c(
@@ -79,7 +83,7 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     default_labels
   )
   bake_json_content$target$geospatial$tags <- c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial") |>
-    generate_versioned_tags()
+    generate_versioned_tags(rstudio = TRUE)
 
   ## shiny
   bake_json_content$target$shiny$labels <- c(
@@ -114,6 +118,13 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
       bake_json_content$target$shiny$tags,
       bake_json_content$target$`shiny-verse`$tags
     )
+
+  if (is.null(dots$rstudio_version) || is.na(dots$rstudio_version)) {
+    unavailable <- c("rstudio", "tidyverse", "verse", "geospatial")
+    bake_json_content$target[unavailable] <- NULL
+    targets <- bake_json_content$group[[1]]$default[[1]]$targets
+    bake_json_content$group[[1]]$default[[1]]$targets <- targets[!targets %in% unavailable]
+  }
 
   jsonlite::write_json(
     bake_json_content,
@@ -201,8 +212,29 @@ df_args <- fs::dir_ls(path = "build/args", regexp = r"((\d+\.){3}json)") |>
       tibble::as_tibble()
   ) |>
   purrr::list_rbind() |>
-  # Limit to the last 2 versions
-  utils::tail(2)
+  dplyr::arrange(as.numeric_version(r_version))
+
+# RStudio aliases follow the latest supported R with a usable RStudio package.
+df_rstudio_aliases <- df_args |>
+  dplyr::filter(
+    !is.na(rstudio_version),
+    r_version %in% jsonlite::read_json("build/matrix/all.json", simplifyVector = TRUE)$r_version
+  ) |>
+  dplyr::mutate(
+    minor = stringr::str_extract(r_version, "^\\d+\\.\\d+"),
+    major = stringr::str_extract(r_version, "^\\d+")
+  ) |>
+  dplyr::mutate(rstudio_minor_latest = dplyr::row_number() == dplyr::n(), .by = minor) |>
+  dplyr::mutate(rstudio_major_latest = dplyr::row_number() == dplyr::n(), .by = major) |>
+  dplyr::select(r_version, rstudio_minor_latest, rstudio_major_latest)
+
+df_args <- df_args |>
+  dplyr::left_join(df_rstudio_aliases, by = "r_version") |>
+  # Refresh both recent R versions and older supported RStudio alias owners.
+  dplyr::filter(
+    r_version %in% utils::tail(df_args$r_version, 2) |
+      rstudio_minor_latest %in% TRUE | rstudio_major_latest %in% TRUE
+  )
 
 df_args |>
   purrr::pwalk(
@@ -218,6 +250,7 @@ df_args |>
 # Experimental images' bake files
 df_args |>
   utils::tail(1) |>
+  dplyr::filter(!is.na(rstudio_version)) |>
   purrr::pwalk(
     \(...) {
       write_experimental_bakefile(
@@ -227,3 +260,7 @@ df_args |>
       )
     }
   )
+
+if (is.na(tail(df_args$rstudio_version, 1))) {
+  unlink("bakefiles/experimental.docker-bake.json")
+}
