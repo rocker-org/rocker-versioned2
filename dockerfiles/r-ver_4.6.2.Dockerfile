@@ -1,15 +1,15 @@
 # syntax=docker/dockerfile:1
 
-FROM docker.io/library/ubuntu:noble
+FROM docker.io/library/ubuntu:resolute
 
-ENV R_VERSION="4.6.0"
+ENV R_VERSION="4.6.2"
 ENV R_HOME="/usr/local/lib/R"
 ENV TZ="Etc/UTC"
 
 COPY scripts/install_R_source.sh /rocker_scripts/install_R_source.sh
 RUN /rocker_scripts/install_R_source.sh
 
-ENV CRAN="https://p3m.dev/cran/__linux__/noble/2026-06-23"
+ENV CRAN="https://p3m.dev/cran/__linux__/resolute/latest"
 ENV LANG=en_US.UTF-8
 
 COPY scripts/bin/ /rocker_scripts/bin/
