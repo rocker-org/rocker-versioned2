@@ -46,7 +46,10 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     bake_json_content$target$`r-ver`$labels,
     default_labels
   )
-  bake_json_content$target$`r-ver`$tags <- c("docker.io/rocker/r-ver", "ghcr.io/rocker-org/r-ver") |>
+  bake_json_content$target$`r-ver`$tags <- c(
+    "docker.io/rocker/r-ver",
+    "ghcr.io/rocker-org/r-ver"
+  ) |>
     generate_versioned_tags()
 
   ## rstudio
@@ -54,7 +57,10 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     bake_json_content$target$rstudio$labels,
     default_labels
   )
-  bake_json_content$target$rstudio$tags <- c("docker.io/rocker/rstudio", "ghcr.io/rocker-org/rstudio") |>
+  bake_json_content$target$rstudio$tags <- c(
+    "docker.io/rocker/rstudio",
+    "ghcr.io/rocker-org/rstudio"
+  ) |>
     generate_versioned_tags()
 
   ## tidyverse
@@ -62,7 +68,10 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     bake_json_content$target$tidyverse$labels,
     default_labels
   )
-  bake_json_content$target$tidyverse$tags <- c("docker.io/rocker/tidyverse", "ghcr.io/rocker-org/tidyverse") |>
+  bake_json_content$target$tidyverse$tags <- c(
+    "docker.io/rocker/tidyverse",
+    "ghcr.io/rocker-org/tidyverse"
+  ) |>
     generate_versioned_tags()
 
   ## verse
@@ -70,7 +79,10 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     bake_json_content$target$verse$labels,
     default_labels
   )
-  bake_json_content$target$verse$tags <- c("docker.io/rocker/verse", "ghcr.io/rocker-org/verse") |>
+  bake_json_content$target$verse$tags <- c(
+    "docker.io/rocker/verse",
+    "ghcr.io/rocker-org/verse"
+  ) |>
     generate_versioned_tags()
 
   ## geospatial
@@ -78,7 +90,10 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     bake_json_content$target$geospatial$labels,
     default_labels
   )
-  bake_json_content$target$geospatial$tags <- c("docker.io/rocker/geospatial", "ghcr.io/rocker-org/geospatial") |>
+  bake_json_content$target$geospatial$tags <- c(
+    "docker.io/rocker/geospatial",
+    "ghcr.io/rocker-org/geospatial"
+  ) |>
     generate_versioned_tags()
 
   ## shiny
@@ -86,7 +101,10 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     bake_json_content$target$shiny$labels,
     default_labels
   )
-  bake_json_content$target$shiny$tags <- c("docker.io/rocker/shiny", "ghcr.io/rocker-org/shiny") |>
+  bake_json_content$target$shiny$tags <- c(
+    "docker.io/rocker/shiny",
+    "ghcr.io/rocker-org/shiny"
+  ) |>
     generate_versioned_tags()
 
   ## shiny-verse
@@ -94,32 +112,37 @@ write_main_bakefile <- function(..., bakefile_template, path_template) {
     bake_json_content$target$`shiny-verse`$labels,
     default_labels
   )
-  bake_json_content$target$`shiny-verse`$tags <- c("docker.io/rocker/shiny-verse", "ghcr.io/rocker-org/shiny-verse") |>
+  bake_json_content$target$`shiny-verse`$tags <- c(
+    "docker.io/rocker/shiny-verse",
+    "ghcr.io/rocker-org/shiny-verse"
+  ) |>
     generate_versioned_tags()
 
   # Update cache-from
   bake_json_content$target$`r-ver`$`cache-from` <-
     bake_json_content$target$rstudio$`cache-from` <-
-    bake_json_content$target$tidyverse$`cache-from` <-
-    bake_json_content$target$verse$`cache-from` <-
-    bake_json_content$target$geospatial$`cache-from` <-
-    bake_json_content$target$shiny$`cache-from` <-
-    bake_json_content$target$`shiny-verse`$`cache-from` <-
-    c(
-      bake_json_content$target$`r-ver`$tags,
-      bake_json_content$target$rstudio$tags,
-      bake_json_content$target$tidyverse$tags,
-      bake_json_content$target$verse$tags,
-      bake_json_content$target$geospatial$tags,
-      bake_json_content$target$shiny$tags,
-      bake_json_content$target$`shiny-verse`$tags
-    )
+      bake_json_content$target$tidyverse$`cache-from` <-
+        bake_json_content$target$verse$`cache-from` <-
+          bake_json_content$target$geospatial$`cache-from` <-
+            bake_json_content$target$shiny$`cache-from` <-
+              bake_json_content$target$`shiny-verse`$`cache-from` <-
+                c(
+                  bake_json_content$target$`r-ver`$tags,
+                  bake_json_content$target$rstudio$tags,
+                  bake_json_content$target$tidyverse$tags,
+                  bake_json_content$target$verse$tags,
+                  bake_json_content$target$geospatial$tags,
+                  bake_json_content$target$shiny$tags,
+                  bake_json_content$target$`shiny-verse`$tags
+                )
 
   if (is.null(dots$rstudio_version) || is.na(dots$rstudio_version)) {
     unavailable <- c("rstudio", "tidyverse", "verse", "geospatial")
     bake_json_content$target[unavailable] <- NULL
     targets <- bake_json_content$group[[1]]$default[[1]]$targets
-    bake_json_content$group[[1]]$default[[1]]$targets <- targets[!targets %in% unavailable]
+    bake_json_content$group[[1]]$default[[1]]$targets <- targets[
+      !targets %in% unavailable
+    ]
   }
 
   jsonlite::write_json(
@@ -172,14 +195,16 @@ outer_paste <- function(...) {
 }
 
 
-generate_tags <- function(base_name,
-                          ...,
-                          r_version,
-                          r_minor_latest = FALSE,
-                          r_major_latest = FALSE,
-                          use_latest_tag = TRUE,
-                          tag_suffix = "",
-                          latest_tag = "latest") {
+generate_tags <- function(
+  base_name,
+  ...,
+  r_version,
+  r_minor_latest = FALSE,
+  r_major_latest = FALSE,
+  use_latest_tag = TRUE,
+  tag_suffix = "",
+  latest_tag = "latest"
+) {
   rlang::check_dots_empty()
 
   .tags <- outer_paste(base_name, ":", r_version, tag_suffix)
@@ -203,9 +228,11 @@ generate_tags <- function(base_name,
 
 df_args <- fs::dir_ls(path = "build/args", regexp = r"((\d+\.){3}json)") |>
   purrr::map(
-    \(x) jsonlite::fromJSON(x, flatten = TRUE) |>
-      purrr::modify_if(is.null, \(x) NA) |>
-      tibble::as_tibble()
+    \(x) {
+      jsonlite::fromJSON(x, flatten = TRUE) |>
+        purrr::modify_if(is.null, \(x) NA) |>
+        tibble::as_tibble()
+    }
   ) |>
   purrr::list_rbind() |>
   # Limit to the last 2 versions
@@ -216,7 +243,9 @@ df_args |>
     \(...) {
       write_main_bakefile(
         ...,
-        bakefile_template = readr::read_file("build/templates/bakefiles/main.docker-bake.json"),
+        bakefile_template = readr::read_file(
+          "build/templates/bakefiles/main.docker-bake.json"
+        ),
         path_template = "bakefiles/{{r_version}}.docker-bake.json"
       )
     }
@@ -230,7 +259,9 @@ df_args |>
     \(...) {
       write_experimental_bakefile(
         ...,
-        bakefile_template = readr::read_file("build/templates/bakefiles/experimental.docker-bake.json"),
+        bakefile_template = readr::read_file(
+          "build/templates/bakefiles/experimental.docker-bake.json"
+        ),
         path_template = "bakefiles/experimental.docker-bake.json"
       )
     }
