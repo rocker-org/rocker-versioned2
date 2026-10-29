@@ -224,6 +224,27 @@ rocker_versioned_args <- function(
       .by = c(r_version, ubuntu_series)
     )
 
+  # The rolling RStudio snapshot may contain no candidates before an old freeze.
+  # That is not evidence that its previously recorded package is unavailable.
+  df_history <- readr::read_tsv(
+    "build/args/history.tsv",
+    col_types = list(ubuntu_version = readr::col_character()),
+    show_col_types = FALSE
+  ) |>
+    dplyr::select(r_version, ubuntu_version, r_freeze_date, rstudio_version)
+
+  df_rstudio <- dplyr::bind_rows(
+    df_rstudio,
+    df_base |>
+      dplyr::filter(!is.na(r_freeze_date)) |>
+      dplyr::anti_join(df_all, by = c("r_version", "ubuntu_series")) |>
+      dplyr::inner_join(
+        df_history,
+        by = c("r_version", "ubuntu_version", "r_freeze_date")
+      ) |>
+      dplyr::select(r_version, ubuntu_series, rstudio_version)
+  )
+
   df_base |>
     dplyr::left_join(df_rstudio, by = c("r_version", "ubuntu_series")) |>
     dplyr::mutate(
