@@ -241,6 +241,53 @@ run_tests <- function() {
   )
   aliases(recovered, "rstudio", "4.5.3")
   aliases(read_bake("4.6.3"), "r-ver", "4.6.3")
+  # A rolling RStudio snapshot can omit every release before an old freeze date.
+  # Preserve its recorded configuration, including when its args were cleaned.
+  preserved <- c(
+    "build/args/4.5.3.json",
+    "dockerfiles/rstudio_4.5.3.Dockerfile",
+    "bakefiles/4.5.3.docker-bake.json"
+  )
+  before <- lapply(preserved, readLines)
+  history <- readLines("build/args/history.tsv")
+  old_history <- history[startsWith(history, "4.5.3\t")]
+  packages <- readr::read_tsv(
+    "build/variables/rstudio-versions.tsv",
+    show_col_types = FALSE
+  ) |>
+    dplyr::filter(rstudio_version != "2026.04.0+526")
+  readr::write_tsv(packages, "build/variables/rstudio-versions.tsv")
+  for (history_only in c(FALSE, TRUE)) {
+    if (history_only) {
+      unlink("build/args/4.5.3.json")
+    }
+    regenerate(function(...) FALSE)
+    stopifnot(
+      identical(before, lapply(preserved, readLines)),
+      identical(
+        old_history,
+        readLines("build/args/history.tsv")[startsWith(
+          readLines("build/args/history.tsv"),
+          "4.5.3\t"
+        )]
+      ),
+      file.exists("dockerfiles/r-ver_4.6.3.Dockerfile"),
+      !file.exists("dockerfiles/rstudio_4.6.3.Dockerfile")
+    )
+  }
+  # Historical packages must not be reused for a different Ubuntu configuration.
+  history <- readr::read_tsv(
+    "build/args/history.tsv",
+    show_col_types = FALSE,
+    col_types = list(ubuntu_version = readr::col_character())
+  )
+  history$ubuntu_version[history$r_version == "4.5.3"] <- "22.04"
+  readr::write_tsv(history, "build/args/history.tsv", na = "")
+  unmatched <- rocker_versioned_args(
+    check_rstudio = function(...) FALSE,
+    cran_url = function(...) "mock"
+  )
+  stopifnot(is.na(unmatched$rstudio_version[unmatched$r_version == "4.5.3"]))
   cat("Offline release generation regressions passed\n")
 }
 run_tests()
