@@ -16,6 +16,8 @@ on:
       - build/variables/*.tsv
       - build/templates/dockerfiles/*.txt
       - scripts/install_rstudio.sh
+      - build/scripts/core-rstudio-versions.sh
+      - build/scripts/test-core-rstudio-versions.sh
       - build/scripts/core-publish.sh
       - build/scripts/test-core-publish.sh
       - build/scripts/test-core-workflow.sh

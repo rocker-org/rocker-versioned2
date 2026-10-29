@@ -11,14 +11,17 @@ setup:
 	Rscript build/scripts/generate-dockerfiles.R
 	Rscript build/scripts/clean-files.R
 
-test: bake-json-test-all bake-json-test-groups core-publish-test core-workflow-test
+test: bake-json-test-all bake-json-test-groups core-publish-test core-workflow-test core-rstudio-test
 
-.PHONY: core-publish-test core-workflow-test
+.PHONY: core-publish-test core-workflow-test core-rstudio-test
 core-publish-test:
 	build/scripts/test-core-publish.sh
 
 core-workflow-test:
 	build/scripts/test-core-workflow.sh
+
+core-rstudio-test:
+	bash build/scripts/test-core-rstudio-versions.sh
 
 
 # Test that all targets are in good format.

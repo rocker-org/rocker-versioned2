@@ -34,7 +34,9 @@ finalization, or registry verification flow.
 R releases and independent images do not require RStudio availability. Unavailable
 dependent targets are omitted; transient failures preserve eligible existing
 configuration. Aliases follow the latest supported R separately for independent
-and RStudio-dependent images.
+and RStudio-dependent images. When a later update makes RStudio available for an
+existing supported R, a Bake-file push publishes only its RStudio-dependent images;
+new R releases continue through the release workflow.
 
 | Images | RStudio Server required | Core publication gate |
 | --- | --- | --- |

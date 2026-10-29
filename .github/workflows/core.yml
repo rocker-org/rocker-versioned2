@@ -6,6 +6,7 @@ on:
       - "master"
     paths:
       - "dockerfiles/*_devel.Dockerfile"
+      - "bakefiles/[0-9]*.docker-bake.json"
   workflow_run:
     workflows:
       - "Create new release"
@@ -29,6 +30,7 @@ jobs:
     outputs:
       versions: ${{ steps.matrix.outputs.versions }}
       rstudio-versions: ${{ steps.matrix.outputs.rstudio-versions }}
+      smoke-versions: ${{ steps.matrix.outputs.smoke-versions }}
       revision: ${{ steps.revision.outputs.revision }}
     steps:
       - name: Select source revision
@@ -42,6 +44,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ steps.revision.outputs.revision }}
+          fetch-depth: 0
       - name: Select version matrix
         id: matrix
         run: |
@@ -50,16 +53,30 @@ jobs:
             JSON=build/matrix/all.json
           fi
           jq -e '.group == ["default"] and (.r_version | length > 0)' "${JSON}" >/dev/null
-          echo "versions=$(jq -c '.r_version' "${JSON}")" >>"${GITHUB_OUTPUT}"
+          VERSIONS=$(jq -c '.r_version' "${JSON}")
+          RECOVERED='[]'
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            BEFORE="${{ github.event.before }}"
+            AFTER="${{ steps.revision.outputs.revision }}"
+            RECOVERED=$(bash build/scripts/core-rstudio-versions.sh "${BEFORE}" "${AFTER}")
+            if git diff --quiet "${BEFORE}" "${AFTER}" -- 'dockerfiles/*_devel.Dockerfile'; then
+              VERSIONS='[]'
+            fi
+          fi
+          echo "versions=${VERSIONS}" >>"${GITHUB_OUTPUT}"
           RSTUDIO_VERSIONS=()
           while IFS= read -r version; do
             if jq -e '.target | has("rstudio")' "bakefiles/${version}.docker-bake.json" >/dev/null; then
               RSTUDIO_VERSIONS+=("${version}")
             fi
-          done < <(jq -r '.r_version[]' "${JSON}")
-          echo "rstudio-versions=$(jq -cn --args '$ARGS.positional' "${RSTUDIO_VERSIONS[@]}")" >>"${GITHUB_OUTPUT}"
+          done < <(jq -r '.[]' <<<"${VERSIONS}")
+          RSTUDIO=$(jq -cn --args '$ARGS.positional' "${RSTUDIO_VERSIONS[@]}")
+          RSTUDIO=$(jq -cn --argjson normal "${RSTUDIO}" --argjson recovered "${RECOVERED}" '$normal + $recovered | unique')
+          echo "rstudio-versions=${RSTUDIO}" >>"${GITHUB_OUTPUT}"
+          echo "smoke-versions=$(jq -cn --argjson normal "${VERSIONS}" --argjson rstudio "${RSTUDIO}" '$normal + $rstudio | unique')" >>"${GITHUB_OUTPUT}"
 
   r-ver:
+    if: needs.prepare.outputs.versions != '[]'
     needs: prepare
     strategy:
       fail-fast: false
@@ -81,7 +98,10 @@ jobs:
     needs:
       - prepare
       - r-ver
-    if: needs.prepare.outputs.rstudio-versions != '[]'
+    if: >-
+      !cancelled() && needs.prepare.result == 'success' &&
+      (needs.r-ver.result == 'success' || needs.r-ver.result == 'skipped') &&
+      needs.prepare.outputs.rstudio-versions != '[]'
     strategy:
       fail-fast: false
       matrix:
@@ -102,7 +122,9 @@ jobs:
     needs:
       - prepare
       - rstudio
-    if: needs.prepare.outputs.rstudio-versions != '[]'
+    if: >-
+      !cancelled() && needs.rstudio.result == 'success' &&
+      needs.prepare.outputs.rstudio-versions != '[]'
     strategy:
       fail-fast: false
       matrix:
@@ -163,7 +185,9 @@ jobs:
     needs:
       - prepare
       - tidyverse
-    if: needs.prepare.outputs.rstudio-versions != '[]'
+    if: >-
+      !cancelled() && needs.tidyverse.result == 'success' &&
+      needs.prepare.outputs.rstudio-versions != '[]'
     strategy:
       fail-fast: false
       matrix:
@@ -184,7 +208,9 @@ jobs:
     needs:
       - prepare
       - verse
-    if: needs.prepare.outputs.rstudio-versions != '[]'
+    if: >-
+      !cancelled() && needs.verse.result == 'success' &&
+      needs.prepare.outputs.rstudio-versions != '[]'
     strategy:
       fail-fast: false
       matrix:
@@ -202,7 +228,7 @@ jobs:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
   smoke-test:
-    if: always() && needs.prepare.result == 'success'
+    if: always() && needs.prepare.result == 'success' && needs.prepare.outputs.smoke-versions != '[]'
     needs:
       - prepare
       - r-ver
@@ -216,7 +242,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ${{ fromJSON(needs.prepare.outputs.versions) }}
+        version: ${{ fromJSON(needs.prepare.outputs.smoke-versions) }}
         image:
           - target: r-ver
             platform: linux/amd64

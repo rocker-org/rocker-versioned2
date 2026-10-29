@@ -55,7 +55,7 @@ for target in "${EXPECTED_TARGETS[@]}"; do
     fi
     case "${target}" in
     rstudio | tidyverse | verse | geospatial)
-        grep -Fq "if: needs.prepare.outputs.rstudio-versions != '[]'" <<<"${block}"
+        grep -Fq "needs.prepare.outputs.rstudio-versions != '[]'" <<<"${block}"
         grep -Fq 'fromJSON(needs.prepare.outputs.rstudio-versions)' <<<"${block}"
         ;;
     *)
@@ -127,3 +127,13 @@ echo "core workflow target order and platform matrices match the Bake definition
 
 grep -Fq "if: always() && needs.prepare.result == 'success'" "${WORKFLOW}"
 grep -Fq "if: steps.available.outputs.available == 'true'" "${WORKFLOW}"
+
+# Recovery runs intentionally skip r-ver while reusing the dependent target chain.
+grep -Fq "needs.r-ver.result == 'success' || needs.r-ver.result == 'skipped'" "${WORKFLOW}"
+grep -Fq 'fromJSON(needs.prepare.outputs.smoke-versions)' "${WORKFLOW}"
+
+for pair in 'tidyverse rstudio' 'verse tidyverse' 'geospatial verse'; do
+    read -r target prerequisite <<<"${pair}"
+    block=$(sed -n "/^  ${target}:$/,/^  [a-z][a-z-]*:$/p" "${WORKFLOW}" | sed '$d')
+    grep -Fq "!cancelled() && needs.${prerequisite}.result == 'success'" <<<"${block}"
+done
