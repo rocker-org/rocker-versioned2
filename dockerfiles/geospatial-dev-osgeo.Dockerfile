@@ -1,4 +1,4 @@
-FROM rocker/verse:4.6.1
+FROM rocker/verse:4.6.2
 
 ENV PROJ_VERSION="9.9.0"
 ENV GDAL_VERSION="3.13.3"
