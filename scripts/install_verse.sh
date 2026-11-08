@@ -70,7 +70,6 @@ apt_install \
     rasqal-utils \
     raptor2-utils
 
-apt-get remove -y systemd
 apt-get -y autoremove
 
 ## Add LaTeX, rticles and bookdown support
