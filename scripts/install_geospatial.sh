@@ -26,7 +26,6 @@ apt_install \
     libgsl0-dev \
     libgl1-mesa-dev \
     libglu1-mesa-dev \
-    libhdf4-alt-dev \
     libhdf5-dev \
     libjq-dev \
     libpq-dev \
