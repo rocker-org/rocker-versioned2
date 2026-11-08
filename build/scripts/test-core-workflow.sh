@@ -140,17 +140,19 @@ done
 
 # Resolve the actual workflow overrides through Bake (no build or push).
 cd "${ROOT}"
+latest_version=$(jq -er '.r_version[0]' build/matrix/latest.json)
+latest_bakefile="bakefiles/${latest_version}.docker-bake.json"
 for platform in linux/amd64 linux/arm64; do
     for target in "${EXPECTED_TARGETS[@]}"; do
-        [[ $(jq --arg t "$target" '.target | has($t)' bakefiles/4.6.2.docker-bake.json) == true ]] || continue
+        [[ $(jq --arg t "$target" '.target | has($t)' "${latest_bakefile}") == true ]] || continue
         overrides=()
         while IFS= read -r line; do
             line=${line//\$\{\{ inputs.target \}\}/$target}
-            line=${line//\$\{\{ inputs.version \}\}/4.6.2}
+            line=${line//\$\{\{ inputs.version \}\}/${latest_version}}
             line=${line//\$\{\{ steps.config.outputs.platform_pair \}\}/${platform//\//-}}
             overrides+=(--set "$line")
         done < <(sed -n 's/^            //p' "$TARGET_WORKFLOW" | grep -E '\.cache-(from|to)')
-        result=$(docker buildx bake -f bakefiles/4.6.2.docker-bake.json "$target" \
+        result=$(docker buildx bake -f "${latest_bakefile}" "$target" \
             --set "$target.platform=$platform" "${overrides[@]}" --print)
         jq -e --arg t "$target" --arg p "${platform//\//-}" '
             .target[$t] |
