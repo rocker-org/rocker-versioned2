@@ -19,6 +19,7 @@ concurrency:
 
 jobs:
   build:
+    timeout-minutes: 30
     runs-on: ubuntu-24.04${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}
     strategy:
       fail-fast: true
@@ -45,11 +46,11 @@ jobs:
           else
             TAG="${{ matrix.tag }}"
           fi
+          echo "TAG=${TAG}" >>"$GITHUB_ENV"
           docker buildx bake \
           -f bakefiles/"${TAG}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
-          --set=*.cache-from=docker.io/rocker/r-ver:"${TAG}" \
-          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
+          --set=*.cache-from+=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
           --set=*.cache-to=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
           --set=r-ver.tags=r-ver-test-"${TAG}" \
           --load \
@@ -65,6 +66,7 @@ jobs:
 
   regression-test:
     needs: build
+    timeout-minutes: 30
     runs-on: ubuntu-24.04${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}
     strategy:
       fail-fast: false
@@ -103,8 +105,7 @@ jobs:
           docker buildx bake \
           -f bakefiles/"${TAG}".docker-bake.json \
           --set=*.platform="${{ matrix.platforms }}" \
-          --set=*.cache-from=docker.io/rocker/r-ver:"${TAG}" \
-          --set=*.cache-from=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
+          --set=*.cache-from+=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
           --set=*.cache-to=type=gha,scope=r-ver-"${TAG}${{ matrix.platforms == 'linux/arm64' && '-arm' || '' }}" \
           --set=r-ver.tags=r-ver-test-"${TAG}" \
           --load \

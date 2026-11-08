@@ -137,3 +137,47 @@ for pair in 'tidyverse rstudio' 'verse tidyverse' 'geospatial verse'; do
     block=$(sed -n "/^  ${target}:$/,/^  [a-z][a-z-]*:$/p" "${WORKFLOW}" | sed '$d')
     grep -Fq "!cancelled() && needs.${prerequisite}.result == 'success'" <<<"${block}"
 done
+
+# Resolve the actual workflow overrides through Bake (no build or push).
+cd "${ROOT}"
+latest_version=$(jq -er '.r_version[0]' build/matrix/latest.json)
+latest_bakefile="bakefiles/${latest_version}.docker-bake.json"
+for platform in linux/amd64 linux/arm64; do
+    for target in "${EXPECTED_TARGETS[@]}"; do
+        [[ $(jq --arg t "$target" '.target | has($t)' "${latest_bakefile}") == true ]] || continue
+        overrides=()
+        while IFS= read -r line; do
+            line=${line//\$\{\{ inputs.target \}\}/$target}
+            line=${line//\$\{\{ inputs.version \}\}/${latest_version}}
+            line=${line//\$\{\{ steps.config.outputs.platform_pair \}\}/${platform//\//-}}
+            overrides+=(--set "$line")
+        done < <(sed -n 's/^            //p' "$TARGET_WORKFLOW" | grep -E '\.cache-(from|to)')
+        result=$(docker buildx bake -f "${latest_bakefile}" "$target" \
+            --set "$target.platform=$platform" "${overrides[@]}" --print)
+        jq -e --arg t "$target" --arg p "${platform//\//-}" '
+            .target[$t] |
+            any(."cache-from"[]; .type == "registry" and (.ref | startswith("docker.io/"))) and
+            any(."cache-from"[]; .type == "registry" and (.ref | startswith("ghcr.io/"))) and
+            any(."cache-from"[]; .type == "gha") and
+            any(."cache-to"[]; .type == "inline") and
+            any(."cache-to"[]; .type == "gha" and (.scope | endswith($p)))
+        ' <<<"$result" >/dev/null
+    done
+done
+
+for revision in 90000 90001; do
+    for target in r-ver rstudio tidyverse; do
+        overrides=()
+        while IFS= read -r line; do
+            line=${line//\$\{\{ needs.check-revision.outputs.svn-revision \}\}/$revision}
+            line=${line//\$\{\{ matrix.pair \}\}/linux-amd64}
+            overrides+=(--set "$line")
+        done < <(sed -n 's/^            //p' .github/workflows/devel.yml | grep -E "^${target}\.cache-(from|to)=")
+        result=$(docker buildx bake -f bakefiles/devel.docker-bake.json "$target" "${overrides[@]}" --print)
+        jq -e --arg t "$target" --arg rev "svn-revision-${revision}-" '
+            .target[$t] | all((."cache-from" + ."cache-to")[];
+                .type == "gha" and (.scope | startswith($rev)))
+        ' <<<"$result" >/dev/null
+    done
+done
+echo "Bake cache configuration preserves release registries and devel revision isolation"
