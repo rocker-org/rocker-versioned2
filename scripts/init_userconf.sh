@@ -172,7 +172,7 @@ if [ "${RUNROOTLESS}" = "true" ]; then
 elif [[ ${ROOT,,} == "true" ]]; then
     line='%sudo ALL=(ALL) NOPASSWD:ALL'
     sudoers_file='/etc/sudoers'
-    adduser "$USER" sudo && { grep -qxF "$line" "$sudoers_file" || echo "$line"  >> "$sudoers_file"; }
+    usermod -aG sudo "$USER" && { grep -qxF "$line" "$sudoers_file" || echo "$line"  >> "$sudoers_file"; }
     echo "$USER added to sudoers"
 fi
 
