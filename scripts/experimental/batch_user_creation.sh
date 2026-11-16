@@ -74,7 +74,7 @@ function create_user() {
 
     # If shiny server installed, make the user part of the shiny group
     if [ -x "$(command -v shiny-server)" ]; then
-        adduser "${username}" shiny
+        usermod -aG shiny "${username}"
     fi
 
     echo "Done with user ${username}."
